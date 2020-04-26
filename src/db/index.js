@@ -13,7 +13,7 @@ const db = firebase.initializeApp({
 
 // add database functions below
 
-//function adds random data to test table
+//function adds random data to test table, creates the table and adds data if the table doesn't exist
 function addTestData() {
 	const firebaseRef = db.database().ref("test");
 	firebaseRef.child("test_data").set({name:"Jason", email: "jrcabrer@ucsd.edu"});
