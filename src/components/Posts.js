@@ -8,7 +8,7 @@ class Posts extends Component {
         this.state = {
             user_id: 00,
             post_id: 01,
-            title: "post's title"
+            title: "post's title",
             tag_ids: [],
             date_time: "post's date/time",
             content: "post's content",
