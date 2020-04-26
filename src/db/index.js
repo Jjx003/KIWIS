@@ -13,5 +13,10 @@ const db = firebase.initializeApp({
 
 // add database functions below
 
+//function adds random data to test table
+function addTestData() {
+	const firebaseRef = db.database().ref("test");
+	firebaseRef.child("test_data").set({name:"Jason", email: "jrcabrer@ucsd.edu"});
+}
 
-export default db;
+export default { addTestData /*, function2, function3 and so forth*/ };
