@@ -1,18 +1,18 @@
 import React, {Component} from 'react';
-import db from '../index'
+import db from '../db/index'
 
 class Posts extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            user_id: 00,
-            post_id: 01,
+            user_id: 0,
+            post_id: 1,
             title: "post's title",
             tag_ids: [],
             date_time: "post's date/time",
             content: "post's content",
-            karma: 02,
+            karma: 2,
             response_ids: []
 
         };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 import '../css/App.css';
+import ViewResponses from '../components/ViewResponses.js';
 
 class Home extends React.Component {
 	render() {
