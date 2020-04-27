@@ -4,7 +4,7 @@ import './css/App.css';
 
 import Home from './routes/Home';
 import Auth from './auth/Auth';
-import PrvateRoute from './auth/PrivateRoute';
+import PrivateRoute from './auth/PrivateRoute';
 
 function App() {
   return (
