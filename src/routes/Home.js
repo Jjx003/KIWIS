@@ -6,19 +6,19 @@ class Home extends React.Component {
 	render() {
 		return(
 			<div>
-        <Menu fluid widths={3}>
+        <Menu fluid size='large' color='olive' inverted widths={3} className="navbar">
           <Menu.Item name='KIWI'>KIWI</Menu.Item>
 
-         <Menu.Menu position='center'>
+         <Menu.Item>
             <Input placeholder="What's your question?" />
-          </Menu.Menu>
+          </Menu.Item>
 
-            <Dropdown item text='Tags'>
-              <Dropdown.Menu>
-                <Dropdown.Item>C</Dropdown.Item>
-                <Dropdown.Item>that's it.</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+          <Dropdown item text='Tags'>
+            <Dropdown.Menu>
+              <Dropdown.Item>C</Dropdown.Item>
+              <Dropdown.Item>that's it.</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Menu>
 				<h1> Home Page </h1>	
 				<Button> Hi </Button>
