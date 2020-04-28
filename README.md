@@ -1,3 +1,5 @@
+https://travis-ci.com/Jjx003/KIWIS.svg?token=PrJsXF1N9B8VkZASxpFf&branch=joe_testing
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Getting Repository Remotely
