@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 import '../css/App.css';
-import ViewResponses from '../components/ViewResponses.js';
+import ViewPosts from '../components/ViewPosts';
 
 class Home extends React.Component {
 	render() {
@@ -9,6 +9,7 @@ class Home extends React.Component {
 			<div>
 				<h1> Home Page </h1>	
 				<Button> Hi </Button>
+				<ViewPosts />
 			</div>
 		);
 	}
