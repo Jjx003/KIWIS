@@ -6,7 +6,7 @@ const AuthContext = React.createContext();
 const AuthProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState(null);
     useEffect(() =>
-        db.auth().onAuthStateChanged(setCurrentUser)
+        db.db.auth().onAuthStateChanged(setCurrentUser)
     , []);
 
     return (
@@ -16,9 +16,9 @@ const AuthProvider = ({children}) => {
     )
 }
 
-function Login(email, password) {
+function login(email, password) {
     try {
-        db.auth().signInWithEmailAndPassword(email, password)
+        db.db.auth().signInWithEmailAndPassword(email, password)
         return true
     } catch(error) {
         console.log(error)
@@ -29,13 +29,11 @@ function Login(email, password) {
 
 // Specializations
 // NAME, LAST_NAME, SPECIALIZATIONS, TAGS, ??
-function SignUp(email, password, others) {
+function signUp(email, password, others) {
     try {
-        db.auth().createUserWithEmailAndPassword(email, password)
-        return true
+        db.db.auth().createUserWithEmailAndPassword(email, password)
     } catch(error) {
         console.log(error)
-        return false
     }
 
     // Make calls to firestore database user table to insert other user info.
@@ -43,4 +41,8 @@ function SignUp(email, password, others) {
     // example: others = {name: 'ooga', lastName: 'booga'}
 }
 
-export default {AuthContext, AuthProvider, Login, SignUp}
+function signOut() {
+	db.db.auth().signOut();
+}
+
+export default {AuthContext, AuthProvider, login, signUp, signOut}

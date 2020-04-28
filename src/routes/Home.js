@@ -1,19 +1,14 @@
 import React from 'react';
 import { Button } from 'semantic-ui-react';
 import '../css/App.css';
-import db from '../db/index';
+import Auth from '../auth/Auth';
 
 class Home extends React.Component {
-	addData() {
-		db.addTestData();
-		console.log("added data successfully");
-	}
-
 	render() {
 		return(
-			<div>
+			<div className="app">
 				<h1> Home Page </h1>	
-				<Button onClick={this.addData}> Hi </Button>
+				<Button onClick={() => {Auth.signOut()}}> Hi </Button>
 			</div>
 		);
 	}

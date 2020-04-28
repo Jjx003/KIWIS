@@ -19,4 +19,4 @@ function addTestData() {
 	firebaseRef.child("test_data").set({name:"Jason", email: "jrcabrer@ucsd.edu"});
 }
 
-export default { addTestData /*, function2, function3 and so forth*/ };
+export default { addTestData, db /*, function2, function3 and so forth*/ };

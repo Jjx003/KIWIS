@@ -1,16 +1,23 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route} from 'react-router-dom';
+import logo from './logo.svg';
 import './css/App.css';
 
-import Home from './routes/Home';
-import Auth from './auth/Auth';
+
 import PrivateRoute from './auth/PrivateRoute';
+import Home from './routes/Home';
+import SignUp from './routes/SignUp';
+import Login from './routes/Login';
+
+export var logged = false;
 
 function App() {
   return (
-    <div className="App">
-	 	<Route path="/" exact render={(props) => <Home {...props}/>} />
-    </div>
+			<div>
+				<PrivateRoute exact path="/" component={Home}/>
+				<Route exact path="/login" component={Login} />
+				<Route exact path="/signup" component={SignUp} />
+			</div>
   );
 }
 
