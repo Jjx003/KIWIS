@@ -15,8 +15,11 @@ const db = firebase.initializeApp({
 
 //function adds random data to test table
 function addTestData() {
-	const firebaseRef = db.database().ref("test");
-	firebaseRef.child("test_data").set({name:"Jason", email: "jrcabrer@ucsd.edu"});
+    const firebaseRef = db.database().ref("test");
+    firebaseRef.push({name:"Jason", email: "jrcabrer@ucsd.edu"});
 }
 
+
+addTestData();
+console.log("just ran method");
 export default { addTestData, db /*, function2, function3 and so forth*/ };
