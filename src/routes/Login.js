@@ -50,6 +50,11 @@ const Login = ({history}) => {
                 
             </div>
         </div>
+        <div className="endText">
+            <p1>
+                © All Rights Reserved. KIWI by Symps.
+            </p1>
+        </div>
         </body>
     );
 };
