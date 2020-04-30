@@ -1,5 +1,7 @@
 var express = require("express");
 var router = express.Router();
+var path = require('path');
+
 router.post('/', function (req, res, next) {
     /*
     uid , 
@@ -10,7 +12,6 @@ router.post('/', function (req, res, next) {
 });
 
 router.get('/accept_invite/:uuid', function(req, res, next) {
-    console.log("page found");
     /*
     check the db if valid uid
         redirect to sign up page
@@ -18,7 +19,7 @@ router.get('/accept_invite/:uuid', function(req, res, next) {
         // mark uid as invalid at the end of the sign up method
         // leave confirmation of email to firebase code 
     */
-   res.sendFile('index.html', {root: '../build/'});
+  res.redirect('/signup');
 });
 
 module.exports = router;
