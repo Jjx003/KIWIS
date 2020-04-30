@@ -14,7 +14,7 @@ class Home extends React.Component {
 	render() {
 		return(
 			<div>
-        <Menu secondary size='large' color='olive' inverted className="navbar">
+        <Menu secondary size='massive' color='olive' inverted className="navbar">
           <Menu.Item name='KIWI'>
               <Image fluid size='tiny' src={logo}/>
           </Menu.Item>
