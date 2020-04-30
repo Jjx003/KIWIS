@@ -27,7 +27,8 @@ function addPostData(p_user_id, p_title, p_tag_ids, p_date_time, p_content) {
                                         date_time: p_date_time, 
                                         content: p_content, 
                                         karma: 0, 
-                                        response_ids: [1, 2, 3, 4]});
+                                        response_ids: [1, 2, 3, 4],
+                                        follower_ids: [5, 6, 7]});
     
     // Get the new post's key
     var new_post_id = post_reference.key;
