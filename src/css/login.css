@@ -1,0 +1,70 @@
+.login {
+    background-color: #C9E0C9;
+    padding: 40px;
+    font-family: Arial;
+    text-align: center;
+    height: 100vh;
+  }
+
+.inside {
+    background-color: #BF5B8A;
+    width: 30%;
+    text-align: centered;
+    display: inline-block;
+    padding: 40px;
+    position: relative;
+    top: 20%;
+    border-radius: 20%;
+}
+
+.column {
+    text-align: left;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 5%;
+}
+
+
+.pic {
+    height: 50px;
+    margin-bottom: 50px;
+}
+
+.button1 {
+    width:45%;
+    border-radius: 40px;
+    margin-right: 5%;
+    background-color: #24D56D;
+    height: 100%;
+    
+}
+.button2 {
+    width:45%;
+    margin-left: 5%;
+    border-radius: 40px;
+    height: 100%;
+}
+
+.buttons {
+    margin-top: 20px;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 30px;
+}
+
+.textField {
+    margin-top: 20px;
+}
+
+.textBox{
+    border-radius: 40px;
+    width: 100%;
+    height: 30px;
+}
+
+.font{
+    font-family: Arial;
+    font-weight: 100;
+    margin-left: 10px;
+    font-size: xx-large;
+}
