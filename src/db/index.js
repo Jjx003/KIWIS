@@ -14,6 +14,40 @@ const db = firebase.initializeApp({
 
 // add database functions below
 
+// Print the values of the post linked to the inputted key
+function printPost(post_id) {
+
+    // Reference the company's firebase "bruh" and the post's key
+    const firebaseRef = db.database().ref("bruh"+"/"+post_id);
+
+    // Get a snapshot of the post
+    firebaseRef.on("value", function(snapshot) {
+
+        // Store the reference to the post
+        var newPost = snapshot.val();
+
+        // Print out all of the values of the post
+        console.log("User's ID: " + newPost.user_id);
+        console.log("Post's ID: " + newPost.post_id);
+        console.log("Title: " + newPost.title);
+        console.log("Tag IDs: " + newPost.tag_ids);
+        console.log("Date and Time: " + newPost.date_time);
+        console.log("Content: " + newPost.content);
+        console.log("Karma: " + newPost.karma);
+        console.log("Response IDs: " + newPost.response_ids);
+        console.log("Follower IDs: " + newPost.follower_ids);
+
+    });
+
+}
+
+// Print the values of the post that is in the database
+var post_id = "-M67VDK6MLzICpgZPPPr";
+printPost(post_id);
+
+// ---------------------------------------------------------------------------------------------
+
+
 function addPostData(p_user_id, p_title, p_tag_ids, p_date_time, p_content) {
 
     // Reference the company's firebase "bruh"
@@ -38,6 +72,7 @@ function addPostData(p_user_id, p_title, p_tag_ids, p_date_time, p_content) {
 
 }
 
+
 // Making test variables to pass into addPostData()
 var p_user_id = 1234, p_title = "this post's title", p_tag_ids = ["Node.js", "React"];
 var p_date_time = "4/29/20 at 5:00PM", p_content = "this post's content";
@@ -45,22 +80,6 @@ var p_date_time = "4/29/20 at 5:00PM", p_content = "this post's content";
 // Call addPostData() using the variables above
 addPostData(p_user_id, p_title, p_tag_ids, p_date_time, p_content);
 
-console.log("just ran method");
 
-export default {addPostData, db};
-
-/*
-
-function addTestData() {
-    const firebaseRef = db.database().ref("test");
-    firebaseRef.push({name:"Jason", email: "jrcabrer@ucsd.edu"});
-}
-
-
-addTestData();
-
-console.log("just ran method");
- export default { addTestData, db /*, function2, function3 and so forth };
-
- */
+export default {  addPostData, printPost, db};
 
