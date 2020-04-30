@@ -4,7 +4,7 @@ import { Button } from 'semantic-ui-react';
 import '../css/App.css';
 
 class DisplayData extends Component {
-    
+
     constructor(props) {
         super(props);
 
