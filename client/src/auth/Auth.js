@@ -34,11 +34,15 @@ function signUp(email, password, others) {
         db.db.auth().createUserWithEmailAndPassword(email, password)
     } catch(error) {
         console.log(error)
+        return false
     }
+
+    //db.something()something()
 
     // Make calls to firestore database user table to insert other user info.
     // others should be a dictionary of parameters that are asked upon account creation
     // example: others = {name: 'ooga', lastName: 'booga'}
+    return true
 }
 
 function signOut() {

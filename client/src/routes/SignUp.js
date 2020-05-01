@@ -6,12 +6,16 @@ const SignUp = ({ history } ) => {
 	const handleSignUp = (event) => {
 		event.preventDefault();
 		const {email, password} = event.target.elements;
-		
+		let attempt = Auth.signUp(email.value, password.value);
+
 		try {
-			Auth.signUp(email.value, password.value);
-			history.push("/Login");
-		} catch (error) {
-			alert(error);
+			if (attempt) {
+				history.push("/login");
+			} else {
+				alert("There was an error in signup. Did you enter a valid email/password?");
+			}
+		} catch(error) {
+			alert(error)
 		}
 	}
 
