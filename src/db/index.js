@@ -81,5 +81,5 @@ var p_date_time = "4/29/20 at 5:00PM", p_content = "this post's content";
 addPostData(p_user_id, p_title, p_tag_ids, p_date_time, p_content);
 
 
-export default {  addPostData, printPost, db};
+export default {addPostData, printPost, db};
 
