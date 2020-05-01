@@ -32,7 +32,7 @@ class Navbar extends React.Component {
                     </Menu.Item>
 
                     <Menu.Item name='sign-out'>
-                        <Button>Sign Out</Button>
+                        Sign Out
                     </Menu.Item>
                 </Menu>
             </div>
