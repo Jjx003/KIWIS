@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Input, Dropdown, Image, List, Icon, Grid, Button } from 'semantic-ui-react';
+import { Menu, Input, Dropdown, Image, Icon, Grid } from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
 import tags from '../dummy_data/dummy_tags.json'
 
