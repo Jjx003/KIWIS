@@ -27,12 +27,12 @@ class Navbar extends React.Component {
                         </Grid>
                     </Menu.Item>
 
-                    <Menu.Item name='options'>
-                        <Icon name="user" />
-                    </Menu.Item>
-
                     <Menu.Item name='sign-out'>
                         Sign Out
+                    </Menu.Item>
+
+                    <Menu.Item name='options'>
+                        <Icon name="settings" />
                     </Menu.Item>
                 </Menu>
             </div>
