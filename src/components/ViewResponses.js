@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Label } from 'semantic-ui-react'
-
+import "../css/App.css"
 class ViewResponse extends Component
 {
     state = {
@@ -14,9 +14,10 @@ class ViewResponse extends Component
     constructor(props)
     {
         super(props);
+        
         //request info from firebase based on response_id
     }
-    
+
     handleUpVote = () => {
         this.setState(({ up_votes }) => ({
             up_votes: up_votes + 1
@@ -34,20 +35,26 @@ class ViewResponse extends Component
     render()
     {
         return (
-            <div>
-                {this.state.response_from}
-                <Button as='div' labelPosition='right'>
-                    <Button onClick = {this.handleUpVote}>
-                        Up-Vote!
+            <div className = "view_response">
+                <div className = "responder"> {this.state.response_from} </div>
+                <div className= "responder_tags" > tags </div>
+                <div className = "view_response_rate">
+                    <Button as='div' labelPosition='right'>
+                        <Button onClick = {this.handleUpVote}>
+                            Up-Vote!
+                        </Button>
+                        <Label as='a' basic>
+                            {this.state.up_votes}
+                        </Label>
                     </Button>
-                    <Label as='a' basic>
-                        {this.state.up_votes}
-                    </Label>
-                </Button>
-                <Button onClick = {this.handleEndorse}>
-                    Endorse
-                </Button>
-                <div style = {{ fontWeight: this.state.endorsed ? "bold": "normal"}}> 
+                    <Button onClick = {this.handleEndorse}>
+                        Endorse
+                    </Button>
+                </div>
+                <br></br>
+                <br></br>
+
+                <div className = "view_response_content" style = {{ fontWeight: this.state.endorsed ? "bold": "normal"}}> 
                     {this.state.content}
                 </div>
             </div>

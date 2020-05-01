@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Label } from 'semantic-ui-react'
-
+import "../css/App.css"
 class ViewPosts extends Component
 {
     state = {
@@ -27,23 +27,27 @@ class ViewPosts extends Component
     render()
     {
         return (
-            <div>
-                {this.state.title}
-                {this.state.post_from}
-                {this.state.post_id}
+            <div className = "view_posts">
+                <div className= "view_post_title"> {this.state.title} </div>
+                <div className = "view_post_tags"> TAGS </div>
+                <div className= "view_post_id"> #{this.state.post_id} </div>
+                    
+                <div className= "view_post_owner"> {this.state.post_from} </div>
 
-                <div style = {{ fontWeight: this.state.endorsed ? "bold": "normal"}}> 
+                <div className = "view_post_content"> 
                     {this.state.content}
                 </div>
-                <Button as='div' labelPosition='right'>
-                    <Button onClick = {this.handleUpVote}>
-                        Up-Vote!
+                <div className = "view_post_rate">
+                    <Button as='div' labelPosition='right'>
+                        <Button onClick = {this.handleUpVote}>
+                            Up-Vote!
+                        </Button>
+                        <Label as='a' basic>
+                            {this.state.up_votes}
+                        </Label>
                     </Button>
-                    <Label as='a' basic>
-                        {this.state.up_votes}
-                    </Label>
-                </Button>
-                <Button> Jump to best response! </Button>
+                    <Button> Jump to best response! </Button>
+                </div>
             </div>
         );
     }

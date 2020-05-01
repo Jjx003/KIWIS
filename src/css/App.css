@@ -36,3 +36,98 @@
     transform: rotate(360deg);
   }
 }
+
+.view_response
+{
+  overflow: hidden;
+  border-style: solid;
+  border-width: 1px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-right:30px;
+  margin-left:30px;
+}
+
+.responder
+{
+  font-size: 20px;
+  float: left;
+  width: 20%;
+  text-align: left;
+}
+
+.responder_tags
+{
+  width: 20%;
+  float: left;
+}
+
+.view_response_rate
+{
+  float: right;
+  width: 20%;
+}
+
+.view_response_content
+{
+  float: left;
+  text-align: left;
+  font-size: 18px;
+  padding-left: 10px;
+}
+
+.view_posts
+{
+  overflow: hidden;
+  border-style: solid;
+  border-width: 1px;
+  padding-top: 12px;
+  padding-bottom: 5px;
+  padding-left: 15px;
+  margin-right:30px;
+  margin-left:30px;
+}
+
+.view_post_title
+{
+  width: 33%;
+  float: left;
+  font-size: 30px;
+  text-align: left;
+}
+
+.view_post_tags
+{
+  width: 33%;
+  float: left;
+}
+
+.view_post_id
+{
+  width: 33%;
+  float: left;
+  text-align: right;
+}
+
+.view_post_owner
+{
+  float: left;
+  font-size: 22px;
+  margin-top:10px;
+  width: 100%;
+  text-align: left;
+}
+
+.view_post_content
+{
+  width: 75%;
+  text-align: left;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.view_post_rate
+{
+  width: 27%;
+  float: right;
+}
