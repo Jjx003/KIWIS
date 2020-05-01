@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Input, Dropdown, Image, List, Icon } from 'semantic-ui-react';
+import { Menu, Input, Dropdown, Image, List, Icon, Grid } from 'semantic-ui-react';
 import '../css/App.css';
 import logo from '../images/logo_white.png';
 
@@ -19,12 +19,20 @@ class Home extends React.Component {
               <Image fluid size='tiny' src={logo}/>
           </Menu.Item>
 
-         <Menu.Item style={{flexGrow: 2}}>
-            <Input placeholder="What's your question?" />
+         <Menu.Item fitted style={{flexGrow:2}}>
+          <Grid verticalAlign="middle" style={{flexGrow:2}} columns={2}>
+            <Grid.Row>
+              <Grid.Column>
+                <Input fluid placeholder="What's your question?" />
+              </Grid.Column>
+              <Grid.Column>
+                <Dropdown fluid multiple selection item options={options} text='Tags' />
+              </Grid.Column>
+            </Grid.Row>
+          </Grid>
           </Menu.Item>
 
           <Menu.Item fitted>
-            <Dropdown multiple selection item options={options} text='Tags' />
           </Menu.Item>
 
           <Menu.Item name='options'>
