@@ -18,16 +18,23 @@ const db = firebase.initializeApp({
 
 
 var tags = {};
-// Updates the tags variable when there's a new tag (HARD CODED bruh FOR NOW)
-db.database().ref('bruh').child('Tags').once('value').then((initData)=> {
-    updateGlobalTags('bruh', initData.val());
-});
-db.database().ref('bruh').child('Tags').on('value', function(snapshot) {
-    updateGlobalTags('bruh', snapshot.val());
-});
+
 function updateGlobalTags(forumName, newTagsObject) {
     tags[forumName] = newTagsObject;
 }
+
+// Updates the tags variable when there's a new tag (HARD CODED bruh FOR NOW)
+db.database().ref('bruh').child('Tags').on('value', function(snapshot) {
+    updateGlobalTags('bruh', snapshot.val());
+});
+
+// Initialize the tag variable
+function initializeTagData(forumName) {
+    db.database().ref(forumName).child('Tags').once('value').then((initData)=> {
+        updateGlobalTags(forumName, initData.val());
+    });
+}
+
 
 // "POST" method for new tags
 function createNewTag(forumName, tagName) {
@@ -89,4 +96,4 @@ function getUser(forumName, userID) {
     return users[forumName][userID];
 }
 
-export default {db, createNewUser, getUser, createNewTag, getTags, getTagCount};
+export default {db, createNewUser, getUser, createNewTag, getTags, getTagCount, initializeTagData};
