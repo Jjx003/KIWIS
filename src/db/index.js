@@ -41,10 +41,6 @@ function printPost(forumName, post_id) {
 
 }
 
-// Print the values of the post that is in the database
-var forumName = "bruh", post_id = "-M67VDK6MLzICpgZPPPr";
-//printPost(forumName, post_id);
-
 function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_date_time, p_content) {
 
     // Reference the company's firebase
@@ -68,13 +64,6 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_date_time, p_co
     post_reference.update({post_id: new_post_id});
 
 }
-
-// Making test variables to pass into addPostData()
-var p_user_id = 237569275, p_title = "this post's title", p_tag_ids = ["Node.js", "React"];
-var p_date_time = "4/29/20 at 5:00PM", p_content = "this post's content";
-
-// Call addPostData() using the variables above
-addPostData(forumName, p_user_id, p_title, p_tag_ids, p_date_time, p_content);
 
 export default {db, addPostData, printPost};
 
