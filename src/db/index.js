@@ -16,7 +16,59 @@ const db = firebase.initializeApp({
 // NOTE (Eric): in order to get userId: firebase.auth().currentUser.uid
 // Also, forumDBRef requires the forumName so they can access the specific company
 
-// POST method for new users
+
+var tags = {};
+// Updates the tags variable when there's a new tag (HARD CODED bruh FOR NOW)
+db.database().ref('bruh').child('Tags').once('value').then((initData)=> {
+    updateGlobalTags('bruh', initData.val());
+});
+db.database().ref('bruh').child('Tags').on('value', function(snapshot) {
+    updateGlobalTags('bruh', snapshot.val());
+});
+function updateGlobalTags(forumName, newTagsObject) {
+    tags[forumName] = newTagsObject;
+}
+
+// "POST" method for new tags
+function createNewTag(forumName, tagName) {
+    const forumDBRef = db.database().ref(forumName);
+    var tag = {};
+    tag[tagName] = {count: 0};
+    forumDBRef.child("Tags").update(tag);
+}
+
+// "GET" method for tags in forums (NEED TO FIX or make better lol)
+function getTags(forumName) {
+    db.database().ref('bruh').child('Tags').once('value').then((initData)=> {
+        updateGlobalTags('bruh', initData.val());
+    });
+    return tags[forumName];
+}
+
+// "GET" method for a tag's number (NEED TO TEST)
+function getTagCount(forumName, tagName) {
+    return tags[forumName][tagName];
+}
+
+
+
+
+
+
+
+var users = {};
+// Updates the users variable when there's a new user (HARD CODED bruh FOR NOW)
+db.database().ref('bruh').child('Users').once('value').then((initData)=> {
+    updateGlobalUsers('bruh', initData.val());
+});
+db.database().ref('bruh').child('Users').on('value', function(snapshot) {
+    updateGlobalUsers('bruh', snapshot.val());
+});
+function updateGlobalUsers(forumName, newUsersObject) {
+    tags[forumName] = newUsersObject;
+}
+
+// "POST" method for a new user
 function createNewUser(forumName, firstName, lastName, email) {
     const forumDBRef = db.database().ref(forumName);
     var user = {};
@@ -32,46 +84,9 @@ function createNewUser(forumName, firstName, lastName, email) {
 	forumDBRef.child("Users").push(user);
 }
 
-// GET method for users (NEED TO FIX or make better lol)
+// "GET" method for users (NEED TO FIX or make better lol)
 function getUser(forumName, userID) {
-    const forumDBRef = db.database().ref(forumName);
-    var user = {};
-	forumDBRef.child('Users/' + userID).once('value', function(data) {
-        data.forEach(function(item) {
-            user[item.key] = item.val();
-        });
-    });
-}
-
-// POST method for new tags
-function createNewTag(forumName, tagName) {
-    const forumDBRef = db.database().ref(forumName);
-    var tag = {};
-    tag[tagName] = {count: 0}
-    forumDBRef.child("Tags").set(tag);
-}
-
-// GET method for tags in forums (NEED TO FIX or make better lol)
-function getTags(forumName) {
-    const forumDBRef = db.database().ref(forumName);
-    var tags = {};
-	forumDBRef.child('Tags').once('value', function(data) {
-        data.forEach(function(item) {
-            tags[item.key] = item.val();
-        });
-    });
-    return tags;
-}
-
-// GET method for a tag's number (NEED TO TEST)
-function getTagCount(forumName, tagName) {
-    const forumDBRef = db.database().ref(forumName);
-    var count = -1;
-	forumDBRef.child('Tags/' + tagName).once('value', function(data) {
-        count = data['count'];
-    });
-
-    return count;
+    return users[forumName][userID];
 }
 
 export default {db, createNewUser, getUser, createNewTag, getTags, getTagCount};
