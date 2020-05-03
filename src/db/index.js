@@ -24,12 +24,12 @@ function createNewTag(forumName, tagName) {
     forumDBRef.child("Tags").update(tag);
 }
 
-// "GET" method for tags in forums (NEED TO FIX or make better lol)
+// "GET" method for tags in forums 
 function getTags(forumName) {
     return db.database().ref(forumName).child('Tags').once('value');
 }
 
-// "GET" method for a tag's number (NEED TO TEST)
+// "GET" method for a tag's number 
 function getTagCount(forumName, tagName) {
     return db.database().ref(forumName).child('Tags/' + tagName).once('value');
 }
@@ -54,7 +54,7 @@ function createNewUser(forumName, firstName, lastName, email) {
 
 // "GET" method for users (NEED TO FIX or make better lol)
 function getUser(forumName, userID) {
-    return db.database().ref(forumName).child('Tags/' + userID).once('value');
+    return db.database().ref(forumName).child('Users/' + userID).once('value');
 }
 
 export default {db, createNewUser, getUser, createNewTag, getTags, getTagCount};
