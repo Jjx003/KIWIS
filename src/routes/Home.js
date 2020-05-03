@@ -1,11 +1,12 @@
 import React from 'react';
-import '../css/App.css';
+import Navbar from '../components/Navbar'
 import ListDisplay from '../components/ListDisplay';
 
 class Home extends React.Component {
 	render() {
 		return (
 			<div>
+				<Navbar />
 				<ListDisplay />
 			</div>
 		);
