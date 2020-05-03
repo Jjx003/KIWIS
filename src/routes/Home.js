@@ -1,13 +1,12 @@
 import React from 'react';
-import { Button } from 'semantic-ui-react';
 import '../css/App.css';
+import ListDisplay from '../components/ListDisplay';
 
 class Home extends React.Component {
 	render() {
-		return(
+		return (
 			<div>
-				<h1> Home Page </h1>	
-				<Button> Hi </Button>
+				<ListDisplay />
 			</div>
 		);
 	}
