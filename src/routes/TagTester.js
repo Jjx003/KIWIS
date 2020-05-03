@@ -12,25 +12,22 @@ class TagTester extends React.Component {
             company_name: '',
             tag_name: ''
         };
-        this.initializeTagData();
     }
 
 	addTagData() {
 		try {
-            var result = db.getTags(this.state.company_name);
-            console.log(JSON.stringify(result));
-
-            assert(result[this.state.tag_name] !== undefined);
-			console.log("No error. Tag already exists");
+            db.getTags(this.state.company_name).then((data) => {
+                var result = data.val();
+                assert(result[this.state.tag_name] !== undefined);
+                console.log("No error. Tag already exists");
+                console.log(result);
+            });
 		} catch {
 			db.createNewTag(this.state.company_name, this.state.tag_name);
 			console.log("Bruh attempts to create a new tag: " + this.tag_name);
 		}
     }
     
-    initializeTagData() {
-        db.initializeTagData("bruh");
-    }
 
 
 	render() {
@@ -44,7 +41,6 @@ class TagTester extends React.Component {
                 <input onChange= {e=> this.setState({tag_name: e.target.value})} />
                 <br />
 				<Button onClick={this.addTagData.bind(this)}> Create tag </Button>
-                
 			</div>
 		);
 	}
