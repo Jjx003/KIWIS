@@ -1,36 +1,39 @@
 import React, {useContext} from 'react';
 import { Redirect } from "react-router-dom";
-import Auth from '../auth/Auth';
 import '../css/App.css';
+import axios from 'axios';
 
 export const Login = ({history}) => {
 
 	const handleLogin = (event) => {
 		event.preventDefault();
 		const {email, password} = event.target.elements;
-		
-		try {
 
-			if(Auth.login(email.value, password.value)) {
-				history.push("/");
-			} else {
-				alert("Invalid Credentials, Try Again.");
+		// send POST request to sign in user 
+		axios({
+			method: 'post',
+			url: 'http://localhost:9000/auth/login',
+			data: {
+				email: email.value,
+				password: password.value,
 			}
-
-		} catch (error) {
-			alert(error);
-		}
-	}
-
-	const {currentUser} = useContext(Auth.AuthContext);
-	if (currentUser) {
-		return <Redirect to="/" />;
+		  })
+		  .then((response) => {
+			if (response.data.success) {
+				history.push('/');
+			} else {
+				console.log("invalid credentials.");
+			}
+		  })
+		  .catch((error) => {
+			console.log(error);
+		  });
 	}
 
 	const redirectSignUp = () => {
-		history.push("/signup");
+		history.push('/signup');
 	}
-
+	
 	return(
 	<div className="centered">
 		<div className="row">

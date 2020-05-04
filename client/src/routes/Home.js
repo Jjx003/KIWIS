@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Button, Form } from 'semantic-ui-react';
 import '../css/App.css';
-import Auth from '../auth/Auth';
+import axios from 'axios';
+
 
 async function sendEmail(targetEmail, targetContent) {
 	let API_URL = "http://localhost:9000";
@@ -25,7 +26,7 @@ async function sendEmail(targetEmail, targetContent) {
   console.log(response)
 }
 
-class Home extends React.Component {
+class Home extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -52,11 +53,37 @@ class Home extends React.Component {
 		}
 	}
 
+	signOut() {
+		// GET request for signing out
+		axios({
+			method: 'get',
+			url: 'http://localhost:9000/auth/signOut'
+		  })
+		  .then( (response) => {
+			if (response.data.success) { 
+				this.props.history.push('/login');
+			} else {
+				console.log("error when signing out.");
+			}
+		  })
+		  .catch((error) => {
+			console.log(error);
+		  });
+	}
+
+	componentWillMount() {
+		// check if user is logged in
+		console.log("in here");
+		fetch('http://localhost:9000/auth/login')
+			.then(response => response.json())
+			.then((data) => { if(data.success) { this.props.history.push('/login'); } });	
+	}
+
 	render() {
 		return(
 			<div className="app">
 				<h1> Home Page </h1>	
-				<Button onClick={() => {Auth.signOut()}}> Hi </Button>
+				<Button onClick={this.signOut.bind(this)}>Hi </Button>
 				<div>
 					<Form>
 						<Form.Field>

@@ -1,26 +1,34 @@
 import React, { useCallback } from 'react';
-import Auth from "../auth/Auth";
+import axios from 'axios';
+
 import '../css/App.css';
 
 const SignUp = ({ history } ) => {
 	const handleSignUp = (event) => {
 		event.preventDefault();
 		const {email, password} = event.target.elements;
-		let attempt = Auth.signUp(email.value, password.value);
 
-		try {
-			if (attempt) {
-				history.push("/login");
-			} else {
-				alert("There was an error in signup. Did you enter a valid email/password?");
+		axios({
+			method: 'post',
+			url: 'http://localhost:9000/auth/signUp',
+			data: {
+				email: email.value,
+				password: password.value,
 			}
-		} catch(error) {
-			alert(error)
-		}
+		}).then((response) => {
+			if (response.data.success) {
+				history.push('/');
+			} else {
+				// update gui to show error in signing up
+				console.log("error in sign up, most likely account has already been made");
+			}
+		}).catch((error) => {
+			console.log(error);
+		});
 	}
 
 	const redirectLogin = () => {
-		history.push("/");
+		history.push("/login");
 	};
 
 	return(
