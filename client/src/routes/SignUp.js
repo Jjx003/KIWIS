@@ -1,9 +1,12 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 
 import '../css/App.css';
 
 const SignUp = ({ history } ) => {
+	const cookie = new Cookies();
+
 	const handleSignUp = (event) => {
 		event.preventDefault();
 		const {email, password} = event.target.elements;
@@ -17,6 +20,7 @@ const SignUp = ({ history } ) => {
 			}
 		}).then((response) => {
 			if (response.data.success) {
+				cookie.set('auth', response.data.token, {path: '/'})
 				history.push('/');
 			} else {
 				// update gui to show error in signing up

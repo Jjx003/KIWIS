@@ -1,15 +1,10 @@
-import React, {useContext } from 'react';
-import  { Redirect } from 'react-router-dom';
+import React from 'react';
 import '../css/App.css';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import {useCookies} from 'react-cookie';
-import {AuthContext} from '../auth/Auth';
 
 const Login = ({history}) => {
-	const [cookies, setCookie] = useCookies(['auth-token']);
-	
-	const cooks = new Cookies();
+	const cookie = new Cookies();
 	const handleLogin = (event) => {
 		event.preventDefault();
 		const {email, password} = event.target.elements;
@@ -26,7 +21,7 @@ const Login = ({history}) => {
 		  })
 		  .then((response) => {
 			if (response.data.success) {
-				cooks.set('auth', response.data.token, {path: '/'})
+				cookie.set('auth', response.data.token, {path: '/'})
 				history.push('/');
 			} else {
 				console.log("invalid credentials.");
@@ -37,7 +32,7 @@ const Login = ({history}) => {
 		  });
 	}
 	const redirectSignUp = () => {
-		return <Redirect to="/signup" />
+		history.push('/signup')
 	}	
 	
 	return(

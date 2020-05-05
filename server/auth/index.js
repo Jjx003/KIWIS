@@ -13,11 +13,11 @@ function signUp(email, password) {
 }
 
 function createToken(uid) {
-    return firebase.admin.auth().createCustomToken(uid);
+    return firebase.db.auth().currentUser.getIdToken(uid);
 }
 
 function checkToken(token) {
-    return firebase.db.auth().signInWithCustomToken(token);
+    return firebase.admin.auth().verifyIdToken(token);
 }
 
 module.exports = { login, signOut, signUp, createToken, checkToken };

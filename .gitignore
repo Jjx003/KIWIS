@@ -4,6 +4,7 @@
 
 /client/node_modules
 /server/node_modules
+/server/serviceKey.json
 /.pnp
 .pnp.js
 
@@ -12,6 +13,7 @@
 
 # production
 /build
+/build.sh
 
 # misc
 .DS_Store

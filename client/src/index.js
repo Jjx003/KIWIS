@@ -5,18 +5,10 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 
-import { CookiesProvider } from 'react-cookie';
-import {AuthProvider} from './auth/Auth';
-
 ReactDOM.render(
-	<AuthProvider>
-  	<BrowserRouter>
-	<CookiesProvider>
+  	<BrowserRouter basename="/React">
     	<App />
-	</CookiesProvider>
-  	</BrowserRouter>
-	</AuthProvider>, 
-  
+  	</BrowserRouter>,
   document.getElementById('root')
 );
 
