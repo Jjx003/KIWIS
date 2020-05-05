@@ -1,23 +1,23 @@
 import React, {Component} from 'react';
-import db from '../index'
+import {db,dbRef, updateAlgolia} from '../db/index'
 
 class Posts extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            user_id: 00,
-            post_id: 01,
+            user_id: 0,
+            post_id: 1,
             title: "post's title",
             tag_ids: [],
             date_time: "post's date/time",
             content: "post's content",
-            karma: 02,
-            response_ids: []
-
+            karma: 2,
+            response_ids: [],
+            curr_tag: ""
         };
 
-        this.firebaseRef = db.database().ref("Posts");
+        this.firebaseRef = dbRef;
 
     }
 
@@ -28,8 +28,9 @@ class Posts extends Component {
     pushToFirebase(event) {
         const {title, content} = this.state;
         event.preventDefault();
-        this.firebaseRef.child(title).set({title: this.state.title, content: this.state.content});
-        this.setState({title: '', content: ''});
+        this.firebaseRef.push().set({title: this.state.title, content: this.state.content,
+            tag_ids : [...this.state.tag_ids, this.state.curr_tag]}).then(updateAlgolia());
+        this.setState({title: '', content: '', curr_tag: ''});
     }
 
     render() {
@@ -41,6 +42,12 @@ class Posts extends Component {
                 <br />
                 <label>Content</label>
                 <input onChange= {e => this.setState({content : e.target.value})} />
+                <br />
+                <label>Tags</label>
+                <input onChange={e => 
+                    this.setState(
+                        {curr_tag : e.target.value}
+                    )} />
                 <br />
                 <button onClick={this.pushToFirebase.bind(this)}>Publish</button>
             </div>
