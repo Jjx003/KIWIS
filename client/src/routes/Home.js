@@ -3,6 +3,8 @@ import { Button, Form } from 'semantic-ui-react';
 import '../css/App.css';
 import axios from 'axios';
 
+import Cookies from 'universal-cookie';
+
 
 async function sendEmail(targetEmail, targetContent) {
 	let API_URL = "http://localhost:9000";
@@ -27,6 +29,11 @@ async function sendEmail(targetEmail, targetContent) {
 }
 
 class Home extends Component {
+	/*
+	static propTypes ={
+		cookies: instanceOf(Cookies).isRequired
+	};*/
+
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -55,13 +62,20 @@ class Home extends Component {
 
 	signOut() {
 		// GET request for signing out
+		axios.defaults.withCredentials = true;
 		axios({
 			method: 'get',
-			url: 'http://localhost:9000/auth/signOut'
+			url: 'http://localhost:9000/auth/signOut',
+			withCredentials: true
 		  })
-		  .then( (response) => {
+		  .then( (response) => { 
+			  console.log(response.data.success);
 			if (response.data.success) { 
+				//removeCookie('auth-token', {path: '/'});
+				const cookie = new Cookies();
+				cookie.remove('auth', {path:'/'})
 				this.props.history.push('/login');
+				console.log("Should be signing out");
 			} else {
 				console.log("error when signing out.");
 			}
@@ -71,14 +85,15 @@ class Home extends Component {
 		  });
 	}
 
-	componentWillMount() {
+	/*
+	componentDidMount() {
 		// check if user is logged in
 		console.log("in here");
-		fetch('http://localhost:9000/auth/login')
+		fetch('http://localhost:9000/auth/checkIfSignedIn')
 			.then(response => response.json())
 			.then((data) => { if(data.success) { this.props.history.push('/login'); } });	
 	}
-
+*/
 	render() {
 		return(
 			<div className="app">

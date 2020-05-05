@@ -1,13 +1,19 @@
 var express = require("express");
 var router = express.Router();
-var db = require('../../db/index');
+var auth = require('../../auth/index');
 
 // attempts to login in user
 router.post('/login', function (req, res, next) { 
-    db.login(req.body.email, req.body.password).then(() => {
-        console.log("login successful.");
-        res.jsonp({success:true});
-    }).catch(() => {
+    auth.login(req.body.email, req.body.password).then(() => { 
+        // retrieve their userid here
+
+        let test_uid = "hi";
+        // creating token for user, passing in userid. Token expires after an hour
+        auth.createToken(test_uid).then((token) => {
+            res.jsonp({token: token, success: true})
+        });
+    }).catch((error) => {
+        console.log(error);
         console.log("invalid credentials");
         res.jsonp({success: false});
     });
@@ -15,7 +21,7 @@ router.post('/login', function (req, res, next) {
 
 // attempts to sign out user
 router.get('/signOut', function (req, res, next) {
-    db.signOut().then(() => {
+    auth.signOut().then(() => {
         console.log("sign out successful.");
         res.jsonp({success: true});
     }).catch(() => {
@@ -26,7 +32,7 @@ router.get('/signOut', function (req, res, next) {
 
 // attempts to sign up user
 router.post('/signUp', function (req, res, next) {
-    db.signUp(req.body.email, req.body.password).then(() => {
+    auth.signUp(req.body.email, req.body.password).then(() => {
         console.log("sign up successful.");
         res.jsonp({success: true});
     }).catch(() => {
@@ -35,4 +41,20 @@ router.post('/signUp', function (req, res, next) {
     });
 });
 
+router.get('/checkIfSignedIn', function(req, res, next) {
+    try {
+        console.log(req.cookies.auth);
+        auth.checkToken(req.cookies.auth).then(() =>{
+            res.jsonp({success: true});
+        }).catch( function(error) {
+            console.log("error occured when checking token, request denied");
+            res.jsonp({success: false});
+        })  
+    } catch(error) {
+        console.log("222222, request denied");
+        console.log(error)
+        res.jsonp({success: false});
+    }
+
+});
 module.exports = router;

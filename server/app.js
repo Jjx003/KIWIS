@@ -5,13 +5,26 @@ const cors = require('cors');
 
 var inviteRouter = require('./routes/invite/index');
 var authRouter = require('./routes/auth/index');
+var cookieParser = require('cookie-parser');
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cookieParser());
 
 app.use('/inviteUser', inviteRouter);
 app.use('/auth', authRouter);
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header(
+    'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization,  X-PINGOTHER'
+  );
+  res.header('Access-Control-Allow-Credentials', true);
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS');
+  next();
+});
 
 /* will need this when we move to production 
 app.use(express.static(path.join(__dirname, 'build')));

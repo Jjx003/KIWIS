@@ -1,13 +1,19 @@
-import React, {useContext} from 'react';
-import { Redirect } from "react-router-dom";
+import React, {useContext } from 'react';
+import  { Redirect } from 'react-router-dom';
 import '../css/App.css';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
+import {useCookies} from 'react-cookie';
+import {AuthContext} from '../auth/Auth';
 
+const cooks = new Cookies();
 export const Login = ({history}) => {
-
+	const [cookies, setCookie] = useCookies(['auth-token']);
+	
 	const handleLogin = (event) => {
 		event.preventDefault();
 		const {email, password} = event.target.elements;
+
 
 		// send POST request to sign in user 
 		axios({
@@ -20,7 +26,10 @@ export const Login = ({history}) => {
 		  })
 		  .then((response) => {
 			if (response.data.success) {
-				history.push('/');
+				cooks.set('auth', response.data.token, {path: '/'})
+				console.log(
+					"sdlakf;adskjf"
+				);
 			} else {
 				console.log("invalid credentials.");
 			}
@@ -29,7 +38,10 @@ export const Login = ({history}) => {
 			console.log(error);
 		  });
 	}
-
+	const {currentUser} = useContext(AuthContext);
+	if (currentUser) {
+		return <Redirect to="/"/>
+	}
 	const redirectSignUp = () => {
 		history.push('/signup');
 	}
