@@ -7,7 +7,6 @@ class Home extends React.Component {
 	render() {
 		return (
 			<div>
-				<Navbar />
 				<ListDisplay />
 				<Posts/>
 			</div>

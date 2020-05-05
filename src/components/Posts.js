@@ -43,7 +43,7 @@ class Posts extends Component {
                 <label>Content</label>
                 <input onChange= {e => this.setState({content : e.target.value})} />
                 <br />
-                <label>Tags</label>
+                <label>Tags (Only adds one tag)</label>
                 <input onChange={e => 
                     this.setState(
                         {curr_tag : e.target.value}

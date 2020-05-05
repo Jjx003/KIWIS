@@ -18,7 +18,7 @@ const db = firebase.initializeApp({
 
 const dbRef = db.database().ref('/ALGOLIA_TESSTING');
 // Get all contacts from Firebase
-updateAlgolia();
+
 export function updateAlgolia(){
   db.database().ref('/ALGOLIA_TESSTING').once('value', contacts => {
       // Build an array of all records to push to Algolia

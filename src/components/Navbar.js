@@ -2,10 +2,24 @@ import React from 'react';
 import { Menu, Input, Dropdown, Image, Icon, Grid } from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
 import tags from '../dummy_data/dummy_tags.json'
+import ListDisplay from "./ListDisplay"
 
 const options = Object.keys(tags).map(x => { return { key: x, text: x, value: x } })
 
 class Navbar extends React.Component {
+    
+    constructor(props){
+        super(props);
+        this.state = {
+            tags: []
+        }
+    }
+    handleChange = (e, {value}) => {
+        this.setState({tags : value}, ()=>{
+        console.log(this.state.tags);});
+        this.props.updateForumDisp(value);     
+    }
+
     render() {
         return (
             <div>
@@ -21,7 +35,9 @@ class Navbar extends React.Component {
                                     <Input fluid placeholder="What's your question?" />
                                 </Grid.Column>
                                 <Grid.Column>
-                                    <Dropdown fluid multiple selection options={options} text='Tags' />
+                                    <Dropdown fluid multiple selection  placeholder='Tags'
+                                        onChange={this.handleChange}
+                                        options={options} />
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>
