@@ -9,12 +9,13 @@ import Login from './routes/Login';
 import PrivateRoute from './auth/PrivateRoute';
 
 
+
 function App() {
   return (
 			<div>
-				<PrivateRoute path="/" exact render={(props) => <Home {...props}/>}/>
-				<Route path="/login" exact render={(props) => <Login {...props}/>}/>
-				<Route path="/signup" exact render={(props) => <SignUp {...props}/>}/>
+				<Route path="/" exact component={Home} />
+				<Route path="/login" exact component={Login}/>
+				<Route path="/signup" exact component={SignUp}/>
 			</div>
   );
 }

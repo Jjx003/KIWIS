@@ -6,10 +6,10 @@ import Cookies from 'universal-cookie';
 import {useCookies} from 'react-cookie';
 import {AuthContext} from '../auth/Auth';
 
-const cooks = new Cookies();
-export const Login = ({history}) => {
+const Login = ({history}) => {
 	const [cookies, setCookie] = useCookies(['auth-token']);
 	
+	const cooks = new Cookies();
 	const handleLogin = (event) => {
 		event.preventDefault();
 		const {email, password} = event.target.elements;
@@ -27,9 +27,7 @@ export const Login = ({history}) => {
 		  .then((response) => {
 			if (response.data.success) {
 				cooks.set('auth', response.data.token, {path: '/'})
-				console.log(
-					"sdlakf;adskjf"
-				);
+				history.push('/');
 			} else {
 				console.log("invalid credentials.");
 			}
@@ -38,13 +36,9 @@ export const Login = ({history}) => {
 			console.log(error);
 		  });
 	}
-	const {currentUser} = useContext(AuthContext);
-	if (currentUser) {
-		return <Redirect to="/"/>
-	}
 	const redirectSignUp = () => {
-		history.push('/signup');
-	}
+		return <Redirect to="/signup" />
+	}	
 	
 	return(
 	<div className="centered">

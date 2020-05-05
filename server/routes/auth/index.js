@@ -43,17 +43,16 @@ router.post('/signUp', function (req, res, next) {
 
 router.get('/checkIfSignedIn', function(req, res, next) {
     try {
-        console.log(req.cookies.auth);
         auth.checkToken(req.cookies.auth).then(() =>{
-            res.jsonp({success: true});
+            res.jsonp({success: "user"});
         }).catch( function(error) {
             console.log("error occured when checking token, request denied");
-            res.jsonp({success: false});
+            res.jsonp({success: ''});
         })  
     } catch(error) {
         console.log("222222, request denied");
         console.log(error)
-        res.jsonp({success: false});
+        res.jsonp({success: ''});
     }
 
 });

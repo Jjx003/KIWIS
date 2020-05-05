@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import {Redirect} from 'react-router-dom';
 import { Button, Form } from 'semantic-ui-react';
 import '../css/App.css';
 import axios from 'axios';
-
+import {AuthContext} from '../auth/Auth';
 import Cookies from 'universal-cookie';
 
 
@@ -39,6 +40,8 @@ class Home extends Component {
 		this.state = {
 			email: "",
 			content: "",
+			isAuthenticated: false,
+			isLoading: true,
 		}
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
@@ -85,16 +88,36 @@ class Home extends Component {
 		  });
 	}
 
-	/*
 	componentDidMount() {
-		// check if user is logged in
-		console.log("in here");
-		fetch('http://localhost:9000/auth/checkIfSignedIn')
-			.then(response => response.json())
-			.then((data) => { if(data.success) { this.props.history.push('/login'); } });	
+		axios({
+			method: 'get',
+			url: 'http://localhost:9000/auth/checkIfSignedIn',
+			withCredentials: true
+		  })
+		  .then( (response) => { 
+			this.setState({isLoading: false});
+			if (response.data.success) { 
+				this.setState({isAuthenticated: true})
+			} else {
+				this.setState({isAuthenticated: false});
+				this.props.history.push('/login');
+			}
+		  })
+		  .catch((error) => {
+			console.log(error);
+		  });
 	}
-*/
+
+
+	componentWillUnmount() {
+		this.setState({isLoading: true});
+	}
+
 	render() {
+		if (this.state.isLoading || !this.state.isAuthenticated) {
+			return null;
+		}
+
 		return(
 			<div className="app">
 				<h1> Home Page </h1>	
