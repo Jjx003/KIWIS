@@ -46,6 +46,7 @@
   padding-bottom: 5px;
   margin-right:30px;
   margin-left:30px;
+  padding-left: 15px;
 }
 
 .responder
@@ -73,7 +74,6 @@
   float: left;
   text-align: left;
   font-size: 18px;
-  padding-left: 10px;
 }
 
 .view_posts
@@ -120,7 +120,7 @@
 
 .view_post_content
 {
-  width: 75%;
+  width: 65%;
   text-align: left;
   font-size: 20px;
   font-weight: bold;
@@ -128,6 +128,6 @@
 
 .view_post_rate
 {
-  width: 27%;
+  width: 35%;
   float: right;
 }

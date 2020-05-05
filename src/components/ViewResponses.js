@@ -4,8 +4,10 @@ import "../css/App.css"
 class ViewResponse extends Component
 {
     state = {
+        post_id: 21,
         response_id: 0,
-        response_from: "Gary Gillespie",
+        owner_ID: "Gary Gillespie",
+        datetime: "4/24/20 5:45PM",
         up_votes: 0,
         endorsed: false,
         content: "Random Response: iofhasdio po dsois siaodh oisadaoi ope hiao hupodgup wi iasohd oia lios ghoasi"
@@ -36,7 +38,7 @@ class ViewResponse extends Component
     {
         return (
             <div className = "view_response">
-                <div className = "responder"> {this.state.response_from} </div>
+                <div className = "responder"> {this.state.owner_ID} </div>
                 <div className= "responder_tags" > tags </div>
                 <div className = "view_response_rate">
                     <Button as='div' labelPosition='right'>
@@ -48,7 +50,7 @@ class ViewResponse extends Component
                         </Label>
                     </Button>
                     <Button onClick = {this.handleEndorse}>
-                        Endorse
+                        {this.state.endorsed ? "UnEndorse" : "Endorse"}
                     </Button>
                 </div>
                 <br></br>
