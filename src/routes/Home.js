@@ -15,6 +15,12 @@ class Home extends React.Component {
 				<Link to="/login">
      				<Button type="button">Log In</Button>
 				</Link>
+				<div>
+					<br></br>
+					<Link to="/userTag">
+     					<Button type="button">Let me Add some stuff</Button>
+					</Link>
+			</div>
 			</div>
 		);
 	}
