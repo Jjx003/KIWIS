@@ -2,7 +2,15 @@ import React from 'react';
 import { Menu, Input, Dropdown, Image, Icon, Grid } from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
 import tags from '../dummy_data/dummy_tags.json'
-import ListDisplay from "./ListDisplay"
+import {
+    InstantSearch,
+    Hits,
+    SearchBox,
+    Pagination,
+    Highlight,
+    ClearRefinements,
+    RefinementList,
+    Configure, } from 'react-instantsearch-dom';
 
 const options = Object.keys(tags).map(x => { return { key: x, text: x, value: x } })
 
@@ -55,5 +63,6 @@ class Navbar extends React.Component {
         );
     }
 }
+
 
 export default Navbar;

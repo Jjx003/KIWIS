@@ -15,3 +15,13 @@ code {
 .highlight {
   background-color: yellow;
 }
+
+.left {
+  background-color: beige;
+  float: left;
+  width: 50%;
+}
+
+.right{
+  margin-left: 52%;
+}

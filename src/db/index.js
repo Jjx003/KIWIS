@@ -2,8 +2,16 @@ import * as firebase from 'firebase';
 // for the default version
 import algoliasearch from 'algoliasearch';
 
+//npm install algoliasearch react-instantsearch-dom
+
 const client = algoliasearch("36A3GKBNZI", "22dc12a10fb0cec70da7edb08015731f");
 const index = client.initIndex("test");
+
+const searchClient = algoliasearch(
+  '36A3GKBNZI',
+  'faecca1d5632ce9521cda7cd1857bd20'
+);
+
 
 const db = firebase.initializeApp({
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -48,4 +56,4 @@ export function updateAlgolia(){
   //when we delete something from Firebase, we need to also delete in Algoliar
 
   
-export {db, dbRef, client, index}
+export {db, dbRef, client, index, searchClient}

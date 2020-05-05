@@ -8,10 +8,10 @@ class Posts extends Component {
         this.state = {
             user_id: 0,
             post_id: 1,
-            title: "post's title",
+            title: "",
             tag_ids: [],
-            date_time: "post's date/time",
-            content: "post's content",
+            date_time: "",
+            content: "",
             karma: 2,
             response_ids: [],
             curr_tag: ""
@@ -37,17 +37,18 @@ class Posts extends Component {
         return(
 
             <div>
+                <br/>
                 <label>Title</label>
-                <input onChange= {e => this.setState({title : e.target.value})} />
+                <input onChange= {e => this.setState({title : e.target.value})} value={this.state.title} />
                 <br />
                 <label>Content</label>
-                <input onChange= {e => this.setState({content : e.target.value})} />
+                <input onChange= {e => this.setState({content : e.target.value})} value={this.state.content}/>
                 <br />
                 <label>Tags (Only adds one tag)</label>
                 <input onChange={e => 
                     this.setState(
                         {curr_tag : e.target.value}
-                    )} />
+                    )} value={this.state.curr_tag}/>
                 <br />
                 <button onClick={this.pushToFirebase.bind(this)}>Publish</button>
             </div>

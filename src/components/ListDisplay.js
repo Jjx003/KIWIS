@@ -1,9 +1,19 @@
-import {db,dbRef} from '../db/index';
+import {db,dbRef, updateAlgolia, searchClient} from '../db/index';
 import React from 'react';
 import { List } from 'semantic-ui-react';
-import * as firebase from 'firebase';
 import '../css/index.css'
 import Navbar from './Navbar';
+import Posts from '../components/Posts.js'
+import {
+    InstantSearch,
+    Hits,
+    SearchBox,
+    Pagination,
+    Highlight,
+    ClearRefinements,
+    RefinementList,
+    Configure, } from 'react-instantsearch-dom';
+import PropTypes from 'prop-types';
 
 class ListDisplay extends React.Component {
 
@@ -14,6 +24,7 @@ class ListDisplay extends React.Component {
             posts: []
         };
 
+        //should be in db file
         this.firebaseRef = dbRef;
         this.firebaseRef.on('value', postSnapshot => {
             let posts = [];
@@ -23,12 +34,16 @@ class ListDisplay extends React.Component {
                 console.log(postId.key);
                 console.log(post);
                 post.visible = true;    //make everything visible first
-                posts.push(post);
+                posts.unshift(post);    //push to front of array so new items shown first
             });
             this.setState({ posts });
         });
 
         this.updateStateDisp = this.updateStateDisp.bind(this);
+    }
+    
+    componentWillMount() {
+        //updateAlgolia();
     }
 
     componentWillUnmount() {
@@ -41,7 +56,7 @@ class ListDisplay extends React.Component {
             let posts = [];
             postSnapshot.forEach(postId => {
                 postId.val().tag_ids.forEach( tag => {
-                    if(value.includes(tag)){
+                    if(value.includes(tag)){    //add in order of matching tags
                         keyList.push(postId.key);
                     }
                 });
@@ -67,18 +82,20 @@ class ListDisplay extends React.Component {
                             console.log(post);}
                         else
                             Object.assign(post, {visible:false});
-                        
                         }}
                 )}
             )
-            this.forceUpdate();     //this is big no no
+            this.forceUpdate();     //this is big no no needs to fix
         }
     }
     
     render() {
         return (
             <div>
+            <InstantSearch indexName='test' searchClient={searchClient}>
             <Navbar updateForumDisp={this.updateStateDisp}/>
+            <div className='left'> 
+            <Posts/>
             <List divided>
                 {this.state.posts.map(post => {
                     if(post.visible)   
@@ -93,12 +110,37 @@ class ListDisplay extends React.Component {
                         </List.Item>
                     })   
                 }
-
             </List>
+            </div> 
+            <div className='right'>
+                <SearchBox searchAsYouType={true}   //need to incorporate searchbox into navbar
+                    translations={{
+                    placeholder: "What's your question?",
+                    }}/>
+                <p>Need to implement this within search in navbar</p>
+                <h5>Results</h5>
+                <Hits hitComponent={Hit}/>
+            </div>
+            </InstantSearch>
             </div>
         )
     }
 
 }
+
+function Hit(props) {
+    return (
+      <div> 
+          <div className="hit-name">
+            title: <Highlight attribute="title" hit={props.hit} tagName="mark"/> &ensp;
+            content: <Highlight attribute="content" hit={props.hit} tagName="mark"/>
+          </div>
+      </div>
+    );
+}
+
+Hit.propTypes = {
+    hit: PropTypes.object.isRequired,
+  };
 
 export default ListDisplay;
