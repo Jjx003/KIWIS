@@ -3,7 +3,7 @@ import { Redirect, Link } from "react-router-dom";
 import db from "../db/index.js"
 import '../css/login.css';
 import pic from '../css/vectorlogo.svg';
-
+import SignUp from './SignUp';
 
 const Login = ({history}) => {
 

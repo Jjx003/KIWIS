@@ -12,6 +12,8 @@ const db = firebase.initializeApp({
 });
 
 // add database functions below
-
+  
 
 export default db;
+
+

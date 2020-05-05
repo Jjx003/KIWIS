@@ -8,7 +8,7 @@ import pic from '../css/vectorlogo.svg';
 const SignUp = ({history}) => {
 
     const redirectLogIn = () => {
-        history.push("/")
+        history.push("/login")
     }
 
     const handleSignUp = (event) => {
