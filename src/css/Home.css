@@ -1,9 +1,14 @@
 .container {
     background-color: blue;
+    width: 100%;
     margin: auto;
-    margin-top: 15%;
-    height: 500px;
-    top: 50%;
-    left: 50%;
-    padding-top: 200px;
+
+}   
+
+.posts-container {
+    width: 90%;
+    margin: auto;
+    margin-top: 10%;
+    height: 753px;
+    background-color: pink;
 }

@@ -1,16 +1,20 @@
 import React from 'react';
 import Navbar from '../components/Navbar'
-import { Container } from 'semantic-ui-react';
 import '../css/Home.css';
 
 class Home extends React.Component {
   render() {
     return (
-      <div>
+      <div className="container">
         <Navbar /> 
-        <Container className="container">
+        <div className="posts-container">
           <p> here </p>
-        </Container> 
+          <p> here </p>
+          <p> here </p>
+          <p> here </p>
+          <p> here </p>
+          
+        </div>
 
       </div>
     );
