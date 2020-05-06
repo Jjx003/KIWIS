@@ -1,0 +1,29 @@
+.post-cards {
+    width: 99%;
+    margin: auto;
+    margin-top: 1%;
+    height: 123px;
+    background-color: white;
+    border-radius: 20px;
+    border-style: solid;
+    border-width: 2.5px;
+    border-color: black;
+    padding-right: 1%;
+}
+
+.PostTitle {
+    margin-left: 3%;
+    margin-top: 50px;
+    max-width: 80%;
+}
+
+.Poster{
+    margin-top: -5%;
+    float: right;
+    max-width: 15%;
+}
+
+.PostDate{
+    float: right;
+    margin-top: 0%;
+}

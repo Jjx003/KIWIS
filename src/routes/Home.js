@@ -1,21 +1,14 @@
 import React from 'react';
 import Navbar from '../components/Navbar'
 import '../css/Home.css';
+import HomePosts from "../components/HomePosts";
 
 class Home extends React.Component {
   render() {
     return (
       <div className="container">
-        <Navbar /> 
-        <div className="posts-container">
-          <p> here </p>
-          <p> here </p>
-          <p> here </p>
-          <p> here </p>
-          <p> here </p>
-          
-        </div>
-
+        <Navbar />
+        <HomePosts />
       </div>
     );
   }
