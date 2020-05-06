@@ -1,0 +1,9 @@
+.container {
+    background-color: blue;
+    margin: auto;
+    margin-top: 15%;
+    height: 500px;
+    top: 50%;
+    left: 50%;
+    padding-top: 200px;
+}
