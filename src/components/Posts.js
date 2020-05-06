@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {db,dbRef, updateAlgolia} from '../db/index'
+import {dbRef, updateAlgolia} from '../db/index'
 
 class Posts extends Component {
     constructor(props) {
@@ -26,7 +26,6 @@ class Posts extends Component {
     }
 
     pushToFirebase(event) {
-        const {title, content} = this.state;
         event.preventDefault();
         this.firebaseRef.push().set({title: this.state.title, content: this.state.content,
             tag_ids : [...this.state.tag_ids, this.state.curr_tag]}).then(updateAlgolia());

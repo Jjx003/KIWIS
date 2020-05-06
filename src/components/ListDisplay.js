@@ -1,4 +1,4 @@
-import { dbRef, searchClient } from '../db/index';
+import {dbRef, searchClient} from '../db/index';
 import React from 'react';
 import { List } from 'semantic-ui-react';
 import '../css/index.css'
@@ -10,6 +10,8 @@ import {
     SearchBox,
     Highlight
 } from 'react-instantsearch-dom';
+
+
 import PropTypes from 'prop-types';
 
 class ListDisplay extends React.Component {
@@ -50,7 +52,6 @@ class ListDisplay extends React.Component {
     //should be in the db file
     searchTags(value, keyList) {
         return this.firebaseRef.once('value', postSnapshot => {
-            let posts = [];
             postSnapshot.forEach(postId => {
                 postId.val().tag_ids.forEach(tag => {
                     if (value.includes(tag)) {    //add in order of matching tags
@@ -66,24 +67,22 @@ class ListDisplay extends React.Component {
         let keyList = []
         this.searchTags(value, keyList);
         //console.log(keyList);
-        if (this.state.posts) {
-            this.setState(prev => {
-                posts: prev.posts.map(
+
+        if(this.state.posts){
+            this.setState( prev => {
+                prev.posts.map(
                     post => {
-                        {
-                            if (value.length == 0) {
-                                Object.assign(post, { visible: true });
-                            }
-                            else if (keyList.includes(post['.key'])) {
-                                Object.assign(post, { visible: true });
-                                console.log(post);
-                            }
-                            else
-                                Object.assign(post, { visible: false });
+                        if(value.length === 0){
+                            Object.assign(post, {visible: true});
                         }
-                    }
-                )
-            }
+                        else if(keyList.includes(post['.key'])){
+                            Object.assign(post, {visible: true});
+                            console.log(post);
+                        }
+                        else
+                            Object.assign(post, {visible:false});
+                        }
+                )}
             )
             this.forceUpdate();     //this is big no no needs to fix
         }
