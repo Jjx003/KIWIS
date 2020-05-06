@@ -12,8 +12,41 @@ const db = firebase.initializeApp({
 });
 
 // add database functions below
-  
 
-export default db;
+// ERICS CODE
+function getUser(forumName, userID) {
+    return db.database().ref(forumName).child('Users/' + userID).once('value');
+}
+
+function getTags(forumName) {
+    return db.database().ref(forumName).child('Tags').toJSON();
+}
+
+
+function addSpecalization(tagName) {
+    db.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          var tag = db.database().ref(forumName).child("Tags/" + tagName);
+          db.database().ref(forumName).child("Users/" + user).child("Tags").push(tag);
+          tag.child("users").push(user);
+        } else {
+          // No user is signed in.
+        }
+    });
+}
+
+function removeSpecalization(tag) {
+    db.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+        } else {
+          // No user is signed in.
+        }
+    });
+}
+
+
+export default {db, getUser, addSpecalization, removeSpecalization, getTags};
 
 

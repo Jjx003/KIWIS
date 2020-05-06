@@ -1,6 +1,9 @@
 import React from 'react';
 import '../css/App.css';
-import db from '../db/index.js';
+import {db, getTags} from '../db/index.js';
+import { Dropdown } from 'semantic-ui-react'
+
+
 
 
 class UserTags extends React.Component {
@@ -14,19 +17,18 @@ class UserTags extends React.Component {
         };
     }
 
-    changeTag(add, ) {
 
-    }
+
 
     render() {
         return(
             <div>
                 <form onSubmit>
-                    <div className="textField">
-                        <input className="textBox" name="tag" type="tag" placeholder="  tag" />
-                    </div>
+                    <Dropdown placeholder="tag" fluid search options={getTags("bruh")}>
+                        
+                    </Dropdown>
                     <div className="buttons">
-                        <button className="button1" type="change">Log In</button>
+                        <button className="button1" type="change">Add</button>
                     </div>
                 </form>
             </div>
