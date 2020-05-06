@@ -1,36 +1,34 @@
 import React from 'react';
-import { Menu, Input, Dropdown, Image, Icon, Grid } from 'semantic-ui-react';
+import { Menu, Dropdown, Image, Icon, Grid } from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
 import tags from '../dummy_data/dummy_tags.json'
 import {
     InstantSearch,
-    Hits,
     SearchBox,
-    Pagination,
-    Highlight,
-    ClearRefinements,
-    RefinementList,
-    Configure, } from 'react-instantsearch-dom';
+} from 'react-instantsearch-dom';
+import { searchClient } from '../db/index';
 
 const options = Object.keys(tags).map(x => { return { key: x, text: x, value: x } })
 
 class Navbar extends React.Component {
-    
-    constructor(props){
+
+    constructor(props) {
         super(props);
         this.state = {
             tags: []
         }
     }
-    handleChange = (e, {value}) => {
-        this.setState({tags : value}, ()=>{
-        console.log(this.state.tags);});
-        this.props.updateForumDisp(value);     
+    handleChange = (e, { value }) => {
+        this.setState({ tags: value }, () => {
+            console.log(this.state.tags);
+        });
+        this.props.updateForumDisp(value);
     }
 
     render() {
         return (
             <div>
+                <InstantSearch indexName='test' searchClient={searchClient}></InstantSearch>
                 <Menu secondary size='massive' color='olive' inverted className="navbar">
                     <Menu.Item name='KIWI'>
                         <Image fluid size='tiny' src={logo} />
@@ -40,10 +38,13 @@ class Navbar extends React.Component {
                         <Grid verticalAlign="middle" style={{ flexGrow: 2 }} columns={2}>
                             <Grid.Row>
                                 <Grid.Column>
-                                    <Input fluid placeholder="What's your question?" />
+                                    <SearchBox searchAsYouType={true}
+                                        translations={{
+                                            placeholder: "What's your question?",
+                                        }} />
                                 </Grid.Column>
                                 <Grid.Column>
-                                    <Dropdown fluid multiple selection  placeholder='Tags'
+                                    <Dropdown fluid multiple selection placeholder='Tags'
                                         onChange={this.handleChange}
                                         options={options} />
                                 </Grid.Column>
