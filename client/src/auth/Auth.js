@@ -41,21 +41,7 @@ const AuthProvider = ({children}) => {
             cookie.addChangeListener((name, value, options) => {
                 if (name == 'auth' && value != null && options != null) {
                     console.log("COOKIE CHANGED")
-                    axios({
-                        method: 'get', 
-                        url: 'http://localhost:9000/auth/checkIfSignedIn',
-                        withCredentials: true}).then((result)=>{
-                            if(result.data.success) {
-                                setCurrentUser(true);
-                            } else {
-                                setCurrentUser(false);
-                            }
-                        }).catch((error)=>{
-                            console.log(error);
-                            setCurrentUser(false);
-                        }).then(()=>{
-                            setLoaded(true);
-                    })
+                    updateAuth();
                 }
             })
             //})
