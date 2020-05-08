@@ -2,6 +2,7 @@ import React from 'react';
 import Navbar from '../components/Navbar'
 import '../css/Home.css';
 import HomePosts from "../components/HomePosts";
+import {withRouter}from 'react-router-dom';
 
 class Home extends React.Component {
   render() {
@@ -14,4 +15,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default withRouter(Home);
