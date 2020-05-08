@@ -6,7 +6,6 @@ import Axios from "axios";
 
 const AuthContext = React.createContext();
 const UpdateContext = React.createContext();
-const ModifyAuthEvent = new EventEmitter();
 const cookie = new Cookies();
 //const FinishPromise = new Promise();
 
@@ -76,4 +75,4 @@ const AuthProvider = ({children}) => {
   
 }
 
-export {AuthContext, AuthProvider, ModifyAuthEvent, UpdateContext}
+export {AuthContext, AuthProvider, UpdateContext}
