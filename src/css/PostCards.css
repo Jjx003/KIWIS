@@ -9,23 +9,25 @@
     border-width: 2.5px;
     border-color: black;
     padding-right: 1%;
+    cursor: pointer;
 }
 
 .PostTitle {
     margin-left: 1%;
-    margin-top: 50px;
     max-width: 80%;
+    margin-top: 5%;
+    color: black;
 }
 
 .Poster{
-    margin-top: -6.5%;
+    margin-top: -3.5%;
     float: right;
     max-width: 15%;
 }
 
 .PostDate{
     float: right;
-    margin-top: -1.5%;
+    margin-top: -0.5%;
 }
 
 .PostTags{
