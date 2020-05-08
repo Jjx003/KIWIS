@@ -1,16 +1,14 @@
 import React from 'react';
-import { Button } from 'semantic-ui-react';
-import '../css/App.css';
+import Navbar from '../components/Navbar'
 
 class Home extends React.Component {
-	render() {
-		return(
-			<div>
-				<h1> Home Page </h1>	
-				<Button> Hi </Button>
-			</div>
-		);
-	}
+  render() {
+    return (
+      <div>
+        <Navbar />
+      </div>
+    );
+  }
 }
 
 export default Home;
