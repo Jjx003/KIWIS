@@ -8,6 +8,7 @@ class HomePosts extends React.Component {
             <div className="posts-container">
                 <PostCards />
                 <PostCards />
+                <PostCards />
             </div>
         );
     }

@@ -1,8 +1,12 @@
 .posts-container {
     width: 90%;
     margin: auto;
-    margin-top: 10%;
-    height: 753px;
-    background-color: pink;
-    padding-top: 0.5%;
+    margin-top: 1%;
+    height: 90%;
+    background-color: white;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: #80C180;
+    border-width: 8px;
+    padding-top: 0.00002%;
 }
