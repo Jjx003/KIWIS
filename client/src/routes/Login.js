@@ -5,7 +5,7 @@ import Cookies from 'universal-cookie';
 import { AuthContext, UpdateContext } from "../auth/Auth"
 
 export const Login = ({history}) => {
-	const {currentUser} = useContext(AuthContext);
+	//const {currentUser} = useContext(AuthContext);
 	let update = useContext(UpdateContext);
 	
 	const handleLogin = (event) => {

@@ -1,12 +1,14 @@
-import React, { Component, useContext } from 'react';
-import { Button, Form } from 'semantic-ui-react';
+import React, { useContext } from 'react';
+import { Button } from 'semantic-ui-react';
 import '../css/App.css';
 import axios from 'axios';
-import {ModifyAuthEvent, UpdateContext} from '../auth/Auth';
+import {UpdateContext} from '../auth/Auth';
 
 import Cookies from 'universal-cookie';
 
 
+// Sorry we don't have a home for this function yet.
+/*
 async function sendEmail(targetEmail, targetContent) {
 	let API_URL = "http://localhost:9000";
 	let EMAIL_ROUTE = "/inviteUser";
@@ -28,16 +30,10 @@ async function sendEmail(targetEmail, targetContent) {
   });
   console.log(response)
 }
+*/
 
 const Home = ({history}) => {
 	const updateFunction = useContext(UpdateContext);
-	const handleEmail = (event) => {
-		event.preventDefault();
-		let {email, content} = event.target.elements;
-		if (email && content) {
-			sendEmail(email.value, content.value);
-		}
-	}
 	const handleSignOut = () => {
 		axios.defaults.withCredentials = true;
 		axios({
@@ -48,7 +44,6 @@ const Home = ({history}) => {
 		  .then((response) => { 
 			console.log(response.data.success);
 			if (response.data.success) { 
-				console.log("why are you logging out")
 				const cookie = new Cookies();
 				cookie.remove('auth', {path:'/'})
 				updateFunction().then(()=>{
@@ -69,19 +64,6 @@ const Home = ({history}) => {
 		<div className="app">
 			<h1> Home Page </h1>	
 			<Button onClick={handleSignOut}>Signout</Button>
-			<div>
-				<Form>
-					<Form.Field>
-						<label>Employee Email</label>
-						<input name="email" type="email" placeholder="employee@company.com" required />
-					</Form.Field>
-					<Form.Field>
-						<label>Custom Message</label>
-						<input name="content" placeholder="Welcome"/>
-					</Form.Field>
-					<Button onClick={handleEmail}>Send</Button>
-				</Form>
-			</div>
 		</div>
 	);
 }

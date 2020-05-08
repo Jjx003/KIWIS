@@ -51,8 +51,6 @@ router.get('/checkIfSignedIn', function(req, res, next) {
             res.jsonp({success: false});
         })  
     } catch(error) {
-        console.log("222222, request denied");
-        console.log(error)
         res.jsonp({success: false});
     }
 

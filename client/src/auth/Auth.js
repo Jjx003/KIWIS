@@ -1,13 +1,10 @@
-import React, {useEffect, useState, useContext, Suspense} from "react";
-import { EventEmitter } from 'events';
+import React, {useEffect, useState} from "react";
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import Axios from "axios";
 
 const AuthContext = React.createContext();
 const UpdateContext = React.createContext();
 const cookie = new Cookies();
-//const FinishPromise = new Promise();
 
 const AuthProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState(false);
@@ -32,19 +29,13 @@ const AuthProvider = ({children}) => {
         })
     }
 
-
-
-    
     useEffect(() => {
-        //ModifyAuthEvent.on('change', (data)=> {
             updateAuth();
             cookie.addChangeListener((name, value, options) => {
-                if (name == 'auth' && value != null && options != null) {
-                    console.log("COOKIE CHANGED")
+                if (name === 'auth' && value != null && options != null) {
                     updateAuth();
                 }
             })
-            //})
     }, []);
 
     if (!isLoaded) {

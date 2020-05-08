@@ -10,9 +10,7 @@ import {AuthProvider} from './auth/Auth';
 ReactDOM.render(
 	<AuthProvider>
   	<BrowserRouter>
-	<CookiesProvider>
     	<App />
-	</CookiesProvider>
   	</BrowserRouter>
 	</AuthProvider>, 
   
