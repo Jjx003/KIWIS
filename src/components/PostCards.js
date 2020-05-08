@@ -1,6 +1,8 @@
 import React from 'react';
 import "../css/PostCards.css";
 import {withRouter} from 'react-router-dom';
+import DisplayingTags from "./DisplayingTags";
+
 
 class PostCards extends React.Component {
     /*
@@ -48,6 +50,7 @@ class PostCards extends React.Component {
     
         return(
             <div className="post-cards">
+<<<<<<< HEAD
                 <h1 className="PostTitle"> {this.props.postID} </h1>
                 <h1 className="PostTitle"> {this.props.firstName} </h1> 
                 <h1 className="PostTitle"> {this.props.lastName} </h1>
@@ -55,6 +58,16 @@ class PostCards extends React.Component {
                 <h1 className="PostTitle"> {this.props.tags} </h1>
                 <h1 className="PostTitle"> {this.props.datetime} </h1>
                 <button onClick={this.redirectToPostpage.bind(this)}> Button </button>
+=======
+                <h1 className="PostTitle">Testing, Question goes here, need help, hello world program is giving IndexOutOfBounds error!
+                    I swear I didn't forget the semicolons this time :((fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                    f</h1>
+                <div className="PostTags">
+                    <DisplayingTags />
+                </div>
+                <h3 className="Poster">Created by: Luis Arroyo</h3>
+                <h3 className="PostDate">Post Date: 05/06/2020</h3>
+>>>>>>> 42b621e3d7eafff9d339b88022f53bf4f0a787f8
             </div>
         );
     }

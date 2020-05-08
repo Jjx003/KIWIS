@@ -12,18 +12,22 @@
 }
 
 .PostTitle {
-    margin-left: 3%;
+    margin-left: 1%;
     margin-top: 50px;
     max-width: 80%;
 }
 
 .Poster{
-    margin-top: -5%;
+    margin-top: -6.5%;
     float: right;
     max-width: 15%;
 }
 
 .PostDate{
     float: right;
-    margin-top: 0%;
+    margin-top: -1.5%;
+}
+
+.PostTags{
+    margin-left: 2%;
 }
