@@ -7,7 +7,6 @@ import Home from './routes/Home';
 import SignUp from './routes/SignUp';
 import Login from './routes/Login';
 import PrivateRoute from './auth/PrivateRoute';
-//<PrivateRoute path="/" exact render={(props) => <Home {...props}/>}/>
 
 function App() {
   return (
