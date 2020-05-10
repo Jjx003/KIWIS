@@ -59,6 +59,7 @@ class CreatePost extends React.Component {
         event.preventDefault();
         // should tag_ids be in line below
         const {title, content, tag_ids} = event.target.elements;
+        axios.defaults.withCredentials = true;
         axios({
 			method: 'post',
 			url: 'http://localhost:9000/post/CreatePost',
@@ -66,7 +67,8 @@ class CreatePost extends React.Component {
                 title: title.value,
                 tag_ids: this.state.tags_selected,
                 content: content.value,
-			}
+            },
+            withCredentials: true
           })
 
           .then((response) => {
@@ -98,10 +100,6 @@ class CreatePost extends React.Component {
     }
 
     render() {
-
-        
-
-
         return (
         <div className="createPost-container">
             <form onSubmit={this.sendPost}>
@@ -115,14 +113,13 @@ class CreatePost extends React.Component {
                     <input name="content" placeholder="Post Content" />
                 </label>
                 <Dropdown fluid multiple selection text="tags" options={tags} onChange={this.getTags} value={this.state.tags_selected}/>
-
-
                 <button type="Publish Post"> Publish Post </button>
             </form>
         </div>
-        
         );
+
     }
+
 }
 
 

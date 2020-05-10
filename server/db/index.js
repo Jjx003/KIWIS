@@ -12,7 +12,6 @@ function getUserID() {
     var user = firebase.db.auth().currentUser;
 
     try {
-        console.log(user.uid);
         return user.uid;
     } catch(error) {
         console.log("user is null");
@@ -35,14 +34,20 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
     var date = (today.getMonth()+1)+'-'+today.getDate()+'-'+today.getFullYear()+' at '+today.getHours()+':'+today.getMinutes();
 
     // Push data inputted to firebase and also store reference of the push in "post_reference"
-    var post_reference = firebaseRef.push({user_id: p_user_id, 
+    try {
+        var post_reference = firebaseRef.push({user_id: p_user_id, 
                                         post_id: "", 
                                         title: p_title, 
                                         tag_ids: p_tag_ids, 
                                         date_time: date, 
                                         content: p_content, 
-                                        karma: 0, 
+                                        karma: 0,
+                                        responses: ["-1"], 
                                         follower_ids: ["-1"]});
+    } catch(error) {
+        console.log(error);
+        return false;
+    }
     
     // Get the new post's key
     var new_post_id = post_reference.key;
@@ -50,13 +55,15 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
     // Update the post's id with the random generated key
     post_reference.update({post_id: new_post_id});
 
+    return true;
+
 }
 
 // Print the values of the post linked to the inputted key
 function printPost(forumName, post_id) {
 
     // Reference the company's firebase and the post's key
-    const firebaseRef = db.database().ref(forumName+"/Posts"+post_id);
+    const firebaseRef = firebase.db.database().ref(forumName+"/Posts"+post_id);
 
     // Get a snapshot of the post
     firebaseRef.on("value", function(snapshot) {
