@@ -43,7 +43,7 @@ class PostCards extends React.Component {
             <div onClick={this.redirectToPostpage.bind(this)} className="post-cards">
                 <h1 onClick={this.redirectToPostpage.bind(this)} className="PostTitle"> {this.props.title} </h1>
                 <div className="PostTags">
-                    <DisplayingTags />
+                    <DisplayingTags tags={this.props.tags}/>
                 </div>
 
                 <h3 className="Poster"> {"Created by: " + this.props.firstName + " " + this.props.lastName} </h3> 

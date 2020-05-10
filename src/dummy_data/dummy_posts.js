@@ -3,10 +3,10 @@ var data = [
         "postID": "#lkjasdf",
         "firstName": "Jason",
         "lastName": "Cabrera",
-        "title":"What's 2+2?",
-        "content":"I haven't slept in days bc of this problem pls help :(",
+        "title":"Need help with understanding machine learning edge case",
+        "content":"How should the model handle case x?",
         "karma": "1000",
-        "tags": ["Math", "Dumbass"],
+        "tags": ["Machine Learning"],
         "datetime" : "May 05, 2020"
     }, 
 
@@ -14,10 +14,10 @@ var data = [
         "postID": "#dssdf",
         "firstName": "Jason",
         "lastName": "Cabrera",
-        "title":"What's 2+1?",
-        "content":"I haven't slept in days bc of this problem pls help :(",
+        "title":"Customers and Database Modeling",
+        "content":"Modeling the database: Will customers have the option to buy more than one stock? I'm wondering whether the database should reflect this scenario.",
         "karma": "1000",
-        "tags": ["Math", "Dumbass"],
+        "tags": ["Database", "Sales"],
         "datetime" : "May 05, 2020"
     }
 
