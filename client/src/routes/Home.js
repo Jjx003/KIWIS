@@ -34,6 +34,14 @@ async function sendEmail(targetEmail, targetContent) {
 
 const Home = ({history}) => {
 	const updateFunction = useContext(UpdateContext);
+
+	const createPost = () => {
+
+		history.push('/createPost');
+
+
+	}
+
 	const handleSignOut = () => {
 		axios.defaults.withCredentials = true;
 		axios({
@@ -64,6 +72,7 @@ const Home = ({history}) => {
 		<div className="app">
 			<h1> Home Page </h1>	
 			<Button onClick={handleSignOut}>Signout</Button>
+			<Button onClick={createPost}>Create Post</Button>
 		</div>
 	);
 }
