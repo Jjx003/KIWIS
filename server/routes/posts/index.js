@@ -4,6 +4,7 @@ var auth = require('../../auth/index');
 var db = require('../../db/index');
 
 // We are printing the console logs but the tag_ids is undefined
+//hi
 
 
 
