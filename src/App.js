@@ -7,6 +7,7 @@ import Home from './routes/Home';
 import Login from './routes/Login';
 import SignUp from './routes/SignUp';
 import UserTags from './routes/UserTags';
+import Settings from './routes/Settings';
 
 function App() {
   return (
@@ -15,10 +16,11 @@ function App() {
 	 	    <Route path="/" exact render={(props) => <Home {...props}/>} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={SignUp} />
-        <Route path="/userTag" exact render={(props) => <UserTags {...props}/>} />
+        <Route exact path="/settings" component={Settings} />
       </div>
     </Router>
   );
 }
+/*<Route exact path="/signup" component={SignUp} />*/
 
 export default App;

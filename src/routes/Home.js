@@ -12,7 +12,7 @@ class Home extends React.Component {
 				<Link to="/signup">
      				<Button type="button">Sign In</Button>
 				</Link>
-				<Link to="/login">
+				<Link to="/settings">
      				<Button type="button">Log In</Button>
 				</Link>
 				<div>

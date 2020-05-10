@@ -3,9 +3,7 @@ import '../css/App.css';
 import {db, getTags} from '../db/index.js';
 import { Dropdown } from 'semantic-ui-react'
 
-
-
-
+/*
 class UserTags extends React.Component {
     constructor(props) {
         super(props);
@@ -16,9 +14,6 @@ class UserTags extends React.Component {
             tag_name: ''
         };
     }
-
-
-
 
     render() {
         return(
@@ -38,4 +33,4 @@ class UserTags extends React.Component {
    
 
 export default UserTags;
-
+*/

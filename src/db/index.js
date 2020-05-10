@@ -14,7 +14,7 @@ const db = firebase.initializeApp({
 // add database functions below
 
 // ERICS CODE
-function getUser(forumName, userID) {
+/*function getUser(forumName, userID) {
     return db.database().ref(forumName).child('Users/' + userID).once('value');
 }
 
@@ -45,8 +45,8 @@ function removeSpecalization(tag) {
         }
     });
 }
+*/
 
-
-export default {db, getUser, addSpecalization, removeSpecalization, getTags};
+export default {db/*, getUser, addSpecalization, removeSpecalization getTags*/};
 
 
