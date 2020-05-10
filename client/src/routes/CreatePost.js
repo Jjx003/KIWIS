@@ -17,7 +17,37 @@ const tags = [
         key: 'Python',
         text: 'Python',
         value: 'Python'
-    }
+    },
+    {
+        key: 'help-needed',
+        text: 'help-needed',
+        value: 'help-needed'
+      },
+      {
+          key: 'announcement',
+          text: 'announcement',
+          value: 'announcement'
+      },
+      {
+        key: 'events',
+        text: 'events',
+        value: 'events'
+      },
+      {
+          key: 'lost and found',
+          text: 'lost and found',
+          value: 'lost and found'
+      },
+      {
+        key: 'C++',
+        text: 'C++',
+        value: 'C++'
+      },
+      {
+          key: 'React',
+          text: 'React',
+          value: 'React'
+      }
 ]
 
 
@@ -27,13 +57,14 @@ class CreatePost extends React.Component {
 
     sendPost = (event) => {
         event.preventDefault();
+        // should tag_ids be in line below
         const {title, content, tag_ids} = event.target.elements;
         axios({
 			method: 'post',
 			url: 'http://localhost:9000/post/CreatePost',
 			data: {
                 title: title.value,
-                tag_ids: this.state.tag_selected,
+                tag_ids: this.state.tags_selected,
                 content: content.value,
 			}
           })
@@ -55,9 +86,15 @@ class CreatePost extends React.Component {
     }
 
     getTags = (event, {value}) => {
-        console.log(value);
-        let tags_selected = event.target.textContent;
-        console.log(tags_selected);
+
+        if(value.length > 5) {
+            alert("Too many tags selected");
+            return;
+        } else {
+            // tags_selected is value of array
+            this.setState({tags_selected: value});
+        }
+
     }
 
     render() {
@@ -77,7 +114,7 @@ class CreatePost extends React.Component {
                     Post Content
                     <input name="content" placeholder="Post Content" />
                 </label>
-                <Dropdown fluid multiple selection text="tags" options={tags} onChange={this.getTags}/>
+                <Dropdown fluid multiple selection text="tags" options={tags} onChange={this.getTags} value={this.state.tags_selected}/>
 
 
                 <button type="Publish Post"> Publish Post </button>

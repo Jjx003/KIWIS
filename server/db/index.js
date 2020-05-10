@@ -1,5 +1,5 @@
 var firebase = require('../firebase');
-var user = firebase.db.auth().currentUser;
+//var user = firebase.db.auth().currentUser;
 
 //function adds random data to test table
 function addTestData() {
@@ -7,41 +7,42 @@ function addTestData() {
     firebaseRef.push({name:"al;sdfkj;lss", email: "jrcabrer@ucsd.edu"});
 }
 
-try {
-    console.log("my id = " + user.uid);
-} catch(error) {
-    console.log("user is null");
-}
+function getUserID() {
 
+    var user = firebase.db.auth().currentUser;
+
+    try {
+        console.log(user.uid);
+        return user.uid;
+    } catch(error) {
+        console.log("user is null");
+        return null;
+    }
+
+}
 
 function getCompanyName(user_id) {
-
-    const firebaseRef = firebase.db.database().ref("UserCompaniesID");
-
-
-
-
-
-
-
+    return firebase.db.database().ref('/UserCompaniesID/' + user_id).once('value');
 }
 
 
-function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_date_time, p_content) {
+function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
 
     // Reference the company's firebase
     const firebaseRef = firebase.db.database().ref(forumName+"/Posts");
+
+    var today = new Date();
+    var date = (today.getMonth()+1)+'-'+today.getDate()+'-'+today.getFullYear()+' at '+today.getHours()+':'+today.getMinutes();
 
     // Push data inputted to firebase and also store reference of the push in "post_reference"
     var post_reference = firebaseRef.push({user_id: p_user_id, 
                                         post_id: "", 
                                         title: p_title, 
                                         tag_ids: p_tag_ids, 
-                                        date_time: p_date_time, 
+                                        date_time: date, 
                                         content: p_content, 
                                         karma: 0, 
-                                        response_ids: [],
-                                        follower_ids: []});
+                                        follower_ids: ["-1"]});
     
     // Get the new post's key
     var new_post_id = post_reference.key;
@@ -80,4 +81,4 @@ function printPost(forumName, post_id) {
 
 
 
-module.exports = { addPostData, printPost, addTestData };
+module.exports = { getUserID, getCompanyName, addPostData, printPost, addTestData };
