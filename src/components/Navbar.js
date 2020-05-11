@@ -1,17 +1,18 @@
 import React from 'react';
 import { Menu, Dropdown, Image, Icon, Grid } from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
-import tags from '../dummy_data/dummy_tags.json'
 import {
     InstantSearch,
-    SearchBox,
+    SearchBox
 } from 'react-instantsearch-dom';
 import { searchClient } from '../db/index';
 
 import dummy_tags from '../dummy_data/dummy_tags.json'
 import {db} from '../db/index';
+import '../css/index.css'
 
 const options = Object.keys(dummy_tags).map(x => { return { key: x, text: x, value: x } })
+
 
 class Navbar extends React.Component {
 
@@ -19,7 +20,9 @@ class Navbar extends React.Component {
         super(props);
         this.state = {
             tags: [],
-            forum_tags:[]
+            forum_tags:[],
+            value: '',
+            searching: false
         }
         db.database().ref('bruh/Tags').on('value', tagSnapshot => {
             tagSnapshot.forEach(tag => {
@@ -36,6 +39,23 @@ class Navbar extends React.Component {
         this.props.updateForumDisp(value);     
     }
 
+    setTextSearch = (event => { 
+        this.setState({value: event.target.value}, () => {
+            if(this.state.value.length === 0){
+                this.setState({searching: false});
+                this.resetTextSearch();
+            }
+            else if(!this.state.searching){
+                this.setState({searching: true});
+                this.props.setTextSearch();
+            }
+        });
+    });
+
+    resetTextSearch = (e => {
+        this.props.resetTextSearch();
+    });
+
     render() {
         return (
             <div>
@@ -49,7 +69,8 @@ class Navbar extends React.Component {
                         <Grid verticalAlign="middle" style={{ flexGrow: 2 }} columns={2}>
                             <Grid.Row>
                                 <Grid.Column>
-                                    <SearchBox searchAsYouType={true}
+                                    <SearchBox searchAsYouType={true} 
+                                        onChange={this.setTextSearch} value={this.state.value}
                                         translations={{
                                             placeholder: "What's your question?",
                                         }} />
@@ -57,6 +78,7 @@ class Navbar extends React.Component {
                                 <Grid.Column>
                                     <Dropdown fluid multiple selection placeholder='Tags'
                                         onChange={this.handleChange}
+                                        //options={[...options, ...this.state.forum_tags]} 
                                         options={[...options, ...this.state.forum_tags]} />
                                 </Grid.Column>
                             </Grid.Row>

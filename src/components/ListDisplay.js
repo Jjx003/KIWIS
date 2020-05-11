@@ -8,9 +8,10 @@ import {
     InstantSearch,
     Hits,
     SearchBox,
-    Highlight
+    Highlight,
+    Configure
 } from 'react-instantsearch-dom';
-
+import Autocomplete from './Autocomplete';
 
 import PropTypes from 'prop-types';
 
@@ -20,7 +21,9 @@ class ListDisplay extends React.Component {
         super(props);
 
         this.state = {
-            posts: []
+            posts: [],
+            query: '',
+            textSearch: false
         };
 
         //should be in db file
@@ -42,14 +45,13 @@ class ListDisplay extends React.Component {
     }
 
     componentWillMount() {
-        //updateAlgolia();
     }
 
     componentWillUnmount() {
         this.firebaseRef.off();
     }
 
-    //should be in the db file
+    //should be searching through posts state
     searchTags(value, keyList) {
         return this.firebaseRef.once('value', postSnapshot => {
             postSnapshot.forEach(postId => {
@@ -87,46 +89,89 @@ class ListDisplay extends React.Component {
             this.forceUpdate();     //this is big no no needs to fix
         }
     }
+    
+    setTextSearchState = () => {
+        this.setState({
+            textSearch: true
+        });
+    }
 
+    resetTextSearchState = () => {
+        this.setState({
+            textSearch: false
+        });
+    }
     render() {
+        const { query } = this.state;
         return (
             <div>
                 <InstantSearch indexName='test' searchClient={searchClient}>
-                    <Navbar updateForumDisp={this.updateStateDisp} />
+                    <Navbar updateForumDisp={this.updateStateDisp} setTextSearch={this.setTextSearchState} 
+                    resetTextSearch={this.resetTextSearchState}/>
                     <div className='left'>
-                        <Posts />
-                        <List divided>
-                            {this.state.posts.map(post => {
-                                if (post.visible)
-                                    return <List.Item key={post.title}>
-                                        <List.Content>
-                                            <List.Header>Title: {post.title}</List.Header>
-                                            <List.Header>Content: {post.content}</List.Header>
-                                            <List.Header>Tags: {
-                                                post.tag_ids.map((tag) => <List.Item>{tag}</List.Item>)}
-                                            </List.Header>
-                                        </List.Content>
-                                    </List.Item>
-                            })
-                            }
-                        </List>
+                        
+                        <PostContainer posts={this.state.posts} textSearch={this.state.textSearch}/>
+                        
                     </div>
-                    <div className='right'>
-                        <SearchBox searchAsYouType={true}   //need to incorporate searchbox into navbar
-                            translations={{
-                                placeholder: "What's your question?",
-                            }} />
-                        <p>Need to implement this within search in navbar</p>
-                        <h5>Results</h5>
-                        <Hits hitComponent={Hit} />
-                    </div>
+                </InstantSearch>
+                <InstantSearch indexName="test" searchClient={searchClient}>
+                    <Configure hitsPerPage={5} />
+                    <Autocomplete
+                        onSuggestionSelected={this.onSuggestionSelected}
+                        onSuggestionCleared={this.onSuggestionCleared}
+                    />
                 </InstantSearch>
             </div>
         )
     }
 
+    //  Autocomplete stuf
+    onSuggestionSelected = (_, { suggestion }) => {
+        this.setState({
+            query: suggestion.name,
+        });
+        };
+    
+        onSuggestionCleared = () => {
+        this.setState({
+            query: '',
+        });
+        };
+    
 }
 
+function PostContainer(props){
+    if(props.textSearch){
+        //could add visible here for search
+        return <Hits hitComponent={Hit}/>;
+    }
+    else {
+        return <TagSearchPosts posts={props.posts}/>;
+    }
+}
+
+function TagSearchPosts(props){
+    return (
+        <List divided>
+        {props.posts.map(post => {
+            if (post.visible)
+                return <List.Item key={post.title}>
+                    <List.Content>
+                        <List.Header>Title: {post.title}</List.Header>
+                        <List.Header>Content: {post.content}</List.Header>
+                        <List.Header>Tags: {
+                            post.tag_ids.map((tag) => <List.Item>{tag}</List.Item>)}
+                        </List.Header>
+                    </List.Content>
+                </List.Item>
+        })
+        }
+    </List>
+    );
+}
+// no submit button
+// tags take priority in search
+// searching while tags are selected will search through only the posts with tags
 function Hit(props) {
     return (
         <div>
