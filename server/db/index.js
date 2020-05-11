@@ -56,8 +56,8 @@ function getUser(forumName, userID) {
 
 // "GET" method for users
 function getUsers(forumName) {
-    return db.database().ref(forumName).child('Users).once('value');
+    return db.database().ref(forumName).child('Users').once('value');
 }
 
 
-module.exports = { addTestData , createNewUser, getUser, createNewTag, getTags, getTagCount};
+module.exports = { addTestData , createNewUser, getUser, getUsers, createNewTag, getTags, getTagCount};
