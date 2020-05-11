@@ -8,6 +8,7 @@ class PostCards extends React.Component {
     state = {
         buttonClicked: false
     }
+    
     constructor(props) {
         super(props);
     }

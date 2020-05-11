@@ -9,4 +9,5 @@
     border-color: #80C180;
     border-width: 8px;
     padding-top: 0.00002%;
+    overflow-y: auto;
 }
