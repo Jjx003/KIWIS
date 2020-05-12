@@ -23,7 +23,7 @@ router.post('/remove',
 
         try {
             db.removeTag(req.body.forumName, req.body.tagName);
-            db.removeTagFromUsers(req.body.forumName, req.body.tagName);
+            db.removeTagFromAllUsers(req.body.forumName, req.body.tagName);
             res.jsonp({success: true});
         } catch (error) {
             console.log(error);

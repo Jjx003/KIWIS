@@ -37,7 +37,7 @@ function removeTag(forumName, tagName) {
 }
 
 // Removes the tags from the users of a company
-function removeTagFromUsers(forumName, tagName) {
+function removeTagFromAllUsers(forumName, tagName) {
     const forumDBRef = db.database().ref(forumName);
     forumDBRef.child('Users').once('value').then((data) => {
         var userIDs = data.val();
@@ -78,4 +78,4 @@ function getUsers(forumName) {
 function removeUser(forumName, userID) {
     db.database().ref(forumName).child('Users').child(userID).removeValue();
 }
-module.exports = { addTestData , createNewUser, getUser, getUsers, removeUser, createNewTag, getTags, getTagCount, removeTag, removeTagFromUsers};
+module.exports = { addTestData , createNewUser, getUser, getUsers, removeUser, createNewTag, getTags, getTagCount, removeTag, removeTagFromAllUsers};
