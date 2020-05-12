@@ -4,20 +4,22 @@ var db = require("../../db/index")
 require('dotenv').config();
 
 
+// POST method to removes certain tag from the database and from the users of the company
 router.post('/remove/:tagName', function (req, res, next) {
 
     // When moving to production, need a authentication cookie passed in as well
     // Or else people can exploit this route.
     try {
-        db.removeTag(req.body.forumName, req.params['tagName'])
+        db.removeTag(req.body.forumName, req.params['tagName']);
+        db.removeTagFromUsers(req.body.forumName, req.params['tagName']);
     } catch (error) {
         res.send("failed");
-        console.log(error)
+        console.log(error);
         return;
     }  
 });
 
-
+// POST method to add a single tag
 router.post('/add', function (req, res, next) {
 
     // When moving to production, need a authentication cookie passed in as well
@@ -31,6 +33,7 @@ router.post('/add', function (req, res, next) {
     }  
 });
 
+// Get all tags from the database
 router.get('/', function (req, res, next) {
 
     // When moving to production, need a authentication cookie passed in as well

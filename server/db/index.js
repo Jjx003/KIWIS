@@ -31,8 +31,20 @@ function getTagCount(forumName, tagName) {
     return db.database().ref(forumName).child('Tags/' + tagName).once('value');
 }
 
+// Removes a tag from the company
 function removeTag(forumName, tagName) {
     db.database().ref(forumName).child('Tags').child(tagName).removeValue();
+}
+
+// Removes the tags from the users of a company
+function removeTagFromUsers(forumName, tagName) {
+    const forumDBRef = db.database().ref(forumName);
+    forumDBRef.child('Users').once('value').then((data) => {
+        var userIDs = data.val();
+        for (userID in userIDs) {
+            forumDBRef.child('Users').child(userID).child('Tags').child(tagName).removeValue();
+        }
+    });
 }
 
 
@@ -62,8 +74,8 @@ function getUsers(forumName) {
     return db.database().ref(forumName).child('Users').once('value');
 }
 
-
+// Removes a user from the database
 function removeUser(forumName, userID) {
     db.database().ref(forumName).child('Users').child(userID).removeValue();
 }
-module.exports = { addTestData , createNewUser, getUser, getUsers, removeUser, createNewTag, getTags, getTagCount, removeTag};
+module.exports = { addTestData , createNewUser, getUser, getUsers, removeUser, createNewTag, getTags, getTagCount, removeTag, removeTagFromUsers};
