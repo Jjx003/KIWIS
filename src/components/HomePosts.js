@@ -1,11 +1,12 @@
-import {db, searchClient} from '../db/index';
+import {db, searchClient, company} from '../db/index';
 import React from 'react';
 import '../css/index.css'
 import '../css/HomePosts.css'
 import Navbar from './Navbar';
 import {
     InstantSearch,
-    Hits
+    Hits,
+    connectStateResults
 } from 'react-instantsearch-dom';
 import PostCards from './PostCards';
 
@@ -16,15 +17,16 @@ class HomePosts extends React.Component {
 
         this.state = {
             posts: [],
-            textSearch: false
+            textSearch: false,
+            updated: false
         };
         
-        this.updateStateDisp = this.updateStateDisp.bind(this);
+        this.updateTagSearch = this.updateTagSearch.bind(this);
     }
 
     componentWillMount() {
         //i dont think this should this be here
-        this.firebaseRef = db.database().ref('UXD14').child('Posts');
+        this.firebaseRef = db.database().ref(company).child('Posts');
         this.firebaseRef.on('value', postSnapshot => {
             let posts = [];
             postSnapshot.forEach(postId => {
@@ -54,26 +56,26 @@ class HomePosts extends React.Component {
     }
 
     //updates and queris every time tag is removed or added
-    updateStateDisp(value) {
+    updateTagSearch(value) {
         let keyList = []
         this.searchTags(value, keyList);
 
         if(this.state.posts){
             this.setState( state => {
-                state.posts.map(
+                state.posts.forEach(
                     post => {
                         if(value.length === 0){
-                            Object.assign(post, {visible: true});
+                            post.visible = true;
                         }
                         else if(keyList.includes(post.title)){
-                            Object.assign(post, {visible: true});
+                            post.visible = true;
                         }
                         else
-                            Object.assign(post, {visible:false});
+                            post.visible = false;
                         }
                 )}
             )
-            this.forceUpdate();
+            this.setState({updated: !this.state.updated});
         }
         
     }
@@ -92,8 +94,8 @@ class HomePosts extends React.Component {
     render() {
         return (
             <div>
-                <InstantSearch indexName='UXD14' searchClient={searchClient}>
-                    <Navbar updateForumDisp={this.updateStateDisp} setTextSearch={this.setTextSearchState} 
+                <InstantSearch indexName={company} searchClient={searchClient}>
+                    <Navbar updateForumDisp={this.updateTagSearch} setTextSearch={this.setTextSearchState} 
                     resetTextSearch={this.resetTextSearchState}/>     
                     <PostContainer  posts={this.state.posts} textSearch={this.state.textSearch}/>
                 </InstantSearch>
@@ -105,7 +107,10 @@ class HomePosts extends React.Component {
 function PostContainer(props){
     if(props.textSearch){
         //could add visible here for search
-        return <Hits className="posts-container" hitComponent={Hit}/>;
+        return ( 
+        <Results>
+            <Hits className="posts-container" hitComponent={TextSearchPosts}/>
+        </Results>);
     }
     else {
         return <TagSearchPosts posts={props.posts}/>;
@@ -115,11 +120,12 @@ function PostContainer(props){
 function TagSearchPosts(props){
     return (
         <div className="posts-container">
-        {props.posts.map( (item, i) =>{
+        {props.posts.map( (item, i) => {
             if(item.visible)
                 return  <PostCards key={i} postID={item.postID} userID={item.userID} title={item.title}
                 tags={item.tags} datetime={item.datetime} karma={item.karma} 
                 content={item.content} firstName={item.firstName} lastName={item.lastName}/>
+            else return <div></div>;
         })}
         </div>
     );
@@ -128,7 +134,7 @@ function TagSearchPosts(props){
 // no submit button
 // tags take priority in search
 // searching while tags are selected will search through only the posts with tags
-function Hit(props) {
+function TextSearchPosts(props) {
     return (
         <div>
             <PostCards key={0} postID={props.hit.postID} userID={props.hit.userID} title={props.hit.title}
@@ -137,5 +143,16 @@ function Hit(props) {
         </div>
     );
 }
+
+const Results = connectStateResults(
+    ({searchState, searchResults, children}) =>
+      searchResults && searchResults.nbHits !== 0? (
+        children):(
+        <div className="posts-container">
+            <div className="no-results-msg">No results have been found for {searchState.query}
+                <button>Create a Post</button>
+            </div>
+        </div>)
+  );
 
 export default HomePosts;

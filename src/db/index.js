@@ -56,4 +56,4 @@ export function updateAlgolia(){
   //when we delete something from Firebase, we need to also delete in Algoliar
 
   
-export {db, dbRef, client, index, searchClient}
+export {db, dbRef, client, index, searchClient, company}

@@ -21,7 +21,7 @@ class Navbar extends React.Component {
             value: '',
             searching: false
         }
-        db.database().ref('bruh/Tags').on('value', tagSnapshot => {
+        db.database().ref('UXD14/Tags').on('value', tagSnapshot => {
             tagSnapshot.forEach(tag => {
                 var x = tag.key;
                 this.setState({forum_tags:[...this.state.forum_tags, { key: x, text: x, value: x }]});
@@ -37,21 +37,16 @@ class Navbar extends React.Component {
     }
 
     setTextSearch = (event => { 
-        console.log(event.target.value);
         this.setState({value: event.target.value}, () => {
             if(this.state.value.length === 0){
                 this.setState({searching: false});
-                this.resetTextSearch();
+                this.props.resetTextSearch();
             }
             else if(!this.state.searching){
                 this.setState({searching: true});
                 this.props.setTextSearch();
             }
         });
-    });
-
-    resetTextSearch = (e => {
-        this.props.resetTextSearch();
     });
 
     render() {
@@ -67,7 +62,7 @@ class Navbar extends React.Component {
                             <Grid.Row>
                                 <Grid.Column>
                                     <SearchBox searchAsYouType={true} 
-                                        onChange={this.setTextSearch} value={this.state.value}
+                                        onChange={this.setTextSearch}
                                         translations={{
                                             placeholder: "What's your question?",
                                         }} />

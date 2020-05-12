@@ -21,7 +21,21 @@ ul {
   
 }
 
-.ais-SearchBox {
+.ais-SearchBox-input {
   background-color: aliceblue;
+  border-width: 10px;
 }
-  
+
+.ais-SearchBox-submit {
+  display:none;
+}
+
+.ais-SearchBox-reset {
+  display:none;
+}
+
+.no-results-msg {
+  font-family: BlinkMacSystemFont;
+  font-size: 30px;
+  margin: 10% 30% 0;
+}
