@@ -3,9 +3,9 @@ import * as firebase from 'firebase';
 import algoliasearch from 'algoliasearch';
 
 //npm install algoliasearch react-instantsearch-dom
-
+const company = 'UXD14';
 const client = algoliasearch("36A3GKBNZI", "22dc12a10fb0cec70da7edb08015731f");
-const index = client.initIndex("test");
+const index = client.initIndex(company); //company
 
 const searchClient = algoliasearch(
   '36A3GKBNZI',
@@ -24,11 +24,11 @@ const db = firebase.initializeApp({
     measurementId: process.env.REACT_APP_MEASUREMENT_ID
 });
 
-const dbRef = db.database().ref('/ALGOLIA_TESSTING');
+const dbRef = db.database().ref(company);
 // Get all contacts from Firebase
 
 export function updateAlgolia(){
-  db.database().ref('/ALGOLIA_TESSTING').once('value', contacts => {
+  db.database().ref(company).once('value', contacts => {
       // Build an array of all records to push to Algolia
       const records = [];
       contacts.forEach(contact => {

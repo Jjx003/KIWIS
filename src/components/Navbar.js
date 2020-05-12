@@ -2,11 +2,8 @@ import React from 'react';
 import { Menu, Dropdown, Image, Icon, Grid } from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
 import {
-    InstantSearch,
     SearchBox
 } from 'react-instantsearch-dom';
-import { searchClient } from '../db/index';
-
 import dummy_tags from '../dummy_data/dummy_tags.json'
 import {db} from '../db/index';
 import '../css/index.css'
@@ -40,6 +37,7 @@ class Navbar extends React.Component {
     }
 
     setTextSearch = (event => { 
+        console.log(event.target.value);
         this.setState({value: event.target.value}, () => {
             if(this.state.value.length === 0){
                 this.setState({searching: false});
@@ -59,7 +57,6 @@ class Navbar extends React.Component {
     render() {
         return (
             <div>
-                <InstantSearch indexName='test' searchClient={searchClient}></InstantSearch>
                 <Menu secondary size='massive' color='olive' inverted className="navbar">
                     <Menu.Item name='KIWI'>
                         <Image fluid size='tiny' src={logo} />
@@ -79,7 +76,7 @@ class Navbar extends React.Component {
                                     <Dropdown fluid multiple selection placeholder='Tags'
                                         onChange={this.handleChange}
                                         //options={[...options, ...this.state.forum_tags]} 
-                                        options={[...options, ...this.state.forum_tags]} />
+                                        options={[...options]} />
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>

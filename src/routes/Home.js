@@ -1,15 +1,16 @@
 import React from 'react';
-import ListDisplay from '../components/ListDisplay'
-
+import {withRouter}from 'react-router-dom';
+import HomePage from '../components/HomePage'
 
 class Home extends React.Component {
-	render() {
-		return (
-			<div>
-				<ListDisplay />
-			</div>
-		);
-	}
+  render() {
+    return (
+      <div className="container">
+        <HomePage/>
+      </div>
+    );
+  }
+  
 }
 
-export default Home;
+export default withRouter(Home);

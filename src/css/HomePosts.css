@@ -1,0 +1,27 @@
+.posts-container {
+    width: 90%;
+    margin: auto;
+    margin-top: 1%;
+    height: 90vh;
+    background-color: white;
+    border-radius: 10px;
+    border-style: solid;
+    border-color:   #40C181;
+    border-width: 8px;
+    padding-top: 0.00002%;
+    overflow-y: auto;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+.ais-Hits-item {
+  
+}
+
+.ais-SearchBox {
+  background-color: aliceblue;
+}
+  
