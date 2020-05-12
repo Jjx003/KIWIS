@@ -4,7 +4,21 @@ var db = require("../../db/index")
 require('dotenv').config();
 
 
-router.post('/', function (req, res, next) {
+router.post('/remove/:tagName', function (req, res, next) {
+
+    // When moving to production, need a authentication cookie passed in as well
+    // Or else people can exploit this route.
+    try {
+        db.removeTag(req.body.forumName, req.params['tagName'])
+    } catch (error) {
+        res.send("failed");
+        console.log(error)
+        return;
+    }  
+});
+
+
+router.post('/add', function (req, res, next) {
 
     // When moving to production, need a authentication cookie passed in as well
     // Or else people can exploit this route.
@@ -16,7 +30,6 @@ router.post('/', function (req, res, next) {
         return;
     }  
 });
-
 
 router.get('/', function (req, res, next) {
 

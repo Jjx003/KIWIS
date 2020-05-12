@@ -17,6 +17,18 @@ router.post('/', function (req, res, next) {
     }  
 });
 
+router.post('/remove/:userID', function (req, res, next) {
+
+    // When moving to production, need a authentication cookie passed in as well
+    // Or else people can exploit this route.
+    try {
+        db.removeUser(req.body.forumName, req.params['userID'])
+    } catch (error) {
+        res.send("failed");
+        console.log(error)
+        return;
+    }  
+});
 
 router.get('/', function (req, res, next) {
 

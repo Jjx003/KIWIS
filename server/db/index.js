@@ -31,6 +31,9 @@ function getTagCount(forumName, tagName) {
     return db.database().ref(forumName).child('Tags/' + tagName).once('value');
 }
 
+function removeTag(forumName, tagName) {
+    db.database().ref(forumName).child('Tags').child(tagName).removeValue();
+}
 
 
 // "POST" method for a new user
@@ -60,4 +63,7 @@ function getUsers(forumName) {
 }
 
 
-module.exports = { addTestData , createNewUser, getUser, getUsers, createNewTag, getTags, getTagCount};
+function removeUser(forumName, userID) {
+    db.database().ref(forumName).child('Users').child(userID).removeValue();
+}
+module.exports = { addTestData , createNewUser, getUser, getUsers, removeUser, createNewTag, getTags, getTagCount, removeTag};
