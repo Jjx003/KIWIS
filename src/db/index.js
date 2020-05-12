@@ -13,40 +13,32 @@ const db = firebase.initializeApp({
 
 // add database functions below
 
-// ERICS CODE
+//erics user finder
+//const userID = firebase.auth().currentUser.uid;
 function getUser(forumName, userID) {
-    return db.database().ref(forumName).child('Users/' + userID).once('value');
+    return db.database().ref(forumName).child('Users/' + userID);
 }
 
-function getTags(forumName) {
-    return db.database().ref(forumName).child('Tags').toJSON();
+function getAllTags(forumName) {
+  return db.database().ref(forumName).child('Tags').once('value');
 }
 
-
-function addSpecalization(tagName) {
-    db.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          // User is signed in.
-          var tag = db.database().ref(forumName).child("Tags/" + tagName);
-          db.database().ref(forumName).child("Users/" + user).child("Tags").push(tag);
-          tag.child("users").push(user);
-        } else {
-          // No user is signed in.
-        }
-    });
+function addSpecialization(forumName, tagName) {
+  //db.database().ref(forumName).child('Tags').('test123').remove();
 }
 
-function removeSpecalization(tag) {
-    db.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          // User is signed in.
-        } else {
-          // No user is signed in.
-        }
-    });
+function removeSpecialization(forumName, /*userID,*/ tagName) {
+  // const userTags = db.getUser(forumName, userID).child('Tags'); // do i put a once at the end?
+  
+  // userTags.child(tagName).removeValue();
+
+
+  db.database().ref(forumName).child('Tags').child(tagName).remove();
+  console.log("removed");
+
 }
 
 
-export default {db, getUser, addSpecalization, removeSpecalization, getTags};
+export default {db, getUser, addSpecialization, removeSpecialization, getAllTags};
 
 
