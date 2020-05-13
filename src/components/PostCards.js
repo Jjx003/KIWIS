@@ -34,7 +34,8 @@ class PostCards extends React.Component {
                         tags: this.props.tags,
                         datetime: this.props.datetime,
                         karma: this.props.karma,
-                        content: this.props.content
+                        content: this.props.content,
+                        responses: this.props.responses
                 }
             });
         }

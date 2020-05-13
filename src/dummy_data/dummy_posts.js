@@ -7,7 +7,8 @@ var data = [
         "content":"How should the model handle case x?",
         "karma": "1000",
         "tags": ["Machine Learning"],
-        "datetime" : "May 05, 2020"
+        "datetime" : "May 05, 2020",
+        "responses": ["laskdfladsf", "asdfkljasdfkjlasd","asdssss"]
     }, 
 
     {

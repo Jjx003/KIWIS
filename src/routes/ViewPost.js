@@ -7,7 +7,7 @@ class ViewPost extends React.Component {
         if (this.props.location.state === undefined) {
             return <h1> 404: No Post Selected </h1>;
         }
-        const {postID, firstName, lastName, title, tags, datetime, content, karma} = this.props.location.state;
+        const {postID, firstName, lastName, title, tags, datetime, content, karma, responses} = this.props.location.state;
         return (
             <div>
             <h1> {postID || "null"} </h1>
@@ -18,6 +18,7 @@ class ViewPost extends React.Component {
             <h1> {datetime || "null"} </h1>
             <h1> {content || "null"} </h1>
             <h1> {karma || "null"} </h1>
+            <h1> {responses || "null"} </h1>
           </div>
           /*
             "userID": "dumbo jumbo",
