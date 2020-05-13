@@ -14,7 +14,7 @@ const db = firebase.initializeApp({
 // add database functions below
 
 //erics user finder
-//const userID = firebase.auth().currentUser.uid;
+//const userID = firebase.auth().cugrrentUser.uid;
 function getUser(forumName, userID) {
     return db.database().ref(forumName).child('Users/' + userID);
 }

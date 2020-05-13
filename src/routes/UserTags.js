@@ -19,7 +19,7 @@ class UserTags extends React.Component {
     }
     
     resetTags() {
-
+        console.log("I tried")
     }
 
     componentWillMount() {
@@ -44,7 +44,6 @@ class UserTags extends React.Component {
                     <div>
                         <form>
                             <div className="buttons">
-                                <button className="button1" type="change">Add</button>
                             </div>
                             <input onChange= {e=> this.setState({company_name: e.target.value})} />
                             <input onChange= {e=> this.setState({tag_name: e.target.value})} />
@@ -53,7 +52,7 @@ class UserTags extends React.Component {
 
                     </div>
                     <div className="doneButtons">
-                        <button onClick={resetTags} className="resetButton">Reset Specializations</button>
+                        <button onClick={this.resetTags()} className="resetButton">Reset Specializations</button>
                         <Link to="/">
                             <button className="completeButton"> Complete Specializations</button>
                         </Link>

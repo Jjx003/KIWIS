@@ -32,32 +32,39 @@
     margin-left: 10px;
     margin-right: 10px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 40px;
     border-width: thin;
     border-style: ridge;
 }
 
 .completeButton {
-    width: 150px;
+    width: 250px;
     background-color: #80C180;
     margin-bottom: 20px;
-    margin-left: 10px;
+    margin-left: 10%;
     margin-right: 10px;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 40px;
     border-width: thin;
     border-style: ridge;
 }
 
 
 .resetButton {
-    width: 150px;
+    width: 250px;
     background-color: #FF6347;
     margin-bottom: 20px;
     margin-left: 10px;
-    margin-right: 10px;
+    margin-right: 10%;
     height: 40px;
-    border-radius: 50%;
+    border-radius: 40px;
     border-width: thin;
     border-style: ridge;
+}
+
+.doneButtons {
+    bottom: 10px;
+    margin-top: 10%;
+    align-content: center;
+    
 }
