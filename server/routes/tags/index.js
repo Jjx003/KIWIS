@@ -71,7 +71,7 @@ router.get('/all',
 
     function (req, res, next) {
         try {
-            var theForumName = req.body.forumName;
+            var theForumName = sanitizeHtml(req.body.forumName);
 
 
             db.getTags(theForumName).then((data)=>{
