@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var db = require("../../db/index")
 var auth = require('../../auth/index');
+var sanitizeHtml = require('sanitize-html');
 require('dotenv').config();
 
 // POST method to create suer to the database
@@ -71,7 +72,9 @@ router.get('/',
         // When moving to production, need a authentication cookie passed in as well
         // Or else people can exploit this route.
         try {
-            db.getUser(req.body.forumName, req.body.userID).then((data)=>{
+            var theForumName = sanitizeHtml(req.body.forumName);
+            var theUserID = sanitizeHtml(req.body.userID);
+            db.getUser(theForumName, theUserID).then((data)=>{
                 res.send(data.val());
             });
         } catch (error) {
@@ -97,7 +100,8 @@ router.get('/all',
 
     function (req, res, next) {
         try {
-            db.getUsers(req.body.forumName).then((data)=>{
+            var theForumName = sanitizeHtml(req.body.forumName);
+            db.getUsers(theForumName).then((data)=>{
                 res.send(data.val());
             });
         } catch (error) {
