@@ -1,0 +1,63 @@
+.mainTagsPage {
+    background-color: #C9E0C9;
+    font-family: Arial;
+    text-align: center;
+    height: 100vh;
+    width: 100vw;
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-top: 4%;
+
+}
+
+.mainContainer {
+    background-color: whitesmoke;   
+    height: 85%;
+    border-radius: 40px;
+    padding-top: 30px;
+}
+
+.tagListBox {
+    height: 40%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 10%;
+    overflow-y: scroll;
+}
+
+.tagButton {
+    width: 150px;
+    background-color: #CF88AA;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 40px;
+    border-radius: 50%;
+    border-width: thin;
+    border-style: ridge;
+}
+
+.completeButton {
+    width: 150px;
+    background-color: #80C180;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 40px;
+    border-radius: 50%;
+    border-width: thin;
+    border-style: ridge;
+}
+
+
+.resetButton {
+    width: 150px;
+    background-color: #FF6347;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 40px;
+    border-radius: 50%;
+    border-width: thin;
+    border-style: ridge;
+}

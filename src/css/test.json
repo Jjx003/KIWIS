@@ -1,0 +1,12 @@
+{
+    "fruit": {
+        "Apple": 3
+    },
+    "size": {
+        "big": 3
+    },
+    "color":{ 
+        "red" : 4
+    }
+}
+

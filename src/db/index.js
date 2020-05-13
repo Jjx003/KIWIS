@@ -13,40 +13,43 @@ const db = firebase.initializeApp({
 
 // add database functions below
 
+<<<<<<< HEAD
 // ERICS CODE
 /*function getUser(forumName, userID) {
     return db.database().ref(forumName).child('Users/' + userID).once('value');
+=======
+//erics user finder
+//const userID = firebase.auth().currentUser.uid;
+function getUser(forumName, userID) {
+    return db.database().ref(forumName).child('Users/' + userID);
+>>>>>>> 87af1ff9df836fcc872f9c3c148f244613fb20a3
 }
 
-function getTags(forumName) {
-    return db.database().ref(forumName).child('Tags').toJSON();
+function getAllTags(forumName) {
+  return db.database().ref(forumName).child('Tags').once('value');
 }
 
-
-function addSpecalization(tagName) {
-    db.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          // User is signed in.
-          var tag = db.database().ref(forumName).child("Tags/" + tagName);
-          db.database().ref(forumName).child("Users/" + user).child("Tags").push(tag);
-          tag.child("users").push(user);
-        } else {
-          // No user is signed in.
-        }
-    });
+function addSpecialization(forumName, tagName) {
+  //db.database().ref(forumName).child('Tags').('test123').remove();
 }
 
-function removeSpecalization(tag) {
-    db.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          // User is signed in.
-        } else {
-          // No user is signed in.
-        }
-    });
+function removeSpecialization(forumName, /*userID,*/ tagName) {
+  // const userTags = db.getUser(forumName, userID).child('Tags'); // do i put a once at the end?
+  
+  // userTags.child(tagName).removeValue();
+
+
+  db.database().ref(forumName).child('Tags').child(tagName).remove();
+  console.log("removed");
+
 }
 */
 
+<<<<<<< HEAD
 export default {db/*, getUser, addSpecalization, removeSpecalization getTags*/};
+=======
+
+export default {db, getUser, addSpecialization, removeSpecialization, getAllTags};
+>>>>>>> 87af1ff9df836fcc872f9c3c148f244613fb20a3
 
 
