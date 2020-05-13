@@ -57,6 +57,10 @@ router.post('/add',
 
 // GET all tags from the database
 router.get('/all', 
+    [
+    check('forumName').escape()
+
+    ],
 
     function (req, res, next) {
         auth.checkToken(req.cookies.auth).then(() =>{
