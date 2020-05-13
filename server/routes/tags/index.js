@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 var db = require("../../db/index")
 var auth = require('../../auth/index');
+var sanitizeHtml = require('sanitize-html');
+
 require('dotenv').config();
 
 
@@ -56,11 +58,7 @@ router.post('/add',
 );
 
 // GET all tags from the database
-router.get('/all', 
-    [
-    check('forumName').escape()
-
-    ],
+router.get('/all',
 
     function (req, res, next) {
         auth.checkToken(req.cookies.auth).then(() =>{
@@ -73,7 +71,10 @@ router.get('/all',
 
     function (req, res, next) {
         try {
-            db.getTags(req.body.forumName).then((data)=>{
+            var theForumName = req.body.forumName;
+
+
+            db.getTags(theForumName).then((data)=>{
                 res.send(data.val());
             });
         } catch (error) {
