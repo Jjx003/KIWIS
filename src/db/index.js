@@ -13,16 +13,11 @@ const db = firebase.initializeApp({
 
 // add database functions below
 
-<<<<<<< HEAD
-// ERICS CODE
-/*function getUser(forumName, userID) {
-    return db.database().ref(forumName).child('Users/' + userID).once('value');
-=======
+
 //erics user finder
 //const userID = firebase.auth().currentUser.uid;
 function getUser(forumName, userID) {
     return db.database().ref(forumName).child('Users/' + userID);
->>>>>>> 87af1ff9df836fcc872f9c3c148f244613fb20a3
 }
 
 function getAllTags(forumName) {
@@ -43,13 +38,5 @@ function removeSpecialization(forumName, /*userID,*/ tagName) {
   console.log("removed");
 
 }
-*/
-
-<<<<<<< HEAD
-export default {db/*, getUser, addSpecalization, removeSpecalization getTags*/};
-=======
 
 export default {db, getUser, addSpecialization, removeSpecialization, getAllTags};
->>>>>>> 87af1ff9df836fcc872f9c3c148f244613fb20a3
-
-
