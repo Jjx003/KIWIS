@@ -39,7 +39,7 @@ function removeSpecialization(forumName, /*userID,*/ tagName) {
 
 }
 
-function addSpecialization(userId, tagName){
-  db.database().ref(getForumName(userId)).child("UserId").child("Specialization").push(tagName);
+function addSpecialization(forumName, userId, tagName){
+  db.database().ref(forumName).child("UserId").child(userId).child("Specialization").push(tagName);
 }
 export default {db, getUser, addSpecialization, removeSpecialization, getAllTags, addSpecialization};
