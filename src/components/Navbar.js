@@ -4,12 +4,8 @@ import logo from '../images/logo_white.png';
 import {
     SearchBox
 } from 'react-instantsearch-dom';
-import dummy_tags from '../dummy_data/dummy_tags.json'
 import {db} from '../db/index';
 import '../css/index.css'
-
-const options = Object.keys(dummy_tags).map(x => { return { key: x, text: x, value: x } })
-
 
 class Navbar extends React.Component {
 
@@ -21,14 +17,17 @@ class Navbar extends React.Component {
             value: '',
             searching: false
         }
-        db.database().ref('UXD14/Tags').on('value', tagSnapshot => {
+
+    }
+
+    componentWillMount(){
+        db.database().ref('UXD14/Tags').once('value', tagSnapshot => {
             tagSnapshot.forEach(tag => {
                 var x = tag.key;
                 this.setState({forum_tags:[...this.state.forum_tags, { key: x, text: x, value: x }]});
             });
         });
     }
-
 
     handleChange = (e, {value}) => {
         this.setState({tags : value}, ()=>{
@@ -70,8 +69,7 @@ class Navbar extends React.Component {
                                 <Grid.Column>
                                     <Dropdown fluid multiple selection placeholder='Tags'
                                         onChange={this.handleChange}
-                                        //options={[...options, ...this.state.forum_tags]} 
-                                        options={[...options]} />
+                                        options={[...this.state.forum_tags]} />
                                 </Grid.Column>
                             </Grid.Row>
                         </Grid>

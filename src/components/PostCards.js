@@ -21,7 +21,7 @@ class PostCards extends React.Component {
     render() {
         const {history} = this.props;
         if(this.state.buttonClicked) {
-            history.push({
+            history.push({      //change to replace and add back button
                 pathname: '/viewPost', 
                 state: {postID: this.props.postID,
                         firstName: this.props.firstName,

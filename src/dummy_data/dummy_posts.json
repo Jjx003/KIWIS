@@ -107,5 +107,16 @@
         "karma": "1000",
         "tags": ["Database"],
         "datetime" : "May 05, 2020"
+    },
+
+    "post 10":{
+        "postID": "#dssdf",
+        "firstName": "Jason",
+        "lastName": "Cabrera",
+        "title":"Test2",
+        "content":"Modeling the database: Will customers have the option to buy more than one stock? I'm wondering whether the database should reflect this scenario.",
+        "karma": "1000",
+        "tags": ["Database"],
+        "datetime" : "May 05, 2020"
     }
 }

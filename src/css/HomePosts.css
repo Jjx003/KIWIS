@@ -23,6 +23,7 @@ ul {
 
 .ais-SearchBox-input {
   background-color: aliceblue;
+  width: 300px;
   border-width: 10px;
 }
 

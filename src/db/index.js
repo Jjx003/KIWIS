@@ -28,7 +28,7 @@ const dbRef = db.database().ref(company);
 // Get all contacts from Firebase
 
 export function updateAlgolia(){
-  db.database().ref(company).once('value', contacts => {
+  db.database().ref(company).on('value', contacts => {
       // Build an array of all records to push to Algolia
       const records = [];
       contacts.forEach(contact => {
