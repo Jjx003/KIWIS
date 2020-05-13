@@ -12,7 +12,7 @@ router.post('/remove',
     function (req, res, next) {
         auth.checkToken(req.cookies.auth).then(() =>{
             next()
-        }).catch( function(error) {
+        }).catch( (error) => {
             console.log("error occured when checking token, request denied");
             res.jsonp({success: false});
         })  
@@ -38,7 +38,7 @@ router.post('/add',
     function (req, res, next) {
         auth.checkToken(req.cookies.auth).then(() =>{
             next()
-        }).catch( function(error) {
+        }).catch( (error)=> {
             console.log("error occured when checking token, request denied");
             res.jsonp({success: false});
         })  
@@ -65,7 +65,7 @@ router.get('/all',
     function (req, res, next) {
         auth.checkToken(req.cookies.auth).then(() =>{
             next()
-        }).catch( function(error) {
+        }).catch( (error) =>{
             console.log("error occured when checking token, request denied");
             res.jsonp({success: false});
         })  
