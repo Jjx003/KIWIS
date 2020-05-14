@@ -35,8 +35,7 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
 
     // Push data inputted to firebase and also store reference of the push in "post_reference"
     try {
-        var post_reference = firebaseRef.push({user_id: p_user_id, 
-                                        post_id: "", 
+        var post_reference = firebaseRef.push({user_id: p_user_id,  
                                         title: p_title, 
                                         tag_ids: p_tag_ids, 
                                         date_time: date, 
@@ -48,12 +47,6 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
         console.log(error);
         return false;
     }
-    
-    // Get the new post's key
-    var new_post_id = post_reference.key;
-
-    // Update the post's id with the random generated key
-    post_reference.update({post_id: new_post_id});
 
     return true;
 
