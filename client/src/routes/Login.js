@@ -1,32 +1,49 @@
-import React from "react";
-import { Redirect, Link } from "react-router-dom";
-import db from "../db/index.js"
+import React, {useContext} from "react";
 import '../css/login.css';
-import pic from '../css/vectorlogo.svg';
+import Cookies from 'universal-cookie';
+import axios from 'axios';
+import pic from '../css/vectorlogo.png';
 import SignUp from './SignUp';
+import {UpdateContext, AuthContext} from "../auth/Auth";
 
 const Login = ({history}) => {
+	const {currentUser} = useContext(AuthContext);
+    let update = useContext(UpdateContext);
 
     const handleLogin = (event) => {
-        event.preventDefault();
-        const {email, password } = event.target.elements;
+		event.preventDefault();
+		const {email, password} = event.target.elements;
+		// send POST request to sign in user 
+		axios({
+			method: 'post',
+			url: 'http://localhost:9000/auth/login',
+			data: {
+				email: email.value,
+				password: password.value,
+			}
+		  })
+		  .then((response) => {
+			if (response.data.success) {
+				const cooks = new Cookies();
+				cooks.set('auth', response.data.token, {path: '/'});
+				// Wait until update processes before redirecting
+				update().then(()=>{
+					history.replace('/');
+				})
+			} else {
+				console.log("invalid credentials.");
+			}
+		  })
+		  .catch((error) => {
+			console.log(error);
+		  });
+	}
 
-        try {
-            db.auth().signInWithEmailAndPassword(email.value,password.value);
-            history.push("/");
-        } catch (error) {
-            alert(error);
-        }
+        
+    const functionalityNotHere = () => {
+        alert("functionality Not here");
     }
 
-    const redirectSignUp = () => {
-        history.push("/signup")
-    }
-
-    // const { currentUser } = useContext(AuthContext);
-    // if (currentUser) {
-    //     return <Redirect to="/" />;
-    // }
 
     return(
         <body className="login">
@@ -44,7 +61,7 @@ const Login = ({history}) => {
                     </div>
                     <div className="buttons">
                         <button className="button1" type="submit">Log In</button>
-                        <button className="button2" onClick={redirectSignUp}>Sign UP</button>
+                        <button className="button2" onClick={functionalityNotHere}>Sign UP</button>
                     </div>
                 </form>
                 

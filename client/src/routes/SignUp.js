@@ -1,30 +1,36 @@
 import React, { useCallBack } from "react";
-import db from "../db/index"
-import { Button } from 'semantic-ui-react';
 import "../css/signup.css";
-import pic from '../css/vectorlogo.svg';
+import axios from 'axios';
+import pic from '../css/vectorlogo.png';
 
 
 const SignUp = ({history}) => {
 
-    const redirectLogIn = () => {
-        history.push("/login")
-    }
-
     const handleSignUp = (event) => {
+		event.preventDefault();
+		const {email, password} = event.target.elements;
 
-        event.preventDefault();
-        const { email, password } = event.target.elements;
+		axios({
+			method: 'post',
+			url: 'http://localhost:9000/auth/signUp',
+			data: {
+				email: email.value,
+				password: password.value,
+			}
+		}).then((response) => {
+			if (response.data.success) {
+				redirectLogin();
+			} else {
+				// update gui to show error in signing up
+				console.log("error in sign up, most likely account has already been made");
+			}
+		}).catch((error) => {
+			console.log(error);
+		});
+	}
 
-        try{
-            db
-                .auth()
-                .createUserWithEmailAndPassword(email.value,
-                    password.value);
-            history.push("/");
-        } catch(error){
-            alert(error);
-        }
+    const redirectLogin = () => {
+        history.push("/login")
     }
 
     return(
@@ -63,7 +69,7 @@ const SignUp = ({history}) => {
                     </div>
                     <div className="inputBox">
                         <button className="button12" type="submit">Sign Up</button>
-                        <button className="button22" onClick={redirectLogIn}> Back to Login</button>
+                        <button className="button22" onClick={redirectLogin}> Back to Login</button>
                     </div>
                 </form>
             </div>
