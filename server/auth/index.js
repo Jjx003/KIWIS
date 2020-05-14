@@ -20,4 +20,21 @@ function checkToken(token) {
     return firebase.db.auth().signInWithCustomToken(token);
 }
 
-module.exports = { login, signOut, signUp, createToken, checkToken };
+function getUserID() {
+
+    var user = firebase.db.auth().currentUser;
+
+    try {
+        return user.uid;
+    } catch(error) {
+        console.log("user is null");
+        return null;
+    }
+
+}
+
+function getCompanyName(user_id) {
+    return firebase.db.database().ref('/UserCompaniesID/' + user_id).once('value');
+}
+
+module.exports = { login, signOut, signUp, createToken, checkToken, getUserID, getCompanyName };

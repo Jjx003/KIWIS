@@ -7,9 +7,9 @@ router.post('/login', function (req, res, next) {
     auth.login(req.body.email, req.body.password).then(() => { 
         // retrieve their userid here
 
-        let test_uid = "hi";
+        let user_id = auth.getUserID();
         // creating token for user, passing in userid. Token expires after an hour
-        auth.createToken(test_uid).then((token) => {
+        auth.createToken(user_id).then((token) => {
             res.jsonp({token: token, success: true})
         });
     }).catch((error) => {
