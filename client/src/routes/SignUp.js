@@ -41,10 +41,10 @@ const SignUp = ({history}) => {
                     <img className="picture" src={pic}/>
                 </div>
                 <div className="leftText">
-                    <p1>From the #1 dermatologist recommended brand, comes a cream clinically 
-                        proven to reduce the look of wrinkle 5x more than a leading prestige anti-wrinkle product.
-                        <br/><br/>We’re not anti-aging, we’re anti-wrinkles™ <br/><br/>We are committed to providing the absolute
-                        most prestigious line of products that will make you sparkle.
+                    <p1>Our company will ensure the success and coordination of all co-workers. 
+                        Each company has their own unique tags. Where each employee can also be uniquely
+                        identified <br/> <br/>Please Signup on the right in order to get started <br/> <br/>
+                        <br/> <br/> Thank you for choosing KIWI.
                     </p1>
                 </div>
             </div>

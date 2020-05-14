@@ -31,6 +31,7 @@ const Login = ({history}) => {
 					history.replace('/');
 				})
 			} else {
+                alert("Invalid Credentials");
 				console.log("invalid credentials.");
 			}
 		  })
@@ -61,7 +62,7 @@ const Login = ({history}) => {
                     </div>
                     <div className="buttons">
                         <button className="button1" type="submit">Log In</button>
-                        <button className="button2" onClick={functionalityNotHere}>Sign UP</button>
+                        <button className="button2" type="button" onClick={functionalityNotHere}>Sign UP</button>
                     </div>
                 </form>
                 
