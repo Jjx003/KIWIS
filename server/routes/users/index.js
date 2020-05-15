@@ -8,10 +8,10 @@ require('dotenv').config();
 // POST method to create user to the database
 router.post('/add', 
     [
-        body('forumName').isLength({min: 1}).trim().escape(),
-        body('firstName').isLength({min: 1}).trim().escape(),
-        body('lastName').isLength({min: 1}).trim().escape(),
-        body('email').isEmail().isLength({min: 1}.normalizeEmail())
+        check('forumName').isLength({min: 1}).trim().escape(),
+        check('firstName').isLength({min: 1}).trim().escape(),
+        check('lastName').isLength({min: 1}).trim().escape(),
+        check('email').isEmail().isLength({min: 1}.normalizeEmail())
     ],
 
 
@@ -44,8 +44,8 @@ router.post('/add',
 // POST method to remove certain user from the database given a UUID
 router.post('/remove', 
     [
-        body('forumName').isLength({min: 1}).trim().escape(),
-        body('userID').isLength({min: 1})
+        check('forumName').isLength({min: 1}).trim().escape(),
+        check('userID').isLength({min: 1})
     ],
 
     // Checks for errors when checking http parameters and checks if logged in
@@ -77,8 +77,8 @@ router.post('/remove',
 // GET method to get a single user from the database
 router.get('/', 
     [
-        body('forumName').isLength({min: 1}).trim().escape(),
-        body('userID').isLength({min: 1})
+        check('forumName').isLength({min: 1}).trim().escape(),
+        check('userID').isLength({min: 1})
     ],
 
 
@@ -114,7 +114,7 @@ router.get('/',
 // GET method to get all users from the database
 router.get('/all', 
     [
-        body('forumName').isLength({min: 1}).trim().escape()
+        check('forumName').isLength({min: 1}).trim().escape()
     ],
 
     // Checks for errors when checking http parameters and checks if logged in
