@@ -52,33 +52,6 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
 
 }
 
-// Print the values of the post linked to the inputted key
-function printPost(forumName, post_id) {
-
-    // Reference the company's firebase and the post's key
-    const firebaseRef = firebase.db.database().ref(forumName+"/Posts"+post_id);
-
-    // Get a snapshot of the post
-    firebaseRef.on("value", function(snapshot) {
-
-        // Store the reference to the post
-        var newPost = snapshot.val();
-
-        // Print out all of the values of the post
-        console.log("User's ID: " + newPost.user_id);
-        console.log("Post's ID: " + newPost.post_id);
-        console.log("Title: " + newPost.title);
-        console.log("Tag IDs: " + newPost.tag_ids);
-        console.log("Date and Time: " + newPost.date_time);
-        console.log("Content: " + newPost.content);
-        console.log("Karma: " + newPost.karma);
-        console.log("Response IDs: " + newPost.response_ids);
-        console.log("Follower IDs: " + newPost.follower_ids);
-
-    });
-
-}
 
 
-
-module.exports = { getUserID, getCompanyName, addPostData, printPost, addTestData };
+module.exports = { getUserID, getCompanyName, addPostData, addTestData };

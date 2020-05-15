@@ -3,11 +3,6 @@ var router = express.Router();
 var auth = require('../../auth/index');
 var db = require('../../db/index');
 
-// We are printing the console logs but the tag_ids is undefined
-//hi
-
-
-
 router.post('/CreatePost',
 
 function (req, res, next) {
@@ -19,14 +14,16 @@ function (req, res, next) {
     })  
 },
 
-function (req, res, next) {
+function (req, res) {
     var user_id = db.getUserID();
     db.getCompanyName(user_id).then(function(snapshot) {
-        var forum_name = snapshot.val();
-        // call addPostData() with the user inputs
-        var pushedData = db.addPostData(forum_name, user_id, req.body.title, req.body.tag_ids, req.body.content);
+        var company_name = snapshot.val();
+        var pushedData = db.addPostData(company_name, user_id, req.body.title, req.body.tag_ids, req.body.content);
         res.jsonp({success : pushedData});
-    })
+    }).catch( function(error) {
+        console.log("error occured when pushing post to database");
+        res.jsonp({success: false});
+    })  
 });
 
 
