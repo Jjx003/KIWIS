@@ -59,7 +59,9 @@ function createNewUser(forumName, userID, firstName, lastName, email) {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        admin: false
+        admin: false,
+        tags: ['announcements', 'help-needed'],
+        following_IDs: []
     };
 	forumDBRef.child("Users").push(user);
 }
