@@ -50,7 +50,7 @@ const Login = ({history}) => {
         <body className="login">
         <div className="inside">
             
-            <div className="column">
+            <div className="columnx">
                 <img className="pic" src={pic}/>
                 <h1 className='font'>Login</h1>
                 <form onSubmit={handleLogin}>

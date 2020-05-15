@@ -35,7 +35,7 @@ const SignUp = ({history}) => {
 
     return(
     <div className="signup">
-        <div className="row">
+        <div className="signupRow">
             <div className="left">
                 <div className="picture">
                     <img className="picture" src={pic}/>
