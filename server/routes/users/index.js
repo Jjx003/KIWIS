@@ -2,14 +2,26 @@ var express = require("express");
 var router = express.Router();
 var db = require("../../db/index")
 var auth = require('../../auth/index');
-var sanitizeHtml = require('sanitize-html');
+const { check, validationResult } = require('express-validator');
 require('dotenv').config();
 
-// POST method to create suer to the database
+// POST method to create user to the database
 router.post('/add', 
+    [
+        check('forumName').isLength({min: 1}).trim().escape(),
+        check('firstName').isLength({min: 1}).trim().escape(),
+        check('lastName').isLength({min: 1}).trim().escape(),
+        check('email').isEmail().isLength({min: 1}.normalizeEmail())
+    ],
 
-    // Checks for authorized access
+
+    // Checks for errors when checking http parameters and checks if logged in
     function (req, res, next) {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.array() });
+        }
+
         auth.checkToken(req.cookies.auth).then(() =>{
             next()
         }).catch( (error) => {
@@ -25,16 +37,24 @@ router.post('/add',
         } catch (error) {
             console.log(error);
             res.jsonp({success: false});
-            return;
         }  
     }
 );
 
 // POST method to removes certain user from the database given a UUID
 router.post('/remove', 
+    [
+        check('forumName').isLength({min: 1}).trim().escape(),
+        check('userID').isLength({min: 1})
+    ],
 
-    // Checks for authorized access
+    // Checks for errors when checking http parameters and checks if logged in
     function (req, res, next) {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.array() });
+        }
+
         auth.checkToken(req.cookies.auth).then(() =>{
             next()
         }).catch( (error)  => {
@@ -50,16 +70,25 @@ router.post('/remove',
         } catch (error) {
             console.log(error);
             res.jsonp({success: false});
-            return;
         }
     }
 );
 
 // GET method to get a single user from the database
 router.get('/', 
+    [
+        check('forumName').isLength({min: 1}).trim().escape(),
+        check('userID').isLength({min: 1})
+    ],
 
-    // Checks for authorized access
+
+    // Checks for errors when checking http parameters and checks if logged in
     function (req, res, next) {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.array() });
+        }
+
         auth.checkToken(req.cookies.auth).then(() =>{
             next()
         }).catch( (error)  => {
@@ -72,24 +101,29 @@ router.get('/',
         // When moving to production, need a authentication cookie passed in as well
         // Or else people can exploit this route.
         try {
-            var theForumName = sanitizeHtml(req.body.forumName);
-            var theUserID = sanitizeHtml(req.body.userID);
-            db.getUser(theForumName, theUserID).then((data)=>{
+            db.getUser(req.body.forumName, req.body.userID).then((data)=>{
                 res.send(data.val());
             });
         } catch (error) {
             console.log(error);
             res.jsonp({success: false});
-            return;
         }  
     }
 );
 
 // GET method to get all users from the database
 router.get('/all', 
+    [
+        check('forumName').isLength({min: 1}).trim().escape()
+    ],
 
-    // Checks for authorized access
+    // Checks for errors when checking http parameters and checks if logged in
     function (req, res, next) {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.array() });
+        }
+
         auth.checkToken(req.cookies.auth).then(() =>{
             next()
         }).catch( (error) => {
@@ -100,14 +134,12 @@ router.get('/all',
 
     function (req, res, next) {
         try {
-            var theForumName = sanitizeHtml(req.body.forumName);
-            db.getUsers(theForumName).then((data)=>{
+            db.getUsers(req.body.forumName).then((data)=>{
                 res.send(data.val());
             });
         } catch (error) {
             console.log(error);
             res.jsonp({success: false});
-            return;
         }  
     }
 );

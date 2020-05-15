@@ -34,6 +34,7 @@ function getTagCount(forumName, tagName) {
 // Removes a tag from the company
 function removeTag(forumName, tagName) {
     db.database().ref(forumName).child('Tags').child(tagName).removeValue();
+    removeTagFromAllUsers(forumName, tagName);
 }
 
 // Removes the tags from the users of a company
@@ -49,10 +50,9 @@ function removeTagFromAllUsers(forumName, tagName) {
 
 
 // "POST" method for a new user
-function createNewUser(forumName, firstName, lastName, email) {
+function createNewUser(forumName, userID, firstName, lastName, email) {
     const forumDBRef = db.database().ref(forumName);
     var user = {};
-    var userID = firebase.auth().currentUser.uid;
 
     // Creates a new user object with the userID as a key
     user[userID] = {
@@ -78,4 +78,4 @@ function getUsers(forumName) {
 function removeUser(forumName, userID) {
     db.database().ref(forumName).child('Users').child(userID).removeValue();
 }
-module.exports = { addTestData , createNewUser, getUser, getUsers, removeUser, createNewTag, getTags, getTagCount, removeTag, removeTagFromAllUsers};
+module.exports = { addTestData , createNewUser, getUser, getUsers, removeUser, createNewTag, getTags, getTagCount, removeTag};

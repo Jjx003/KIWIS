@@ -4,17 +4,24 @@ var db = require("../../db/index")
 var auth = require('../../auth/index');
 var sanitizeHtml = require('sanitize-html');
 
-require('dotenv').config();
-
-
 // POST method to removes certain tag from the database and from the users of the company
 router.post('/remove', 
+    [
+        check('forumName').isLength({min: 1}).trim().escape(),
+        check('tagName').isLength({min: 1}).trim().escape()
+    ],
 
-    // Checks for authorized access
+
+    // Checks for errors when checking http parameters and checks if logged in
     function (req, res, next) {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.array() });
+        }
+
         auth.checkToken(req.cookies.auth).then(() =>{
             next()
-        }).catch( (error) => {
+        }).catch( (error)  => {
             console.log("error occured when checking token, request denied");
             res.jsonp({success: false});
         })  
@@ -25,7 +32,6 @@ router.post('/remove',
 
         try {
             db.removeTag(req.body.forumName, req.body.tagName);
-            db.removeTagFromAllUsers(req.body.forumName, req.body.tagName);
             res.jsonp({success: true});
         } catch (error) {
             console.log(error);
@@ -36,11 +42,22 @@ router.post('/remove',
 
 // POST method to add a single tag
 router.post('/add', 
+    [
+        check('forumName').isLength({min: 1}).trim().escape(),
+        check('tagName').isLength({min: 1}).trim().escape()
+    ],
 
+
+    // Checks for errors when checking http parameters and checks if logged in
     function (req, res, next) {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.array() });
+        }
+
         auth.checkToken(req.cookies.auth).then(() =>{
             next()
-        }).catch( (error)=> {
+        }).catch( (error)  => {
             console.log("error occured when checking token, request denied");
             res.jsonp({success: false});
         })  
@@ -59,8 +76,16 @@ router.post('/add',
 
 // GET all tags from the database
 router.get('/all',
+    [
+        check('forumName').isLength({min: 1}).trim().escape()
+    ],
 
+    // Checks for errors when checking http parameters and checks if logged in
     function (req, res, next) {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.array() });
+        }
         auth.checkToken(req.cookies.auth).then(() =>{
             next()
         }).catch( (error) =>{
@@ -71,10 +96,7 @@ router.get('/all',
 
     function (req, res, next) {
         try {
-            var theForumName = sanitizeHtml(req.body.forumName);
-
-
-            db.getTags(theForumName).then((data)=>{
+            db.getTags(req.body.forumName).then((data)=>{
                 res.send(data.val());
             });
         } catch (error) {
