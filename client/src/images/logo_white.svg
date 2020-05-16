@@ -16,8 +16,8 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
-   sodipodi:docname="vector logo.svg"
-   inkscape:export-filename="/home/aidan/Desktop/CSE110/vector logo with symps.png"
+   sodipodi:docname="vector logo white.svg"
+   inkscape:export-filename="/home/aidan/Desktop/CSE110/vector logo white.png"
    inkscape:export-xdpi="150"
    inkscape:export-ydpi="150">
   <defs
@@ -4303,17 +4303,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="122.07862"
+     inkscape:cx="27.806277"
      inkscape:cy="-99.618609"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
      showgrid="false"
      units="in"
-     inkscape:window-width="1255"
-     inkscape:window-height="957"
-     inkscape:window-x="1627"
-     inkscape:window-y="327"
-     inkscape:window-maximized="0"
+     inkscape:window-width="1920"
+     inkscape:window-height="1011"
+     inkscape:window-x="1280"
+     inkscape:window-y="277"
+     inkscape:window-maximized="1"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
@@ -4345,10 +4345,10 @@
          x="60.459641"
          y="84.139038"
          id="tspan881"
-         style="stroke-width:0.77098799"><tspan
+         style="stroke-width:0.77098799;fill:#ffffff"><tspan
            x="60.459641"
            y="84.139038"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:113.07823944px;font-family:ubuntu;-inkscape-font-specification:ubuntu;stroke-width:0.77098799"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:113.07823944px;font-family:ubuntu;-inkscape-font-specification:ubuntu;fill:#ffffff;stroke-width:0.77098799"
            id="tspan879">Kiwi</tspan></tspan></text>
   </g>
   <g
