@@ -8,6 +8,7 @@ import Login from './routes/Login';
 import SignUp from './routes/SignUp';
 import UserTags from './routes/UserTags';
 import Settings from './routes/Settings';
+import AdminPage from "./routes/AdminPage";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
         <Route exact path="/login" component={Login} />
         <Route exact path="/signup" component={SignUp} />
         <Route exact path="/settings" component={Settings} />
+        <Route exact path="/admin" component={AdminPage} />
+
       </div>
     </Router>
   );

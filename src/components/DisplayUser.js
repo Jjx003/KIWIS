@@ -1,6 +1,8 @@
-import react from "react";
+import React from "react";
+import users from '../routes/dummy_users.json'
+import "../css/DisplayUser.css"
 
-class DisplayUser extends react.Component{
+class DisplayUser extends React.Component{
     constructor(props){
         super(props);
 
@@ -23,10 +25,11 @@ class DisplayUser extends react.Component{
         }
         else{
             return(
-                <div>
-                    <div> {getUserName(this.state.user_id)} </div>
-                    <div> {getUserEmail(this.state.user_id)} </div>
-                    <div> {this.state.user_id} </div>
+                <div className="displayUserBar">
+                    <div className="first_name"> {users[this.state.user_id]["First_Name"]} </div>
+                    <div className="last_name"> {users[this.state.user_id]["Last_Name"]} </div>
+                    <div className="email"> {users[this.state.user_id]["Email"]} </div>
+                    <div className="user_id"> {this.state.user_id} </div>
                     <button> X </button> 
                 </div>
             );

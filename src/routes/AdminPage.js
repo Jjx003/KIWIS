@@ -1,43 +1,82 @@
 import React from "react";
 import DisplayUser from "../components/DisplayUser"
-import DisplayUser from "../components/DisplayTag"
+import DisplayTag from "../components/DisplayTag"
 import { Tab } from 'semantic-ui-react'
+import users from './dummy_users.json'
+import tags from './dummy_tags.json'
+import "../css/AdminPage.css"
+import navBar from "../components/navBar"
 
 class AdminPage extends React.Component{
     constructor(props){
         super(props);
 
         this.state = {
-            company_id = this.props.company_id
+            company_id: this.props.forumName,
+            userList: {},
+            tagList: {}
         };
+
+        /*axios({
+            method: 'get',
+            url: 'http://localhost:9000/tags/all',
+            data: {
+              forumName: this.state.forumName
+            }
+          }).then((data) => {
+            this.setState({userList: data.toJSON()});
+        });
+
+        axios({
+            method: 'get',
+            url: 'http://localhost:9000/users/all',
+            data: {
+              forumName: this.state.forumName
+            }
+          }).then((data) => {
+            this.setState({tagList: data.toJSON()});
+        });*/
+    }
+    componentWillMount()
+    {
+        this.setState({userList: Object.keys(users)});
+        this.setState({tagList: Object.keys(tags)});
+        //Object.keys(this.state.userList).map(x => {return <li> <DisplayUser x/> </li>;})} 
+        //{Object.keys(this.state.tagList).map(x => {return <li> <DisplayTag x/> </li>;})} 
+        //{this.state.userList.map(x => {return<li> <DisplayUser x/> </li>;})}
+        //{this.state.tagList.map(x => {return<li> <DisplayTag x/> </li>;})}
     }
 
-    listUsers = Object.keys(users).map(x => {<li> <DisplayUser x/> </li>}) //use company id
-    listTags = Object.keys(tags).map(x => { <li> <DisplayTag x/> </li>}) //use company id
-
-    panes = [
+    render(){
+        var panes = [
         { menuItem: 'Users', render: () => 
-            <Tab.Pane> 
-                <ul> 
-                    {listUsers} 
-                </ul> 
-                <div> Add Employee Email </div>
-                <input className="inputBox" name="email" type="email" placeholder="  email" />
-                <button> + </button>
+            <Tab.Pane className="adminPage"> 
+                <div className="tagUserList"> 
+                    {this.state.userList.map(x => {return<div className="userItem"> <DisplayUser user_id={x} /> </div>;})}
+                    <div className="userItem">
+                        <div className="addEmployee"> 
+                            <div className="invitePrompt">Add Employee Email </div>
+                            <input className="inputBox" name="email" type="email" placeholder="  email" />
+                        <button> + </button>
+                        </div>
+                    </div>
+                </div> 
             </Tab.Pane> },
         { menuItem: 'Tags', render: () => 
-            <Tab.Pane> 
-                <ul> 
-                    {listTags} 
+            <Tab.Pane className="adminPage" > 
+                <ul className="tagUserList"> 
+                    {this.state.tagList.map(x => {return<li> <DisplayTag tag_id={x}/> </li>;})}
                 </ul> 
                 <div> Add specialization </div>
                 <input className="inputBox" name="tag" type="tag" placeholder="  tag" />
                 <button> + </button>
             </Tab.Pane> },
     ];
-
-    render(){
-        return(<Tab panes={panes} />);
+        return(
+            <div>
+                <navBar />
+                <Tab panes={panes} />
+            </div>);
     }
 
 }

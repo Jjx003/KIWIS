@@ -1,6 +1,7 @@
-import react from "react";
+import React from "react";
 
-class DisplayTag extends react.Component{
+
+class DisplayTag extends React.Component{
     constructor(props){
         super(props);
 
@@ -8,6 +9,7 @@ class DisplayTag extends react.Component{
             tag_id: this.props.tag_id
         };
     }
+
 
     render(){
         return(
