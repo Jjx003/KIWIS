@@ -20,11 +20,13 @@ export const Login = ({history}) => {
 			db.auth().currentUser.getIdToken(true).then((idToken) => {
 				// store token into cookie 
 				const cookies = new Cookies();
-				cookies.set('auth', idToken, {path: '/'});
+				cookies.set('auth', {token: idToken, isAdmin: db.auth().currentUser.emailVerified}, {path: '/'});
 
 				// redirect to home page
 				history.push('/');
-			});
+			})
+
+		.catch((error) => console.log(error));
 
 		});
 	}

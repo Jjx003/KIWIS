@@ -14,7 +14,7 @@ app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(cookieParser());
 
 app.use('/inviteUser', inviteRouter);
-app.use('/auth', authRouter);
+app.use('/auth', authRouter.router);
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');

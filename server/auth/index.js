@@ -1,7 +1,11 @@
 var firebase = require('../firebase');
 
 function signUp(email, password) {
-    return firebase.db.auth().createUserWithEmailAndPassword(email, password);
+    return firebase.admin.auth().createUser({
+	 	email: email,
+		password: password,
+		emailVerified: false
+	 });
 }
 
 function checkToken(token) {
