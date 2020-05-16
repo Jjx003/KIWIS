@@ -1,4 +1,5 @@
-import {db, searchClient, company} from '../db/index';
+import {db, searchClient, company, updateAlgolia} from '../db/index';
+import {withRouter} from 'react-router-dom';
 import React from 'react';
 import '../css/index.css'
 import '../css/HomePosts.css'
@@ -9,6 +10,7 @@ import {
     connectStateResults
 } from 'react-instantsearch-dom';
 import PostCards from './PostCards';
+import axios from 'axios';
 
 class HomePosts extends React.Component {
 
@@ -22,10 +24,11 @@ class HomePosts extends React.Component {
         };
         
         this.updateTagSearch = this.updateTagSearch.bind(this);
+        
     }
 
-    componentWillMount() {
-        //i dont think this should this be here
+    componentDidMount() {
+        
         this.firebaseRef = db.database().ref(company).child('Posts');
         this.firebaseRef.on('value', postSnapshot => {
             let posts = [];
@@ -37,6 +40,24 @@ class HomePosts extends React.Component {
             });
             this.setState({ posts });
         });
+        
+/*
+		axios({
+			method: 'get',
+			url: 'http://localhost:9000/posts/s',
+		  })
+		  .then((response) => { 
+            console.log(response);
+			console.log(response.data.success);
+			if (response.data.success) { 
+			} else {
+				console.log("bad");
+			}
+		  })
+		  .catch((error) => {
+			console.log(error);
+          });
+          */
     }
 
     componentWillUnmount() {
@@ -46,7 +67,7 @@ class HomePosts extends React.Component {
     //searching through posts state
     searchTags(value, keyList) {
         return this.state.posts.forEach(post => {
-            post.tags.forEach(tag => {
+            post.tag_ids.forEach(tag => {
                 if(value.includes(tag)){
                     console.log(post.title);
                     keyList.push(post.title);
@@ -75,7 +96,7 @@ class HomePosts extends React.Component {
                         }
                 )}
             )
-            this.setState({updated: !this.state.updated});
+         this.setState({updated: !this.state.updated});
         }
         
     }
@@ -93,7 +114,7 @@ class HomePosts extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div className="container">
                 <InstantSearch indexName={company} searchClient={searchClient}>
                     <Navbar updateForumDisp={this.updateTagSearch} setTextSearch={this.setTextSearchState} 
                     resetTextSearch={this.resetTextSearchState}/>     
@@ -108,7 +129,7 @@ function PostContainer(props){
     if(props.textSearch){
         //could add visible here for search
         return ( 
-        <Results>
+        <Results props={props}>
             <Hits className="posts-container" hitComponent={TextSearchPosts}/>
         </Results>);
     }
@@ -122,9 +143,9 @@ function TagSearchPosts(props){
         <div className="posts-container">
         {props.posts.map( (item, i) => {
             if(item.visible)
-                return  <PostCards key={i} postID={item.postID} userID={item.userID} title={item.title}
-                tags={item.tags} datetime={item.datetime} karma={item.karma} 
-                content={item.content} firstName={item.firstName} lastName={item.lastName}/>
+                return  <PostCards post_id={item.key} user_id={item.user_id} title={item.title}
+                tag_ids={item.tag_ids} date_time={item.date_time} karma={item.karma} 
+                content={item.content} responses={item.responses}/>
             else return <div></div>;
         })}
         </div>
@@ -137,22 +158,33 @@ function TagSearchPosts(props){
 function TextSearchPosts(props) {
     return (
         <div>
-            <PostCards key={0} postID={props.hit.postID} userID={props.hit.userID} title={props.hit.title}
-                tags={props.hit.tags} datetime={props.hit.datetime} karma={props.hit.karma} 
-                content={props.hit.content} firstName={props.hit.firstName} lastName={props.hit.lastName}/>
+            <PostCards post_id={props.hit.objectID} user_id={props.hit.user_id} title={props.hit.title}
+                tag_ids={props.hit.tag_ids} date_time={props.hit.date_time} karma={props.hit.karma} 
+                content={props.hit.content} responses={props.hit.responses}/>
         </div>
     );
 }
 
+/*
+const RedirectButton = withRouter((props) => {
+    const redirect = () => {
+        props.history.push('/createPost');
+    }
+    return <button onClick={redirect}>Hello</button>
+})
+*/
+
 const Results = connectStateResults(
-    ({searchState, searchResults, children}) =>
+    ({searchState, searchResults, children}, props) =>
       searchResults && searchResults.nbHits !== 0? (
         children):(
         <div className="posts-container">
             <div className="no-results-msg">No results have been found for {searchState.query}
-                <button>Create a Post</button>
+                <button>Create Post</button>
             </div>
         </div>)
-  );
+);
 
+//<RedirectButton props={props}/>
+    
 export default HomePosts;

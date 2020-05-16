@@ -4,7 +4,7 @@ import logo from '../images/logo_white.png';
 import {
     SearchBox
 } from 'react-instantsearch-dom';
-import {db} from '../db/index';
+import {db, company} from '../db/index';
 import '../css/index.css'
 
 class Navbar extends React.Component {
@@ -21,7 +21,8 @@ class Navbar extends React.Component {
     }
 
     componentWillMount(){
-        db.database().ref('UXD14/Tags').once('value', tagSnapshot => {
+        const companyTags = company.concat('/Tags');
+        db.database().ref(companyTags).once('value', tagSnapshot => {
             tagSnapshot.forEach(tag => {
                 var x = tag.key;
                 this.setState({forum_tags:[...this.state.forum_tags, { key: x, text: x, value: x }]});
