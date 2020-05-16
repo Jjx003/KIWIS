@@ -1,5 +1,4 @@
-import {db, searchClient, company, updateAlgolia} from '../db/index';
-import {withRouter} from 'react-router-dom';
+import {searchClient, company} from '../db/index';
 import React from 'react';
 import '../css/index.css'
 import '../css/HomePosts.css'
@@ -11,6 +10,7 @@ import {
 } from 'react-instantsearch-dom';
 import PostCards from './PostCards';
 import axios from 'axios';
+import {db} from '../db/index'
 
 class HomePosts extends React.Component {
 
@@ -28,7 +28,8 @@ class HomePosts extends React.Component {
     }
 
     componentDidMount() {
-        
+
+        /*
         this.firebaseRef = db.database().ref(company).child('Posts');
         this.firebaseRef.on('value', postSnapshot => {
             let posts = [];
@@ -40,16 +41,17 @@ class HomePosts extends React.Component {
             });
             this.setState({ posts });
         });
-        
-/*
+        */
+       
 		axios({
 			method: 'get',
-			url: 'http://localhost:9000/posts/s',
+			url: 'http://localhost:9000/posts/',
 		  })
 		  .then((response) => { 
-            console.log(response);
-			console.log(response.data.success);
 			if (response.data.success) { 
+                for(var key in response.data.posts){
+                    this.setState({posts : [...this.state.posts, response.data.posts[key]]});
+                }
 			} else {
 				console.log("bad");
 			}
@@ -57,7 +59,7 @@ class HomePosts extends React.Component {
 		  .catch((error) => {
 			console.log(error);
           });
-          */
+          
     }
 
     componentWillUnmount() {

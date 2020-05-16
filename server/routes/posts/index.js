@@ -2,7 +2,7 @@ var express = require("express");
 var auth = require('../../auth/index')
 var router = express.Router();
 var {db} = require('../../firebase')
-//var {getCompanyPosts, getCompanyTags} = require('../db')
+var {getCompanyPosts, getCompanyTags} = require('../../db/index')
 
 
 router.get('/:id', function (req, res, next) {
@@ -17,7 +17,6 @@ function (req, res, next) {
     const company = 'UXD14';        //call get company
     db.database().ref(company+'/Posts/'+req.params.id).once('value').then(function(snapshot) {
         var posts = snapshot.val();
-        //db.getCompanyPosts(company);
         res.jsonp(posts);
     })
 
@@ -25,25 +24,12 @@ function (req, res, next) {
 );
 
 
-router.post('/', function (req, res, next) {
-    
-        auth.checkToken(req.cookies.auth).then(() =>{ 
-            next()
-        }).catch( function(error) {
-            console.log("error occured when checking token, request denied");
-            res.jsonp({success: false});
-        })  
-    },
+router.get('/',
     function (req, res, next) {
-        console.log('response')
+        console.log('get posts to home page')
         const company = 'UXD14';        //call get company
-        db.database().ref(company+'/Posts').once('value').then(function(snapshot) {
-            var posts = snapshot.val();
-            console.log(posts);
-            //db.getCompanyPosts(company);
-            res.jsonp({success : true});
-        })
-    
+        posts = getCompanyPosts(company);
+        res.jsonp({success : true, posts: posts});
     }
 );
 

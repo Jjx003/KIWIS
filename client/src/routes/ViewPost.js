@@ -17,7 +17,6 @@ class ViewPost extends React.Component {
             content: "",
             karma: 0,
             responses: [],
-            content: "",
             failed: false,
         }
     }

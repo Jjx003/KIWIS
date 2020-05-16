@@ -4,8 +4,8 @@ import logo from '../images/logo_white.png';
 import {
     SearchBox
 } from 'react-instantsearch-dom';
-import {db, company} from '../db/index';
 import '../css/index.css'
+import axios from 'axios'
 
 class Navbar extends React.Component {
 
@@ -20,14 +20,33 @@ class Navbar extends React.Component {
 
     }
 
-    componentWillMount(){
+    componentDidMount(){
+        /*
         const companyTags = company.concat('/Tags');
         db.database().ref(companyTags).once('value', tagSnapshot => {
             tagSnapshot.forEach(tag => {
                 var x = tag.key;
                 this.setState({forum_tags:[...this.state.forum_tags, { key: x, text: x, value: x }]});
             });
-        });
+        }); */
+
+        axios({
+			method: 'get',
+			url: 'http://localhost:9000/tags/',
+		  })
+		  .then((response) => { 
+			if (response.data.success) { 
+                for(var key in response.data.tags){
+                    var x = key;
+                    this.setState({forum_tags:[...this.state.forum_tags, { key: x, text: x, value: x }]});
+                }
+			} else {
+				console.log("bad");
+			}
+		  })
+		  .catch((error) => {
+			console.log(error);
+          });
     }
 
     handleChange = (e, {value}) => {
