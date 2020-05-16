@@ -1,10 +1,10 @@
 import React, { useCallBack } from "react";
-import "../css/signup.css";
+import "../css/adminsignup.css";
 import axios from 'axios';
 import pic from '../css/vectorlogo.png';
 
 
-const SignUp = ({ history }) => {
+const AdminSignUp = ({ history }) => {
 
     const handleSignUp = (event) => {
         event.preventDefault();
@@ -12,7 +12,7 @@ const SignUp = ({ history }) => {
 
         axios({
             method: 'post',
-            url: 'http://localhost:9000/auth/signUp',
+            url: 'http://localhost:9000/auth/adminsignUp',
             data: {
                 email: email.value,
                 password: password.value,
@@ -51,10 +51,13 @@ const SignUp = ({ history }) => {
 
                 <div className="right">
                     <div className="rightTitle">
-                        <h1>Sign Up</h1>
+                        <h1>Admin Sign Up</h1>
                     </div>
 
                     <form onSubmit={handleSignUp}>
+                        <div>
+                            <input className="inputBox" name="company" type="company" placeholder="  Company" />
+                        </div>
                         <div>
                             <input className="inputBox" name="fname" type="fname" placeholder="  First Name" />
                         </div>
@@ -86,4 +89,4 @@ const SignUp = ({ history }) => {
     );
 };
 
-export default SignUp;
+export default AdminSignUp;
