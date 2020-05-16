@@ -27,19 +27,35 @@ function getTagCount(forumName, tagName) {
 function removeTag(forumName, tagName) {
     firebase.db.database().ref(forumName).child('Tags').child(tagName).remove();
     removeTagFromAllUsers(forumName, tagName);
+
 }
 
 // Removes the tags from the users of a company
 function removeTagFromAllUsers(forumName, tagName) {
     const forumDBRef = firebase.db.database().ref(forumName);
     forumDBRef.child('Users').once('value').then((data) => {
-        var userIDs = data.val();
-        for (userID in userIDs) {
-            forumDBRef.child('Users').child(userID).child('Tags').child(tagName).remove();
-        }
+
+        // Goes to every user
+        data.forEach(function (child) {
+            child.forEach(function (grandchild) {
+
+                // goes to the tags object in the user
+                if(grandchild.key === 'tags') {
+                    console.log(grandchild.key + " : " + grandchild.val());
+
+                    // Checks every tag and removes the one that doesn't matter
+                    grandchild.forEach(function (tagNameChild) {
+
+                        //Checks which tag to remove
+                        if(tagNameChild.val() === tagName) {
+                            forumDBRef.child('Users/' + child.key).child('tags/' + tagNameChild.key).remove()
+                        }
+                    });
+                }
+            });
+        });
     });
 }
-
 
 // "POST" method for a new user 
 function createNewUser(forumName, firstName, lastName, email) {
