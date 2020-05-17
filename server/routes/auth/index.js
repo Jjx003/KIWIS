@@ -5,11 +5,14 @@ var db = require('../../db/index');
 
 const authenticated = (req,res,next) => {
 	try {
-   	auth.checkToken(req.cookies.auth.token).then(() =>{
+		console.log(JSON.parse(req.cookies.auth).token);
+		console.log(typeof(JSON.parse(req.cookies.auth).token))
+   		auth.checkToken(JSON.parse(req.cookies.auth).token).then(() =>{
+			console.log("in here");
 			next();
-      }).catch( function(error) {
-      	console.log("Request Denied: User is not signed in");
-         res.jsonp({success: false});
+      	}).catch( function(error) {
+			console.log(error);
+         	res.jsonp({success: false});
       })  
     } catch(error) {
 	 		console.log(error);
@@ -18,9 +21,8 @@ const authenticated = (req,res,next) => {
     }
 };
 
-
 const isAdmin = (req, res, next) => {
-	if (req.cookies.auth.isAdmin) { next();}
+	if (JSON.parse(req.cookies.auth).admin) { next();}
 	console.log("Request Denied: User is not an admin.");
 	res.jsonp({success: false});
 };
@@ -36,9 +38,7 @@ router.post('/signUp', function (req, res, next) {
     });
 });
 
-router.get('/checkIfSignedIn', function(req, res, next) {
-	console.log(req.cookies.auth) 
-	console.log("inasdfasdfasdf");
+router.get('/checkIfSignedIn', authenticated, function(req, res, next) {
 	res.jsonp({success: true});
 });
 
