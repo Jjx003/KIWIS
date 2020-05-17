@@ -18,10 +18,11 @@
 }
 
 .tagListBox {
-    height: 40%;
+    height: 65%;
     margin-left: 10%;
     margin-right: 10%;
-    margin-bottom: 10%;
+    margin-bottom: 4%;
+    margin-top: 4%;
     overflow-y: scroll;
 }
 
@@ -64,7 +65,7 @@
 
 .doneButtons {
     bottom: 10px;
-    margin-top: 10%;
+    margin-top: 5%;
     align-content: center;
     
 }

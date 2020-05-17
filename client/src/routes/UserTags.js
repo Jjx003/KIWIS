@@ -1,8 +1,12 @@
 import React from 'react';
-import db from '../db/index.js';
 import "../css/usertags.css";
 import test from "../css/test.json";
-import { Link } from 'react-router-dom';
+import { Link, Router } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import axios from 'axios';
+import {UpdateContext} from '../auth/Auth';
+
+import Cookies from 'universal-cookie';
 
 
 class UserTags extends React.Component {
@@ -23,33 +27,51 @@ class UserTags extends React.Component {
     }
 
     componentWillMount() {
-        db.getAllTags('bruh').then((data) => {
-            this.setState({info: data.toJSON()});
-            console.log(this.state.info);
-        });
-      }
+        // db.getAllTags('bruh').then((data) => {
+        //     this.setState({info: data.toJSON()});
+        //     console.log(this.state.info);
+        // });	const handleSignOut = () => {
+		axios.defaults.withCredentials = true;
+		axios({
+			method: 'get',
+			url: 'http://localhost:9000/auth/login',
+            withCredentials: true,
+            data: {
+                forumName: this.state.company_name
+            }
+		  })
+		  .then((response) => { 
+			console.log(response.data.success);
+			if (response.data.success) { 
+				this.state.info = response;
+
+			} else {
+				console.log("error with tags.");
+			}
+		  })
+		  .catch((error) => {
+			console.log(error);
+		  });
+	}
+
 
     render() {
         const {info} = this.state;
-        const tags = Object.keys(info).map(x => { return { key: x, text: x, value: x } });
+        //const tags = Object.keys(info).map(x => { return { key: x, text: x, value: x } });
 
         return(
+            <div>
+            <Navbar/>
             <div className="mainTagsPage">
+               
                 <div className="mainContainer"> 
+                    <h1>
+                        Specializations Page
+                    </h1>
                     <div className="tagListBox">
                         { Object.keys(info).map((key, i) => ( 
-                                <button className='tagButton' onClick={console.log(key)}>{key}</button>
+                                <button className='tagButton'>{key}</button>
                         ))}
-                    </div>
-                    <div>
-                        <form>
-                            <div className="buttons">
-                            </div>
-                            <input onChange= {e=> this.setState({company_name: e.target.value})} />
-                            <input onChange= {e=> this.setState({tag_name: e.target.value})} />
-                            <button onClick={db.removeSpecialization(this.state.company_name, this.state.tag_name)} className="button1" type="change">REMOVE</button>
-                        </form>
-
                     </div>
                     <div className="doneButtons">
                         <button onClick={this.resetTags()} className="resetButton">Reset Specializations</button>
@@ -63,6 +85,7 @@ class UserTags extends React.Component {
                         © All Rights Reserved. KIWI by Symps.
                     </p1>
                 </div>
+            </div>
             </div>
         )
     }

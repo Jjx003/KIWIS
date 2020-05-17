@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Button } from 'semantic-ui-react';
 import '../css/App.css';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 import {UpdateContext} from '../auth/Auth';
 
@@ -65,6 +66,9 @@ const Home = ({history}) => {
 			<Navbar/>
 			<h1> Home Page </h1>	
 			<Button onClick={handleSignOut}>Signout</Button>
+			<Link to="/userTags">
+				<Button> Hey</Button>
+			</Link>
 		</div>
 	);
 }
