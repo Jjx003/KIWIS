@@ -11,7 +11,8 @@ router.post('/add',
         check('forumName').isLength({min: 1}).trim().escape(),
         check('firstName').isLength({min: 1}).trim().escape(),
         check('lastName').isLength({min: 1}).trim().escape(),
-        check('email').isEmail().isLength({min: 1}.normalizeEmail())
+        check('email').isEmail().isLength({min: 1}.normalizeEmail()),
+        check('password').isLength({min: 6}).trim().escape()
     ],
 
 
@@ -32,7 +33,7 @@ router.post('/add',
 
     function (req, res, next) {
         try {
-            db.createNewUser(req.body.forumName, req.body.firstName, req.body.lastName, req.body.email);
+            db.createNewUser(req.body.forumName, req.body.firstName, req.body.lastName, req.body.email, req.body.password);
             res.jsonp({success: true});
         } catch (error) {
             console.log(error);

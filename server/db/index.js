@@ -1,4 +1,5 @@
 var firebase = require('../firebase');
+var auth = require('../auth/index');
 
 // add database functions below
 
@@ -58,21 +59,27 @@ function removeTagFromAllUsers(forumName, tagName) {
 }	
 
 // "POST" method for a new user 
-function createNewUser(forumName, firstName, lastName, email) {
+function createNewUser(forumName, firstName, lastName, email, password) {
     const forumDBRef = firebase.db.database().ref(forumName);
-    var user = {};
+    auth.signUp(email, password).then((data) => {
+        var userID = data.user.uid
+        var user = {};
 
-    // don't need userID for createNewUser because firebase generates one for us.
-    // Creates a new user object with the userID as a key
-    user = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        admin: false,
-        tags: ['announcements', 'help-needed'],
-        following_IDs: []
-    };
-	forumDBRef.child("Users").push(user);
+        // Creates a new user object with the userID as a key
+        user[userID] =  {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            admin: false,
+            tags: ['announcements', 'help-needed'],
+            following_IDs: []
+        };
+        forumDBRef.child("Users").update(user);
+
+        var mapUserToCompany = {};
+        mapUserToCompany[userID] = forumName;
+        firebase.db.database().ref("UserCompaniesID").update(mapUserToCompany);
+    });
 }
 
 // "GET" method for a user's id
@@ -94,7 +101,9 @@ function getUsers(forumName) {
 function removeUser(forumName, userID) {
     firebase.db.database().ref(forumName).child('Users').child(userID).remove();
 }
+
 module.exports = { 
 	createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
-	getTagCount, removeTag, getCurrentUserID};
+    getTagCount, removeTag, getCurrentUserID};
+    
