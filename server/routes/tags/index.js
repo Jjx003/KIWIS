@@ -52,14 +52,11 @@ router.post('/add',
         if(!errors.isEmpty()) {
             return res.status(422).json({errors: errors.array() });
         }
-
-        auth.checkToken(req.cookies.auth).then(() =>{
-            next()
-        }).catch( (error)  => {
-            console.log("error occured when checking token, request denied");
-            res.jsonp({success: false});
-        })  
+        
+        next();
     },
+
+    authenticated, isAdmin, 
 
     function (req, res, next) {
         try {
@@ -84,13 +81,11 @@ router.get('/all',
         if(!errors.isEmpty()) {
             return res.status(422).json({errors: errors.array() });
         }
-        auth.checkToken(req.cookies.auth).then(() =>{
-            next()
-        }).catch( (error) =>{
-            console.log("error occured when checking token, request denied");
-            res.jsonp({success: false});
-        })  
+
+        next();
     },
+
+    authenticated, 
 
     function (req, res, next) {
         try {

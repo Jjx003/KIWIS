@@ -19,20 +19,18 @@ export const Login = ({history}) => {
 			// create token for user
 			db.auth().currentUser.getIdToken(true).then((idToken) => {
 				// store token into cookie 
-
-				console.log('this is typoef', typeof(idToken))
 				const cookies = new Cookies();
-				console.log(idToken);
-				cookies.set('auth', {token: idToken, admin: db.auth().currentUser.emailVerified}, {path: '/'});
+				cookies.set('auth', idToken, {path: '/'});
 				
-				update().then(() => {
 				// redirect to home page
-				history.push('/');
+				update().then(() => {
+					history.push('/');
 				});
 			})
+			.catch((error) => console.log(error));
 
-		.catch((error) => console.log(error));
-
+		}).catch((error) => {
+			console.log(error);
 		});
 	}
 

@@ -3,12 +3,10 @@ var router = express.Router();
 var auth = require('../../auth/index');
 var db = require('../../db/index');
 
+// checks if the user is authenticated
 const authenticated = (req,res,next) => {
 	try {
-		console.log(JSON.parse(req.cookies.auth).token);
-		console.log(typeof(JSON.parse(req.cookies.auth).token))
-   		auth.checkToken(JSON.parse(req.cookies.auth).token).then(() =>{
-			console.log("in here");
+   		auth.checkToken(req.cookies.auth).then(() =>{
 			next();
       	}).catch( function(error) {
 			console.log(error);
@@ -21,14 +19,26 @@ const authenticated = (req,res,next) => {
     }
 };
 
+// checks if the user is an admin
 const isAdmin = (req, res, next) => {
-	if (JSON.parse(req.cookies.auth).admin) { next();}
-	console.log("Request Denied: User is not an admin.");
-	res.jsonp({success: false});
+	try {
+		auth.checkToken(req.cookies.auth).then((decodedToken) => {
+			if (decodedToken.email_verified) { next(); }
+			console.log("Request Denied: User is not an admin."); 
+			res.jsonp({success: false});
+		}).catch((error) =>{
+			console.log(error);
+		});
+	
+	} catch (error) {
+		console.log(error);
+		console.log("Inside isAdmin.");
+		res.jsonp({success: false});
+	}
 };
 
-// attempts to sign up user
-router.post('/signUp', function (req, res, next) {
+// only signs up to firebase, doesn't follow the actual sign up process of our app. 
+router.post('/signUp', function (req, res) {
     auth.signUp(req.body.email, req.body.password).then(() => {
         console.log("sign up successful.");
         res.jsonp({success: true});
@@ -39,6 +49,7 @@ router.post('/signUp', function (req, res, next) {
 });
 
 router.get('/checkIfSignedIn', authenticated, function(req, res, next) {
+	// user is signed in 
 	res.jsonp({success: true});
 });
 
