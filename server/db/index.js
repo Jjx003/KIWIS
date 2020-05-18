@@ -52,6 +52,27 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
 
 }
 
+// Upvoting response would look really similar
+function upVotePost(forumName, post_id) {
+
+    // Reference the post
+    const firebaseRef = firebase.db.database().ref(forumName+"/Posts"+post_id);
+
+    // Update the karma
+    firebaseRef.update({karma: karma+1});
+
+}
+
+function endorseResponse(forumName, response_id) {
+
+    // Reference the response
+    const firebaseRef = firebase.db.database().ref(forumName+"/Responses"+response_id);
+
+    // Endorse the response
+    firebaseRef.update({endorsed: true});
+
+}
 
 
-module.exports = { getUserID, getCompanyName, addPostData, addTestData };
+
+module.exports = { endorseResponse, upVotePost, getUserID, getCompanyName, addPostData, addTestData };
