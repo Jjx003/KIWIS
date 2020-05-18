@@ -102,8 +102,13 @@ function removeUser(forumName, userID) {
     firebase.db.database().ref(forumName).child('Users').child(userID).remove();
 }
 
+function checkRegistration(id) {
+    return firebase.db.database().ref('/Registrations/' + id).once('value');
+}
+
 module.exports = { 
 	createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
-    getTagCount, removeTag, getCurrentUserID};
+    getTagCount, removeTag, getCurrentUserID,
+    checkRegistration};
     
