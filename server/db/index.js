@@ -102,7 +102,101 @@ function removeUser(forumName, userID) {
     firebase.db.database().ref(forumName).child('Users').child(userID).remove();
 }
 
-module.exports = { 
+function getCompanyName(user_id) {
+    return firebase.db.database().ref('/UserCompaniesID/' + user_id).once('value');
+}
+
+function updateKarma(companyName, user_id, response_id) {
+
+    return new Promise(function(resolve, reject){
+
+        const firebaseRef = firebase.db.database().ref(companyName + '/Responses/' + response_id);
+
+        var updates = {};
+        firebaseRef.once('value', function(snapshot){
+
+            var upvoters_array = (snapshot.child("upvoters").val());
+        
+            if(upvoters_array != null && upvoters_array.indexOf(user_id, 0) != -1) {
+                reject(new Error("User already upvoted"))
+
+            } else {
+
+                if(upvoters_array == null) {
+                    upvoters_array = [];
+                }
+
+                upvoters_array.push(user_id);
+                updates["upvoters"] = upvoters_array;
+                firebaseRef.update(updates);
+
+                updates = {};
+                firebaseRef.once('value', function(snapshot){
+                    var karma = (snapshot.child("karma").val());
+                    updates["karma"] = karma + 1;
+                    firebaseRef.update(updates);
+
+                    resolve(true)
+    
+                }) //.then(()=>{return canupvote}
+
+                .catch( function(error) {
+                    console.log(error);
+                })
+
+            }
+    
+        });
+    })
+}
+
+function undoKarma(companyName, user_id, response_id) {
+
+    return new Promise(function(resolve, reject){
+
+        const firebaseRef = firebase.db.database().ref(companyName + '/Responses/' + response_id);
+
+        var updates = {};
+        firebaseRef.once('value', function(snapshot){
+
+            var upvoters_array = (snapshot.child("upvoters").val());
+        
+            if(upvoters_array != null && upvoters_array.indexOf(user_id, 0) != -1) {
+                reject(new Error("User already upvoted"))
+
+            } else {
+
+                if(upvoters_array == null) {
+                    upvoters_array = [];
+                }
+
+                upvoters_array.push(user_id);
+                updates["upvoters"] = upvoters_array;
+                firebaseRef.update(updates);
+
+                updates = {};
+                firebaseRef.once('value', function(snapshot){
+                    var karma = (snapshot.child("karma").val());
+                    updates["karma"] = karma + 1;
+                    firebaseRef.update(updates);
+
+                    resolve(true)
+    
+                }) //.then(()=>{return canupvote}
+
+                .catch( function(error) {
+                    console.log(error);
+                })
+
+            }
+    
+        });
+    })
+}
+
+
+
+module.exports = { undoKarma, updateKarma, getCompanyName,
 	createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID};
