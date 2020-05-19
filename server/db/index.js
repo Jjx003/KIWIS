@@ -138,7 +138,7 @@ function updateKarma(companyName, user_id, response_id) {
 
                     resolve(true)
     
-                }) //.then(()=>{return canupvote}
+                })
 
                 .catch( function(error) {
                     console.log(error);
@@ -150,7 +150,7 @@ function updateKarma(companyName, user_id, response_id) {
     })
 }
 
-function undoKarma(companyName, user_id, response_id) {
+function undoUpvote(companyName, user_id, response_id) {
 
     return new Promise(function(resolve, reject){
 
@@ -161,28 +161,25 @@ function undoKarma(companyName, user_id, response_id) {
 
             var upvoters_array = (snapshot.child("upvoters").val());
         
-            if(upvoters_array != null && upvoters_array.indexOf(user_id, 0) != -1) {
-                reject(new Error("User already upvoted"))
+            if(upvoters_array == null || upvoters_array.indexOf(user_id, 0) == -1) {
+                reject(new Error("User did not upvote"))
 
             } else {
 
-                if(upvoters_array == null) {
-                    upvoters_array = [];
-                }
-
-                upvoters_array.push(user_id);
+                upvoter_index = upvoters_array.indexOf(user_id, 0);
+                upvoters_array.splice(upvoter_index, 1);
                 updates["upvoters"] = upvoters_array;
                 firebaseRef.update(updates);
 
                 updates = {};
                 firebaseRef.once('value', function(snapshot){
                     var karma = (snapshot.child("karma").val());
-                    updates["karma"] = karma + 1;
+                    updates["karma"] = karma - 1;
                     firebaseRef.update(updates);
 
                     resolve(true)
     
-                }) //.then(()=>{return canupvote}
+                })
 
                 .catch( function(error) {
                     console.log(error);
@@ -196,7 +193,7 @@ function undoKarma(companyName, user_id, response_id) {
 
 
 
-module.exports = { undoKarma, updateKarma, getCompanyName,
+module.exports = { undoUpvote, updateKarma, getCompanyName,
 	createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID};
