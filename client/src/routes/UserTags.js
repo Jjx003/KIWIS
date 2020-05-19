@@ -20,6 +20,28 @@ class UserTags extends React.Component {
             info: {}
         };
 
+        axios.defaults.withCredentials = true;
+		axios({
+			method: 'get',
+			url: 'http://localhost:9000/tags/getTags',
+            withCredentials: true,
+            data: {
+                forumName: this.state.company_name
+            }
+		  })
+		  .then((response) => { 
+			if (response != undefined) { 
+                console.log("success");
+                var jsonThing = response;
+                this.setState({info: jsonThing});   
+
+			} else {
+				console.log("error with tags.");
+			}
+		  })
+		  .catch((error) => {
+			console.log(error);
+		  });
     }
     
     resetTags() {
@@ -30,28 +52,8 @@ class UserTags extends React.Component {
         // db.getAllTags('bruh').then((data) => {
         //     this.setState({info: data.toJSON()});
         //     console.log(this.state.info);
-        // });	const handleSignOut = () => {
-		axios.defaults.withCredentials = true;
-		axios({
-			method: 'get',
-			url: 'http://localhost:9000/auth/login',
-            withCredentials: true,
-            data: {
-                forumName: this.state.company_name
-            }
-		  })
-		  .then((response) => { 
-			console.log(response.data.success);
-			if (response.data.success) { 
-				this.state.info = response;
+        // });
 
-			} else {
-				console.log("error with tags.");
-			}
-		  })
-		  .catch((error) => {
-			console.log(error);
-		  });
 	}
 
 
