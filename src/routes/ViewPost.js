@@ -1,5 +1,8 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import '../css/Home.css';
+import HomePosts from "../components/HomePosts";
+import {withRouter}from 'react-router-dom';
 
 class ViewPost extends React.Component {
     render() {
@@ -9,16 +12,25 @@ class ViewPost extends React.Component {
         }
         const {postID, firstName, lastName, title, tags, datetime, content, karma} = this.props.location.state;
         return (
-            <div>
-            <h1> {postID || "null"} </h1>
-            <h1> {firstName || "null"} </h1> 
-            <h1> {lastName || "null"} </h1>
-            <h1> {title || "null"} </h1>
-            <h1> {tags || "null"} </h1>
-            <h1> {datetime || "null"} </h1>
-            <h1> {content || "null"} </h1>
-            <h1> {karma || "null"} </h1>
+            <div className={"container"}>
+                <div>
+                    <Navbar />
+                    <div className={"posts-container"}>
+                        <div className={"original-post"}>
+                        <h1> {postID || "null"} </h1>
+                        <h1> {firstName || "null"} </h1>
+                        <h1> {lastName || "null"} </h1>
+                        <h1> {title || "null"} </h1>
+                        <h1> {tags || "null"} </h1>
+                        <h1> {datetime || "null"} </h1>
+                        <h1> {content || "null"} </h1>
+                        <h1> {karma || "null"} </h1>
+                        </div>
+                    </div>
+                </div>
           </div>
+
+
           /*
             "userID": "dumbo jumbo",
             "title": "What's 2+2?",

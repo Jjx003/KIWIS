@@ -19,6 +19,17 @@ var data = [
         "karma": "1000",
         "tags": ["Database", "Sales"],
         "datetime" : "May 05, 2020"
+    },
+
+    {
+        "postID": "#dhrst",
+        "firstName": "Luis",
+        "lastName": "Arroyo",
+        "title":"Customers and Database Modeling",
+        "content":"Modeling the database: Will customers have the option to buy more than one stock? I'm wondering whether the database should reflect this scenario.",
+        "karma": "1000",
+        "tags": ["Database", "Sales"],
+        "datetime" : "May 05, 2020"
     }
 
 
