@@ -1,0 +1,82 @@
+.tagUserListAP{
+    list-style: none;
+    width:70%;
+    display: inline-block;
+}
+
+.userItemAP{
+    align-items: center;
+    padding-left: 0px;
+}
+
+.inputBoxAP{
+    display:inline-block;
+    width: 43%;
+    margin-top: 5px;
+    margin-right: 170px;
+
+    border-radius: 40px;
+    height: 30px;
+    border-width: thin;
+}
+
+.addEmployeeAP{
+    margin-left: 200px;
+    display: inline-block;
+    width:100%;
+    background: #80C180;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    padding-bottom: 5px;
+}
+
+.invitePromptAP{
+    margin-left: 20px;
+
+    display: inline-block;
+    width: 20%;
+}
+
+.endText {     
+    position: absolute; 
+    bottom: 5px; 
+    left: 0; 
+    width: 100%; 
+    text-align: center;
+}
+
+
+.addTagAP{
+    margin-left: 200px;
+    display: inline-block;
+    width:70%;
+    background: #CF88AA;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    padding-bottom: 5px;
+}
+
+.tagPromptAP{
+    margin-left: 20px;
+
+    display: inline-block;
+    width: 20%;
+}
+
+.tagItemAP{
+    align-items: center;
+    padding-left: 0px;
+}
+
+.tagListAP{
+    height: 40%;
+    width: 70%;
+    margin-left: 200px;
+    margin-right: 10%;
+    margin-bottom: 10%;
+    overflow-y: scroll;
+    display: flex;
+    flex-wrap: wrap;
+}

@@ -1,0 +1,33 @@
+.displayUserBarDU{
+    margin-left: 200px;
+
+    height: 40px;
+    background: #80C180;
+    margin-top: 8px;
+    margin-bottom: 8px;
+
+    border-radius: 5px;
+    width: 100%;
+    padding-top: 8px;
+}
+
+.first_nameDU{
+    margin-left: 20px;
+    width: 20%;
+    float: left;
+}
+
+.last_nameDU{
+    display: inline-block;
+    width: 20%;
+}
+
+.emailDU{
+    display: inline-block;
+    width: 20%;
+}
+
+.user_idDU{
+    display: inline-block;
+    width: 20%;
+}

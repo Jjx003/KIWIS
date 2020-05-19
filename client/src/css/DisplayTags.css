@@ -1,0 +1,11 @@
+.tagButtonDT {
+    width: 150px;
+    background-color: #CF88AA;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 40px;
+    border-radius: 20px;
+    border-width: thin;
+    border-style: ridge;
+}
