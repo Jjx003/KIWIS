@@ -2,9 +2,11 @@ var express = require("express");
 var router = express.Router();
 var auth = require('../../auth/index');
 var db = require('../../db/index');
+var firebase = require('../../firebase');
+
 
 // We are printing the console logs but the tag_ids is undefined
-//hi
+
 
 
 
@@ -41,14 +43,14 @@ function (req, res, next) {
     })  
 },
 
-function (req, res, next) {
+function (req, res) {
     var user_id = db.getUserID();
     db.getCompanyName(user_id).then(function(snapshot) {
         var company = snapshot.val();
-        db.pullResponse(company, req.body.post_id);
-        res.jsonp({success : true});
-    })
-
+        db.pullResponse(company, req.body.post_id).then(
+            res.jsonp({success : true})
+        );
+        });
 });
 
 
