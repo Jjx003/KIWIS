@@ -8,9 +8,8 @@ function addTestData() {
 }
 
 
-function getCompanyPosts(company){
+function getCompanyPosts(company, posts){
     const firebaseRef = db.database().ref(company).child('Posts');
-    let posts = [];
     firebaseRef.on('value', postSnapshot => {
         postSnapshot.forEach(postId => {
             let post = postId.val();
@@ -19,7 +18,6 @@ function getCompanyPosts(company){
             posts.unshift(post);   
         });
     });
-    return posts;
 }
 
 function getCompanyTags(company){

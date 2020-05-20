@@ -5,7 +5,6 @@ var {db} = require('../../firebase')
 
 router.get('/',
     function (req, res, next) {
-        console.log('get tags to homepage')
         const company = 'UXD14';        //call get company
         db.database().ref(company+'/Tags').once('value').then(function(snapshot) {
             var tags = snapshot.val();

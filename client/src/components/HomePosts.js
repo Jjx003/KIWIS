@@ -49,6 +49,7 @@ class HomePosts extends React.Component {
 		  })
 		  .then((response) => { 
 			if (response.data.success) { 
+                console.log(response.data);
                 for(var key in response.data.posts){
                     this.setState({posts : [...this.state.posts, response.data.posts[key]]});
                 }
@@ -78,7 +79,7 @@ class HomePosts extends React.Component {
         })
     }
 
-    //updates and queris every time tag is removed or added
+    //updates and queries every time tag is removed or added
     updateTagSearch(value) {
         let keyList = []
         this.searchTags(value, keyList);
@@ -129,7 +130,6 @@ class HomePosts extends React.Component {
 
 function PostContainer(props){
     if(props.textSearch){
-        //could add visible here for search
         return ( 
         <Results props={props}>
             <Hits className="posts-container" hitComponent={TextSearchPosts}/>
@@ -154,9 +154,6 @@ function TagSearchPosts(props){
     );
 }
 
-// no submit button
-// tags take priority in search
-// searching while tags are selected will search through only the posts with tags
 function TextSearchPosts(props) {
     return (
         <div>
@@ -167,7 +164,7 @@ function TextSearchPosts(props) {
     );
 }
 
-/*
+/* This part is for routing to the Create post pages
 const RedirectButton = withRouter((props) => {
     const redirect = () => {
         props.history.push('/createPost');

@@ -14,7 +14,7 @@ router.get('/:id', function (req, res, next) {
     })  
 },
 function (req, res, next) {
-    const company = 'UXD14';        //call get company
+    const company = 'UXD14';        //call get company, this should not be hard coded
     db.database().ref(company+'/Posts/'+req.params.id).once('value').then(function(snapshot) {
         var posts = snapshot.val();
         res.jsonp(posts);
@@ -26,9 +26,9 @@ function (req, res, next) {
 
 router.get('/',
     function (req, res, next) {
-        console.log('get posts to home page')
         const company = 'UXD14';        //call get company
-        posts = getCompanyPosts(company);
+        let posts = [];
+        getCompanyPosts(company, posts);
         res.jsonp({success : true, posts: posts});
     }
 );

@@ -32,15 +32,15 @@ function startAlgolia(){
     const company = companies[key];
     const index = client.initIndex(company);
     const companyRef = db.database().ref(company+'/Posts');
-    companyRef.on('child_added', (contact) => {console.log("aaaa"); addOrUpdateIndexRecord(index, contact)});
+    //child_added gets called every time the home page is loaded
+    companyRef.on('child_added', (contact) => addOrUpdateIndexRecord(index, contact));
     companyRef.on('child_changed', (contact) => addOrUpdateIndexRecord(index, contact));
     companyRef.on('child_removed', (contact) => deleteIndexRecord(index, contact));
   }
 }
 
   const addOrUpdateIndexRecord = (index, contact) => {
-  //console.log(index)
-  console.log("something was added or updated???")
+  //console.log(index)s
   // Get Firebase object
   const record = contact.val();
   // Specify Algolia's objectID using the Firebase object key
@@ -58,7 +58,6 @@ function startAlgolia(){
 }
 
   const deleteIndexRecord = (index, { key }) => {
-  console.log("something was removed???")
   // Get Algolia's objectID from the Firebase object key
   const objectID = key;
   // Remove the object from Algolia
