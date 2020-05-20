@@ -2,6 +2,8 @@
     list-style: none;
     width:70%;
     display: inline-block;
+    overflow-y: scroll;
+
 }
 
 .userItemAP{

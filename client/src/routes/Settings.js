@@ -4,6 +4,7 @@ import { Segment, Divider, Checkbox } from "semantic-ui-react";
 import "../css/settings.css";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import axios from 'axios';
 
 class Settings extends React.Component {
 

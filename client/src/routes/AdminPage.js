@@ -2,10 +2,11 @@ import React from "react";
 import DisplayUser from "../components/DisplayUser"
 import DisplayTag from "../components/DisplayTag"
 import { Tab } from 'semantic-ui-react'
-import users from '../dummy_data/dummy_users.json'
-import tags from '../dummy_data/dummy_tags.json'
+//import users from '../dummy_data/dummy_users.json'
+//import tags from '../dummy_data/dummy_tags.json'
 import "../css/AdminPage.css"
 import Navbar from "../components/Navbar";
+import axios from 'axios';
 
 class AdminPage extends React.Component{
     constructor(props){
@@ -17,14 +18,19 @@ class AdminPage extends React.Component{
             tagList: {}
         };
 
-        /*axios({
+        
+    }
+    componentWillMount()
+    {
+        axios({
             method: 'get',
             url: 'http://localhost:9000/tags/all',
             data: {
               forumName: this.state.forumName
             }
           }).then((data) => {
-            this.setState({userList: data.toJSON()});
+            console.log(data);
+            this.setState({tagList: data});
         });
 
         axios({
@@ -34,13 +40,11 @@ class AdminPage extends React.Component{
               forumName: this.state.forumName
             }
           }).then((data) => {
-            this.setState({tagList: data.toJSON()});
-        });*/
-    }
-    componentWillMount()
-    {
-        this.setState({userList: Object.keys(users)});
-        this.setState({tagList: Object.keys(tags)});
+            this.setState({userList: data.toJSON()});
+        });
+
+        //this.setState({userList: Object.keys(users)});
+        //this.setState({tagList: Object.keys(tags)});
         //Object.keys(this.state.userList).map(x => {return <li> <DisplayUser x/> </li>;})} 
         //{Object.keys(this.state.tagList).map(x => {return <li> <DisplayTag x/> </li>;})} 
         //{this.state.userList.map(x => {return<li> <DisplayUser x/> </li>;})}
@@ -48,7 +52,7 @@ class AdminPage extends React.Component{
     }
 
     render(){
-        var panes = [
+        /*var panes = [
         { menuItem: 'Users', render: () => 
             <Tab.Pane className="adminPageAP"> 
                 <div className="tagUserListAP"> 
@@ -74,11 +78,12 @@ class AdminPage extends React.Component{
                 </div>
             </Tab.Pane> 
             },
-    ];
+    ];*/
+    //<Tab panes={panes} />
+
         return(
             <div>
                 <Navbar />
-                <Tab panes={panes} />
                 <div className="endText">
                     <p1>
                         © All Rights Reserved. KIWI by Symps.
