@@ -2,9 +2,9 @@ var express = require("express");
 var router = express.Router();
 var path = require('path');
 var mailgun = require("mailgun-js");
+var db = require("../../db/index");
 require('dotenv').config();
 
-console.log(process.env.MAILGUN_API_KEY)
 const mg = mailgun({
     apiKey:	process.env.MAILGUN_API_KEY, 
 	domain: 'mg.kiwis.tech', 
@@ -33,8 +33,6 @@ router.post('/', function (req, res, next) {
 
     // When moving to production, need a authentication cookie passed in as well
     // Or else people can exploit this route.
-
-    console.log(req.body)
     try {
         sendEmail(req.body.email, "test", req.body.content);
     } catch (error) {
@@ -48,9 +46,27 @@ router.post('/', function (req, res, next) {
 });
 
 router.get('/accept_invite/:uuid', function(req, res, next) {
-  ///yes
-  res.redirect('http://localhost:3000/login');
+  // checking if uuid is present in registration table
+  db.checkRegistration(req.params.uuid).then((snapshot) => {
+      if (snapshot.val() != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
+      res.send("Invalid Registration ID");
+  }).catch((error) => {
+      console.log(error);
+  })
 });
+
+router.post('/validateID', function(req, res) {
+    db.checkRegistration(req.body.uuid).then((snapshot) => {
+        if (snapshot.val() != null) {
+            res.jsonp({success: true}); 
+        } else{
+            res.jsonp({success: false});
+        }
+    }).catch((error) => {
+        console.log(error);
+        res.jsonp({success:false});
+    }) 
+})
 
 
 module.exports = router;

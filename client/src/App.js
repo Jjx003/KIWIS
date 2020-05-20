@@ -13,7 +13,8 @@ function App() {
   return (
 			<div>
 				<Route path="/login" exact render={(props) => <Login {...props}/>}/>
-				<Route path="/signup" exact render={(props) => <SignUp {...props}/>}/>
+				<Route path="/signup/:id" exact render={(props) => <SignUp {...props}/>}/>
+				<Route path="/signup" exact render={(props) => <Login {...props}/> }/>
 				<PrivateRoute exact path="/" component={Home} />
 				<PrivateRoute exact path="/createPost" component={CreatePost} />
 			</div>
