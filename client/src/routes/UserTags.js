@@ -22,7 +22,7 @@ class UserTags extends React.Component {
 
         axios.defaults.withCredentials = true;
 		axios({
-			method: 'get',
+			method: 'post',
 			url: 'http://localhost:9000/tags/getTags',
             withCredentials: true,
             data: {
@@ -31,9 +31,7 @@ class UserTags extends React.Component {
 		  })
 		  .then((response) => { 
 			if (response != undefined) { 
-                console.log("success");
-                var jsonThing = response;
-                this.setState({info: jsonThing});   
+                this.setState({info: response.data});   
 
 			} else {
 				console.log("error with tags.");

@@ -7,7 +7,7 @@ require('dotenv').config();
 
 
 
-router.get('/getTags', 
+router.post('/getTags', 
 
     // Checks for errors when checking http parameters and checks if logged in
     function (req, res, next) {
