@@ -12,12 +12,14 @@ class SignUp extends React.Component {
 
 	handleSignUp = (event) => {
 		event.preventDefault();
-		const {email, password} = event.target.elements;
+		const {first_name, last_name, email, password} = event.target.elements;
 
 		axios({
 			method: 'post',
-			url: 'http://localhost:9000/auth/signUp',
+			url: 'http://localhost:9000/auth/employeeSignUp',
 			data: {
+				first_name: first_name.value,
+				last_name: last_name.value,
 				email: email.value,
 				password: password.value,
 			}
@@ -84,12 +86,12 @@ class SignUp extends React.Component {
                             <h1>Sign Up</h1>
                         </div>
     
-                        <form onSubmit={handleSignUp}>
+                        <form onSubmit={this.handleSignUp.bind(this)}>
                             <div>
-                                <input className="inputBox" name="fname" type="fname" placeholder="  First Name" />
+                                <input className="inputBox" name="first_name" type="fname" placeholder="  First Name" />
                             </div>
                             <div>
-                                <input className="inputBox" name="lname" type="lname" placeholder="  Last Name" />
+                                <input className="inputBox" name="last_name" type="lname" placeholder="  Last Name" />
                             </div>
                             <div>
                                 <input className="inputBox" name="email" type="email" placeholder="  Email" />
@@ -102,7 +104,7 @@ class SignUp extends React.Component {
                             </div>
                             <div className="inputBox">
                                 <button className="button12" type="submit">Sign Up</button>
-                                <button className="button22" onClick={redirectLogin}> Back to Login</button>
+                                <button className="button22" onClick={this.redirectLogin.bind(this)}> Back to Login</button>
                             </div>
                         </form>
                     </div>

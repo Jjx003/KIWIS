@@ -8,12 +8,15 @@ const AdminSignUp = ({ history }) => {
 
     const handleSignUp = (event) => {
         event.preventDefault();
-        const { email, password } = event.target.elements;
+        const { company, first_name, last_name, email, password } = event.target.elements;
 
         axios({
             method: 'post',
-            url: 'http://localhost:9000/auth/adminsignUp',
+            url: 'http://localhost:9000/auth/signUp',
             data: {
+                company: company.value,
+                first_name: first_name.value,
+                last_name: last_name.value,
                 email: email.value,
                 password: password.value,
             }

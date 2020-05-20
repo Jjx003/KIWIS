@@ -10,25 +10,15 @@ import Login from './routes/Login';
 import PrivateRoute from './auth/PrivateRoute';
 
 function App() {
-<<<<<<< HEAD
   return (
 			<div>
 				<Route path="/login" exact render={(props) => <Login {...props}/>}/>
 				<Route path="/signup/:id" exact render={(props) => <SignUp {...props}/>}/>
 				<Route path="/signup" exact render={(props) => <Login {...props}/> }/>
+				<Route path="/adminsignup" exact render={(props) => <AdminSignUp {...props} />} />
 				<PrivateRoute exact path="/" component={Home} />
 			</div>
   );
-=======
-	return (
-		<div>
-			<Route path="/login" exact render={(props) => <Login {...props} />} />
-			<Route path="/signup" exact render={(props) => <SignUp {...props} />} />
-			<Route path="/adminsignup" exact render={(props) => <AdminSignUp {...props} />} />
-			<PrivateRoute exact path="/" component={Home} />
-		</div>
-	);
->>>>>>> login/register
 }
 
 export default App;
