@@ -128,6 +128,7 @@ class HomePosts extends React.Component {
     } 
 }
 
+//component for the post container
 function PostContainer(props){
     if(props.textSearch){
         return ( 
@@ -140,6 +141,7 @@ function PostContainer(props){
     }
 }
 
+//component for tag searching
 function TagSearchPosts(props){
     return (
         <div className="posts-container">
@@ -154,6 +156,7 @@ function TagSearchPosts(props){
     );
 }
 
+//component for text searching
 function TextSearchPosts(props) {
     return (
         <div>
@@ -173,6 +176,7 @@ const RedirectButton = withRouter((props) => {
 })
 */
 
+//component is displayed then there are no results from algolia
 const Results = connectStateResults(
     ({searchState, searchResults, children}, props) =>
       searchResults && searchResults.nbHits !== 0? (

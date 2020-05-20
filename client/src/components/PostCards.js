@@ -45,10 +45,7 @@ class PostCards extends React.Component {
 
                 <h3 className="Poster"> {"Created by: " + this.props.firstName + " " + this.props.lastName} </h3> 
                 <h3 className="PostDate"> {"Date Created: " + this.props.date_time} </h3>
-               
-
-                
-
+            
             </div>
         );
     }

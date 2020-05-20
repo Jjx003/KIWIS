@@ -49,12 +49,14 @@ class Navbar extends React.Component {
           });
     }
 
+    //called when the tag dropdown changes
     handleChange = (e, {value}) => {
         this.setState({tags : value}, ()=>{
         console.log(this.state.tags);});
         this.props.updateForumDisp(value);     
     }
 
+    //called when the search box changes
     setTextSearch = (event => { 
         this.setState({value: event.target.value}, () => {
             if(this.state.value.length === 0){

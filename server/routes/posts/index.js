@@ -23,7 +23,7 @@ function (req, res, next) {
 }
 );
 
-
+//check auth with this get request
 router.get('/',
     function (req, res, next) {
         const company = 'UXD14';        //call get company
