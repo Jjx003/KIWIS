@@ -61,9 +61,9 @@ class CreatePost extends React.Component {
         const {title, content, tag_ids} = event.target.elements;
         axios.defaults.withCredentials = true;
         axios({
-			method: 'post',
-			url: 'http://localhost:9000/post/CreatePost',
-			data: {
+			    method: 'post',
+			    url: 'http://localhost:9000/post/CreatePost',
+			    data: {
                 title: title.value,
                 tag_ids: this.state.tags_selected,
                 content: content.value,
@@ -103,13 +103,13 @@ class CreatePost extends React.Component {
         return (
         <div className="createPost-container">
             <form onSubmit={this.sendPost}>
-            <h1> hey </h1>
+            <h1> Post </h1>
                 <label>
                     Title
                     <input name="title" placeholder="Post Title" />
                 </label>
                 <label>
-                    Post Content
+                    Content
                     <input name="content" placeholder="Post Content" />
                 </label>
                 <Dropdown fluid multiple selection text="tags" options={tags} onChange={this.getTags} value={this.state.tags_selected}/>
