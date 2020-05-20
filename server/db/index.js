@@ -155,7 +155,7 @@ function undoUpvote(companyName, user_id, response_id) {
     return new Promise(function(resolve, reject){
 
         const firebaseRef = firebase.db.database().ref(companyName + '/Responses/' + response_id);
-
+        console.log(firebaseRef);
         var updates = {};
         firebaseRef.once('value', function(snapshot){
 
