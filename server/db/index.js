@@ -1,24 +1,4 @@
 var firebase = require('../firebase');
-//var user = firebase.db.auth().currentUser;
-
-//function adds random data to test table
-function addTestData() {
-    const firebaseRef = firebase.database().ref("test");
-    firebaseRef.push({name:"al;sdfkj;lss", email: "jrcabrer@ucsd.edu"});
-}
-
-function getUserID() {
-
-    var user = firebase.db.auth().currentUser;
-
-    try {
-        return user.uid;
-    } catch(error) {
-        console.log("user is null");
-        return null;
-    }
-
-}
 
 function getCompanyName(user_id) {
     return firebase.db.database().ref('/UserCompaniesID/' + user_id).once('value');
@@ -88,4 +68,4 @@ function printPost(forumName, post_id) {
 
 
 
-module.exports = { getUserID, getCompanyName, addPostData, printPost, addTestData };
+module.exports = { getCompanyName, addPostData, printPost };

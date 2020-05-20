@@ -7,7 +7,6 @@ var db = require('../../db/index');
 router.post('/login', function (req, res, next) { 
     auth.login(req.body.email, req.body.password).then(() => { 
         // retrieve their userid here
-
         var user_id = db.getUserID();
         
         
