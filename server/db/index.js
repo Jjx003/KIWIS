@@ -84,7 +84,7 @@ function createNewUser(forumName, firstName, lastName, email, password) {
 
 // "GET" method for a user's id
 function getCurrentUserID(token) {
-	return firebase.admin.auth().verifyIdToken(idToken);
+	return firebase.admin.auth().verifyIdToken(token);
 }
 
 // "GET" method for a user 
