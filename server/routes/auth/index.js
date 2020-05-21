@@ -40,7 +40,7 @@ const isAdmin = (req, res, next) => {
 
 // only signs up to firebase, doesn't follow the actual sign up process of our app. 
 router.post('/AdminSignUp', function (req, res) {
-	db.createNewUser("1", req.body.company, req.body.first_name, req.body.last_name, 
+	db.createNewUser("N/A", req.body.company, req.body.first_name, req.body.last_name, 
 					req.body.email, req.body.password, true).then((result) => {
 		
 		if(result == true) {
@@ -58,9 +58,8 @@ router.post('/AdminSignUp', function (req, res) {
 });
 
 router.post('/EmployeeSignUp', function (req, res) {
-	db.checkRegistration(req.body.registration_ID).then((result) => {
-		var company = result.val();
-	
+	// checkRegistration returns the company's name
+	db.checkRegistration(req.body.registration_ID).then((company) => {
 		db.createNewUser(req.body.registration_ID, company, req.body.first_name, req.body.last_name, 
 						req.body.email, req.body.password, false).then((result) => {
 			console.log("sign up successful.");

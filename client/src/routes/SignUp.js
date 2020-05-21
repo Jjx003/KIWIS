@@ -46,7 +46,7 @@ class SignUp extends React.Component {
 				})
 			} else {
 				// update gui to show error in signing up
-				console.log("error in sign up, most likely account has already been made");
+				alert("error in sign up, most likely the email is already being used.");
 			}
 		}).catch((error) => {
 			console.log(error);

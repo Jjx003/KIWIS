@@ -47,8 +47,9 @@ router.post('/', function (req, res, next) {
 
 router.get('/accept_invite/:uuid', function(req, res, next) {
   // checking if uuid is present in registration table
-  db.checkRegistration(req.params.uuid).then((snapshot) => {
-      if (snapshot.val() != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
+  db.checkRegistration(req.params.uuid).then((company) => {
+      console.log(company);
+      if (company != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
       res.send("Invalid Registration ID");
   }).catch((error) => {
       console.log(error);
@@ -56,8 +57,8 @@ router.get('/accept_invite/:uuid', function(req, res, next) {
 });
 
 router.post('/validateID', function(req, res) {
-    db.checkRegistration(req.body.uuid).then((snapshot) => {
-        if (snapshot.val() != null) {
+    db.checkRegistration(req.body.uuid).then((company) => {
+        if (company != null) {
             res.jsonp({success: true}); 
         } else{
             res.jsonp({success: false});

@@ -22,6 +22,7 @@ const AdminSignUp = ({ history }) => {
             }
         }).then((response) => {
             if (response.data.success) {
+                alert("Company Forum successfully made! Welcome to KIWI.")
                 redirectLogin();
             } else {
                 // update gui to show error in signing up

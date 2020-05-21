@@ -64,7 +64,6 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
     //firebase.db.database().ref(forumName).update("Users");
 
     return new Promise(function(resolve, reject){
-
         try {
 
             // Check if user is admin and if the company already exists
@@ -105,6 +104,8 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
                 }
 
                 resolve(true);
+            }).catch((error) => {
+                reject(new Error(error));
             });
             
         } catch(error) {
@@ -136,13 +137,13 @@ function removeUser(forumName, userID) {
 }
 
 function checkRegistration(id) {
-    return firebase.db.database().ref('/Registrations/' + id).once('value');
-}
-
-function createForum(forumName, user_id) {
-
-    const forumDBRef = firebase.db.database().ref(forumName+"/Users");
-
+    return new Promise (function (resolve, reject) {
+        firebase.db.database().ref('/Registrations/' + id).once('value').then((result) => {
+            resolve(result.val());
+        }).catch((error) => {
+            reject(new Error(error));
+        });
+    })
 }
 
 
