@@ -31,3 +31,11 @@ yarn-error.log*
 ./server/node_modules
 ./node_modules/
 ./server/serviceKey.json
+
+client/node_modules
+server/node_modules
+node_modules/
+server/serviceKey.json
+
+# ignore Eric's testing file
+*eric_test*.js

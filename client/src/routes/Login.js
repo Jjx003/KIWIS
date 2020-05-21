@@ -1,14 +1,16 @@
-import React, { useContext } from 'react';
-import '../css/App.css';
-import axios from 'axios';
+import React, {useContext} from "react";
+import '../css/login.css';
 import Cookies from 'universal-cookie';
-import { AuthContext, UpdateContext } from "../auth/Auth"
+import axios from 'axios';
+import pic from '../css/vectorlogo.png';
+import SignUp from './SignUp';
+import {UpdateContext, AuthContext} from "../auth/Auth";
 
-export const Login = ({history}) => {
-	//const {currentUser} = useContext(AuthContext);
-	let update = useContext(UpdateContext);
-	
-	const handleLogin = (event) => {
+const Login = ({history}) => {
+	const {currentUser} = useContext(AuthContext);
+    let update = useContext(UpdateContext);
+
+    const handleLogin = (event) => {
 		event.preventDefault();
 		const {email, password} = event.target.elements;
 		// send POST request to sign in user 
@@ -29,6 +31,7 @@ export const Login = ({history}) => {
 					history.replace('/');
 				})
 			} else {
+                alert("Invalid Credentials");
 				console.log("invalid credentials.");
 			}
 		  })
@@ -37,31 +40,41 @@ export const Login = ({history}) => {
 		  });
 	}
 
-	const redirectSignUp = () => {
-		history.push('/signup');
-	}
-	
-	return(
-	<div className="centered">
-		<div className="row">
-			<h1> Login </h1>
-			<form onSubmit={handleLogin}>
-				<label>
-					Email
-					<input name="email" type="email" placeholder="Email" />
-				</label>
-				<label>
-					Password
-					<input name="password" type="password" placeholder="Password" />
-				</label>
+        
+    const functionalityNotHere = () => {
+        alert("functionality Not here");
+    }
 
-				<button type="submit"> Log In </button>
-			</form>
 
-			<button onClick={redirectSignUp}> Sign Up </button>
-		</div>
-	</div>
-	);
+    return(
+        <body className="login">
+        <div className="inside">
+            
+            <div className="columnx">
+                <img className="pic" src={pic}/>
+                <h1 className='font'>Login</h1>
+                <form onSubmit={handleLogin}>
+                    <div className="textField">
+                        <input className="textBox" name="email" type="email" placeholder="  Email" />
+                    </div>
+                    <div className="textField">
+                        <input className="textBox" name="password" type="password" placeholder="  Password" />
+                    </div>
+                    <div className="buttons">
+                        <button className="button1" type="submit">Log In</button>
+                        <button className="button2" type="button" onClick={functionalityNotHere}>Sign UP</button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+        <div className="endText">
+            <p1>
+                © All Rights Reserved. KIWI by Symps.
+            </p1>
+        </div>
+        </body>
+    );
 };
 
 export default Login;

@@ -7,6 +7,9 @@ var inviteRouter = require('./routes/invite/index');
 var authRouter = require('./routes/auth/index');
 var cookieParser = require('cookie-parser');
 
+var usersRouter = require('./routes/users/index');
+var tagsRouter = require('./routes/tags/index');
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -15,6 +18,9 @@ app.use(cookieParser());
 
 app.use('/inviteUser', inviteRouter);
 app.use('/auth', authRouter);
+
+app.use('/tags', tagsRouter);
+app.use('/users', usersRouter);
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');

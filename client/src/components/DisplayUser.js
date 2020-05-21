@@ -9,23 +9,13 @@ class DisplayUser extends React.Component{
         super(props);
 
         this.state = {
+            pengding: false,
             user_id: props.user_id,
-            user_email: props.user_email,
-            user_list: {}
+            first_name: props.first_name,
+            last_name: props.last_name,
+            email: props.email,
+            admin: props.admin
         };
-    }
-
-    componentWillMount()
-    {
-        axios({
-            method: 'get',
-            url: 'http://localhost:9000/users/all',
-            data: {
-              forumName: this.state.forumName
-            }
-          }).then((data) => {
-            this.setState({userList: data.toJSON()});
-        });
     }
 
     render(){
@@ -42,12 +32,12 @@ class DisplayUser extends React.Component{
         else{
             return(
                 <div className="displayUserBarDU">
-                    <div className="first_nameDU"> {this.state.user_list[this.state.user_id]["First_Name"]} </div>
-                    <div className="last_nameDU"> {this.state.user_list[this.state.user_id]["Last_Name"]} </div>
-                    <div className="emailDU"> {this.state.user_list[this.state.user_id]["Email"]} </div>
+                    <div className="first_nameDU"> {this.state.first_name} </div>
+                    <div className="last_nameDU"> {this.state.last_name} </div>
+                    <div className="emailDU"> {this.state.email} </div>
                     <div className="user_idDU"> {this.state.user_id} </div>
                     <button> 
-                        {this.state.user_list[this.state.user_id]["admin"] ? 
+                        {this.state.admin ? 
                         <Icon fitted color="yellow" name="star"/> : 
                         <Icon fitted color="yellow" name="star outline"/>}
                      </button>

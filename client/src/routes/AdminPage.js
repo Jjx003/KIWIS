@@ -1,7 +1,7 @@
 import React from "react";
 import DisplayUser from "../components/DisplayUser"
 import DisplayTag from "../components/DisplayTag"
-import { Tab } from 'semantic-ui-react'
+import { Tab, Icon } from 'semantic-ui-react'
 //import users from '../dummy_data/dummy_users.json'
 //import tags from '../dummy_data/dummy_tags.json'
 import "../css/AdminPage.css"
@@ -13,50 +13,57 @@ class AdminPage extends React.Component{
         super(props);
 
         this.state = {
-            company_id: this.props.forumName,
-            userList: {},
-            tagList: {}
-        };
-
+            loading_user: true,
+            loading_tag: true,
+            company_id: "bruh",
+            userList: ["loading"],
+            tagList: ["loading"],
+            users: {"loading": true}
+        };  
         
-    }
-    componentWillMount()
-    {
         axios({
-            method: 'get',
+            method: 'post',
             url: 'http://localhost:9000/tags/all',
             data: {
-              forumName: this.state.forumName
+              forumName: this.state.company_id
             }
-          }).then((data) => {
-            console.log(data);
-            this.setState({tagList: data});
+          }).then((response) => {
+            this.setState({tagList: Object.keys(response.data),
+            loading_tag: false});
         });
 
         axios({
-            method: 'get',
+            method: 'post',
             url: 'http://localhost:9000/users/all',
             data: {
-              forumName: this.state.forumName
+              forumName: this.state.company_id
             }
-          }).then((data) => {
-            this.setState({userList: data.toJSON()});
+          }).then((response) => {
+              this.setState({users: response.data})
+            this.setState({userList: Object.keys(response.data),
+            loading_user: false});
         });
-
-        //this.setState({userList: Object.keys(users)});
-        //this.setState({tagList: Object.keys(tags)});
-        //Object.keys(this.state.userList).map(x => {return <li> <DisplayUser x/> </li>;})} 
-        //{Object.keys(this.state.tagList).map(x => {return <li> <DisplayTag x/> </li>;})} 
-        //{this.state.userList.map(x => {return<li> <DisplayUser x/> </li>;})}
-        //{this.state.tagList.map(x => {return<li> <DisplayTag x/> </li>;})}
     }
 
     render(){
-        /*var panes = [
+        var panes = [
         { menuItem: 'Users', render: () => 
             <Tab.Pane className="adminPageAP"> 
                 <div className="tagUserListAP"> 
-                    {this.state.userList.map(x => {return<div className="userItemAP"> <DisplayUser user_id={x} /> </div>;})}
+                    {this.state.loading_user ? 
+                                    <div> 
+                                        <Icon loading name='spinner' /> loading 
+                                    </div> : 
+                                    this.state.userList.map(x => {
+                            return <div className="userItemAP"> 
+                                <DisplayUser user_id={x} 
+                                first_name={this.state.users[x]["firstName"]} 
+                                last_name={this.state.users[x]["lastName"]}
+                                email={this.state.users[x]["email"]} 
+                                admin={this.state.users[x]["admin"]}/> 
+                            </div>;
+                        })
+                    }
                     <div className="userItemAP">
                         <div className="addEmployeeAP"> 
                             <div className="invitePromptAP">Add Employee Email </div>
@@ -69,7 +76,12 @@ class AdminPage extends React.Component{
         { menuItem: 'Tags', render: () => 
             <Tab.Pane className="adminPageAP" > 
                 <div className="tagListAP"> 
-                    {this.state.tagList.map(x => {return<div> <DisplayTag tag_id={x}/> </div>;})}
+                    {this.state.loading_tag ? 
+                    <div> 
+                        <Icon loading name='spinner' /> loading 
+                    </div> 
+                    : 
+                    this.state.tagList.map(x => {return<div> <DisplayTag tag_id={x}/> </div>;})}
                 </div> 
                 <div className="addTagAP"> 
                     <div className="tagPromptAP">Add tag name </div>
@@ -77,14 +89,14 @@ class AdminPage extends React.Component{
                         <button> + </button>
                 </div>
             </Tab.Pane> 
-            },
-    ];*/
-    //<Tab panes={panes} />
+            }];
 
         return(
             <div>
                 <Navbar />
+                <Tab panes={panes} />
                 <div className="endText">
+                    
                     <p1>
                         © All Rights Reserved. KIWI by Symps.
                     </p1>

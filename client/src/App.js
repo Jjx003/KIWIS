@@ -9,12 +9,14 @@ import Login from './routes/Login';
 import PrivateRoute from './auth/PrivateRoute';
 import settings from "./routes/Settings";
 import AdminPage from "./routes/AdminPage"
+import UserTags from './routes/UserTags';
 
 function App() {
   return (
 			<div>
 				<Route path="/login" exact render={(props) => <Login {...props}/>}/>
 				<Route path="/signup" exact render={(props) => <SignUp {...props}/>}/>
+				<Route path="/userTags" exact render={(props) => <UserTags {...props}/>}/>
 				<PrivateRoute exact path="/" component={Home} />
 				<PrivateRoute exact path="/settings" component={settings} />
 				<PrivateRoute exact path="/adminPage" component={AdminPage} />

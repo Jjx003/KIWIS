@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useCallBack } from "react";
+import "../css/signup.css";
 import axios from 'axios';
+import pic from '../css/vectorlogo.png';
 
-import '../css/App.css';
 
-const SignUp = ({ history } ) => {
-	const handleSignUp = (event) => {
+const SignUp = ({history}) => {
+
+    const handleSignUp = (event) => {
 		event.preventDefault();
 		const {email, password} = event.target.elements;
 
@@ -27,28 +29,58 @@ const SignUp = ({ history } ) => {
 		});
 	}
 
-	const redirectLogin = () => {
-		history.push("/login");
-	};
+    const redirectLogin = () => {
+        history.push("/login")
+    }
 
-	return(
-		<div className="centered">
-			<h1> Sign Up </h1>
-			<form onSubmit={handleSignUp}>
-				<label> 
-					Email
-					<input name="email" type="email" placeholder="Email" />
-				</label> 
-				<label>
-					Password
-					<input name="password" type="password" placeholder="Password" />
-				</label> 
+    return(
+    <div className="signup">
+        <div className="signupRow">
+            <div className="left">
+                <div className="picture">
+                    <img className="picture" src={pic}/>
+                </div>
+                <div className="leftText">
+                    <p1>Our company will ensure the success and coordination of all co-workers. 
+                        Each company has their own unique tags. Where each employee can also be uniquely
+                        identified <br/> <br/>Please Signup on the right in order to get started <br/> <br/>
+                        <br/> <br/> Thank you for choosing KIWI.
+                    </p1>
+                </div>
+            </div>
 
-				<button type="submit"> Sign Up </button>
-			</form> 
-			<button onClick={redirectLogin}> Log In </button>
-		</div>
-	);
+            <div className="right">
+                <div className="rightTitle">
+                    <h1>Sign Up</h1>
+                </div>
+                
+                <form onSubmit={handleSignUp}>
+                    <div>
+                        <input className="inputBox" name="name" type="name" placeholder="  Name" />
+                    </div>
+                    <div>
+                        <input className="inputBox" name="email" type="email" placeholder="  Email" />
+                    </div>
+                    <div>
+                        <input className="inputBox" name="password" type="password" placeholder="  Password" />
+                    </div>
+                    <div>
+                        <input className="inputBox" name="password2" type="password" placeholder="  Re-Enter Password" />
+                    </div>
+                    <div className="inputBox">
+                        <button className="button12" type="submit">Sign Up</button>
+                        <button className="button22" onClick={redirectLogin}> Back to Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div className="endText">
+            <p1>
+                © All Rights Reserved. KIWI by Symps.
+            </p1>
+        </div>
+    </div>
+    );
 };
 
 export default SignUp;
