@@ -36,8 +36,8 @@ const Login = ({history}) => {
 	}
 
         
-    const functionalityNotHere = () => {
-        alert("functionality Not here");
+    const redirectToAdminSignUp = () => {
+        history.push('/adminsignup');
     }
 
 
@@ -57,7 +57,7 @@ const Login = ({history}) => {
                     </div>
                     <div className="buttons">
                         <button className="button1" type="submit">Log In</button>
-                        <button className="button2" type="button" onClick={functionalityNotHere}>Sign UP</button>
+                        <button className="button2" type="button" onClick={redirectToAdminSignUp}>Sign UP</button>
                     </div>
                 </form>
                 

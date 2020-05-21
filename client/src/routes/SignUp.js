@@ -1,7 +1,12 @@
-import React, { useCallBack } from "react";
+import React, { useCallBack, useContext } from "react";
 import "../css/signup.css";
 import axios from 'axios';
 import pic from '../css/vectorlogo.png';
+import Cookies from 'universal-cookie';
+import db from '../auth/firebase';
+import { AuthContext } from "../auth/Auth";
+import { Redirect, useHistory } from "react-router-dom";
+
 
 import '../css/App.css';
 
@@ -16,16 +21,29 @@ class SignUp extends React.Component {
 
 		axios({
 			method: 'post',
-			url: 'http://localhost:9000/auth/employeeSignUp',
+			url: 'http://localhost:9000/auth/EmployeeSignUp',
 			data: {
 				first_name: first_name.value,
 				last_name: last_name.value,
 				email: email.value,
 				password: password.value,
+				registration_ID: this.props.match.params.id
 			}
 		}).then((response) => {
 			if (response.data.success) {
-				this.redirectLogin();
+				db.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
+					console.log("Entered sign in");
+					// create token for user
+					db.auth().currentUser.getIdToken(true).then((idToken) => {
+						// store token into cookie 
+						const cookies = new Cookies();
+						cookies.set('auth', idToken, {path: '/'});
+						console.log("Entered create token");
+						// redirect to home page
+						setTimeout(()=>{this.props.history.push("/")}, 3000);
+					})
+					.catch((error) => console.log(error));
+				})
 			} else {
 				// update gui to show error in signing up
 				console.log("error in sign up, most likely account has already been made");
@@ -37,6 +55,10 @@ class SignUp extends React.Component {
 
 	redirectLogin = () => {
 		this.props.history.push("/login");
+	};
+
+	redirectSpecializations = () => {
+		this.props.history.push("/");
 	};
 
 	componentDidMount() {
@@ -88,10 +110,10 @@ class SignUp extends React.Component {
     
                         <form onSubmit={this.handleSignUp.bind(this)}>
                             <div>
-                                <input className="inputBox" name="first_name" type="fname" placeholder="  First Name" />
+                                <input className="inputBox" name="first_name" type="first_name" placeholder="  First Name" />
                             </div>
                             <div>
-                                <input className="inputBox" name="last_name" type="lname" placeholder="  Last Name" />
+                                <input className="inputBox" name="last_name" type="last_name" placeholder="  Last Name" />
                             </div>
                             <div>
                                 <input className="inputBox" name="email" type="email" placeholder="  Email" />

@@ -12,7 +12,7 @@ const AdminSignUp = ({ history }) => {
 
         axios({
             method: 'post',
-            url: 'http://localhost:9000/auth/signUp',
+            url: 'http://localhost:9000/auth/AdminSignUp',
             data: {
                 company: company.value,
                 first_name: first_name.value,
@@ -26,6 +26,7 @@ const AdminSignUp = ({ history }) => {
             } else {
                 // update gui to show error in signing up
                 console.log("error in sign up, most likely account has already been made");
+                alert("Invalid parameters");
             }
         }).catch((error) => {
             console.log(error);
@@ -62,10 +63,10 @@ const AdminSignUp = ({ history }) => {
                             <input className="inputBox" name="company" type="company" placeholder="  Company" />
                         </div>
                         <div>
-                            <input className="inputBox" name="fname" type="fname" placeholder="  First Name" />
+                            <input className="inputBox" name="first_name" type="first_name" placeholder="  First Name" />
                         </div>
                         <div>
-                            <input className="inputBox" name="lname" type="lname" placeholder="  Last Name" />
+                            <input className="inputBox" name="last_name" type="last_name" placeholder="  Last Name" />
                         </div>
                         <div>
                             <input className="inputBox" name="email" type="email" placeholder="  Email" />
