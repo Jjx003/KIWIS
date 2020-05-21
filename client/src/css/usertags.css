@@ -37,6 +37,17 @@
     border-width: thin;
     border-style: ridge;
 }
+.tagButton2 {
+    width: 150px;
+    background-color: rgb(179, 58, 128);
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 40px;
+    border-radius: 40px;
+    border-width: thin;
+    border-style: ridge;
+}
 
 .completeButton {
     width: 250px;

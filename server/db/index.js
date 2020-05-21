@@ -38,22 +38,26 @@ function removeTagFromAllUsers(forumName, tagName) {
 
         // Goes to every user
         data.forEach(function (child) {
-            child.forEach(function (grandchild) {
+            console.log(child.key)
+            removeSpecialization(forumName, child.key, tagName);
 
-                // goes to the tags object in the user
-                if(grandchild.key === 'tags') {
-                    console.log(grandchild.key + " : " + grandchild.val());
 
-                    // Checks every tag and removes the one that doesn't matter
-                    grandchild.forEach(function (tagNameChild) {
+            // child.forEach(function (grandchild) {
 
-                        //Checks which tag to remove
-                        if(tagNameChild.val() === tagName) {
-                            forumDBRef.child('Users/' + child.key).child('tags/' + tagNameChild.key).remove()
-                        }
-                    });
-                }
-            });
+            //     // goes to the tags object in the user
+            //     if(grandchild.key === 'tags') {
+            //         console.log(grandchild.key + " : " + grandchild.val());
+
+            //         // Checks every tag and removes the one that doesn't matter
+            //         grandchild.forEach(function (tagNameChild) {
+
+            //             //Checks which tag to remove
+            //             if(tagNameChild.val() === tagName) {
+            //                 forumDBRef.child('Users/' + child.key).child('tags/' + tagNameChild.key).remove()
+            //             }
+            //         });
+            //     }
+            // });
         });
     });
 }
@@ -62,38 +66,79 @@ function getUserTags(forumName, userID) {
     return firebase.db.database().ref(forumName).child('Users').child(userID).child('tags').once('value');
 }
 
-function removeSpecialization(forumName, userID, tagName) {
-    const userTags = firebase.db.getUser(forumName, userID).child('Tags');
-    userTags.child(tagName).removeValue();  
-}
 
 function addSpecialization(forumName, userID, tagName) {
-    const userTags = firebase.db.getUser(forumName, userID).child('Tags');
-    userTags.update(tagName);
+    var tagtoadd = {};
+    tagtoadd[tagName] = tagName;
+    firebase.db.database().ref(forumName).child('Users/').child(userID).child('tags').update(tagtoadd);
 }
+
+
+function removeSpecialization(forumName, userID, tagName) {
+    firebase.db.database().ref(forumName).child('Users/').child(userID).child('tags').child(tagName).remove();
+}
+
   
 // "POST" method for a new user 
-function createNewUser(forumName, firstName, lastName, email, password) {
-    const forumDBRef = firebase.db.database().ref(forumName);
-    auth.signUp(email, password).then((data) => {
-        var userID = data.user.uid
-        var user = {};
+function createNewUser(registration_ID, forumName, firstName, lastName, email, password, isAdmin) {
+    //firebase.db.database().update(forumName);
+    //firebase.db.database().ref(forumName).update("Users");
 
-        // Creates a new user object with the userID as a key
-        user[userID] =  {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            admin: false,
-            tags: ['announcements', 'help-needed'],
-            following_IDs: []
-        };
-        forumDBRef.child("Users").update(user);
+    return new Promise(function(resolve, reject){
 
-        var mapUserToCompany = {};
-        mapUserToCompany[userID] = forumName;
-        firebase.db.database().ref("UserCompaniesID").update(mapUserToCompany);
-    });
+        try {
+
+            // Check if user is admin and if the company already exists
+            if(isAdmin == true) {
+                firebase.db.database().ref(forumName).once("value", snapshot => {
+                    if(snapshot.exists()) {
+                        console.log("This company already exists");
+                        resolve(false);
+                        return;
+                    }
+                })
+            }
+
+            const forumDBRef = firebase.db.database().ref(forumName);
+            auth.signUp(email, password, isAdmin).then((data) => {
+                var userID = data.uid;
+                var user = {};
+
+                // Creates a new user object with the userID as a key
+                user[userID] =  {
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    admin: isAdmin,
+                    tags: {'announcements':'announcements', 'help-needed':'help-needed'},
+                    following_IDs: []
+                };
+                forumDBRef.child("Users").update(user);
+
+                var mapUserToCompany = {};
+                mapUserToCompany[userID] = forumName;
+                firebase.db.database().ref("UserCompaniesID").update(mapUserToCompany);
+
+                if(isAdmin == false) {
+
+                    firebase.db.database().ref("Registrations").child(registration_ID).remove();
+
+                }
+
+                resolve(true);
+            });
+            
+        } catch(error) {
+            console.log(error);
+            reject(new Error(error));
+        }
+    })
+
+}
+
+// "GET" method for a user's id
+function getCurrentUserID(idToken) {
+	return firebase.admin.auth().verifyIdToken(idToken);
 }
 
 // "GET" method for a user 
@@ -111,6 +156,32 @@ function removeUser(forumName, userID) {
     firebase.db.database().ref(forumName).child('Users').child(userID).remove();
 }
 
+function checkRegistration(id) {
+    return firebase.db.database().ref('/Registrations/' + id).once('value');
+}
+
+function createForum(forumName, user_id) {
+    const forumDBRef = firebase.db.database().ref(forumName+"/Users");
+}
+
+function getCompanyName(user_id) {
+    return firebase.db.database().ref('/UserCompaniesID/' + user_id).once('value');
+}
+
+function getCurrentUserID(token) {
+	return firebase.admin.auth().verifyIdToken(token);
+}
+
+function removeAllUserTags(forumName, user_id) {
+    const userTags = firebase.db.database().ref(forumName).child('Users/').child(user_id).child('tags');
+    userTags.once('value').then((data) => { 
+         data.forEach(function (child) {
+            userTags.child(child.key).remove();
+         })
+    });
+}
+
+
 function toggleAdmin(forumName, userID){
     firebase.db.database().ref(forumName).child('Users/' + userID).child("admin").once('value').then( (data) => {
         if(data.val()){
@@ -122,4 +193,11 @@ function toggleAdmin(forumName, userID){
     });
 }
 
-module.exports = { firebase, toggleAdmin, addSpecialization, removeSpecialization, getUserTags, createNewUser, getUser, getUsers, removeUser, createNewTag, getTags, getTagCount, removeTag};
+module.exports = { 
+    createForum, getCompanyName, getCurrentUserID,
+	createNewUser, getUser, getUsers, 
+	removeUser, createNewTag, getTags, 
+    getTagCount, removeTag, getCurrentUserID,
+    checkRegistration, getUserTags, removeSpecialization,
+    addSpecialization, removeAllUserTags, toggleAdmin
+};
