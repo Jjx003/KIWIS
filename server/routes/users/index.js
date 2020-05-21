@@ -3,6 +3,7 @@ var router = express.Router();
 var db = require("../../db/index")
 var auth = require('../../auth/index');
 const { check, validationResult } = require('express-validator');
+const { authenticated, isAdmin } = require('../auth/index');
 require('dotenv').config();
 
 
@@ -94,14 +95,11 @@ router.post('/add',
         if(!errors.isEmpty()) {
             return res.status(422).json({errors: errors.array() });
         }
+        
+        next(); 
+    }, 
 
-        auth.checkToken(req.cookies.auth).then(() =>{
-            next()
-        }).catch( (error) => {
-            console.log("error occured when checking token, request denied");
-            res.jsonp({success: false});
-        })  
-    },
+    authenticated, isAdmin, 
 
     function (req, res, next) {
         try {
@@ -127,14 +125,10 @@ router.post('/remove',
         if(!errors.isEmpty()) {
             return res.status(422).json({errors: errors.array() });
         }
+        next();
+    }, 
 
-        auth.checkToken(req.cookies.auth).then(() =>{
-            next()
-        }).catch( (error)  => {
-            console.log("error occured when checking token, request denied");
-            res.jsonp({success: false});
-        })  
-    },
+    authenticated, isAdmin,
 
     function (req, res, next) {
         try {
@@ -161,14 +155,10 @@ router.get('/',
         if(!errors.isEmpty()) {
             return res.status(422).json({errors: errors.array() });
         }
-
-        auth.checkToken(req.cookies.auth).then(() =>{
-            next()
-        }).catch( (error)  => {
-            console.log("error occured when checking token, request denied");
-            res.jsonp({success: false});
-        })  
+        next();
     },
+    
+    authenticated,  
 
     function (req, res, next) {
         // When moving to production, need a authentication cookie passed in as well
@@ -197,13 +187,10 @@ router.get('/all',
             return res.status(422).json({errors: errors.array() });
         }
 
-        auth.checkToken(req.cookies.auth).then(() =>{
-            next()
-        }).catch( (error) => {
-            console.log("error occured when checking token, request denied");
-            res.jsonp({success: false});
-        })  
+        next();
     },
+
+    authenticated, 
 
     function (req, res, next) {
         try {

@@ -1,10 +1,11 @@
 import React, {useContext} from "react";
 import '../css/login.css';
 import Cookies from 'universal-cookie';
+import { AuthContext, UpdateContext } from "../auth/Auth";
+import db from '../auth/firebase';
 import axios from 'axios';
 import pic from '../css/vectorlogo.png';
 import SignUp from './SignUp';
-import {UpdateContext, AuthContext} from "../auth/Auth";
 
 const Login = ({history}) => {
 	const {currentUser} = useContext(AuthContext);
@@ -13,41 +14,35 @@ const Login = ({history}) => {
     const handleLogin = (event) => {
 		event.preventDefault();
 		const {email, password} = event.target.elements;
-		// send POST request to sign in user 
-		axios({
-			method: 'post',
-			url: 'http://localhost:9000/auth/login',
-			data: {
-				email: email.value,
-				password: password.value,
-			}
-		  })
-		  .then((response) => {
-			if (response.data.success) {
-				const cooks = new Cookies();
-				cooks.set('auth', response.data.token, {path: '/'});
-				// Wait until update processes before redirecting
-				update().then(()=>{
-					history.replace('/');
-				})
-			} else {
-                alert("Invalid Credentials");
-				console.log("invalid credentials.");
-			}
-		  })
-		  .catch((error) => {
+		// sign in user
+		db.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
+            console.log("Entered sign in");
+			// create token for user
+			db.auth().currentUser.getIdToken(true).then((idToken) => {
+				// store token into cookie 
+				const cookies = new Cookies();
+				cookies.set('auth', idToken, {path: '/'});
+				console.log("Entered create token");
+				// redirect to home page
+				update().then(() => {
+					history.push('/');
+				});
+			})
+			.catch((error) => console.log(error));
+
+		}).catch((error) => {
 			console.log(error);
-		  });
+		});
 	}
 
         
-    const functionalityNotHere = () => {
-        alert("functionality Not here");
+    const redirectToAdminSignUp = () => {
+        history.push('/adminsignup');
     }
 
 
     return(
-        <body className="login">
+        <div className="login">
         <div className="inside">
             
             <div className="columnx">
@@ -62,18 +57,18 @@ const Login = ({history}) => {
                     </div>
                     <div className="buttons">
                         <button className="button1" type="submit">Log In</button>
-                        <button className="button2" type="button" onClick={functionalityNotHere}>Sign UP</button>
+                        <button className="button2" type="button" onClick={redirectToAdminSignUp}>Sign UP</button>
                     </div>
                 </form>
                 
             </div>
         </div>
         <div className="endText">
-            <p1>
+            <p>
                 © All Rights Reserved. KIWI by Symps.
-            </p1>
+            </p>
         </div>
-        </body>
+        </div>
     );
 };
 

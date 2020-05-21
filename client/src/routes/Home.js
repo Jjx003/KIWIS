@@ -4,6 +4,7 @@ import '../css/App.css';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import {UpdateContext} from '../auth/Auth';
+import firebase from '../auth/firebase';
 
 import Cookies from 'universal-cookie';
 import Navbar from '../components/Navbar';
@@ -35,31 +36,18 @@ async function sendEmail(targetEmail, targetContent) {
 
 const Home = ({history}) => {
 	const updateFunction = useContext(UpdateContext);
+
 	const handleSignOut = () => {
-		axios.defaults.withCredentials = true;
-		axios({
-			method: 'get',
-			url: 'http://localhost:9000/auth/signOut',
-			withCredentials: true
-		  })
-		  .then((response) => { 
-			console.log(response.data.success);
-			if (response.data.success) { 
-				const cookie = new Cookies();
-				cookie.remove('auth', {path:'/'})
-				updateFunction().then(()=>{
-					// Replace is better here because we don't push to history.
-					// AKA user can't press back button
-					history.replace('/login');
-				})
-			} else {
-				console.log("error when signing out.");
-			}
-		  })
-		  .catch((error) => {
-			console.log(error);
-		  });
+		firebase.auth().signOut();
+
+		// removing cookie
+		const cookies = new Cookies();
+		cookies.remove('auth');
+
+		// redirect to home page
+		history.push("/login");
 	}
+		
 
 	return(
 		<div className="app">

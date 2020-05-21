@@ -25,9 +25,6 @@ class UserTags extends React.Component {
 			method: 'post',
 			url: 'http://localhost:9000/tags/getTags',
             withCredentials: true,
-            data: {
-                forumName: this.state.company_name
-            }
 		  })
 		  .then((response) => { 
 			if (response != undefined) { 
@@ -45,14 +42,6 @@ class UserTags extends React.Component {
     resetTags() {
         console.log("I tried")
     }
-
-    componentWillMount() {
-        // db.getAllTags('bruh').then((data) => {
-        //     this.setState({info: data.toJSON()});
-        //     console.log(this.state.info);
-        // });
-
-	}
 
 
     render() {
