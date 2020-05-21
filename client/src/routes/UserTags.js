@@ -1,12 +1,9 @@
 import React from 'react';
 import "../css/usertags.css";
-import test from "../css/test.json";
-import { Link, Router } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import axios from 'axios';
-import {UpdateContext} from '../auth/Auth';
 
-import Cookies from 'universal-cookie';
 
 
 class UserTags extends React.Component {
@@ -59,10 +56,105 @@ class UserTags extends React.Component {
 			console.log(error);
 		  });
     }
-    
-    resetTags() {
-        console.log("I tried")
+
+    resetTags = (event) => {
+        event.preventDefault();
+        // should tag_ids be in line below
+        axios.defaults.withCredentials = true;
+        axios({
+			method: 'post',
+			url: 'http://localhost:9000/users/removeAllUserTags',
+            withCredentials: true
+          })
+
+          .then((response) => {
+			if (response.data.success) {
+                // Wait until update processes before redirecting
+                alert("Removed All Tags!");
+                // Redirect to home page
+			} else {
+				console("um functional error?");
+			}
+		  })
+		  .catch((error) => {
+			console.log(error);
+          });
+          
+          window.location.reload(false);
     }
+
+
+
+    // adds a specialization
+    addSpecialization = (event) => {
+        // should tag_ids be in line below
+        event.preventDefault();
+        var currTag = event.target.innerHTML;
+
+        axios.defaults.withCredentials = true;
+        axios({
+			method: 'post',
+            url: 'http://localhost:9000/users/addSpecialization',
+            data: {
+                tag: currTag
+            },
+            withCredentials: true
+          })
+
+          .then((response) => {
+			if (response.data.success) {
+                // Wait until update processes before redirecting
+                console.log("Tag was successfully added!");
+                // Redirect to home page
+				this.props.history.replace('/');
+			} else {
+				console.log("Tag was not added");
+			}
+		  })
+		  .catch((error) => {
+			console.log(error);
+          });
+
+          window.location.reload(false);
+
+    }
+
+
+
+    // removes a specialization
+    removeSpecialization = (event) => {
+        // should tag_ids be in line below
+        event.preventDefault();
+        var currTag = event.target.innerHTML;
+
+        axios.defaults.withCredentials = true;
+        axios({
+			method: 'post',
+            url: 'http://localhost:9000/users/removeSpecialization',
+            data: {
+                tag: currTag
+            },
+            withCredentials: true
+          })
+
+          .then((response) => {
+			if (response.data.success) {
+                // Wait until update processes before redirecting
+                console.log("Tag was successfully added!");
+                // Redirect to home page
+				this.props.history.replace('/');
+			} else {
+				console.log("Tag was not added");
+			}
+		  })
+		  .catch((error) => {
+			console.log(error);
+          });
+          
+          window.location.reload(false);
+
+    }
+    
 
 
     render() {
@@ -70,22 +162,28 @@ class UserTags extends React.Component {
         const {user_info} = this.state;
         //const tags = Object.keys(info).map(x => { return { key: x, text: x, value: x } });
 
+
         return(
             <div>
             <Navbar/>
             <div className="mainTagsPage">
-               
                 <div className="mainContainer"> 
                     <h1>
                         Specializations Page
                     </h1>
                     <div className="tagListBox">
-                        { Object.keys(info).map((key, i) => ( 
-                                <button className='tagButton'>{key}</button>
-                        ))}
+                        { Object.keys(info).map((key, i) => { 
+                           
+                            if(user_info.hasOwnProperty(key)) {
+                                return <button onClick={this.removeSpecialization.bind(this)} className='tagButton2'>{key}</button>
+                            }
+                            else {
+                                return <button onClick={this.addSpecialization.bind(this)} className='tagButton'>{key}</button>
+                            }
+                        })}
                     </div>
                     <div className="doneButtons">
-                        <button onClick={this.resetTags()} className="resetButton">Reset Specializations</button>
+                        <button onClick={this.resetTags} className="resetButton">Reset Specializations</button>
                         <Link to="/">
                             <button className="completeButton"> Complete Specializations</button>
                         </Link>

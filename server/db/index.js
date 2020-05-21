@@ -38,22 +38,26 @@ function removeTagFromAllUsers(forumName, tagName) {
 
         // Goes to every user
         data.forEach(function (child) {
-            child.forEach(function (grandchild) {
+            console.log(child.key)
+            removeSpecialization(forumName, child.key, tagName);
 
-                // goes to the tags object in the user
-                if(grandchild.key === 'tags') {
-                    console.log(grandchild.key + " : " + grandchild.val());
 
-                    // Checks every tag and removes the one that doesn't matter
-                    grandchild.forEach(function (tagNameChild) {
+            // child.forEach(function (grandchild) {
 
-                        //Checks which tag to remove
-                        if(tagNameChild.val() === tagName) {
-                            forumDBRef.child('Users/' + child.key).child('tags/' + tagNameChild.key).remove()
-                        }
-                    });
-                }
-            });
+            //     // goes to the tags object in the user
+            //     if(grandchild.key === 'tags') {
+            //         console.log(grandchild.key + " : " + grandchild.val());
+
+            //         // Checks every tag and removes the one that doesn't matter
+            //         grandchild.forEach(function (tagNameChild) {
+
+            //             //Checks which tag to remove
+            //             if(tagNameChild.val() === tagName) {
+            //                 forumDBRef.child('Users/' + child.key).child('tags/' + tagNameChild.key).remove()
+            //             }
+            //         });
+            //     }
+            // });
         });
     });
 }
@@ -64,14 +68,14 @@ function getUserTags(forumName, userID) {
 
 
 function addSpecialization(forumName, userID, tagName) {
-    const userTags = firebase.db.getUser(forumName, userID).child('Tags');
-    userTags.update(tagName);  
+    var tagtoadd = {};
+    tagtoadd[tagName] = tagName;
+    firebase.db.database().ref(forumName).child('Users/').child(userID).child('tags').update(tagtoadd);
 }
 
 
 function removeSpecialization(forumName, userID, tagName) {
-    const userTags = firebase.db.getUser(forumName, userID).child('Tags');
-    userTags.child(tagName).removeValue();  
+    firebase.db.database().ref(forumName).child('Users/').child(userID).child('tags').child(tagName).remove();
 }
   
 // "POST" method for a new user 
@@ -105,7 +109,7 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
                     lastName: lastName,
                     email: email,
                     admin: isAdmin,
-                    tags: ['announcements', 'help-needed'],
+                    tags: {'announcements':'announcements', 'help-needed':'help-needed'},
                     following_IDs: []
                 };
                 forumDBRef.child("Users").update(user);
@@ -167,6 +171,15 @@ function getCurrentUserID(token) {
 	return firebase.admin.auth().verifyIdToken(token);
 }
 
+function removeAllUserTags(forumName, user_id) {
+    const userTags = firebase.db.database().ref(forumName).child('Users/').child(user_id).child('tags');
+    userTags.once('value').then((data) => { 
+         data.forEach(function (child) {
+            userTags.child(child.key).remove();
+         })
+    });
+}
+
 
 module.exports = { 
     createForum, getCompanyName, getCurrentUserID,
@@ -174,7 +187,7 @@ module.exports = {
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID,
     checkRegistration, getUserTags, removeSpecialization,
-    addSpecialization
+    addSpecialization, removeAllUserTags
 };
     
 

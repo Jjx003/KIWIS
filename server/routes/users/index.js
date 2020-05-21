@@ -7,6 +7,30 @@ const { check, validationResult } = require('express-validator');
 require('dotenv').config();
 
 
+router.post('/removeAllUserTags',
+
+    authenticated,
+
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken.uid;
+            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
+                var company_name = snapshot.val();
+                console.log("\n\n\n " + company_name)
+                var removed = db.removeAllUserTags(company_name, user_id);
+                res.jsonp({success: removed});
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
+            console.log(error);
+            console.log()
+        });
+    }
+);
+
+
 
 router.post('/userTags',
 
@@ -100,8 +124,8 @@ router.post('/addSpecialization',
             var user_id = decodedToken.uid;
             db.getCompanyName(decodedToken.uid).then(function(snapshot) {
                 var company_name = snapshot.val();
-                var removed = db.addSpecialization(company_name, user_id, req.body.tag);
-                res.jsonp({success : removed});
+                var added = db.addSpecialization(company_name, user_id, req.body.tag);
+                res.jsonp({success : added});
             }).catch( function(error) {
                 console.log(error);
                 res.jsonp({success: false});
