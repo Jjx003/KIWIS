@@ -9,6 +9,7 @@ class DisplayUser extends React.Component{
         super(props);
 
         this.state = {
+            removed: false,
             pending: false,
             forumName: props.forumName,
             user_id: props.user_id,
@@ -35,6 +36,29 @@ class DisplayUser extends React.Component{
             });
         }
 
+        const handleRemove = () => {
+            if(window.confirm("Removing" + " " + this.state.first_name + " " + this.state.last_name))
+            {
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:9000/users/remove',
+                    data: {
+                    forumName: this.state.forumName,
+                    userID: this.state.user_id
+                    }
+                }).then((response) => {
+                    this.setState({removed: true});
+                });
+            }
+        }
+
+        if(this.state.removed){
+            return(
+            <div className="displayUserBarDU"> 
+                <div className="removed"> removed </div>
+             </div>);
+        }
+
         if(pending){
             return(
                 <div>
@@ -56,7 +80,7 @@ class DisplayUser extends React.Component{
                             <Icon fitted color="yellow" name="star"/> : 
                             <Icon fitted color="yellow" name="star outline"/>}
                         </button>
-                    <button> X </button> 
+                    <button onClick={handleRemove}> X </button> 
                     </div>
                 </div>
             );
