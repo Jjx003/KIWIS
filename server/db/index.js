@@ -62,6 +62,13 @@ function getUserTags(forumName, userID) {
     return firebase.db.database().ref(forumName).child('Users').child(userID).child('tags').once('value');
 }
 
+
+function addSpecialization(forumName, userID, tagName) {
+    const userTags = firebase.db.getUser(forumName, userID).child('Tags');
+    userTags.update(tagName);  
+}
+
+
 function removeSpecialization(forumName, userID, tagName) {
     const userTags = firebase.db.getUser(forumName, userID).child('Tags');
     userTags.child(tagName).removeValue();  
@@ -166,7 +173,8 @@ module.exports = {
 	createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID,
-    checkRegistration
+    checkRegistration, getUserTags, removeSpecialization,
+    addSpecialization
 };
     
 

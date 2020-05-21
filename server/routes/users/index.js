@@ -1,81 +1,151 @@
 var express = require("express");
 var router = express.Router();
 var db = require("../../db/index")
+var {authenticated, isAdmin} = require('../auth/index');
 var auth = require('../../auth/index');
 const { check, validationResult } = require('express-validator');
-const { authenticated, isAdmin } = require('../auth/index');
 require('dotenv').config();
 
 
 
 router.post('/userTags',
-    [
-        check('forumName').isLength({min: 1}).trim().escape(),
-        check('userID').isLength({min: 1})
-    ],
 
-    // Checks for errors when checking http parameters and checks if logged in
-    function (req, res, next) {
-        const errors = validationResult(req);
-        if(!errors.isEmpty()) {
-            return res.status(422).json({errors: errors.array() });
-        }
+    authenticated,
 
-        auth.checkToken(req.cookies.auth).then(() =>{
-            next()
-        }).catch( (error)  => {
-            console.log("error occured when checking token, request denied");
-            res.jsonp({success: false});
-        })  
-    },
-
-    function (req, res, next) {
-        try {
-            db.getUserTags(req.body.forumName, req.body.userID).then((data) => {
-                res.send(data.val());
-            });
-        } catch (error) {
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken.uid;
+            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
+                var company_name = snapshot.val();
+                db.getUserTags(company_name, user_id).then((data) => {
+                    res.send(data.val());
+                });
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
             console.log(error);
-            res.jsonp({success: false});
-        }
+            console.log()
+        });
     }
 );
+
+
+//     [
+//         check('forumName').isLength({min: 1}).trim().escape(),
+//         check('userID').isLength({min: 1})
+//     ],
+
+//     // Checks for errors when checking http parameters and checks if logged in
+//     function (req, res, next) {
+//         const errors = validationResult(req);
+//         if(!errors.isEmpty()) {
+//             return res.status(422).json({errors: errors.array() });
+//         }
+
+//         auth.checkToken(req.cookies.auth).then(() =>{
+//             next()
+//         }).catch( (error)  => {
+//             console.log("error occured when checking token, request denied");
+//             res.jsonp({success: false});
+//         })  
+//     },
+
+//     function (req, res, next) {
+//         try {
+//             db.getUserTags(req.body.forumName, req.body.userID).then((data) => {
+//                 res.send(data.val());
+//             });
+//         } catch (error) {
+//             console.log(error);
+//             res.jsonp({success: false});
+//         }
+//     }
+// );
 
 
 
 
 router.post('/removeSpecialization', 
-    [
-        check('forumName').isLength({min: 1}).trim().escape(),
-        check('userID').isLength({min: 1}).trim().escape()
-    ],
 
+    authenticated,
 
-    // Checks for errors when checking http parameters and checks if logged in
-    function (req, res, next) {
-        const errors = validationResult(req);
-        if(!errors.isEmpty()) {
-            return res.status(422).json({errors: errors.array() });
-        }
-
-        auth.checkToken(req.cookies.auth).then(() =>{
-            next()
-        }).catch( (error) => {
-            console.log("error occured when checking token, request denied");
-            res.jsonp({success: false});
-        })  
-    },
-
-    function (req, res, next) {
-        try {
-            db.removeSpecialization(req.body.forumName, req.body.userID);
-            res.jsonp({success: true});
-        } catch (error) {
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken.uid;
+            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
+                var company_name = snapshot.val();
+                var removed = db.removeSpecialization(company_name, user_id, req.body.tag);
+                res.jsonp({success : removed});
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
             console.log(error);
-            res.jsonp({success: false});
-        }  
+            console.log()
+        });
     }
 );
+
+
+
+router.post('/addSpecialization', 
+
+    authenticated,
+
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken.uid;
+            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
+                var company_name = snapshot.val();
+                var removed = db.addSpecialization(company_name, user_id, req.body.tag);
+                res.jsonp({success : removed});
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
+            console.log(error);
+            console.log()
+        });
+    }
+);
+
+
+
+//     [
+//         check('forumName').isLength({min: 1}).trim().escape(),
+//         check('userID').isLength({min: 1}).trim().escape()
+//     ],
+
+
+//     // Checks for errors when checking http parameters and checks if logged in
+//     function (req, res, next) {
+//         const errors = validationResult(req);
+//         if(!errors.isEmpty()) {
+//             return res.status(422).json({errors: errors.array() });
+//         }
+
+//         auth.checkToken(req.cookies.auth).then(() =>{
+//             next()
+//         }).catch( (error) => {
+//             console.log("error occured when checking token, request denied");
+//             res.jsonp({success: false});
+//         })  
+//     },
+
+//     function (req, res, next) {
+//         try {
+//             db.removeSpecialization(req.body.forumName, req.body.userID);
+//             res.jsonp({success: true});
+//         } catch (error) {
+//             console.log(error);
+//             res.jsonp({success: false});
+//         }  
+//     }
+// );
 
 
 // POST method to create user to the database

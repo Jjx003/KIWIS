@@ -14,12 +14,12 @@ class UserTags extends React.Component {
         super(props);
 
         this.state = {
-            company_name: 'bruh',
-            user_name: '',
-            tag_name: 'k',
-            info: {}
+            info: {},
+            user_info: {}
         };
 
+
+        // gets the tag list of the company
         axios.defaults.withCredentials = true;
 		axios({
 			method: 'post',
@@ -29,6 +29,27 @@ class UserTags extends React.Component {
 		  .then((response) => { 
 			if (response != undefined) { 
                 this.setState({info: response.data});   
+
+			} else {
+				console.log("error with tags.");
+			}
+		  })
+		  .catch((error) => {
+			console.log(error);
+          });
+          
+
+        // gets the user tags list
+        axios.defaults.withCredentials = true;
+		axios({
+			method: 'post',
+			url: 'http://localhost:9000/users/userTags',
+            withCredentials: true,
+		  })
+		  .then((response) => { 
+              console.log(response.data);
+			if (response != undefined) { 
+                this.setState({user_info: response.data});   
 
 			} else {
 				console.log("error with tags.");
@@ -46,6 +67,7 @@ class UserTags extends React.Component {
 
     render() {
         const {info} = this.state;
+        const {user_info} = this.state;
         //const tags = Object.keys(info).map(x => { return { key: x, text: x, value: x } });
 
         return(
