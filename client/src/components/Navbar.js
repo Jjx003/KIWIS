@@ -15,7 +15,7 @@ class Navbar extends React.Component {
             tags: [],
             forum_tags:[],
             value: '',
-            searching: false
+            searching: false,
         }
 
     }
@@ -33,20 +33,21 @@ class Navbar extends React.Component {
         axios({
 			method: 'get',
 			url: 'http://localhost:9000/tags/',
-		  })
-		  .then((response) => { 
-			if (response.data.success) { 
+		})
+		.then((response) => { 
+		    if (response.data.success) { 
+                console.log(response.data);
                 for(var key in response.data.tags){
-                    var x = key;
+                    var x = response.data.tags[key].key;
                     this.setState({forum_tags:[...this.state.forum_tags, { key: x, text: x, value: x }]});
                 }
 			} else {
 				console.log("bad");
 			}
-		  })
-		  .catch((error) => {
-			console.log(error);
-          });
+		})
+		.catch((error) => {
+		    console.log(error);
+        });
     }
 
     //called when the tag dropdown changes

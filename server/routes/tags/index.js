@@ -1,16 +1,15 @@
 var express = require("express");
 var auth = require('../../auth/index')
 var router = express.Router();
-var {db} = require('../../firebase')
+var {getCompanyTags} = require('../../db/index')
 
 router.get('/',
     function (req, res, next) {
-        const company = 'UXD14';        //call get company
-        db.database().ref(company+'/Tags').once('value').then(function(snapshot) {
-            var tags = snapshot.val();
-            res.jsonp({success : true, tags: tags});
-        })
-
+        const company = 'UXD14';        //needs to get company so not hard coded
+        let tags = [];
+        getCompanyTags(company, tags).then(
+            () => res.jsonp({success : true, tags: tags})
+        );
     }
 );
 

@@ -71,7 +71,6 @@ class HomePosts extends React.Component {
         return this.state.posts.forEach(post => {
             post.tag_ids.forEach(tag => {
                 if(value.includes(tag)){
-                    console.log(post.title);
                     keyList.push(post.title);
                 }
             })

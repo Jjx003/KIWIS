@@ -1,12 +1,11 @@
 import * as firebase from 'firebase';
-// for the default version
 import algoliasearch from 'algoliasearch';
 
-//npm install algoliasearch react-instantsearch-dom
-const company = 'UXD14';
+
+const company = 'UXD14';    //needs to fix hard coding
 
 const client = algoliasearch("36A3GKBNZI", "22dc12a10fb0cec70da7edb08015731f");
-const index = client.initIndex(company); //company
+const index = client.initIndex(company); 
 
 const searchClient = algoliasearch(
   '36A3GKBNZI',

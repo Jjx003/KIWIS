@@ -27,7 +27,7 @@ class ViewPost extends React.Component {
 			url: 'http://localhost:9000/posts/' + this.props.id.toString(),
 		  }).then((results) => {
             this.setState({
-                title: results.title,
+                title: results.data.title,
                 tags: results.data.tag_ids,
                 datetime: results.data.date_time,
                 karma: results.data.karma,
@@ -62,36 +62,7 @@ class ViewPost extends React.Component {
         } else {
             return <Failure/>
         }
-
-        //if (this.props.location.state === undefined) {
-        //    return <h1> 404: No Post Selected </h1>;
-        //}
-        //const {postID, firstName, lastName, title, tags, datetime, content, karma, responses} = this.props.location.state;
-        /*
-        return (
-            <div className='App'>
-            <h1> {postID || "post id null"} </h1>
-            <h1> {firstName || "first name null"} </h1> 
-            <h1> {lastName || "last name null"} </h1>
-            <h1> {title || "title null"} </h1>
-            <h1> {tags || "tags null"} </h1>
-            <h1> {datetime || "time null"} </h1>
-            <h1> {content || "cotent null"} </h1>
-            <h1> {karma || "Karma null"} </h1>
-            <h1> {responses || "response null"} </h1>
-          </div>
-          */
-          /*
-            "userID": "dumbo jumbo",
-            "title": "What's 2+2?",
-            "tags": ["math", "dumbass"],
-            "Datetime": "May 6, 2020",
-            "Content": "I've been up for days trying to solve this pls help :(",
-            "Karma" : "1000000"
-            
-        ); */
     }
 }
 
-//export default withRouter(ViewPost);
 export default ViewPost;

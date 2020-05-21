@@ -10,7 +10,7 @@ function addTestData() {
 
 function getCompanyPosts(company, posts){
     const firebaseRef = db.database().ref(company).child('Posts');
-    firebaseRef.on('value', postSnapshot => {
+    firebaseRef.once('value', postSnapshot => {
         postSnapshot.forEach(postId => {
             let post = postId.val();
             post.key = postId.key;
@@ -20,13 +20,11 @@ function getCompanyPosts(company, posts){
     });
 }
 
-function getCompanyTags(company){
-    const companyTags = company.concat('/Tags');
-    const tags = [];
-    db.database().ref(companyTags).once('value', tagSnapshot => {
+function getCompanyTags(company, tags){
+    return db.database().ref(company).child('Tags').once('value', tagSnapshot => {
         tagSnapshot.forEach(tag => {
             var x = tag.key;
-            tags = [...tags, { key: x, text: x, value: x }];
+            tags.push({ key: x, text: x, value: x });
         });
     });
 }
