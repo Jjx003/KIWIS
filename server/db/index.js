@@ -1,4 +1,5 @@
-var firebase = require('../firebase');
+var {firebase} = require('../firebase');
+var {db} = require('../firebase');
 
 //function adds random data to test table
 function addTestData() {
@@ -7,5 +8,29 @@ function addTestData() {
 }
 
 
+function getCompanyPosts(company, posts){
+    const firebaseRef = db.database().ref(company).child('Posts');
+    firebaseRef.on('value', postSnapshot => {
+        postSnapshot.forEach(postId => {
+            let post = postId.val();
+            post.key = postId.key;
+            post.visible = true;  
+            posts.unshift(post);   
+        });
+    });
+}
 
-module.exports = { addTestData };
+function getCompanyTags(company){
+    const companyTags = company.concat('/Tags');
+    const tags = [];
+    db.database().ref(companyTags).once('value', tagSnapshot => {
+        tagSnapshot.forEach(tag => {
+            var x = tag.key;
+            tags = [...tags, { key: x, text: x, value: x }];
+        });
+    });
+}
+
+
+module.exports = { addTestData, getCompanyPosts, getCompanyTags };
+
