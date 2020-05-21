@@ -110,5 +110,16 @@ function getUsers(forumName) {
 function removeUser(forumName, userID) {
     firebase.db.database().ref(forumName).child('Users').child(userID).remove();
 }
-module.exports = { firebase, addSpecialization, removeSpecialization, getUserTags, createNewUser, getUser, getUsers, removeUser, createNewTag, getTags, getTagCount, removeTag};
 
+function toggleAdmin(forumName, userID){
+    firebase.db.database().ref(forumName).child('Users/' + userID).child("admin").once('value').then( (data) => {
+        if(data.val()){
+            firebase.db.database().ref(forumName).child('Users/' + userID).update({admin: false});
+        }
+        else{
+            firebase.db.database().ref(forumName).child('Users/' + userID).update({admin: true});
+        }
+    });
+}
+
+module.exports = { firebase, toggleAdmin, addSpecialization, removeSpecialization, getUserTags, createNewUser, getUser, getUsers, removeUser, createNewTag, getTags, getTagCount, removeTag};

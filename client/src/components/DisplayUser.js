@@ -9,7 +9,8 @@ class DisplayUser extends React.Component{
         super(props);
 
         this.state = {
-            pengding: false,
+            pending: false,
+            forumName: props.forumName,
             user_id: props.user_id,
             first_name: props.first_name,
             last_name: props.last_name,
@@ -20,6 +21,19 @@ class DisplayUser extends React.Component{
 
     render(){
         var pending = (this.state.user_id == null) ? true : false;
+        
+        const handleAdmin = () => {
+            axios({
+                method: 'post',
+                url: 'http://localhost:9000/users/toggleAdmin',
+                data: {
+                  forumName: this.state.forumName,
+                  userID: this.state.user_id
+                }
+              }).then((response) => {
+                this.setState({admin: !this.state.admin});
+            });
+        }
 
         if(pending){
             return(
@@ -36,12 +50,14 @@ class DisplayUser extends React.Component{
                     <div className="last_nameDU"> {this.state.last_name} </div>
                     <div className="emailDU"> {this.state.email} </div>
                     <div className="user_idDU"> {this.state.user_id} </div>
-                    <button> 
-                        {this.state.admin ? 
-                        <Icon fitted color="yellow" name="star"/> : 
-                        <Icon fitted color="yellow" name="star outline"/>}
-                     </button>
+                    <div className="buttonsDU">
+                        <button onClick={handleAdmin}> 
+                            {this.state.admin ? 
+                            <Icon fitted color="yellow" name="star"/> : 
+                            <Icon fitted color="yellow" name="star outline"/>}
+                        </button>
                     <button> X </button> 
+                    </div>
                 </div>
             );
         }

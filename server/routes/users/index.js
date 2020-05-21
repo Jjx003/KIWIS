@@ -245,6 +245,37 @@ router.post('/all',
     }
 );
 
+router.post('/toggleAdmin', 
+    [
+        check('forumName').isLength({min: 1}).trim().escape(),
+        check('userID').isLength({min: 1})
+    ],
 
+
+    // Checks for errors when checking http parameters and checks if logged in
+    function (req, res, next) {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.array() });
+        }
+
+        auth.checkToken(req.cookies.auth).then(() =>{
+            next()
+        }).catch( (error)  => {
+            console.log("error occured when checking token, request denied");
+            res.jsonp({success: false});
+        })  
+    },
+
+    function (req, res, next) {
+        try {
+            db.toggleAdmin(req.body.forumName, req.body.userID);
+            res.jsonp({success: true});
+        } catch (error) {
+            console.log(error);
+            res.jsonp({success: false});
+        }
+    }
+);
 
 module.exports = router;

@@ -57,6 +57,7 @@ class AdminPage extends React.Component{
                                     this.state.userList.map(x => {
                             return <div className="userItemAP"> 
                                 <DisplayUser user_id={x} 
+                                forumName={this.state.company_id}
                                 first_name={this.state.users[x]["firstName"]} 
                                 last_name={this.state.users[x]["lastName"]}
                                 email={this.state.users[x]["email"]} 

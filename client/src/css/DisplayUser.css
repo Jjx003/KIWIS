@@ -13,7 +13,7 @@
 
 .first_nameDU{
     margin-left: 20px;
-    width: 20%;
+    width: 15%;
     float: left;
 }
 
@@ -30,4 +30,9 @@
 .user_idDU{
     display: inline-block;
     width: 20%;
+}
+
+.buttonsDU{
+    float: right;
+    margin-right: 8px;
 }
