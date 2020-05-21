@@ -46,6 +46,25 @@ class AdminPage extends React.Component{
     }
 
     render(){
+        
+        const handleAddTag = (event) =>{
+            event.preventDefault();
+            // should tag_ids be in line below
+            const {tagname} = event.target.elements;
+
+            console.log("click");
+            axios({
+                method: 'post',
+                url: 'http://localhost:9000/tags/add',
+                data: {
+                  forumName: this.state.company_id,
+                  tagName: tagname.value
+                }
+              }).then((response) => {
+                
+            });
+        }
+
         var panes = [
         { menuItem: 'Users', render: () => 
             <Tab.Pane className="adminPageAP"> 
@@ -82,12 +101,14 @@ class AdminPage extends React.Component{
                         <Icon loading name='spinner' /> loading 
                     </div> 
                     : 
-                    this.state.tagList.map(x => {return<div> <DisplayTag tag_id={x}/> </div>;})}
+                    this.state.tagList.map(x => {return<div> <DisplayTag forumName={this.state.company_id} tag_id={x}/> </div>;})}
                 </div> 
                 <div className="addTagAP"> 
                     <div className="tagPromptAP">Add tag name </div>
-                        <input className="inputBoxAP" name="tag name" type="tag name" placeholder="  tag name" />
-                        <button> + </button>
+                        <form onSubmit={handleAddTag.bind(this)}>
+                            <input className="inputBoxAP" name="tagname" type="tagname" placeholder="  tag name" />
+                            <button> + </button>
+                        </form>
                 </div>
             </Tab.Pane> 
             }];
