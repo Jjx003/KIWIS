@@ -34,9 +34,9 @@ class DisplayTag extends React.Component{
         if(this.state.removed)
         {
             return (
-            <div className="tagButtonDT">
-                <div className="removed"> removed </div>
-            </div>);
+                <div className="tagButtonDT">
+                    <div className="removed"> removed </div>
+                </div>);
         }
         return(
             <div>
