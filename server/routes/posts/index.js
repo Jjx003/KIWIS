@@ -9,10 +9,10 @@ router.post('/CreatePost',
 authenticated,
 
 function (req, res) {
-    db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
-        var user_id = decodedToken.uid;
-        db.getCompanyName(decodedToken.uid).then(function(snapshot) {
-            var company_name = snapshot.val();
+    db.getCurrentUserID(req.cookies.auth).then((user_id) => {
+        console.log("in eree");
+        db.getCompanyName(user_id).then(function(company_name) {
+            console.log("in here");
             var pushedData = db.addPostData(company_name, user_id, req.body.title, req.body.tag_ids, req.body.content);
             res.jsonp({success : pushedData});
         }).catch( function(error) {

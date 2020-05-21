@@ -2,7 +2,13 @@ var firebase = require('../firebase');
 var auth = require('../auth/index');
 
 function getCompanyName(user_id) {
-    return firebase.db.database().ref('/UserCompaniesID/' + user_id).once('value');
+    return new Promise(function (resolve, reject) {
+        firebase.db.database().ref('/UserCompaniesID/' + user_id).once('value').then((snapshot) => {
+            resolve(snapshot.val());
+        }).catch((error) => {
+            reject(new Error(error));
+        });
+    });
 }
 // add database functions below
 
@@ -87,7 +93,13 @@ function createNewUser(forumName, firstName, lastName, email, password) {
 
 // "GET" method for a user's id
 function getCurrentUserID(token) {
-	return firebase.admin.auth().verifyIdToken(token);
+    return new Promise(function(resolve, reject) {
+        firebase.admin.auth().verifyIdToken(token).then((decodedToken) => {
+            resolve(decodedToken.uid);
+        }).catch((error) => {
+            reject(new Error(error));
+        });
+    });
 }
 
 // "GET" method for a user 
@@ -118,6 +130,7 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
         return false;
     }
 
+    console.log("in here");
     return true;
 
 }
