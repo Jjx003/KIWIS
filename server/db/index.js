@@ -130,7 +130,6 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
         return false;
     }
 
-    console.log("in here");
     return true;
 
 }
