@@ -39,6 +39,7 @@ class Settings extends React.Component {
                         <div className = "settings-item">
                             <button className= "buttonz"> Submit </button>
                         </div>
+                        
                         <div className="instructions"> Click here to change specialization. This affects your default tags.  </div>
 
                         <div className = "settings-item">  
@@ -64,6 +65,7 @@ class Settings extends React.Component {
                         © All Rights Reserved. KIWI by Symps.
                     </p1>
                 </div>
+            </div>
             </div>
         );}
 };
