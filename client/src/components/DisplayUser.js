@@ -10,7 +10,6 @@ class DisplayUser extends React.Component{
 
         this.state = {
             removed: false,
-            pending: false,
             user_id: props.user_id,
             first_name: props.first_name,
             last_name: props.last_name,
@@ -55,15 +54,7 @@ class DisplayUser extends React.Component{
                 <div className="removed"> removed </div>
              </div>);
         }
-
-        if(pending){
-            return(
-                <div>
-                    <div> status: pending </div>
-                    <div> {this.state.user_email} </div>
-                </div> 
-            );
-        }
+        
         else{
             return(
                 <div className="displayUserBarDU">
