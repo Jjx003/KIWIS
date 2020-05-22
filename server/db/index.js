@@ -154,6 +154,7 @@ function getUsers(forumName) {
 // Removes a user from the database
 function removeUser(forumName, userID) {
     firebase.db.database().ref(forumName).child('Users').child(userID).remove();
+    firebase.admin.auth().deleteUser(userID);
 }
 
 function checkRegistration(id) {
