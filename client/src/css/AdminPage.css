@@ -49,9 +49,9 @@
 
 
 .addTagAP{
-    margin-left: 200px;
+    margin-left: 250px;
     display: inline-block;
-    width:70%;
+    width:62%;
     background: #CF88AA;
     margin-top: 8px;
     margin-bottom: 8px;
@@ -63,7 +63,7 @@
     margin-left: 20px;
 
     display: inline-block;
-    width: 20%;
+    width: 18%;
 }
 
 .tagItemAP{
@@ -73,11 +73,17 @@
 
 .tagListAP{
     height: 40%;
-    width: 70%;
-    margin-left: 200px;
+    width: 62%;
+    margin-left: 250px;
     margin-right: 10%;
     margin-bottom: 10%;
     overflow-y: scroll;
     display: flex;
     flex-wrap: wrap;
+}
+
+.TagForm
+{
+    width: 78%;
+    display:inline-block;
 }
