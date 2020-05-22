@@ -7,7 +7,6 @@ class DisplayTag extends React.Component{
         super(props);
 
         this.state = {
-            forumName: props.forumName,
             removed: false,
             tag_id: this.props.tag_id
         };
@@ -17,12 +16,10 @@ class DisplayTag extends React.Component{
         const handleRemove = () => {
             if(window.confirm("Removing" + " " + this.state.tag_id))
             {
-                console.log(this.state.forumName);
                 axios({
                     method: 'post',
                     url: 'http://localhost:9000/tags/remove',
-                        data: {
-                        forumName: this.state.forumName,
+                    data: {
                         tagName: this.state.tag_id
                     }
                 }).then((response) => {

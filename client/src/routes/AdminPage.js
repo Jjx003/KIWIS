@@ -15,7 +15,6 @@ class AdminPage extends React.Component{
         this.state = {
             loading_user: true,
             loading_tag: true,
-            company_id: "bruh",
             userList: ["loading"],
             tagList: ["loading"],
             users: {"loading": true}
@@ -23,10 +22,7 @@ class AdminPage extends React.Component{
         
         axios({
             method: 'post',
-            url: 'http://localhost:9000/tags/all',
-            data: {
-              forumName: this.state.company_id
-            }
+            url: 'http://localhost:9000/tags/getTags'
           }).then((response) => {
             this.setState({tagList: Object.keys(response.data),
             loading_tag: false});
@@ -34,10 +30,7 @@ class AdminPage extends React.Component{
 
         axios({
             method: 'post',
-            url: 'http://localhost:9000/users/all',
-            data: {
-              forumName: this.state.company_id
-            }
+            url: 'http://localhost:9000/users/all'
           }).then((response) => {
               this.setState({users: response.data})
             this.setState({userList: Object.keys(response.data),
@@ -57,7 +50,6 @@ class AdminPage extends React.Component{
                 method: 'post',
                 url: 'http://localhost:9000/tags/add',
                 data: {
-                  forumName: this.state.company_id,
                   tagName: tagname.value
                 }
               }).then((response) => {
@@ -76,7 +68,6 @@ class AdminPage extends React.Component{
                                     this.state.userList.map(x => {
                             return <div className="userItemAP"> 
                                 <DisplayUser user_id={x} 
-                                forumName={this.state.company_id}
                                 first_name={this.state.users[x]["firstName"]} 
                                 last_name={this.state.users[x]["lastName"]}
                                 email={this.state.users[x]["email"]} 
@@ -101,7 +92,7 @@ class AdminPage extends React.Component{
                         <Icon loading name='spinner' /> loading 
                     </div> 
                     : 
-                    this.state.tagList.map(x => {return<div> <DisplayTag forumName={this.state.company_id} tag_id={x}/> </div>;})}
+                    this.state.tagList.map(x => {return<div> <DisplayTag tag_id={x}/> </div>;})}
                 </div> 
                 <div className="addTagAP"> 
                     <div className="tagPromptAP">Add tag name </div>
