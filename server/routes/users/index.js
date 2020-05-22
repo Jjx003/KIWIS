@@ -260,7 +260,7 @@ router.post('/toggleAdmin',
             db.getCompanyName(decodedToken.uid).then(function(snapshot) {
                 var company_name = snapshot.val();
                 db.toggleAdmin(company_name, req.body.userID);
-                res.jsonp({success : added});
+                res.jsonp({success : true});
             }).catch( function(error) {
                 console.log(error);
                 res.jsonp({success: false});
