@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import { Menu, Input, Dropdown, Image, Icon, Grid } from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
 import tags from '..//dummy_data/dummy_tags.json'
@@ -6,12 +7,18 @@ import tags from '..//dummy_data/dummy_tags.json'
 const options = Object.keys(tags).map(x => { return { key: x, text: x, value: x } });
 
 class Navbar extends React.Component {
+
+    
+
     render() {
         return (
             <div>
                 <Menu secondary size='massive' color='olive' inverted className="navbar">
                     <Menu.Item name='KIWI'>
-                        <Image fluid size='tiny' src={logo} />
+                        <Link to='/'>
+                            <Image link fluid size='tiny' src={logo} />
+                        </Link>
+                        
                     </Menu.Item>
 
                     <Menu.Item fitted style={{ flexGrow: 2 }}>
@@ -32,7 +39,9 @@ class Navbar extends React.Component {
                     </Menu.Item>
 
                     <Menu.Item name='options'>
-                        <Icon name="settings"/>
+                        <Link to='/settings'>
+                            <Icon link name="settings"/>
+                        </Link>
                     </Menu.Item>
                 </Menu>
             </div>
