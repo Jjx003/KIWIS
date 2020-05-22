@@ -186,11 +186,11 @@ function toggleAdmin(forumName, userID){
     firebase.db.database().ref(forumName).child('Users/' + userID).child("admin").once('value').then( (data) => {
         if(data.val()){
             firebase.db.database().ref(forumName).child('Users/' + userID).update({admin: false});
-            firebase.db.admin.auth.updateUser(userID, {emailVerfied: false});
+            firebase.admin.auth().updateUser(userID, {emailVerified: false});
         }
         else{
             firebase.db.database().ref(forumName).child('Users/' + userID).update({admin: true});
-            firebase.db.admin.auth.updateUser(userID, {emailVerfied: true});
+            firebase.admin.auth().updateUser(userID, {emailVerified: true});
         }
     });
 }

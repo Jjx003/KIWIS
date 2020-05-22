@@ -11,7 +11,6 @@ class DisplayUser extends React.Component{
         this.state = {
             removed: false,
             pending: false,
-            forumName: props.forumName,
             user_id: props.user_id,
             first_name: props.first_name,
             last_name: props.last_name,
@@ -28,7 +27,6 @@ class DisplayUser extends React.Component{
                 method: 'post',
                 url: 'http://localhost:9000/users/toggleAdmin',
                 data: {
-                  forumName: this.state.forumName,
                   userID: this.state.user_id
                 }
               }).then((response) => {
@@ -43,7 +41,6 @@ class DisplayUser extends React.Component{
                     method: 'post',
                     url: 'http://localhost:9000/users/remove',
                     data: {
-                    forumName: this.state.forumName,
                     userID: this.state.user_id
                     }
                 }).then((response) => {
