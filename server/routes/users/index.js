@@ -137,6 +137,8 @@ router.post('/add',
     }
 );
 
+
+
 // POST method to remove certain user from the database given a UUID
 router.post('/remove', 
     [
@@ -155,16 +157,26 @@ router.post('/remove',
 
     authenticated, isAdmin,
 
-    function (req, res, next) {
-        try {
-            db.removeUser(req.body.forumName, req.body.userID);
-            res.jsonp({success: true});
-        } catch (error) {
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken.uid;
+            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
+                var company_name = snapshot.val();
+                db.removeUser(company_name, req.body.userID);
+                res.jsonp({success : added});
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
             console.log(error);
-            res.jsonp({success: false});
-        }
+            console.log()
+        });
     }
 );
+    
+
+
 
 // GET method to get a single user from the database
 router.get('/', 
@@ -199,6 +211,8 @@ router.get('/',
     }
 );
 
+
+
 // GET method to get all users from the database
 router.post('/all', 
     [
@@ -229,36 +243,32 @@ router.post('/all',
     }
 );
 
+
+
 router.post('/toggleAdmin', 
     [
-        check('forumName').isLength({min: 1}).trim().escape(),
         check('userID').isLength({min: 1})
     ],
 
+    authenticated, 
+    
+    
 
-    // Checks for errors when checking http parameters and checks if logged in
-    function (req, res, next) {
-        const errors = validationResult(req);
-        if(!errors.isEmpty()) {
-            return res.status(422).json({errors: errors.array() });
-        }
-
-        auth.checkToken(req.cookies.auth).then(() =>{
-            next()
-        }).catch( (error)  => {
-            console.log("error occured when checking token, request denied");
-            res.jsonp({success: false});
-        })  
-    },
-
-    function (req, res, next) {
-        try {
-            db.toggleAdmin(req.body.forumName, req.body.userID);
-            res.jsonp({success: true});
-        } catch (error) {
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken.uid;
+            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
+                var company_name = snapshot.val();
+                db.toggleAdmin(company_name, req.body.userID);
+                res.jsonp({success : added});
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
             console.log(error);
-            res.jsonp({success: false});
-        }
+            console.log()
+        });
     }
 );
 

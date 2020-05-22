@@ -82,7 +82,6 @@ router.post('/remove',
 
     // Removes the tag from company and users
     function (req, res, next) {
-
         try {
             db.removeTag(req.body.forumName, req.body.tagName);
             res.jsonp({success: true});

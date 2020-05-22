@@ -43,18 +43,21 @@ class Settings extends React.Component {
                         <div className="instructions"> Click here to change specialization. This affects your default tags.  </div>
 
                         <div className = "settings-item">  
-                            <button className= "buttonz">  Specialization</button>
+                            <Link to='/userTags'>
+                                <button className= "buttonz">  Specialization</button>
+                            </Link>     
                         </div>
                         <div className = "settings-item">                 
                             <button className= "buttonz"> Sign Out </button>
                         </div>
 
                         <Divider horizontal> Admins Only </Divider>
-                            <div className = "settings-item"> 
-                                <Link to="/adminPage">
-                                    <button className= "buttonz" onClick={this.redirectAdmin}> Manage Forum </button>
-                                </Link>
-                            </div>
+
+                        <div className = "settings-item"> 
+                            <Link to="/adminPage">
+                                <button className= "buttonz" onClick={this.redirectAdmin}> Manage Forum </button>
+                            </Link>
+                        </div>
                     </Segment>
                 </div>
                 <div className="endText">
