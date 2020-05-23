@@ -10,6 +10,7 @@ class TagTab extends React.Component{
         this.state = {
             loading_tag: true,
             tagList: ["loading"],
+            currTag: ''
         };  
     }
 
@@ -28,15 +29,21 @@ class TagTab extends React.Component{
             event.preventDefault();
             // should tag_ids be in line below
             const {tagname} = event.target.elements;
-
-            console.log("click");
-            axios({
-                method: 'post',
-                url: 'http://localhost:9000/tags/add',
-                data: {
-                  tagName: tagname.value
-                }
-              });
+            this.setState({currTag: tagname.value});
+            if(window.confirm("Adding specialization:  " + tagname.value))
+            {
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:9000/tags/add',
+                    data: {
+                    tagName: tagname.value
+                    }
+                }).then(() => {
+                    this.state.tagList.push(this.state.currTag);
+                    this.setState({tagList: this.state.tagList})
+                });
+            }
+            event.target.reset();
         }
 
         return(
