@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import '../css/App.css';
-import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { AuthContext, UpdateContext } from "../auth/Auth";
 import db from '../auth/firebase';

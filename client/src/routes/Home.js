@@ -5,8 +5,9 @@ import axios from 'axios';
 import {UpdateContext} from '../auth/Auth';
 import firebase from '../auth/firebase';
 
+
 import Cookies from 'universal-cookie';
-import Navbar from '../components/Navbar';
+import HomePosts from '../components/HomePosts'
 
 // Sorry we don't have a home for this function yet.
 /*
@@ -50,9 +51,7 @@ const Home = ({history}) => {
 
 	return(
 		<div className="app">
-			<Navbar/>
-			<h1> Home Page </h1>	
-			<Button onClick={handleSignOut}>Signout</Button>
+			<HomePosts />
 		</div>
 	);
 }

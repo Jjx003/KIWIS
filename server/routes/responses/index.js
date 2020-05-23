@@ -22,13 +22,20 @@ function (req, res, next) {
     })  
 },
 
-function (req, res, next) {
-    var user_id = db.getUserID();
-    db.getCompanyName(user_id).then(function(snapshot) {
-        var company = snapshot.val();
-        db.pushResponse(company, user_id, req.body.post_id, req.body.content);
-        res.jsonp({success : true});
+function (req, res) {
+    db.getCurrentUserID(req.cookies.auth).then((user_id) => {
+        db.getCompanyName(user_id).then(function(company) {
+            db.pushResponse(company, user_id, req.body.post_id, req.body.content);
+            res.jsonp({success : true});
+        }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })
+    }).catch(function(error){
+        console.log(error);
+        res.jsonp({success: false});
     })
+    
 
 });
 
@@ -44,13 +51,19 @@ function (req, res, next) {
 },
 
 function (req, res) {
-    var user_id = db.getUserID();
-    db.getCompanyName(user_id).then(function(snapshot) {
-        var company = snapshot.val();
+    db.getCurrentUserID(req.cookies.auth).then((user_id) => {
+    db.getCompanyName(user_id).then(function(company) {
         db.pullResponse(company, req.body.post_id).then(
             res.jsonp({success : true})
         );
-        });
+        }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })
+    }).catch(function(error){
+        console.log(error);
+        res.jsonp({success: false});
+    })
 });
 
 
