@@ -18,7 +18,7 @@ router.post('/getTags',
             db.getCompanyName(decodedToken.uid).then(function(snapshot) {
                 var company_name = snapshot.val();
                 db.getTags(company_name).then((data) => {
-                    res.send(data.val());
+                    res.send({success: true, tags: data.val()});
                 });
             }).catch( function(error) {
                 console.log(error);
@@ -32,33 +32,6 @@ router.post('/getTags',
 );
 
 
-
-//     // Checks for errors when checking http parameters and checks if logged in
-//     function (req, res, next) {
-//         const errors = validationResult(req);
-//         if(!errors.isEmpty()) {
-//             return res.status(422).json({errors: errors.array() });
-//         }
-
-//         auth.checkToken(req.cookies.auth).then(() =>{
-//             next()
-//         }).catch( (error)  => {
-//             console.log("error occured when checking token, request denied");
-//             res.jsonp({success: false});
-//         })  
-//     },
-
-//     function (req, res, next) {
-//         try {
-//             db.getTags(req.body.forumName).then((data) => {
-//                 res.send(data.val());
-//             });
-//         } catch (error) {
-//             console.log(error);
-//             res.jsonp({success: false});
-//         }
-//     }
-// );
 
 // POST method to removes certain tag from the database and from the users of the company
 router.post('/remove', 
@@ -114,36 +87,16 @@ router.post('/add',
 
 
 
-// GET all tags from the database
-router.post('/all',
-    [
-        check('forumName').isLength({min: 1}).trim().escape()
-    ],
-
-    // Checks for errors when checking http parameters and checks if logged in
+// use ours get tags that gets company specicic values
+router.get('/',
     function (req, res, next) {
-        const errors = validationResult(req);
-        if(!errors.isEmpty()) {
-            return res.status(422).json({errors: errors.array() });
-        }
+        const company = 'UXD14';        //call get company
+        db.database().ref(company+'/Tags').once('value').then(function(snapshot) {
+            var tags = snapshot.val();
+            res.jsonp({success : true, tags: tags});
+        })
 
-        next();
-    },
-
-    authenticated, 
-
-    function (req, res, next) {
-        try {
-            db.getTags(req.body.forumName).then((data)=>{
-                res.send(data.val());
-            });
-        } catch (error) {
-            console.log(error)
-            res.jsonp({success: false});
-        }  
     }
 );
-
-
 
 module.exports = router;

@@ -5,7 +5,12 @@ const cors = require('cors');
 
 var inviteRouter = require('./routes/invite/index');
 var authRouter = require('./routes/auth/index');
+var postsRouter = require('./routes/posts/index');
+var tagsRouter = require('./routes/tags/index')
 var cookieParser = require('cookie-parser');
+var {startAlgolia} = require('./firebase');
+
+startAlgolia(); // Start Listening for updates
 
 var usersRouter = require('./routes/users/index');
 var tagsRouter = require('./routes/tags/index');
@@ -21,6 +26,10 @@ app.use('/auth', authRouter.router);
 
 app.use('/tags', tagsRouter);
 app.use('/users', usersRouter);
+
+app.use('/posts', postsRouter);
+
+
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');

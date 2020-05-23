@@ -1,7 +1,7 @@
 import React from 'react';
 import "../css/usertags.css";
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import TitleBar from "../components/TitleBar"
 import axios from 'axios';
 
 
@@ -25,7 +25,7 @@ class UserTags extends React.Component {
 		  })
 		  .then((response) => { 
 			if (response != undefined) { 
-                this.setState({info: response.data});   
+                this.setState({info: response.data.tags});   
 
 			} else {
 				console.log("error with tags.");
@@ -68,19 +68,20 @@ class UserTags extends React.Component {
           })
 
           .then((response) => {
+            
 			if (response.data.success) {
                 // Wait until update processes before redirecting
                 alert("Removed All Tags!");
                 // Redirect to home page
 			} else {
 				console("um functional error?");
-			}
+            }
+            window.location.reload(false);
 		  })
 		  .catch((error) => {
 			console.log(error);
           });
           
-          window.location.reload(false);
     }
 
 
@@ -109,13 +110,13 @@ class UserTags extends React.Component {
 				this.props.history.replace('/');
 			} else {
 				console.log("Tag was not added");
-			}
+            }
+            window.location.reload(false);
 		  })
 		  .catch((error) => {
 			console.log(error);
           });
 
-          window.location.reload(false);
 
     }
 
@@ -144,13 +145,14 @@ class UserTags extends React.Component {
 				this.props.history.replace('/');
 			} else {
 				console.log("Tag was not added");
-			}
+            }
+            window.location.reload(false);
 		  })
 		  .catch((error) => {
 			console.log(error);
           });
           
-          window.location.reload(false);
+          
 
     }
     
@@ -164,7 +166,7 @@ class UserTags extends React.Component {
 
         return(
             <div>
-            <Navbar/>
+            <TitleBar title="Specializations"/>
             <div className="mainTagsPage">
                 <div className="mainContainer"> 
                     <h1>

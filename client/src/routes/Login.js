@@ -11,6 +11,7 @@ const Login = ({history}) => {
 	const {currentUser} = useContext(AuthContext);
     let update = useContext(UpdateContext);
 
+
     const handleLogin = (event) => {
 		event.preventDefault();
 		const {email, password} = event.target.elements;

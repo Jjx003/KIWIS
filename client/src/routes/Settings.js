@@ -1,10 +1,9 @@
 import React, { useCallBack } from "react";
 import { Segment, Divider, Checkbox } from "semantic-ui-react";
-//import NavBar from "../components/NavBar"
+import TitleBar from "../components/TitleBar"
 import "../css/settings.css";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
-import axios from 'axios';
+
 
 class Settings extends React.Component {
 
@@ -20,7 +19,7 @@ class Settings extends React.Component {
     render(){
         return(
             <div>
-            <Navbar />
+            <TitleBar title="Settings" />
             <div className = "setting">            
                 <div className = "settingsWrap">
                     <Segment basic textAlign='center'>

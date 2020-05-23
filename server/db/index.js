@@ -178,7 +178,31 @@ function removeAllUserTags(forumName, user_id) {
     userTags.once('value').then((data) => { 
          data.forEach(function (child) {
             userTags.child(child.key).remove();
-         })
+         });
+    });
+}
+
+
+function getCompanyPosts(company, posts){
+    const firebaseRef = firebase.db.database().ref(company).child('Posts');
+    firebaseRef.on('value', postSnapshot => {
+        postSnapshot.forEach(postId => {
+            let post = postId.val();
+            post.key = postId.key;
+            post.visible = true;  
+            posts.unshift(post);   
+        });
+    });
+}
+
+function getCompanyTags(company){
+    const companyTags = company.concat('/Tags');
+    const tags = [];
+    firebase.db.database().ref(companyTags).once('value', tagSnapshot => {
+        tagSnapshot.forEach(tag => {
+            var x = tag.key;
+            tags = [...tags, { key: x, text: x, value: x }];
+        });
     });
 }
 
@@ -202,5 +226,7 @@ module.exports = {
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID,
     checkRegistration, getUserTags, removeSpecialization,
-    addSpecialization, removeAllUserTags, toggleAdmin
+    addSpecialization, removeAllUserTags, toggleAdmin,
+    getCompanyPosts, getCompanyTags
 };
+

@@ -1,6 +1,6 @@
 import React from "react";
 import "../css/AdminPage.css"
-import Navbar from "../components/Navbar";
+import TitleBar from "../components/TitleBar";
 import UserTab from "../components/UserTab";
 import TagTab from "../components/TagTab";
 import { Tab } from 'semantic-ui-react'
@@ -19,7 +19,7 @@ class AdminPage extends React.Component{
 
         return(
             <div>
-                <Navbar />
+                <TitleBar title="Manage Forum" />
                 <Tab panes={panes} />
                 <div className="endText">                   
                     <p1>

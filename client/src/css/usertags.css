@@ -37,6 +37,12 @@
     border-width: thin;
     border-style: ridge;
 }
+.tagButton:hover{
+    background-color:rgb(229, 255, 0);
+}
+.tagButton2:hover{
+    background-color:rgb(229, 255, 0);
+}
 .tagButton2 {
     width: 150px;
     background-color: rgb(179, 58, 128);

@@ -7,7 +7,7 @@ import {UpdateContext} from '../auth/Auth';
 import firebase from '../auth/firebase';
 
 import Cookies from 'universal-cookie';
-import Navbar from '../components/Navbar';
+import HomePosts from '../components/HomePosts'
 
 // Sorry we don't have a home for this function yet.
 /*
@@ -35,9 +35,11 @@ async function sendEmail(targetEmail, targetContent) {
 */
 
 const Home = ({history}) => {
+	
 	const updateFunction = useContext(UpdateContext);
 
 	const handleSignOut = () => {
+
 		firebase.auth().signOut();
 
 		// removing cookie
@@ -51,8 +53,7 @@ const Home = ({history}) => {
 
 	return(
 		<div className="app">
-			<Navbar/>
-			<h1> Home Page </h1>	
+			<HomePosts />
 			<Button onClick={handleSignOut}>Signout</Button>
 			<Link to="/settings">
 				<Button> Settings </Button>
