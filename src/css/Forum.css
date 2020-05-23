@@ -1,9 +1,8 @@
 .original-post{
     display: grid;
     grid-template-columns: 4fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 2fr 4fr 1fr;
     grid-gap: 10px;
-
     width: 88vw;
     margin: auto;
     margin-top: 1%;
@@ -20,6 +19,8 @@
 
 .postInfo{
     background-color: green;
+    grid-row: 1/3;
+    grid-column: 2/3;
     text-align: right;
 }
 
@@ -48,7 +49,6 @@
 /*    text-align: right;*/
 /*}*/
 
-
 .response-post{
     width: 78vw;
     margin: auto;
@@ -63,6 +63,41 @@
     padding-top: 0.00002%;
     padding: 5px;
 }
+
+.text-content{
+    font-size: 20px;
+}
+
+/*.postID{*/
+/*    background-color: pink;*/
+/*}*/
+
+.temp{
+    background-color: pink;
+}
+
+.button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    height: 35px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+/*.postBy{*/
+/*    grid-column: 1/3;*/
+/*}*/
 
 .responder{
     background-color: green;

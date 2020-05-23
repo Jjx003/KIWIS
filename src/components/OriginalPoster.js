@@ -26,10 +26,22 @@ class OriginalPoster extends React.Component {
                 <div className={"header"}>
                     <h1 className={"title"}>{this.state.title}</h1>
                 </div>
+
+
                 <div className={"postInfo"}>
+                    <div>
                     <h2 className={"postID"}>{this.state.postID}</h2>
+                    </div>
+                    <div className={"postBy"}>
                     <h2>{"Posted by: " + this.state.firstName + " " + this.state.lastName}</h2>
+                    </div>
+                    <span>
+                    <button className={"button"}>Follow Post</button>
+                    </span>
                 </div>
+
+
+
                 <div className={"content"}>
                     <p className={"text-content"}>{this.state.content}</p>
                 </div>
@@ -38,7 +50,7 @@ class OriginalPoster extends React.Component {
                     <h1 className={"karma"}>{"+ " + this.state.karma}</h1>
                 </div>
                 <div className={"tagList"}>
-                    <h1 className={"tags"}>{this.state.tags}</h1>
+                    <DisplayingTags tags = {this.state.tags}/>
                 </div>
             </div>
         );
