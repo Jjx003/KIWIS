@@ -147,7 +147,7 @@ function TagSearchPosts(props) {
         <div className="posts-container">
             {props.posts.map((item, i) => {
                 if (item.visible)
-                    return <PostCards post_id={item.key} user_id={item.user_id} title={item.title}
+                    return <PostCards key={item.key} post_id={item.key} user_id={item.user_id} title={item.title}
                         tag_ids={item.tag_ids} date_time={item.date_time} karma={item.karma}
                         content={item.content} responses={item.responses} />
                 else return <div></div>;
