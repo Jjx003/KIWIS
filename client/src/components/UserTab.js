@@ -32,17 +32,17 @@ class UserTab extends React.Component{
                     <div> 
                         <Icon loading name='spinner' /> loading...
                     </div> : 
-                    this.state.userList.map(x => {
-                            return <div className="userItemAP"> 
-                                <DisplayUser user_id={x} 
-                                first_name={this.state.users[x]["firstName"]} 
-                                last_name={this.state.users[x]["lastName"]}
-                                email={this.state.users[x]["email"]} 
-                                admin={this.state.users[x]["admin"]}/> 
-                            </div>;
-                        })
-                    }
-                    <div className="userItemAP">
+                    <div className="ListOfUsers">
+                        {this.state.userList.map(x => {
+                                return(
+                                    <DisplayUser user_id={x} 
+                                    first_name={this.state.users[x]["firstName"]} 
+                                    last_name={this.state.users[x]["lastName"]}
+                                    email={this.state.users[x]["email"]} 
+                                    admin={this.state.users[x]["admin"]}/> );
+                            })}
+                    </div>}
+                    <div>
                         <div className="addEmployeeAP"> 
                             <div className="invitePromptAP">Add Employee Email </div>
                             <input className="inputBoxAP" name="email" type="email" placeholder="  email" />

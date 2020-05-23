@@ -2,7 +2,7 @@
     list-style: none;
     width:70%;
     display: inline-block;
-
+    margin-left: 200px;
 }
 
 .userItemAP{
@@ -22,7 +22,6 @@
 }
 
 .addEmployeeAP{
-    margin-left: 200px;
     display: inline-block;
     width:100%;
     background: #80C180;
@@ -72,7 +71,7 @@
 }
 
 .tagListAP{
-    height: 40%;
+    height: 460px;
     width: 62%;
     margin-left: 250px;
     margin-right: 10%;
@@ -86,4 +85,9 @@
 {
     width: 78%;
     display:inline-block;
+}
+
+.ListOfUsers {
+    overflow-y: scroll;
+    max-height: 460px;
 }
