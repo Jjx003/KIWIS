@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from 'axios';
 import Cookies from 'universal-cookie';
+import firebase from './firebase';
 
 const AuthContext = React.createContext();
 const UpdateContext = React.createContext();

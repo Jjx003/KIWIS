@@ -32,3 +32,5 @@ yarn-error.log*
 ./node_modules/
 ./server/serviceKey.json
 .idea
+# ignore Eric's testing file
+*eric_test*.js

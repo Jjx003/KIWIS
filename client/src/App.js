@@ -19,6 +19,7 @@ import ViewPost from './routes/ViewPost';
 // route /POSTID:
 // return the proper post information. 
 
+import CreatePost from './routes/CreatePost';
 
 function App() {
   return (
@@ -26,7 +27,10 @@ function App() {
 				<Route path="/login" exact render={(props) => <Login {...props}/>}/>
 				<Route path="/signup" exact render={(props) => <SignUp {...props}/>}/>
 				<PrivateRoute path="/viewPost/:id" dynamic={true} component={ViewPost}/>
+				<Route path="/signup/:id" exact render={(props) => <SignUp {...props}/>}/>
+				<Route path="/signup" exact render={(props) => <Login {...props}/> }/>
 				<PrivateRoute exact path="/" component={Home} />
+				<PrivateRoute exact path="/createPost" component={CreatePost} />
 			</div>
   );
 }

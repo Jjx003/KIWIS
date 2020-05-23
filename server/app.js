@@ -9,9 +9,9 @@ var postsRouter = require('./routes/posts/index');
 var tagsRouter = require('./routes/tags/index')
 var cookieParser = require('cookie-parser');
 var {startAlgolia} = require('./firebase');
+var postRouter = require('./routes/posts/index');
 
 startAlgolia(); // Start Listening for updates
-
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
