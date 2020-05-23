@@ -27,6 +27,8 @@ class UserTab extends React.Component{
 
     render(){
         return( <Tab.Pane className="adminPageAP"> 
+                        <h1 style={{textAlign: "center"}}> Add and Remove Specializations </h1>
+
                 <div className="tagUserListAP"> 
                     {this.state.loading_user ? 
                     <div> 

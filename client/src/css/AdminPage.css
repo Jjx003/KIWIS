@@ -71,7 +71,7 @@
 }
 
 .tagListAP{
-    height: 460px;
+    max-height: 400px;
     width: 62%;
     margin-left: 250px;
     margin-right: 10%;
@@ -89,5 +89,5 @@
 
 .ListOfUsers {
     overflow-y: scroll;
-    max-height: 460px;
+    max-height: 400px;
 }
