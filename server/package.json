@@ -13,7 +13,10 @@
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
+<<<<<<< HEAD
     "algoliasearch": "^4.2.0",
+=======
+>>>>>>> creating-posts
     "express": "^4.17.1",
     "firebase": "^7.14.2",
     "firebase-admin": "^8.11.0",

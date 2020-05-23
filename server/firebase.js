@@ -1,7 +1,10 @@
 var firebase_init = require('firebase');
 var firebase_admin = require('firebase-admin');
+<<<<<<< HEAD
 var algoliasearch = require('algoliasearch');
 
+=======
+>>>>>>> creating-posts
 require('dotenv').config();
 
 const db = firebase_init.initializeApp({
@@ -23,6 +26,7 @@ const admin = firebase_admin.initializeApp({
 });
 
 
+<<<<<<< HEAD
 // List of comapnies where key is company name (in database) and index in algolia
 const companies = {"UXD14": "UXD14"}
 const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_API_KEY);
@@ -73,3 +77,6 @@ function startAlgolia(){
 }
 
 module.exports = { db, admin, startAlgolia };
+=======
+module.exports = { db, admin };
+>>>>>>> creating-posts

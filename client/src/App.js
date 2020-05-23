@@ -7,6 +7,7 @@ import Home from './routes/Home';
 import SignUp from './routes/SignUp';
 import Login from './routes/Login';
 import PrivateRoute from './auth/PrivateRoute';
+<<<<<<< HEAD
 import ViewPost from './routes/ViewPost';
 //import CreatePosts from './routes/CreatePosts'
 
@@ -19,16 +20,28 @@ import ViewPost from './routes/ViewPost';
 // route /POSTID:
 // return the proper post information. 
 
+=======
+import CreatePost from './routes/CreatePost';
+>>>>>>> creating-posts
 
 function App() {
   return (
 			<div>
 				<Route path="/login" exact render={(props) => <Login {...props}/>}/>
 				<Route path="/signup" exact render={(props) => <SignUp {...props}/>}/>
+<<<<<<< HEAD
 				<PrivateRoute path="/viewPost/:id" dynamic={true} component={ViewPost}/>
 				<PrivateRoute exact path="/" component={Home} />
 			</div>
   );
 }
 //<PrivateRoute exact path="/createPost" component={CreatePosts} />
+=======
+				<PrivateRoute exact path="/" component={Home} />
+				<PrivateRoute exact path="/createPost" component={CreatePost} />
+			</div>
+  );
+}
+
+>>>>>>> creating-posts
 export default App;

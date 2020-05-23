@@ -5,7 +5,11 @@ import axios from 'axios';
 import {UpdateContext} from '../auth/Auth';
 
 import Cookies from 'universal-cookie';
+<<<<<<< HEAD
 import HomePosts from '../components/HomePosts'
+=======
+
+>>>>>>> creating-posts
 
 // Sorry we don't have a home for this function yet.
 /*
@@ -33,8 +37,20 @@ async function sendEmail(targetEmail, targetContent) {
 */
 
 const Home = ({history}) => {
+<<<<<<< HEAD
 	
 	const updateFunction = useContext(UpdateContext);
+=======
+	const updateFunction = useContext(UpdateContext);
+
+	const createPost = () => {
+
+		history.push('/createPost');
+
+
+	}
+
+>>>>>>> creating-posts
 	const handleSignOut = () => {
 		axios.defaults.withCredentials = true;
 		axios({
@@ -59,13 +75,22 @@ const Home = ({history}) => {
 		  .catch((error) => {
 			console.log(error);
 		  });
+<<<<<<< HEAD
 
+=======
+>>>>>>> creating-posts
 	}
 
 	return(
 		<div className="app">
+<<<<<<< HEAD
 			<HomePosts />
 			<Button onClick={handleSignOut}>Signout</Button>
+=======
+			<h1> Home Page </h1>	
+			<Button onClick={handleSignOut}>Signout</Button>
+			<Button onClick={createPost}>Create Post</Button>
+>>>>>>> creating-posts
 		</div>
 	);
 }
