@@ -5,7 +5,10 @@ import {
     SearchBox
 } from 'react-instantsearch-dom';
 import '../css/index.css'
-import axios from 'axios'
+import axios from 'axios';
+import firebase from '../auth/firebase';
+import Cookies from 'universal-cookie';
+import {withRouter} from 'react-router-dom';
 
 class Navbar extends React.Component {
 
@@ -18,6 +21,17 @@ class Navbar extends React.Component {
             searching: false
         }
 
+    }
+
+    handleSignOut = () => {
+		firebase.auth().signOut();
+
+		// removing cookie
+		const cookies = new Cookies();
+		cookies.remove('auth');
+
+		// redirect to home page
+		this.props.history.push("/login");
     }
 
     componentDidMount(){
@@ -97,7 +111,7 @@ class Navbar extends React.Component {
                         </Grid>
                     </Menu.Item>
 
-                    <Menu.Item name='sign-out'>
+                    <Menu.Item onClick={this.handleSignOut} name='sign-out'>
                         Sign Out
                     </Menu.Item>
 
@@ -111,4 +125,4 @@ class Navbar extends React.Component {
 }
 
 
-export default Navbar;
+export default withRouter(Navbar);
