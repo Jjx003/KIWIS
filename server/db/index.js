@@ -142,16 +142,37 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
 
 }
 
-/*
-For each user in the company:
-    - Iterate through this user's tag ids and check if any of the post's ids are in there
-        - If so, then send an email
+var mailgun = require("mailgun-js");
+require('dotenv').config();
 
+const mg = mailgun({
+    apiKey:	process.env.MAILGUN_API_KEY, 
+	domain: 'mg.kiwis.tech', 
+});
+
+function sendEmail(email, subject, content) {
+    console.log(email)
+	const data = {
+		"from": "KIWI Forum <no-reply@mg.kiwis.tech>",
+		"to": email,
+		"subject": subject ? subject : 'Hello',
+		"text": content,
+    }
+	mg.messages().send(data, function(error, body){
+        console.log(body);
+        console.log(error);
+	})
+}
+
+/* Assumptions: 
+    - At least 1 user stored in the company's database
+    - At least 1 tag in each user's profile
 */
 function notifyUsers(companyName, posts_tags) {
 
         // If the post has no tags, then just return
         if(posts_tags == null || posts_tags.length == 0) {
+            console.log("Post did not have tags");
             return;
         }
 
@@ -159,54 +180,31 @@ function notifyUsers(companyName, posts_tags) {
 
         firebaseRef.once('value', function(snapshot){
 
-            // Not sure if this will return an array
-            var users_array = (snapshot.child("Users").val());
-
-            console.log("got users_array");
+            var users_array = Object.keys(snapshot.child("Users").val());
         
+            // For each user in the company
             for(i = 0; i < users_array.length; i++) {
                 var user_id = users_array[i];
-                
-                console.log(user_id);
+                var user_email = (snapshot.child("Users/"+user_id+"/email").val());
 
                 var curr_user_tags = (snapshot.child("Users/"+user_id+"/tags").val());
 
+                // For each tag in this user's list
                 for(j = 0; j < curr_user_tags.length; j++) {
                     var curr_tag = curr_user_tags[j];
 
+                    // If this tag is in the post
                     if(posts_tags.indexOf(curr_tag, 0) != -1) {
-                        // Send user an email
-                        console.log("SENT EMAIL TO"+ user_id);
+
+                        var subject = "Relevant Post was created in "+companyName+"'s KIWI Forum";
+                        var content = "A post tagged with at least one of your specialities in "+companyName+"'s KIWI Forum was created.";
+                        console.log("SENT EMAIL TO "+ user_email);
+                        sendEmail(user_email, subject, content);
                         break
                     }
-
                 }
             }
-            
-
         });
-
-}
-
-// Upvoting response would look really similar
-function upVotePost(forumName, post_id) {
-
-    // Reference the post
-    const firebaseRef = firebase.db.database().ref(forumName+"/Posts"+post_id);
-
-    // Update the karma
-    firebaseRef.update({karma: karma+1});
-
-}
-
-function endorseResponse(forumName, response_id) {
-
-    // Reference the response
-    const firebaseRef = firebase.db.database().ref(forumName+"/Responses"+response_id);
-
-    // Endorse the response
-    firebaseRef.update({endorsed: true});
-
 }
 
 // "GET" method for users
@@ -224,8 +222,7 @@ function checkRegistration(id) {
 }
 
 module.exports = { 
-	createNewUser, getUser, getUsers, 
+	notifyUsers, sendEmail, createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID,
-    endorseResponse, upVotePost, getCompanyName,
-    checkRegistration, addPostData};
+    getCompanyName, checkRegistration, addPostData};
