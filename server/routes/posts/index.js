@@ -14,7 +14,7 @@ function (req, res, next) {
     })  
 },
 
-function (req, res) {
+function (req, res, next) {
     var user_id = db.getUserID();
     db.getCompanyName(user_id).then(function(snapshot) {
         var company_name = snapshot.val();
