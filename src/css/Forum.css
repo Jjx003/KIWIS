@@ -1,4 +1,9 @@
 .original-post{
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-gap: 10px;
+
     width: 88vw;
     margin: auto;
     margin-top: 1%;
@@ -15,52 +20,34 @@
 
 .postInfo{
     background-color: green;
-    float: right;
-    margin: 5px;
-    text-align: right;
-    max-width: 30vw;
-}
-
-.datetime{
-    background-color: green;
-    float: right;
-    max-width: 15vw;
-    width: 15vw;
-    margin-right: 5px;
-    margin-bottom: 50px;
     text-align: right;
 }
 
-.karma{
-    margin-right: 80px;
-    color: #80C180;
-    margin-bottom: 30px;
-}
-
-.title{
-    background-color: green;
-    color: black;
-    width: 70vw;
-}
-
-.text-content{
-    font-size-adjust: 0.65;
+.header{
+    background-color: red;
 }
 
 .content{
-    background-color: green;
-    margin-top: 5vh;
-    width: 70vw;
-    max-width: 70vw;
-    height: 20vh;
-    max-height: 20vh;
+    background-color: aqua;
 }
 
-.tags{
-    /*background-color: green;*/
-    max-width: 95vh;
-    margin-top: 10px;
+.datetime{
+    background-color: aquamarine;
+    text-align: right;
+    grid-row: 3/4;
+    grid-column: 2/3;
 }
+
+.tagList{
+    background-color: purple;
+    grid-row: 3/4;
+}
+
+
+/*.createdDate{*/
+/*    text-align: right;*/
+/*}*/
+
 
 .response-post{
     width: 78vw;

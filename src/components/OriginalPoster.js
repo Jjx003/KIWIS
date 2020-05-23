@@ -20,25 +20,29 @@ class OriginalPoster extends React.Component {
         };
     }
 
-render() {
-    return(
+    render() {
+        return (
             <div className={"original-post"}>
-                <div className={"postInfo"}>
-                <h2 className={"postID"}>{this.state.postID}</h2>
-                <h2>{"Posted by: " + this.state.firstName + " " + this.state.lastName}</h2>
+                <div className={"header"}>
+                    <h1 className={"title"}>{this.state.title}</h1>
                 </div>
-                <h1 className={"title"}>{this.state.title}</h1>
+                <div className={"postInfo"}>
+                    <h2 className={"postID"}>{this.state.postID}</h2>
+                    <h2>{"Posted by: " + this.state.firstName + " " + this.state.lastName}</h2>
+                </div>
                 <div className={"content"}>
-                <p className={"text-content"}>{this.state.content}</p>
+                    <p className={"text-content"}>{this.state.content}</p>
                 </div>
                 <div className={"datetime"}>
-                <h3>{"Created on: " + this.state.datetime}</h3>
-                <h1 className={"karma"}>{"+ " + this.state.karma}</h1>
+                    <h3 className={"createdDate"}>{"Created on: " + this.state.datetime}</h3>
+                    <h1 className={"karma"}>{"+ " + this.state.karma}</h1>
                 </div>
-                <h1 className={"tags"}>{this.state.tags}</h1>
+                <div className={"tagList"}>
+                    <h1 className={"tags"}>{this.state.tags}</h1>
+                </div>
             </div>
-    );
-}
+        );
+    }
 }
 
 export default withRouter(OriginalPoster);
