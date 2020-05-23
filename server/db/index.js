@@ -1,5 +1,6 @@
 var {firebase} = require('../firebase');
 var {db} = require('../firebase');
+var auth = require('../auth/index');
 
 // add database functions below
 
@@ -62,7 +63,7 @@ function removeTagFromAllUsers(forumName, tagName) {
 function createNewUser(forumName, firstName, lastName, email, password) {
     const forumDBRef = db.database().ref(forumName);
     auth.signUp(email, password).then((data) => {
-        var userID = data.user.uid
+        var userID = data.uid
         var user = {};
 
         // Creates a new user object with the userID as a key
@@ -71,14 +72,14 @@ function createNewUser(forumName, firstName, lastName, email, password) {
             lastName: lastName,
             email: email,
             admin: false,
-            tags: ['announcements', 'help-needed'],
+            tags: {'announcements':'announcements', 'help-needed':'help-needed'},
             following_IDs: []
         };
         forumDBRef.child("Users").update(user);
 
         var mapUserToCompany = {};
         mapUserToCompany[userID] = forumName;
-        firebadb.database().ref("UserCompaniesID").update(mapUserToCompany);
+        db.database().ref("UserCompaniesID").update(mapUserToCompany);
     });
 }
 
@@ -95,17 +96,17 @@ function getCurrentUserID(token) {
 
 // "GET" method for a user 
 function getUser(forumName, userID) {
-    return firebase.db.database().ref(forumName).child('Users/' + userID).once('value');
+    return db.database().ref(forumName).child('Users/' + userID).once('value');
 }
 
 // "GET" method for users
 function getUsers(forumName) {
-    return firebase.db.database().ref(forumName).child('Users').once('value');
+    return db.database().ref(forumName).child('Users').once('value');
 }
 
 // Removes a user from the database
 function removeUser(forumName, userID) {
-    firebase.db.database().ref(forumName).child('Users').child(userID).remove();
+    db.database().ref(forumName).child('Users').child(userID).remove();
 }
 
     
