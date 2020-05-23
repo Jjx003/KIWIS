@@ -1,11 +1,7 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
 import '../css/Home.css';
 import OriginalPoster from "../components/OriginalPoster";
-import HomePosts from "../components/HomePosts";
 import { withRouter } from 'react-router-dom';
-import data from "../dummy_data/dummy_posts";
-import PostCards from "../components/PostCards";
 import Response from "../components/Response";
 import Failure from '../components/Failure'
 import axios from 'axios'

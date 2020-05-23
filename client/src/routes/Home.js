@@ -1,11 +1,7 @@
-import React, { useContext } from 'react';
-import { Button } from 'semantic-ui-react';
+import React from 'react';
 import '../css/App.css';
-import axios from 'axios';
-import { UpdateContext } from '../auth/Auth';
 import { withRouter } from 'react-router-dom';
 
-import Cookies from 'universal-cookie';
 import HomePosts from '../components/HomePosts'
 
 // Sorry we don't have a home for this function yet.
