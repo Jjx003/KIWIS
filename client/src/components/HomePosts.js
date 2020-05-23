@@ -10,7 +10,6 @@ import {
 } from 'react-instantsearch-dom';
 import PostCards from './PostCards';
 import axios from 'axios';
-import {db} from '../db/index'
 
 class HomePosts extends React.Component {
 
