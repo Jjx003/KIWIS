@@ -191,9 +191,64 @@ function undoUpvote(companyName, user_id, response_id) {
     })
 }
 
+// We want the user id of the person trying to endorse
+/*
+1. Check if user_id is the owner of the post of the response_id
+    - If not, then return
+
+2. Turn the response_id's endorse to true
+*/
+function endorseResponse(companyName, user_id, response_id) {
+
+    return new Promise(function(resolve, reject){
+
+        const firebaseRef = firebase.db.database().ref(companyName);
+        
+        firebaseRef.once('value', function(snapshot){
+
+            var post_idOfResponse = (snapshot.child("Responses/"+response_id+"/post_id").val());
+
+            // Assuming there's at least 1 post in the company's forum
+            var posts_array = Object.keys(snapshot.child("Posts").val());
+
+            for(i = 0; i < posts_array.length; i++) {
+                var curr_post_id = posts_array[i];
+
+                // Assuming the post id of the reponse is in the post's table
+                if(curr_post_id == post_idOfResponse) {
+
+                    var creator_of_post = (snapshot.child("Posts/"+curr_post_id+"/user_id").val());
+
+                    if(user_id == creator_of_post) {
+                        break
+                    } else {
+                        resolve(false)
+                    }
+                }
+            }
+
+            // If we made it down here then the user_id is valid so set endorse to true
+            const responseRef = firebase.db.database().ref(companyName + '/Responses/' + response_id);
+            updates = {};
+            responseRef.once('value', function(snapshot){
+                updates["endorsed"] = true;
+                responseRef.update(updates);
+
+                resolve(true)
+    
+            })
+
+            .catch( function(error) {
+                console.log(error);
+            })
+    
+        });
+    })
+}
 
 
-module.exports = { undoUpvote, updateKarma, getCompanyName,
+
+module.exports = { endorseResponse, undoUpvote, updateKarma, getCompanyName,
 	createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID};
