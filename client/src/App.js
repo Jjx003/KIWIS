@@ -1,6 +1,8 @@
 import React from 'react';
-import { Redirect, Route} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import './css/App.css';
+
+
 import Home from './routes/Home';
 import SignUp from './routes/SignUp';
 import Login from './routes/Login';

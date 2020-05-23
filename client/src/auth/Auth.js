@@ -1,14 +1,11 @@
-import React, {useEffect, useState, useContext, Suspense} from "react";
-import { EventEmitter } from 'events';
+import React, {useEffect, useState} from "react";
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import Axios from "axios";
+import firebase from './firebase';
 
 const AuthContext = React.createContext();
 const UpdateContext = React.createContext();
-const ModifyAuthEvent = new EventEmitter();
 const cookie = new Cookies();
-//const FinishPromise = new Promise();
 
 const AuthProvider = ({children}) => {
     const [currentUser, setCurrentUser] = useState(false);
@@ -33,33 +30,13 @@ const AuthProvider = ({children}) => {
         })
     }
 
-
-
-    
     useEffect(() => {
-        //ModifyAuthEvent.on('change', (data)=> {
             updateAuth();
             cookie.addChangeListener((name, value, options) => {
-                if (name == 'auth' && value != null && options != null) {
-                    console.log("COOKIE CHANGED")
-                    axios({
-                        method: 'get', 
-                        url: 'http://localhost:9000/auth/checkIfSignedIn',
-                        withCredentials: true}).then((result)=>{
-                            if(result.data.success) {
-                                setCurrentUser(true);
-                            } else {
-                                setCurrentUser(false);
-                            }
-                        }).catch((error)=>{
-                            console.log(error);
-                            setCurrentUser(false);
-                        }).then(()=>{
-                            setLoaded(true);
-                    })
+                if (name === 'auth' && value != null && options != null) {
+                    updateAuth();
                 }
             })
-            //})
     }, []);
 
     if (!isLoaded) {
@@ -76,4 +53,4 @@ const AuthProvider = ({children}) => {
   
 }
 
-export {AuthContext, AuthProvider, ModifyAuthEvent, UpdateContext}
+export {AuthContext, AuthProvider, UpdateContext}

@@ -2,39 +2,36 @@ import React, { useContext } from 'react';
 import '../css/App.css';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import { AuthContext, UpdateContext } from "../auth/Auth"
+import { AuthContext, UpdateContext } from "../auth/Auth";
+import db from '../auth/firebase';
 
 export const Login = ({history}) => {
-	const {currentUser} = useContext(AuthContext);
+	//const {currentUser} = useContext(AuthContext);
 	let update = useContext(UpdateContext);
 	
 	const handleLogin = (event) => {
 		event.preventDefault();
 		const {email, password} = event.target.elements;
-		// send POST request to sign in user 
-		axios({
-			method: 'post',
-			url: 'http://localhost:9000/auth/login',
-			data: {
-				email: email.value,
-				password: password.value,
-			}
-		  })
-		  .then((response) => {
-			if (response.data.success) {
-				const cooks = new Cookies();
-				cooks.set('auth', response.data.token, {path: '/'});
-				// Wait until update processes before redirecting
-				update().then(()=>{
-					history.replace('/');
-				})
-			} else {
-				console.log("invalid credentials.");
-			}
-		  })
-		  .catch((error) => {
+
+		// sign in user
+		db.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
+
+			// create token for user
+			db.auth().currentUser.getIdToken(true).then((idToken) => {
+				// store token into cookie 
+				const cookies = new Cookies();
+				cookies.set('auth', idToken, {path: '/'});
+				
+				// redirect to home page
+				update().then(() => {
+					history.push('/');
+				});
+			})
+			.catch((error) => console.log(error));
+
+		}).catch((error) => {
 			console.log(error);
-		  });
+		});
 	}
 
 	const redirectSignUp = () => {

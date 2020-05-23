@@ -6,10 +6,12 @@ import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 import {AuthProvider} from './auth/Auth';
 
+import {AuthProvider} from './auth/Auth';
+
 ReactDOM.render(
 	<AuthProvider>
   	<BrowserRouter>
-	<App/>
+    	<App />
   	</BrowserRouter>
 	</AuthProvider>, 
   
