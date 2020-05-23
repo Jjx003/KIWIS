@@ -37,6 +37,7 @@ class ViewPost extends React.Component {
                                    content={content} firstName={firstName} lastName={lastName}/>
                                    <Response userID={userID} datetime={datetime} karma={karma}
                                              content={content} firstName={firstName} lastName={lastName}/>
+                        <button className={"makeReply"}>Reply</button>
                     </div>
                 </div>
           </div>

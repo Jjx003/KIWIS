@@ -44,21 +44,6 @@
     grid-row: 3/4;
 }
 
-.response-post{
-    width: 78vw;
-    margin: auto;
-    margin-top: 1%;
-    height: 15vh;
-    overflow: hidden;
-    background-color: white;
-    border-radius: 10px;
-    border-style: solid;
-    border-color: gray;
-    border-width: 4px;
-    padding-top: 0.00002%;
-    padding: 5px;
-}
-
 .text-content{
     font-size: 20px;
 }
@@ -71,7 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #4CAF50;
+    background-color: #157840;
     border: none;
     color: white;
     height: 35px;
@@ -92,7 +77,91 @@
     grid-template-columns: 5fr 2fr;
 }
 
-.responder{
-    background-color: green;
-    max-width: 15vw;
+.karma{
+    color: #80C180;
+}
+
+/*Responses are styled here*/
+
+.response-post{
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+
+
+    width: 78vw;
+    margin: auto;
+    margin-top: 1%;
+    height: 15vh;
+    overflow: hidden;
+    background-color: white;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: gray;
+    border-width: 4px;
+    padding-top: 0.00002%;
+    padding: 5px;
+}
+
+.rPoster{
+    /*background-color: red;*/
+}
+
+.rContent{
+    /*background-color: #157840;*/
+}
+
+.rDate{
+    /*background-color: aquamarine;*/
+}
+
+.rUpvote{
+    /*background-color: grey;*/
+}
+
+.rKarma{
+    /*background-color: pink;*/
+    grid-row: 3/4;
+}
+
+.rStar{
+    /*background-color: deeppink;*/
+}
+
+
+.leftSide{
+    /*background-color: #80C180;*/
+    display: grid;
+    grid-template-rows: 2fr 2fr;
+}
+
+.middleContent{
+    /*background-color: #80C180;*/
+}
+
+.rightSide{
+    /*background-color: #80C180;*/
+    text-align: right;
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr;
+}
+
+/*Reply Button*/
+.makeReply{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #157840;
+    border: none;
+    color: white;
+    height: 35px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    margin-left: 130px;
 }
