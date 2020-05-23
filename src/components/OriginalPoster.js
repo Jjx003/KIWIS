@@ -26,8 +26,6 @@ class OriginalPoster extends React.Component {
                 <div className={"header"}>
                     <h1 className={"title"}>{this.state.title}</h1>
                 </div>
-
-
                 <div className={"postInfo"}>
                     <div>
                     <h2 className={"postID"}>{this.state.postID}</h2>
@@ -39,18 +37,17 @@ class OriginalPoster extends React.Component {
                     <button className={"button"}>Follow Post</button>
                     </span>
                 </div>
-
-
-
                 <div className={"content"}>
                     <p className={"text-content"}>{this.state.content}</p>
                 </div>
+                <div className={"bottom-section"}>
                 <div className={"datetime"}>
                     <h3 className={"createdDate"}>{"Created on: " + this.state.datetime}</h3>
-                    <h1 className={"karma"}>{"+ " + this.state.karma}</h1>
+                    <h1 className={"karma"}><button className={"button"}>View Endorsed</button><button className={"button"}>Upvote Response</button>{"+ " + this.state.karma}</h1>
                 </div>
                 <div className={"tagList"}>
                     <DisplayingTags tags = {this.state.tags}/>
+                </div>
                 </div>
             </div>
         );
