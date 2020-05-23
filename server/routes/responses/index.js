@@ -66,8 +66,8 @@ function (req, res) {
     console.log("Entered EndorseResponse");
 
     var response_id = "-M7AyPI9Ydzq_3OvBUhu"
-    //var user_id = "Rz5mBuIvkDNSwdzK3B2W8H6seQ32"
-    var user_id = "123"
+    var user_id = "Rz5mBuIvkDNSwdzK3B2W8H6seQ32"
+    //var user_id = "123"
     db.getCompanyName(user_id).then(function(snapshot) {
         var company_name = "UXD14";
 
@@ -75,7 +75,6 @@ function (req, res) {
             if(result == true) {
                 res.jsonp({success: true});
             } else {
-                console.log("Only the creator of the post can endorse this response.");
                 res.jsonp({success: false});
             }
         }

@@ -197,6 +197,11 @@ function undoUpvote(companyName, user_id, response_id) {
     - If not, then return
 
 2. Turn the response_id's endorse to true
+
+Tests:
+    - The user_id does not match the creator of the post
+    - The user_id matches so endorse the post
+    - The response is already endorsed
 */
 function endorseResponse(companyName, user_id, response_id) {
 
@@ -222,7 +227,8 @@ function endorseResponse(companyName, user_id, response_id) {
                     if(user_id == creator_of_post) {
                         break
                     } else {
-                        resolve(false)
+                        reject(new Error("Only the creator of the post can endorse this response."))
+                        return
                     }
                 }
             }
@@ -231,6 +237,13 @@ function endorseResponse(companyName, user_id, response_id) {
             const responseRef = firebase.db.database().ref(companyName + '/Responses/' + response_id);
             updates = {};
             responseRef.once('value', function(snapshot){
+                var endorsed = (snapshot.child("endorsed").val());
+
+                if(endorsed == true) {
+                    reject(new Error("This response is already endorsed."))
+                    return
+                }
+
                 updates["endorsed"] = true;
                 responseRef.update(updates);
 
