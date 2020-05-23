@@ -7,6 +7,66 @@ var auth = require('../auth/index');
 // NOTE (Eric): in order to get userId: firebase.auth().currentUser.uid
 // Also, forumDBRef requires the forumName so they can access the specific company
 
+// "POST" method for a new user 
+function createNewUser(registration_ID, forumName, firstName, lastName, email, password, isAdmin) {
+
+    return new Promise(function(resolve, reject){
+        try {
+
+            // Check if user is admin and if the company already exists
+            if(isAdmin == true) {
+                db.database().ref(forumName).once("value", snapshot => {
+                    if(snapshot.exists()) {
+                        console.log("This company already exists");
+                        resolve(false);
+                        return;
+                    }
+                })
+            }
+
+            const forumDBRef = db.database().ref(forumName);
+            auth.signUp(email, password, isAdmin).then((data) => {
+                var userID = data.uid;
+                var user = {};
+
+                // Creates a new user object with the userID as a key
+                user[userID] =  {
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    admin: isAdmin,
+                    tags: {'announcements': 'announcements', 'help-needed':'help-needed'},
+                    following_IDs: []
+                };
+                forumDBRef.child("Users").update(user);
+
+                var mapUserToCompany = {};
+                mapUserToCompany[userID] = forumName;
+                db.database().ref("UserCompaniesID").update(mapUserToCompany);
+
+                if(isAdmin == false) {
+
+                    db.database().ref("Registrations").child(registration_ID).remove();
+
+                }
+
+                resolve(true);
+            }).catch((error) => {
+                reject(new Error(error));
+            });
+            
+        } catch(error) {
+            console.log(error);
+            reject(new Error(error));
+        }
+    })
+}
+
+// add database functions below
+
+// NOTE (Eric): in order to get userId: firebase.auth().currentUser.uid
+// Also, forumDBRef requires the forumName so they can access the specific company
+
 // "POST" method for new tags
 function createNewTag(forumName, tagName) {
     const forumDBRef = db.database().ref(forumName);
@@ -59,29 +119,6 @@ function removeTagFromAllUsers(forumName, tagName) {
     });
 }	
 
-// "POST" method for a new user 
-function createNewUser(forumName, firstName, lastName, email, password) {
-    const forumDBRef = db.database().ref(forumName);
-    auth.signUp(email, password).then((data) => {
-        var userID = data.uid
-        var user = {};
-
-        // Creates a new user object with the userID as a key
-        user[userID] =  {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            admin: false,
-            tags: {'announcements':'announcements', 'help-needed':'help-needed'},
-            following_IDs: []
-        };
-        forumDBRef.child("Users").update(user);
-
-        var mapUserToCompany = {};
-        mapUserToCompany[userID] = forumName;
-        db.database().ref("UserCompaniesID").update(mapUserToCompany);
-    });
-}
 
 // "GET" method for a user's id
 function getCurrentUserID(token) {
@@ -133,9 +170,33 @@ function getCompanyTags(company){
     });
 }
 
+// "GET" method for a user 
+function getUser(forumName, userID) {
+    return db.database().ref(forumName).child('Users/' + userID).once('value');
+}
+
+// "GET" method for users
+function getUsers(forumName) {
+    return db.database().ref(forumName).child('Users').once('value');
+}
+
+// Removes a user from the database
+function removeUser(forumName, userID) {
+    db.database().ref(forumName).child('Users').child(userID).remove();
+}
+
+function checkRegistration(id) {
+    return new Promise (function (resolve, reject) {
+        db.database().ref('/Registrations/' + id).once('value').then((result) => {
+            resolve(result.val());
+        }).catch((error) => {
+            reject(new Error(error));
+        });
+    })
+}
+
 
 module.exports = { 
 	getCompanyPosts, getCompanyTags, createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
-    getTagCount, removeTag, getCurrentUserID};
-
+    getTagCount, removeTag, getCurrentUserID, checkRegistration};

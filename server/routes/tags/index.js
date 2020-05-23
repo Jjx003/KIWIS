@@ -1,10 +1,10 @@
 var express = require("express");
 var router = express.Router();
 var dbIndex = require("../../db/index")
-var auth = require('../../auth/index');
 var {authenticated, isAdmin} = require('../auth/index');
 var {db} = require('../../firebase')
 const { check, validationResult } = require('express-validator');
+
 // POST method to removes certain tag from the database and from the users of the company
 router.post('/remove', 
     [
