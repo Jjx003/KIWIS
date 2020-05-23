@@ -1,6 +1,6 @@
 import React from 'react';
 import "../css/PostCards.css";
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import DisplayingTags from "./DisplayingTags";
 
 
@@ -8,50 +8,33 @@ class PostCards extends React.Component {
     state = {
         buttonClicked: false
     }
-    constructor(props) {
-        super(props);
-    }
 
     redirectToPostpage() {
-        console.log("in here");
-        this.setState({buttonClicked: true});
+        this.setState({ buttonClicked: true });
     }
 
     componentWillUnmount() {
-        this.setState({buttonClicked: false});
+        this.setState({ buttonClicked: false });
     }
 
     render() {
-        const {history} = this.props;
-        if(this.state.buttonClicked) {
-            history.push({
-                pathname: '/viewPost', 
-                state: {postID: this.props.postID,
-                        userID: this.props.userID,
-                        firstName: this.props.firstName,
-                        lastName: this.props.lastName,
-                        title: this.props.title, 
-                        tags: this.props.tags,
-                        datetime: this.props.datetime,
-                        karma: this.props.karma,
-                        content: this.props.content
-                }
+        const { history } = this.props;
+        if (this.state.buttonClicked) {
+            history.push({      //change to replace and add back button
+                pathname: '/viewPost/' + this.props.post_id.toString(),
             });
         }
 
-    
-        return(
+
+        return (
             <div onClick={this.redirectToPostpage.bind(this)} className="post-cards">
                 <h1 onClick={this.redirectToPostpage.bind(this)} className="PostTitle"> {this.props.title} </h1>
                 <div className="PostTags">
-                    <DisplayingTags tags={this.props.tags}/>
+                    <DisplayingTags tags={this.props.tag_ids} />
                 </div>
 
-                <h3 className="Poster"> {"Created by: " + this.props.firstName + " " + this.props.lastName} </h3> 
-                <h3 className="PostDate"> {"Date Created: " + this.props.datetime} </h3>
-               
-
-                
+                <h3 className="Poster"> {"Created by: " + this.props.firstName + " " + this.props.lastName} </h3>
+                <h3 className="PostDate"> {"Date Created: " + this.props.date_time} </h3>
 
             </div>
         );

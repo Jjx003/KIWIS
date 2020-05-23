@@ -1,26 +1,35 @@
 {
-    "look": {
-             "count": 0
-    },
-    "ma": {
-             "count": 0
-    },
-    "i": {
-             "count": 0
-    },
-    "got": {
-             "count": 0
-    },
-    "these": {
-             "count": 0
-    },
-    "tags": {
-             "count": 0
-    },
-    "from": {
-             "count": 0
-    },
-    "dummy_data": {
-             "count": 0
-    }
+        "Database": {
+                "count": 0
+        },
+        "Sales": {
+                "count": 0
+        },
+        "Machine Learning": {
+                "count": 0
+        },
+        "look": {
+                "count": 0
+        },
+        "ma": {
+                "count": 0
+        },
+        "i": {
+                "count": 0
+        },
+        "got": {
+                "count": 0
+        },
+        "these": {
+                "count": 0
+        },
+        "tags": {
+                "count": 0
+        },
+        "from": {
+                "count": 0
+        },
+        "dummy_data": {
+                "count": 0
+        }
 }

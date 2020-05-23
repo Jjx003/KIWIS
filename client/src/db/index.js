@@ -1,17 +1,18 @@
-import * as firebase from 'firebase';
+// for the default version
+import algoliasearch from 'algoliasearch';
 
-const db = firebase.initializeApp({
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-    databaseURL: process.env.REACT_APP_DATABASE_URL,
-    projectId: process.env.REACT_APP_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_ID,
-    measurementId: process.env.REACT_APP_MEASUREMENT_ID
-});
+//npm install algoliasearch react-instantsearch-dom
+const company = 'UXD14';
 
-// add database functions below
+const client = algoliasearch("36A3GKBNZI", "22dc12a10fb0cec70da7edb08015731f");
+const index = client.initIndex(company); //company
+
+const searchClient = algoliasearch(
+  '36A3GKBNZI',
+  'faecca1d5632ce9521cda7cd1857bd20'
+);
 
 
-export default db;
+
+
+export { client, index, searchClient, company };
