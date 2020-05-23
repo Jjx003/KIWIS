@@ -27,6 +27,7 @@ class PostCards extends React.Component {
             history.push({
                 pathname: '/viewPost', 
                 state: {postID: this.props.postID,
+                        userID: this.props.userID,
                         firstName: this.props.firstName,
                         lastName: this.props.lastName,
                         title: this.props.title, 

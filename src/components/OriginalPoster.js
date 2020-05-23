@@ -1,46 +1,44 @@
 import React from 'react';
 import "../css/PostCards.css";
 import {withRouter} from 'react-router-dom';
+import "../css/Forum.css"
 import DisplayingTags from "./DisplayingTags";
 
-class PostCards extends React.Component {
+class OriginalPoster extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            postID: this.props.postID,
+            firstName: this.props.firstName,
+            lastName: this.props.lastName,
+            title: this.props.title,
+            tags: this.props.tags,
+            datetime: this.props.datetime,
+            karma: this.props.karma,
+            content: this.props.content
+        };
     }
 
 render() {
-    const {history} = this.props;
-    if(this.state.buttonClicked) {
-        history.push({
-            pathname: '/viewPost',
-            state: {postID: this.props.postID,
-                firstName: this.props.firstName,
-                lastName: this.props.lastName,
-                title: this.props.title,
-                tags: this.props.tags,
-                datetime: this.props.datetime,
-                karma: this.props.karma,
-                content: this.props.content
-            }
-        });
-    }
-
-
     return(
-        <div onClick={this.redirectToPostpage.bind(this)} className="post-cards">
-            <h1 onClick={this.redirectToPostpage.bind(this)} className="PostTitle"> {this.props.title} </h1>
-            <div className="PostTags">
-                <DisplayingTags tags={this.props.tags}/>
+            <div className={"original-post"}>
+                <div className={"postInfo"}>
+                <h2 className={"postID"}>{this.state.postID}</h2>
+                <h2>{"Posted by: " + this.state.firstName + " " + this.state.lastName}</h2>
+                </div>
+                <h1 className={"title"}>{this.state.title}</h1>
+                <div className={"content"}>
+                <p className={"text-content"}>{this.state.content}</p>
+                </div>
+                <div className={"datetime"}>
+                <h3>{"Created on: " + this.state.datetime}</h3>
+                <h1 className={"karma"}>{"+ " + this.state.karma}</h1>
+                </div>
+                <h1 className={"tags"}>{this.state.tags}</h1>
             </div>
-
-            <h3 className="Poster"> {"Created by: " + this.props.firstName + " " + this.props.lastName} </h3>
-            <h3 className="PostDate"> {"Date Created: " + this.props.datetime} </h3>
-
-
-
-
-        </div>
     );
 }
 }
+
+export default withRouter(OriginalPoster);
