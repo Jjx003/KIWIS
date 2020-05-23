@@ -1,9 +1,9 @@
 var express = require("express");
 var router = express.Router();
-var db = require("../../db/index")
-var auth = require('../../auth/index');
-var sanitizeHtml = require('sanitize-html');
+var dbIndex = require("../../db/index")
 var {authenticated, isAdmin} = require('../auth/index');
+var {db} = require('../../firebase')
+const { check, validationResult } = require('express-validator');
 
 // POST method to removes certain tag from the database and from the users of the company
 router.post('/remove', 
@@ -29,7 +29,7 @@ router.post('/remove',
     function (req, res, next) {
 
         try {
-            db.removeTag(req.body.forumName, req.body.tagName);
+            dbIndex.removeTag(req.body.forumName, req.body.tagName);
             res.jsonp({success: true});
         } catch (error) {
             console.log(error);
@@ -60,7 +60,7 @@ router.post('/add',
 
     function (req, res, next) {
         try {
-            db.createNewTag(req.body.forumName, req.body.tagName);
+            dbIndex.createNewTag(req.body.forumName, req.body.tagName);
             res.jsonp({success: true});
         } catch (error) {
             console.log(error);
@@ -89,7 +89,7 @@ router.get('/all',
 
     function (req, res, next) {
         try {
-            db.getTags(req.body.forumName).then((data)=>{
+            dbIndex.getTags(req.body.forumName).then((data)=>{
                 res.send(data.val());
             });
         } catch (error) {
@@ -99,7 +99,15 @@ router.get('/all',
     }
 );
 
+router.get('/',
+    function (req, res, next) {
+        const company = 'UXD14';        //call get company
+        db.database().ref(company+'/Tags').once('value').then(function(snapshot) {
+            var tags = snapshot.val();
+            res.jsonp({success : true, tags: tags});
+        })
 
+    }
+);
 
 module.exports = router;
-

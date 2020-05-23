@@ -6,7 +6,6 @@ var db = require('../../db/index');
 // checks if the user is authenticated
 const authenticated = (req,res,next) => {
 	try {
-		console.log(req.cookies.auth);
    		auth.checkToken(req.cookies.auth).then(() =>{
 			next();
       	}).catch( function(error) {

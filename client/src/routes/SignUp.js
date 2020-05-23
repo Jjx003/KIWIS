@@ -4,11 +4,8 @@ import axios from 'axios';
 import pic from '../css/vectorlogo.png';
 import Cookies from 'universal-cookie';
 import db from '../auth/firebase';
-import { AuthContext } from "../auth/Auth";
-import { Redirect, useHistory } from "react-router-dom";
 
 
-import '../css/App.css';
 
 class SignUp extends React.Component {
 	state = {

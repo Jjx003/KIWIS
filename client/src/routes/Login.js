@@ -1,28 +1,27 @@
 import React, {useContext} from "react";
 import '../css/login.css';
+import '../css/App.css';
 import Cookies from 'universal-cookie';
-import { AuthContext, UpdateContext } from "../auth/Auth";
+import { UpdateContext } from "../auth/Auth";
 import db from '../auth/firebase';
-import axios from 'axios';
 import pic from '../css/vectorlogo.png';
-import SignUp from './SignUp';
 
 const Login = ({history}) => {
-	const {currentUser} = useContext(AuthContext);
     let update = useContext(UpdateContext);
 
     const handleLogin = (event) => {
 		event.preventDefault();
 		const {email, password} = event.target.elements;
+
 		// sign in user
 		db.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
-            console.log("Entered sign in");
+
 			// create token for user
 			db.auth().currentUser.getIdToken(true).then((idToken) => {
 				// store token into cookie 
 				const cookies = new Cookies();
 				cookies.set('auth', idToken, {path: '/'});
-				console.log("Entered create token");
+				
 				// redirect to home page
 				update().then(() => {
 					history.push('/');
