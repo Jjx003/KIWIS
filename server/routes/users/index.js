@@ -101,8 +101,6 @@ router.post('/addSpecialization',
     }
 );
 
-
-
 // POST method to create user to the database
 router.post('/add', 
     [
@@ -137,8 +135,6 @@ router.post('/add',
     }
 );
 
-
-
 // POST method to remove certain user from the database given a UUID
 router.post('/remove', 
     [
@@ -164,9 +160,6 @@ router.post('/remove',
         });
     }
 );
-    
-
-
 
 // GET method to get a single user from the database
 router.get('/', 
@@ -201,8 +194,6 @@ router.get('/',
     }
 );
 
-
-
 // GET method to get all users from the database
 router.post('/all', 
 
@@ -226,8 +217,6 @@ router.post('/all',
         });
     }
 );
-
-
 
 router.post('/toggleAdmin', 
     [
@@ -257,4 +246,49 @@ router.post('/toggleAdmin',
     }
 );
 
+router.post('/getUserEmail', 
+    
+    authenticated,
+        
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken.uid;
+            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
+                var company_name = snapshot.val();
+                db.getUserEmail(company_name, user_id).then(function(snapshot) {
+                    res.jsonp({success : true, userEmail: snapshot.val()});
+                })
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
+            console.log(error);
+            console.log()
+        });
+    }
+);
+
+router.post('/isUserAdmin', 
+
+    authenticated,
+    
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken.uid;
+            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
+                var company_name = snapshot.val();
+                db.isUserAdmin(company_name, user_id).then(function(snapshot) {
+                    res.jsonp({success : true, admin: snapshot.val()});
+                })
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
+            console.log(error);
+            console.log()
+        });
+    }
+);
 module.exports = router;

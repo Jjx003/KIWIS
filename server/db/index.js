@@ -66,6 +66,13 @@ function getUserTags(forumName, userID) {
     return firebase.db.database().ref(forumName).child('Users').child(userID).child('tags').once('value');
 }
 
+function getUserEmail(forumName, userID) {
+    return firebase.db.database().ref(forumName).child('Users').child(userID).child('email').once('value');
+}
+
+function isUserAdmin(forumName, userID) {
+    return firebase.db.database().ref(forumName).child('Users').child(userID).child('admin').once('value');
+}
 
 function addSpecialization(forumName, userID, tagName) {
     var tagtoadd = {};
@@ -227,6 +234,7 @@ module.exports = {
     getTagCount, removeTag, getCurrentUserID,
     checkRegistration, getUserTags, removeSpecialization,
     addSpecialization, removeAllUserTags, toggleAdmin,
-    getCompanyPosts, getCompanyTags
+    getCompanyPosts, getCompanyTags, getUserEmail,
+    isUserAdmin
 };
 
