@@ -38,10 +38,10 @@
     border-style: ridge;
 }
 .tagButton:hover{
-    background-color:rgb(229, 255, 0);
+    background-color: rgb(185, 121, 152);
 }
 .tagButton2:hover{
-    background-color:rgb(229, 255, 0);
+    background-color: rgb(197, 64, 142);
 }
 .tagButton2 {
     width: 150px;
