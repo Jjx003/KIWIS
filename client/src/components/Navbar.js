@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Dropdown, Image, Icon, Grid } from 'semantic-ui-react';
+import { Dropdown, Icon} from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
 import '../css/index.css'
 import {
@@ -89,7 +89,7 @@ class Navbar extends React.Component {
         return (
             <div className="navbar_block">
                 <div className={"kiwiLogo"}>
-                    <img src={logo} height={'40px'} />
+                    <img src={logo} height={'40px'} alt={"KIWI"}/>
                 </div>
                 <div className={"searchBar"}>
                     <SearchBox className={"searching"} searchAsYouType={true}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, Image, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
 import firebase from '../auth/firebase';
 import Cookies from 'universal-cookie';
@@ -23,14 +23,15 @@ class TitleBar extends React.Component {
         cookies.remove('auth');
 
         // redirect to home page
-        //this.props.history.push("/login");
+        // this.props.history.push("/login");
     }
+
 
     render() {
         return (
             <div className="title_block">
                 <div className={"kiwiLogo"}>
-                    <img src={logo} height={'40px'} />
+                    <img src={logo} height={'40px'} alt={"KIWI"}/>
                 </div>
 
                 <div className={"vert-line"}>
@@ -45,7 +46,9 @@ class TitleBar extends React.Component {
                     <Icon name="settings" size={"big"} color='grey' inverted />
                 </div>
                 <div className={"logoutButton"}>
-                    <button className={"signoutButton"} onClick={this.handleSignOut}><Icon name="sign out" size={"big"} color='grey' inverted /></button>
+                    <Link style={{marginTop: "4px"}} to="/login">
+                        <button className={"signoutButton"} onClick={this.handleSignOut}><Icon name="sign out" size={"big"} color='grey' inverted /></button>
+                    </Link>
                 </div>
             </div>
         );
