@@ -48,7 +48,7 @@ class TagTab extends React.Component{
 
         return(
             <Tab.Pane className="adminPageAP" >
-                <h1 style={{textAlign: "center"}}> Add and Remove Employees </h1>
+                <h1 style={{textAlign: "center"}}> Add and Remove Specialization </h1>
                 <div className="tagListAP"> 
                     {this.state.loading_tag ? 
                     <div> 
