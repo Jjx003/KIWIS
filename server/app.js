@@ -7,6 +7,7 @@ var inviteRouter = require('./routes/invite/index');
 var authRouter = require('./routes/auth/index');
 var postsRouter = require('./routes/posts/index');
 var tagsRouter = require('./routes/tags/index')
+var responseRouter  = require('./routes/responses/index');
 var cookieParser = require('cookie-parser');
 var {startAlgolia} = require('./firebase');
 
@@ -22,12 +23,9 @@ app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(cookieParser());
 
 app.use('/inviteUser', inviteRouter);
+app.use('/Response', responseRouter);
 app.use('/auth', authRouter.router);
-<<<<<<< HEAD
-
-=======
 app.use('/posts', postsRouter);
->>>>>>> 12aaeea4d5a8b86e1071b41c40f806bde29648ec
 app.use('/tags', tagsRouter);
 app.use('/users', usersRouter);
 

@@ -131,9 +131,5 @@ class Navbar extends React.Component {
     }
 }
 
-<<<<<<< HEAD
-export default Navbar;
-=======
 
 export default withRouter(Navbar);
->>>>>>> 12aaeea4d5a8b86e1071b41c40f806bde29648ec

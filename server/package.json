@@ -19,7 +19,6 @@
     "firebase": "^7.14.2",
     "firebase-admin": "^8.11.0",
     "mailgun-js": "^0.22.0",
-
     "sanitize-html": "^1.24.0"
   }
 }

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-//import * as firebase from 'firebase';
-import db from '../auth/firebase';
-=======
->>>>>>> 12aaeea4d5a8b86e1071b41c40f806bde29648ec
+import * as firebase from 'firebase';
 // for the default version
 import algoliasearch from 'algoliasearch';
 
@@ -18,11 +14,5 @@ const searchClient = algoliasearch(
 );
 
 
-<<<<<<< HEAD
-const dbRef = db.database().ref(company);
-// Get all contacts from Firebase
-=======
-
->>>>>>> 12aaeea4d5a8b86e1071b41c40f806bde29648ec
 
 export {client, index, searchClient, company};
