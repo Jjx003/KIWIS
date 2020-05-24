@@ -14,9 +14,9 @@ router.post('/getTags',
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
-            var user_id = decodedToken.uid;
-            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
-                var company_name = snapshot.val();
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                company_name = snapshot;
                 db.getTags(company_name).then((data) => {
                     res.send({success: true, tags: data.val()});
                 });
@@ -43,9 +43,9 @@ router.post('/remove',
      
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
-            var user_id = decodedToken.uid;
-            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
-                var company_name = snapshot.val();
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
                 db.removeTag(company_name, req.body.tagName);
                 res.jsonp({success : added});
             }).catch( function(error) {
@@ -70,9 +70,9 @@ router.post('/add',
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
-            var user_id = decodedToken.uid;
-            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
-                var company_name = snapshot.val();
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
                 db.createNewTag(company_name, req.body.tagName);
                 res.jsonp({success : added});
             }).catch( function(error) {

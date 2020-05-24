@@ -2,6 +2,8 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import { Menu, Image, Icon } from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
+import firebase from '../auth/firebase';
+import Cookies from 'universal-cookie';
 
 
 class TitleBar extends React.Component {
@@ -12,6 +14,16 @@ class TitleBar extends React.Component {
         }
     }
     
+    handleSignOut = () => {
+		firebase.auth().signOut();
+
+		// removing cookie
+		const cookies = new Cookies();
+		cookies.remove('auth');
+
+		// redirect to home page
+        //this.props.history.push("/login");
+    }
 
     render() {
         return (
@@ -31,9 +43,11 @@ class TitleBar extends React.Component {
                             {this.state.title}
                     </Menu.Item>
 
-                    <Menu.Item name='sign-out'>
-                        Sign Out
-                    </Menu.Item>
+                    <Link style={{marginTop: "4px"}} to="/login">
+                        <Menu.Item onClick={this.handleSignOut} name='sign-out'>
+                            Sign Out
+                        </Menu.Item>
+                    </Link>
 
                     <Menu.Item name='options'>
                         <Link to='/settings'>

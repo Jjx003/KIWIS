@@ -24,8 +24,11 @@ const isAdmin = (req, res, next) => {
 	try {
 		auth.checkToken(req.cookies.auth).then((decodedToken) => {
 			if (decodedToken.email_verified) { next(); }
-			console.log("Request Denied: User is not an admin."); 
-			res.jsonp({success: false});
+			
+			else{
+				console.log("Request Denied: User is not an admin.");
+				res.jsonp({success: false});
+			}
 		}).catch((error) =>{
 			console.log(error);
 		});

@@ -1,13 +1,13 @@
 import React, {useContext} from "react";
 import '../css/login.css';
 import Cookies from 'universal-cookie';
+import { UpdateContext } from "../auth/Auth";
 import db from '../auth/firebase';
-import pic from '../css/vectorlogo.png';
 import '../css/App.css';
-import db from '../auth/firebase';
 import pic from '../css/vectorlogo.png';
 
 const Login = ({history}) => {
+    let update = useContext(UpdateContext);
 
     const handleLogin = (event) => {
 		event.preventDefault();

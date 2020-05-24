@@ -13,9 +13,9 @@ router.post('/removeAllUserTags',
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
-            var user_id = decodedToken.uid;
-            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
-                var company_name = snapshot.val();
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
                 console.log("\n\n\n " + company_name)
                 var removed = db.removeAllUserTags(company_name, user_id);
                 res.jsonp({success: removed});
@@ -38,9 +38,9 @@ router.post('/userTags',
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
-            var user_id = decodedToken.uid;
-            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
-                var company_name = snapshot.val();
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
                 db.getUserTags(company_name, user_id).then((data) => {
                     res.send(data.val());
                 });
@@ -61,9 +61,9 @@ router.post('/removeSpecialization',
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
-            var user_id = decodedToken.uid;
-            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
-                var company_name = snapshot.val();
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
                 var removed = db.removeSpecialization(company_name, user_id, req.body.tag);
                 res.jsonp({success : removed});
             }).catch( function(error) {
@@ -85,9 +85,9 @@ router.post('/addSpecialization',
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
-            var user_id = decodedToken.uid;
-            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
-                var company_name = snapshot.val();
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
                 var added = db.addSpecialization(company_name, user_id, req.body.tag);
                 res.jsonp({success : added});
             }).catch( function(error) {
@@ -145,9 +145,9 @@ router.post('/remove',
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
-            var user_id = decodedToken.uid;
-            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
-                var company_name = snapshot.val();
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
                 db.removeUser(company_name, req.body.userID);
                 res.jsonp({success : true});
             }).catch( function(error) {
@@ -201,9 +201,9 @@ router.post('/all',
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
-            var user_id = decodedToken.uid;
-            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
-                var company_name = snapshot.val();
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
                 db.getUsers(company_name).then((data)=>{
                     res.send(data.val());
                 });
@@ -230,9 +230,9 @@ router.post('/toggleAdmin',
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
-            var user_id = decodedToken.uid;
-            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
-                var company_name = snapshot.val();
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
                 db.toggleAdmin(company_name, req.body.userID);
                 res.jsonp({success : true});
             }).catch( function(error) {
@@ -252,9 +252,9 @@ router.post('/getUserEmail',
         
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
-            var user_id = decodedToken.uid;
-            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
-                var company_name = snapshot.val();
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
                 db.getUserEmail(company_name, user_id).then(function(snapshot) {
                     res.jsonp({success : true, userEmail: snapshot.val()});
                 })
@@ -275,9 +275,9 @@ router.post('/isUserAdmin',
     
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
-            var user_id = decodedToken.uid;
-            db.getCompanyName(decodedToken.uid).then(function(snapshot) {
-                var company_name = snapshot.val();
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
                 db.isUserAdmin(company_name, user_id).then(function(snapshot) {
                     res.jsonp({success : true, admin: snapshot.val()});
                 })

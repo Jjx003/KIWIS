@@ -89,9 +89,9 @@ class UserTags extends React.Component {
                         ))}
                     </div>
                     <div className="doneButtons">
-                        <button onClick={this.resetTags} className="resetButton">Reset Specializations</button>
+                        <button onClick={this.resetTags} className="resetButton">Clear Specializations</button>
                         <Link to="/settings">
-                            <button className="completeButton"> Complete Specializations</button>
+                            <button className="completeButton">Back To Settings</button>
                         </Link>
                     </div>
                 </div>
