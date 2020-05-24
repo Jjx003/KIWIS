@@ -47,6 +47,7 @@ router.post('/', function (req, res, next) {
 
 router.get('/accept_invite/:uuid', function(req, res, next) {
   // checking if uuid is present in registration table
+
   db.checkRegistration(req.params.uuid).then((company) => {
       console.log(company);
       if (company != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }

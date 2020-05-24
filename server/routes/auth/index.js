@@ -24,8 +24,11 @@ const isAdmin = (req, res, next) => {
 	try {
 		auth.checkToken(req.cookies.auth).then((decodedToken) => {
 			if (decodedToken.email_verified) { next(); }
-			console.log("Request Denied: User is not an admin."); 
-			res.jsonp({success: false});
+			
+			else{
+				console.log("Request Denied: User is not an admin.");
+				res.jsonp({success: false});
+			}
 		}).catch((error) =>{
 			console.log(error);
 		});
@@ -39,6 +42,7 @@ const isAdmin = (req, res, next) => {
 
 // only signs up to firebase, doesn't follow the actual sign up process of our app. 
 router.post('/AdminSignUp', function (req, res) {
+
 	db.createNewUser("N/A", req.body.company, req.body.first_name, req.body.last_name, 
 					req.body.email, req.body.password, true).then((result) => {
 		
@@ -57,6 +61,8 @@ router.post('/AdminSignUp', function (req, res) {
 });
 
 router.post('/EmployeeSignUp', function (req, res) {
+
+
 	// checkRegistration returns the company's name
 	db.checkRegistration(req.body.registration_ID).then((company) => {
 		db.createNewUser(req.body.registration_ID, company, req.body.first_name, req.body.last_name, 

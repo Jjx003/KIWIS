@@ -1,9 +1,9 @@
 import React, {useContext} from "react";
 import '../css/login.css';
-import '../css/App.css';
 import Cookies from 'universal-cookie';
 import { UpdateContext } from "../auth/Auth";
 import db from '../auth/firebase';
+import '../css/App.css';
 import pic from '../css/vectorlogo.png';
 
 const Login = ({history}) => {
@@ -30,7 +30,8 @@ const Login = ({history}) => {
 				.catch((error) => console.log(error));
 
 		}).catch((error) => {
-			console.log(error);
+            console.log(error);
+            alert('Invalid Credentials');
 		});
 	}
 
