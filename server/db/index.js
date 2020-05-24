@@ -259,10 +259,46 @@ function endorseResponse(companyName, user_id, response_id) {
     })
 }
 
+/*
+Tests:
+    - The user_id does NOT match the creator of the post
+    - The user_id MATCHES the creator
+*/
+function userMadePost(companyName, user_id, post_id) {
 
+    return new Promise(function(resolve, reject){
+
+        const firebaseRef = firebase.db.database().ref(companyName);
+        
+        firebaseRef.once('value', function(snapshot){
+
+            // Assuming there's at least 1 post in the company's forum
+            var posts_array = Object.keys(snapshot.child("Posts").val());
+
+            for(i = 0; i < posts_array.length; i++) {
+                var curr_post_id = posts_array[i];
+
+                // Assuming the post_id is in the database
+                if(curr_post_id == post_id) {
+
+                    var creator_of_post = (snapshot.child("Posts/"+curr_post_id+"/user_id").val());
+
+                    if(user_id == creator_of_post) {
+                        resolve(true);
+                        return;
+                    } else {
+                        resolve(false);
+                        return;
+                    }
+                }
+            }
+
+        });
+    })
+}
 
 module.exports = { endorseResponse, undoUpvote, updateKarma, getCompanyName,
-	createNewUser, getUser, getUsers, 
+	userMadePost, createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID};
     
