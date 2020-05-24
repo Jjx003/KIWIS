@@ -27,9 +27,10 @@ class ViewPost extends React.Component {
 
     componentDidMount() {
         axios({
-			method: 'get',
-			url: 'http://localhost:9000/posts/' + this.props.id.toString(),
-		  }).then((results) => {
+            method: 'get',
+            url: 'http://localhost:9000/posts/' + this.props.id.toString(),
+        }).then((results) => {
+            console.log(results.data);
             this.setState({
                 title: results.data.title,
                 tags: results.data.tag_ids,
@@ -49,8 +50,6 @@ class ViewPost extends React.Component {
     render() {
         // TODO: add user info!
         const { postID, title, tags, datetime, content, karma, loaded, failed } = this.state;
-        console.log(this.props.id)
-        console.log("OGOAOOAO")
 
         if (this.state.loaded) {
             return (
