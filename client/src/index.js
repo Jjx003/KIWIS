@@ -4,7 +4,6 @@ import './css/index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
-
 import {AuthProvider} from './auth/Auth';
 
 ReactDOM.render(

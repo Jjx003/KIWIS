@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/Home.css';
+import '../css/App.css';
 import OriginalPoster from "../components/OriginalPoster";
 import { withRouter } from 'react-router-dom';
 import Response from "../components/Response";
@@ -26,10 +27,9 @@ class ViewPost extends React.Component {
 
     componentDidMount() {
         axios({
-            method: 'get',
-            url: 'http://localhost:9000/posts/' + this.props.id.toString(),
-        }).then((results) => {
-            console.log(results.data);
+			method: 'get',
+			url: 'http://localhost:9000/posts/' + this.props.id.toString(),
+		  }).then((results) => {
             this.setState({
                 title: results.data.title,
                 tags: results.data.tag_ids,
@@ -49,12 +49,10 @@ class ViewPost extends React.Component {
     render() {
         // TODO: add user info!
         const { postID, title, tags, datetime, content, karma, loaded, failed } = this.state;
+        console.log(this.props.id)
+        console.log("OGOAOOAO")
 
-        const firstName = "gary"
-        const lastName = "gillespie"
-        const userID = "hello"
-
-        if (loaded) {
+        if (this.state.loaded) {
             return (
                 <div className={"container"}>
                     <div>
@@ -71,11 +69,11 @@ class ViewPost extends React.Component {
                         {/*    </div>*/}
                         {/*</div>*/}
                         <div className="posts-container">
-                            <OriginalPoster firstPoster={false} postID={postID} userID={userID} title={title}
-                                tags={tags} datetime={datetime} karma={karma}
-                                content={content} firstName={firstName} lastName={lastName} />
-                            <Response firstPoster={false} userID={userID} datetime={datetime} karma={karma}
-                                content={content} firstName={firstName} lastName={lastName} />
+                            <OriginalPoster firstPoster={false} postID={this.state.postID} userID={this.state.userID} title={this.state.title}
+                                tags={this.state.tags} datetime={this.state.datetime} karma={this.state.karma}
+                                content={this.state.content} firstName={this.state.firstName} lastName={this.state.lastName} />
+                            <Response firstPoster={false} userID={this.state.userID} datetime={this.state.datetime} karma={this.state.karma}
+                                content={this.state.content} firstName={this.state.firstName} lastName={this.state.lastName} />
                             <button className={"makeReply"}>Reply</button>
                         </div>
                     </div>

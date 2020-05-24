@@ -1,3 +1,4 @@
+import * as firebase from 'firebase';
 // for the default version
 import algoliasearch from 'algoliasearch';
 
@@ -15,4 +16,6 @@ const searchClient = algoliasearch(
 
 
 
-export { client, index, searchClient, company };
+
+export {client, index, searchClient, company};
+
