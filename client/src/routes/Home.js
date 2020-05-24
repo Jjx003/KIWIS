@@ -1,6 +1,10 @@
 import React from 'react';
 import '../css/App.css';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
+import {UpdateContext} from '../auth/Auth';
+import firebase from '../auth/firebase';
+
 
 import HomePosts from '../components/HomePosts'
 

@@ -1,14 +1,15 @@
-import React, { useContext } from 'react';
+import React, {useContext} from "react";
+import '../css/login.css';
 import '../css/App.css';
 import Cookies from 'universal-cookie';
 import { UpdateContext } from "../auth/Auth";
 import db from '../auth/firebase';
+import pic from '../css/vectorlogo.png';
 
-export const Login = ({ history }) => {
-	//const {currentUser} = useContext(AuthContext);
-	let update = useContext(UpdateContext);
+const Login = ({history}) => {
+    let update = useContext(UpdateContext);
 
-	const handleLogin = (event) => {
+    const handleLogin = (event) => {
 		event.preventDefault();
 		const { email, password } = event.target.elements;
 
@@ -33,31 +34,41 @@ export const Login = ({ history }) => {
 		});
 	}
 
-	const redirectSignUp = () => {
-		history.push('/signup');
-	}
+        
+    const redirectToAdminSignUp = () => {
+        history.push('/adminsignup');
+    }
 
-	return (
-		<div className="centered">
-			<div className="row">
-				<h1> Login </h1>
-				<form onSubmit={handleLogin}>
-					<label>
-						Email
-					<input name="email" type="email" placeholder="Email" />
-					</label>
-					<label>
-						Password
-					<input name="password" type="password" placeholder="Password" />
-					</label>
 
-					<button type="submit"> Log In </button>
-				</form>
-
-				<button onClick={redirectSignUp}> Sign Up </button>
-			</div>
-		</div>
-	);
+    return(
+        <div className="login">
+        <div className="inside">
+            
+            <div className="columnx">
+                <img className="pic" src={pic}/>
+                <h1 className='font'>Login</h1>
+                <form onSubmit={handleLogin}>
+                    <div className="textField">
+                        <input className="textBox" name="email" type="email" placeholder="  Email" />
+                    </div>
+                    <div className="textField">
+                        <input className="textBox" name="password" type="password" placeholder="  Password" />
+                    </div>
+                    <div className="buttons">
+                        <button className="button1" type="submit">Log In</button>
+                        <button className="button2" type="button" onClick={redirectToAdminSignUp}>Sign UP</button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+        <div className="endText">
+            <p>
+                © All Rights Reserved. KIWI by Symps.
+            </p>
+        </div>
+        </div>
+    );
 };
 
 export default Login;
