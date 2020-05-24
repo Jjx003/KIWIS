@@ -3,6 +3,7 @@ import "../css/AdminPage.css"
 import TitleBar from "../components/TitleBar";
 import UserTab from "../components/UserTab";
 import MetadataTagTab from "../components/MetadataTagTab";
+import MetadataUserTab from "../components/MetadataUserTab";
 import TagTab from "../components/TagTab";
 import { Tab } from 'semantic-ui-react'
 
@@ -16,7 +17,8 @@ class AdminPage extends React.Component{
         var panes = [
             { menuItem: 'Users', render: () => <UserTab />},
             { menuItem: 'Tags', render: () => <TagTab />},
-            { menuItem: 'Metadata - Tags', render: () => <MetadataTagTab  />} 
+            { menuItem: 'Metadata - Tags', render: () => <MetadataTagTab  />},
+            { menuItem: 'Metadata - Users', render: () => <MetadataUserTab />}
         ];
 
         return(
