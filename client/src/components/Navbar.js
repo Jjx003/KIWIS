@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import { Menu, Dropdown, Image, Icon, Grid } from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
 import {
@@ -46,12 +47,13 @@ class Navbar extends React.Component {
 
         axios({
 			method: 'get',
-			url: 'http://localhost:9000/tags/',
+			url: 'http://localhost:9000/tags/getTags',
 		  })
 		  .then((response) => { 
 			if (response.data.success) { 
                 for(var key in response.data.tags){
                     var x = key;
+                    console.log(x);
                     this.setState({forum_tags:[...this.state.forum_tags, { key: x, text: x, value: x }]});
                 }
 			} else {
@@ -89,8 +91,12 @@ class Navbar extends React.Component {
             <div>
                 <Menu secondary size='massive' color='olive' inverted className="navbar">
                     <Menu.Item name='KIWI'>
-                        <Image fluid size='tiny' src={logo} />
+                        <Link to='/'>
+                            <Image link fluid size='tiny' src={logo} />
+                        </Link>
+                        
                     </Menu.Item>
+                    
 
                     <Menu.Item fitted style={{ flexGrow: 2 }}>
                         <Grid verticalAlign="middle" style={{ flexGrow: 2 }} columns={2}>
@@ -116,7 +122,9 @@ class Navbar extends React.Component {
                     </Menu.Item>
 
                     <Menu.Item name='options'>
-                        <Icon name="settings" />
+                        <Link to='/settings'>
+                            <Icon link name="settings"/>
+                        </Link>
                     </Menu.Item>
                 </Menu>
             </div>

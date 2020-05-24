@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import { Button } from 'semantic-ui-react';
 import '../css/App.css';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 import {UpdateContext} from '../auth/Auth';
 import firebase from '../auth/firebase';
-
 
 import Cookies from 'universal-cookie';
 import HomePosts from '../components/HomePosts'
@@ -35,6 +35,8 @@ async function sendEmail(targetEmail, targetContent) {
 */
 
 const Home = ({history}) => {
+
+	
 	const updateFunction = useContext(UpdateContext);
 
 	const handleSignOut = () => {
@@ -49,9 +51,11 @@ const Home = ({history}) => {
 	}
 		
 
+
 	return(
 		<div className="app">
 			<HomePosts />
+
 		</div>
 	);
 }

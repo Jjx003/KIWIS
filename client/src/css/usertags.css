@@ -1,0 +1,88 @@
+.mainTagsPage {
+    background-color: #C9E0C9;
+    font-family: Arial;
+    text-align: center;
+    height: 100vh;
+    width: 100vw;
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-top: 4%;
+
+}
+
+.mainContainer {
+    background-color: whitesmoke;   
+    height: 85%;
+    border-radius: 40px;
+    padding-top: 30px;
+}
+
+.tagListBox {
+    height: 65%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom: 4%;
+    margin-top: 4%;
+    overflow-y: scroll;
+}
+
+.tagButton {
+    width: 150px;
+    background-color: #CF88AA;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 40px;
+    border-radius: 40px;
+    border-width: thin;
+    border-style: ridge;
+}
+.tagButton:hover{
+    background-color: rgb(185, 121, 152);
+}
+.tagButton2:hover{
+    background-color: rgb(197, 64, 142);
+}
+.tagButton2 {
+    width: 150px;
+    background-color: rgb(179, 58, 128);
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 40px;
+    border-radius: 40px;
+    border-width: thin;
+    border-style: ridge;
+}
+
+.completeButton {
+    width: 250px;
+    background-color: #80C180;
+    margin-bottom: 20px;
+    margin-left: 10%;
+    margin-right: 10px;
+    height: 40px;
+    border-radius: 40px;
+    border-width: thin;
+    border-style: ridge;
+}
+
+
+.resetButton {
+    width: 250px;
+    background-color: #FF6347;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10%;
+    height: 40px;
+    border-radius: 40px;
+    border-width: thin;
+    border-style: ridge;
+}
+
+.doneButtons {
+    bottom: 10px;
+    margin-top: 5%;
+    align-content: center;
+    
+}

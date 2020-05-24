@@ -15,5 +15,4 @@ const searchClient = algoliasearch(
 
 
 
-
 export {client, index, searchClient, company};

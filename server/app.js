@@ -13,6 +13,9 @@ var {startAlgolia} = require('./firebase');
 
 startAlgolia(); // Start Listening for updates
 
+var usersRouter = require('./routes/users/index');
+var tagsRouter = require('./routes/tags/index');
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -24,6 +27,11 @@ app.use('/Response', responseRouter);
 app.use('/auth', authRouter.router);
 app.use('/posts', postsRouter);
 app.use('/tags', tagsRouter);
+app.use('/users', usersRouter);
+
+app.use('/posts', postsRouter);
+
+
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');

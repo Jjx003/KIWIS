@@ -1,0 +1,93 @@
+.tagUserListAP{
+    list-style: none;
+    width:70%;
+    display: inline-block;
+    margin-left: 200px;
+}
+
+.userItemAP{
+    align-items: center;
+    padding-left: 0px;
+}
+
+.inputBoxAP{
+    display:inline-block;
+    width: 57%;
+    margin-top: 5px;
+    margin-right: 170px;
+
+    border-radius: 40px;
+    height: 30px;
+    border-width: thin;
+}
+
+.addEmployeeAP{
+    display: inline-block;
+    width:100%;
+    background: #80C180;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    padding-bottom: 5px;
+}
+
+.invitePromptAP{
+    margin-left: 20px;
+
+    display: inline-block;
+    width: 20%;
+}
+
+.endText {     
+    position: absolute; 
+    bottom: 5px; 
+    left: 0; 
+    width: 100%; 
+    text-align: center;
+}
+
+
+.addTagAP{
+    margin-left: 250px;
+    display: inline-block;
+    width:62%;
+    background: #CF88AA;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    padding-bottom: 5px;
+}
+
+.tagPromptAP{
+    margin-left: 20px;
+
+    display: inline-block;
+    width: 18%;
+}
+
+.tagItemAP{
+    align-items: center;
+    padding-left: 0px;
+}
+
+.tagListAP{
+    max-height: 400px;
+    width: 62%;
+    margin-left: 250px;
+    margin-right: 10%;
+    margin-bottom: 10%;
+    overflow-y: scroll;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.TagForm
+{
+    width: 78%;
+    display:inline-block;
+}
+
+.ListOfUsers {
+    overflow-y: scroll;
+    max-height: 400px;
+}
