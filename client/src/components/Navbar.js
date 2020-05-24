@@ -96,6 +96,7 @@ class Navbar extends React.Component {
                         </Link>
                         
                     </Menu.Item>
+                    
 
                     <Menu.Item fitted style={{ flexGrow: 2 }}>
                         <Grid verticalAlign="middle" style={{ flexGrow: 2 }} columns={2}>

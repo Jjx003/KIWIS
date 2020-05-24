@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import { Menu, Image, Icon } from 'semantic-ui-react';
+import { Menu, Image, Icon, Popup } from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
 import firebase from '../auth/firebase';
 import Cookies from 'universal-cookie';
@@ -36,7 +36,9 @@ class TitleBar extends React.Component {
                         
                     </Menu.Item>
                     <Menu.Item bold fitted style={{ fontSize: '28px' }}>
-                            |
+                        <Popup trigger={<button> Trigger</button>} position="right center">
+                                  <div>Popup content here !!</div>
+                        </Popup>); 
                     </Menu.Item>
 
                     <Menu.Item centered fitted style={{ flexGrow: 2, fontSize: '32px' }}>

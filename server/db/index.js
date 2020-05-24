@@ -116,6 +116,7 @@ function getUsers(forumName) {
 // Removes a user from the database
 function removeUser(forumName, userID) {
     db.database().ref(forumName).child('Users').child(userID).remove();
+    admin.auth().deleteUser(userID);
 }
 
     
@@ -219,11 +220,6 @@ function getUser(forumName, userID) {
 // "GET" method for users
 function getUsers(forumName) {
     return db.database().ref(forumName).child('Users').once('value');
-}
-
-// Removes a user from the database
-function removeUser(forumName, userID) {
-    db.database().ref(forumName).child('Users').child(userID).remove();
 }
 
 function getCompanyName(user_id) {

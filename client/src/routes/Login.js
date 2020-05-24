@@ -30,7 +30,8 @@ const Login = ({history}) => {
 			.catch((error) => console.log(error));
 
 		}).catch((error) => {
-			console.log(error);
+            console.log(error);
+            alert('Invalid Credentials');
 		});
 	}
 
