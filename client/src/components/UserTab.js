@@ -16,7 +16,7 @@ class UserTab extends React.Component{
 
     componentWillMount(){
         axios({
-            method: 'post',
+            method: 'get',
             url: 'http://localhost:9000/users/all'
           }).then((response) => {
               this.setState({users: response.data})

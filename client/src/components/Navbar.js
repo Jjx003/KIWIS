@@ -46,7 +46,7 @@ class Navbar extends React.Component {
         }); */
 
         axios({
-			method: 'post',
+			method: 'get',
 			url: 'http://localhost:9000/tags/getTags',
 		  })
 		  .then((response) => { 

@@ -32,7 +32,7 @@ router.post('/removeAllUserTags',
 
 
 
-router.post('/userTags',
+router.get('/userTags',
 
     authenticated,
 
@@ -195,7 +195,7 @@ router.get('/',
 );
 
 // GET method to get all users from the database
-router.post('/all', 
+router.get('/all', 
 
     authenticated,
 
@@ -246,7 +246,7 @@ router.post('/toggleAdmin',
     }
 );
 
-router.post('/getUserEmail', 
+router.get('/getUserEmail', 
     
     authenticated,
         
@@ -269,7 +269,7 @@ router.post('/getUserEmail',
     }
 );
 
-router.post('/isUserAdmin', 
+router.get('/isUserAdmin', 
 
     authenticated,
     

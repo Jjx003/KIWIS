@@ -8,7 +8,12 @@ const AdminSignUp = ({ history }) => {
 
     const handleSignUp = (event) => {
         event.preventDefault();
-        const { company, first_name, last_name, email, password } = event.target.elements;
+        const { company, first_name, last_name, email, password, passwordcopy } = event.target.elements;
+
+        if(password.value != passwordcopy.value) {
+            alert('Please make sure the passwords match.');
+            return;
+        }
 
         axios({
             method: 'post',
@@ -76,7 +81,7 @@ const AdminSignUp = ({ history }) => {
                             <input className="inputBox" name="password" type="password" placeholder="  Password" />
                         </div>
                         <div>
-                            <input className="inputBox" name="password2" type="password" placeholder="  Re-Enter Password" />
+                            <input className="inputBox" name="passwordcopy" type="password" placeholder="  Re-Enter Password" />
                         </div>
                         <div className="inputBox">
                             <button className="button12" type="submit">Sign Up</button>

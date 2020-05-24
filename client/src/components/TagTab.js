@@ -16,7 +16,7 @@ class TagTab extends React.Component{
 
     componentWillMount(){
         axios({
-            method: 'post',
+            method: 'get',
             url: 'http://localhost:9000/tags/getTags'
           }).then((response) => {
             this.setState({tagList: Object.keys(response.data.tags),

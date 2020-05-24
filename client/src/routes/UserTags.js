@@ -20,7 +20,7 @@ class UserTags extends React.Component {
         // gets the tag list of the company
         axios.defaults.withCredentials = true;
 		axios({
-			method: 'post',
+			method: 'get',
 			url: 'http://localhost:9000/tags/getTags',
             withCredentials: true,
 		  })

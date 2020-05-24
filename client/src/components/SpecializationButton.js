@@ -23,7 +23,7 @@ class SpecializationButton extends React.Component{
         // gets the user tags list
         axios.defaults.withCredentials = true;
         axios({
-            method: 'post',
+            method: 'get',
             url: 'http://localhost:9000/users/userTags',
             withCredentials: true,
         })

@@ -8,7 +8,7 @@ require('dotenv').config();
 
 
 
-router.post('/getTags', 
+router.get('/getTags', 
 
     authenticated,
 

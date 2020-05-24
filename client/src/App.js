@@ -8,7 +8,7 @@ import SignUp from './routes/SignUp';
 import AdminSignUp from './routes/AdminSignUp'
 import Login from './routes/Login';
 import PrivateRoute from './auth/PrivateRoute';
-import settings from "./routes/Settings";
+import Settings from "./routes/Settings";
 import AdminPage from "./routes/AdminPage"
 import UserTags from './routes/UserTags';
 
@@ -42,7 +42,7 @@ function App() {
 
 				<PrivateRoute path="/viewPost/:id" dynamic={true} component={ViewPost}/>
 				<PrivateRoute exact path="/" component={Home} />
-				<PrivateRoute exact path="/settings" component={settings} />
+				<PrivateRoute exact path="/settings" component={Settings} />
 				<PrivateRoute exact path="/adminPage" component={AdminPage} />
 				<PrivateRoute exact path="/Response" component={AddResponse} /> 				
 			</div>
