@@ -31,7 +31,11 @@ class TitleBar extends React.Component {
         return (
             <div className="title_block">
                 <div className={"kiwiLogo"}>
+                    <Link to={"/"}>
+                    <button className={"invisibleButton"}>
                     <img src={logo} height={'40px'} alt={"KIWI"}/>
+                    </button>
+                    </Link>
                 </div>
 
                 <div className={"vert-line"}>
@@ -43,11 +47,13 @@ class TitleBar extends React.Component {
                 </div>
 
                 <div className={"settings"}>
-                    <Icon name="settings" size={"big"} color='grey' inverted />
+                    <Link to={'/settings'}>
+                    <Icon link name="settings" size={"big"} color='grey' inverted />
+                    </Link>
                 </div>
                 <div className={"logoutButton"}>
-                    <Link style={{marginTop: "4px"}} to="/login">
-                        <button className={"signoutButton"} onClick={this.handleSignOut}><Icon name="sign out" size={"big"} color='grey' inverted /></button>
+                    <Link to="/login">
+                        <button className={"invisibleButton"} onClick={this.handleSignOut}><Icon name="sign out" size={"big"} color='grey' inverted /></button>
                     </Link>
                 </div>
             </div>

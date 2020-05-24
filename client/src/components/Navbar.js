@@ -89,7 +89,9 @@ class Navbar extends React.Component {
         return (
             <div className="navbar_block">
                 <div className={"kiwiLogo"}>
+                    <button className={"invisibleButton"} onClick={() => {this.props.history.push("/")}}>
                     <img src={logo} height={'40px'} alt={"KIWI"}/>
+                    </button>
                 </div>
                 <div className={"searchBar"}>
                     <SearchBox className={"searching"} searchAsYouType={true}
@@ -104,10 +106,12 @@ class Navbar extends React.Component {
                         options={[...this.state.forum_tags]} />
                 </div>
                 <div className={"settings"}>
+                    <button className={"invisibleButton"} onClick={() => {this.props.history.push("/settings")}}>
                     <Icon name="settings" size={"big"} color='grey' inverted />
+                    </button>
                 </div>
                 <div className={"logoutButton"}>
-                    <button className={"signoutButton"} onClick={this.handleSignOut}><Icon name="sign out" size={"big"} color='grey' inverted /></button>
+                    <button className={"invisibleButton"} onClick={this.handleSignOut}><Icon name="sign out" size={"big"} color='grey' inverted /></button>
                 </div>
             </div>
         );

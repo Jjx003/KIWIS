@@ -40,7 +40,7 @@
     margin: auto;
 }
 
-.signoutButton{
+.invisibleButton{
     display: flex;
     align-items: center;
     justify-content: center;
