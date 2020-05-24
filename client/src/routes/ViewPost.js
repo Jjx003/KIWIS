@@ -17,6 +17,8 @@ class ViewPost extends React.Component {
             datetime: "",
             content: "",
             karma: 0,
+            firstName: "",
+            lastName: "",
             responses: [],
             failed: false,
         }
@@ -41,12 +43,26 @@ class ViewPost extends React.Component {
           }).catch((error) => {
             console.log(error);
             this.setState({failed:true})
+          }).then(() => {
+            axios({
+                method: 'get',
+                url: 'http://localhost:9000/users/allUsers',
+              })
+              .then((response) => { 
+                if(response.status == 200){
+                    if(response.data[this.state.userid] != undefined){
+                        this.setState({firstName: response.data[this.state.userid].firstName});
+                        this.setState({lastName: response.data[this.state.userid].lastName});
+                    }  
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+            })
           })
     }
     
     render() {
-        console.log(this.props.id)
-        console.log("OGOAOOAO")
         if (this.state.loaded) {
             return (
                 <div>
@@ -58,6 +74,8 @@ class ViewPost extends React.Component {
                     <h1> {this.state.karma} </h1>
                     <h1> {this.state.responses || "response null"} </h1>
                     <h1> {this.state.userid || "user null"} </h1>
+                    <h1> {this.state.firstName || "user null"} </h1>
+                    <h1> {this.state.lastName || "user null"} </h1>
                 </div>
             )
         } else if (!this.state.loaded && !this.state.failed) {

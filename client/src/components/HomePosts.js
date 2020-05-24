@@ -19,7 +19,7 @@ class HomePosts extends React.Component {
 
         this.state = {
             posts: [],
-            users: [],
+            users: {},
             textSearch: false,
             updated: false,
             company: ""
@@ -30,54 +30,37 @@ class HomePosts extends React.Component {
     }
 
     componentDidMount() {
-
-        /*
-        this.firebaseRef = db.database().ref(company).child('Posts');
-        this.firebaseRef.on('value', postSnapshot => {
-            let posts = [];
-            postSnapshot.forEach(postId => {
-                let post = postId.val();
-                post.key = postId.key;
-                post.visible = true;    //make everything visible first
-                posts.unshift(post);    //push to front of array so new items shown first
-            });
-            this.setState({ posts });
-        });
-        */
-       
-		axios({
-			method: 'get',
-			url: 'http://localhost:9000/posts/',
-		  })
-		  .then((response) => { 
-			if (response.data.success) { 
-                for(var key in response.data.posts){
-                    this.setState({posts : [...this.state.posts, response.data.posts[key]]});
-                }
-			} else {
-				console.log("bad");
-			}
-		  })
-		  .catch((error) => {
-			console.log(error);
-          });
-
-          axios({
+        axios({
 			method: 'get',
 			url: 'http://localhost:9000/users/allUsers',
 		  })
 		  .then((response) => { 
 			if(response.status == 200){
-                for(var key in response.data){
-                    response.data[key].key = key;
-                    this.setState({users : [...this.state.users, response.data[key]]});
-                }
+                console.log("What we good?");
+                console.log(response.data);
+                this.setState({users: response.data});
             }
 		  })
 		  .catch((error) => {
 			console.log(error);
-          });
-
+        }).then(() => {
+            axios({
+                method: 'get',
+                url: 'http://localhost:9000/posts/',
+            })
+            .then((response) => { 
+                if (response.data.success) { 
+                    for(var key in response.data.posts){
+                        this.setState({posts : [...this.state.posts, response.data.posts[key]]});
+                    }
+                } else {
+                    console.log("bad");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        })
           axios({
 			method: 'get',
 			url: 'http://localhost:9000/users/company',
@@ -90,10 +73,6 @@ class HomePosts extends React.Component {
 		  .catch((error) => {
 			console.log(error);
           });
-    }
-
-    componentWillUnmount() {
-        //this.firebaseRef.off();
     }
 
     //searching through posts state
@@ -174,11 +153,11 @@ function PostContainer(props){
 function TagSearchPosts(props){
     const getName = (userid) => {
         let name = "user not found";
-        props.users.forEach((user) => {
-            if(user.key === userid){
-                name = user.firstName;
-            }
-        })
+        console.log(props.users[userid]);
+        if (props.users != undefined && props.users[userid] != undefined) {
+            name = props.users[userid].firstName + " " + props.users[userid].lastName;
+            
+        }
         return name;
     }
 
@@ -199,11 +178,10 @@ function TagSearchPosts(props){
 function TextSearchPosts({hit, users}) {
     const getName = (userid) => {
         let name = "user not found";
-        users.forEach((user) => {
-            if(user.key === userid){
-                name = user.firstName;
-            }
-        })
+        if (users != undefined && users[userid] != undefined) {
+            name = users[userid].firstName + " " + users[userid].lastName;
+            
+        }
         return name;
     }
 

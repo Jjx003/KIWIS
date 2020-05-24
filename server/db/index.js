@@ -195,7 +195,7 @@ function checkRegistration(id) {
 }
 
 function createRegistration(id, company) {
-    return db.database().ref(`/Regristrations/${id}`).set({expected_company:company});
+    return db.database().ref(`/Registrations/${id}`).set({expected_company:company});
 }
 
 module.exports = { 

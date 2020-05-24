@@ -7,7 +7,6 @@ var db = require("../../db/index");
 require('dotenv').config();
 
 const saltRounds = 10;
-const salt = bcrypt.genSaltSync(saltRounds);
 
 const mg = mailgun({
     apiKey:	process.env.MAILGUN_API_KEY, 
@@ -27,6 +26,20 @@ function sendEmail(email, subject, content) {
 	})
 }
 
+//http://localhost:3000/inviteUser/accept_invite/2b10yQFd029pA4atAm5FW4D1x3hyLWtELv1aEJKWwlifaEgFT7X7BvW
+router.get('/accept_invite/:uuid', (req, res, next) => {
+    let uuid = req.params.uuid;
+  // checking if uuid is present in registration table
+  db.checkRegistration(req.params.uuid).then((snapshot) => {
+      if (snapshot.val() != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
+      res.send("Invalid Registration ID");
+  }).catch((error) => {
+      console.log(error);
+      res.jsonp({success:false});
+  })
+
+});
+
 router.post('/', function (req, res, next) {
     /*
     uid , 
@@ -40,15 +53,19 @@ router.post('/', function (req, res, next) {
         // TODO: Sanitize email?
 
         let email = req.body.email;
-        let senderComapny = req.user.comapny;
-        bcrypt.hash(email, salt).then((hash) => {
-            let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`;
-            db.createRegistration(hash, company).then(() => {
-                let content = "Welcome!/n" + req.body.content + "/n" + inviteLink  + "/n";
-                sendEmail(email, "test", content);
-                res.jsonp({success: true}); 
+        let company = req.user.company;
+        bcrypt.genSalt(saltRounds, (err, salt) => {
+            bcrypt.hash(email, salt).then((hash) => {
+                hash = hash.replace(/\W/g, '')
+                let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`;
+                db.createRegistration(hash, company).then(() => {
+                    let content = "Welcome!\n" + req.body.content + "\n" + inviteLink  + "\n";
+                    sendEmail(email, "test", content);
+                    res.jsonp({success: true}); 
+                })
             })
         })
+
     } catch (error) {
         res.send("failed");
         console.log(error)
@@ -59,17 +76,37 @@ router.post('/', function (req, res, next) {
   
 });
 
-router.get('/accept_invite/:uuid', function(req, res, next) {
-  // checking if uuid is present in registration table
-  db.checkRegistration(req.params.uuid).then((snapshot) => {
-      if (snapshot.val() != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
-      res.send("Invalid Registration ID");
-  }).catch((error) => {
-      console.log(error);
-  })
-});
+/*
+try {
+    // TODO: Sanitize email?
 
-router.post('/validateID', function(req, res) {
+    let email = "jeffxu2018@gmail.com";
+    let company = "UXD14";
+    bcrypt.hash(email, salt).then((hash) => {
+        hash = hash.replace(/\W/g, '')
+        let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`;
+        db.createRegistration(hash, company).then(() => {
+            let content = "Welcome!\n"  + "\n" + inviteLink;
+            content = content + "\n" + "Inivtation link above";
+            sendEmail(email, "test", content);
+        })
+    }).catch((error) => {
+        console.log(error);
+        console.log("sadasdasdasd");
+    })
+} catch (error) {
+
+    console.log(error)
+    return;
+}
+*/
+
+
+
+
+
+router.post('/validateID', (req, res) => {
+    console.log("i was hit?")
     db.checkRegistration(req.body.uuid).then((snapshot) => {
         let value = snapshot.val();
         if (value != null || value != undefined) {

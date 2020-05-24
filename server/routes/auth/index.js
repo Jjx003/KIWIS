@@ -1,8 +1,10 @@
 var express = require("express");
-var bcyress = require("express");
+var bcrypt = require("bcrypt");
 var authRouter = express.Router();
 var auth = require('../../auth/index'); //  TODO: WTF
 var dbIndex = require('../../db/index')
+
+const saltRounds = 10;
 
 // checks if the user is authenticated
 const authenticated = (req,res,next) => {
@@ -44,28 +46,88 @@ const isAdmin = (req, res, next) => {
 };
 
 // only signs up to firebase, doesn't follow the actual sign up process of our app. 
+/*
 authRouter.post('/signUp', function (req, res) {
-	try {
-		let email = req.body.email;
-		let uuid = req.body.uuid;
-		
-		bcrypt.hash(email, salt).then((hash) => {
-			if (hash == uuid) {
-				auth.signUp(email, req.body.password).then(() => {
-					console.log("sign up successful.");
-					res.jsonp({success: true});
-				}).catch(() => {
-					console.log("error when signing up");
-					res.jsonp({success: false});
-				});
-			} else {
-				res.jsonp({success: true}); 
-			}
-		})
-	} catch(error) {
-		console.log("error ocucred");
-	}
+	db.checkRegistration(req.params.uuid).then((snapshot) => {
+		if (snapshot.val()) {
+			let company = snapshot.val().company_name;
+			let email = req.body.email;
+			let uuid = req.body.uuid;
+			
+			bcrypt.hash(email, salt).then((hash) => {
+				if (hash == uuid) {
+					auth.signUp(email, req.body.password).then(() => {
+						console.log("sign up successful.");
+						res.jsonp({success: true});
+					}).catch(() => {
+						console.log("error when signing up");
+						res.jsonp({success: false});
+					});
+				} else {
+					res.jsonp({success: true}); 
+				}
+			})
+		}
+	})
+
 });
+*/
+
+authRouter.post('/AdminSignUp', function (req, res) {
+	dbIndex.createNewUser("N/A", req.body.company, req.body.first_name, req.body.last_name, 
+					req.body.email, req.body.password, true).then((result) => {
+		
+		if(result == true) {
+			console.log("sign up successful.");
+			res.jsonp({success: true});
+		} else {
+			console.log("sign up UNsuccessful.");
+			res.jsonp({success: false});
+		}
+    }).catch((error) => {
+		console.log("error when signing up");
+		console.log(error);
+        res.jsonp({success: false});
+    });
+});
+
+authRouter.post('/EmployeeSignUp', function (req, res) {
+	// checkRegistration returns the company's name
+	dbIndex.checkRegistration(req.body.registration_ID).then((snapshot) => {
+
+		let value = snapshot.val();
+		if (value && value.company) {
+			let company = value.comapny;
+			bcrypt.genSalt(saltRounds, (err, salt) => {
+				bcrypt.hash(email, salt).then((hash) => {
+					hash = hash.replace(/\W/g, '');
+					if (hash == req.body.registration_ID) {
+						dbIndex.createNewUser(req.body.registration_ID, company, req.body.first_name, req.body.last_name, 
+							req.body.email, req.body.password, false).then((result) => {
+							console.log("sign up successful.");
+							if(result == true) {
+								res.jsonp({success: true});
+							} else {
+								res.jsonp({success: false});
+							}
+						})
+					} else {
+						res.jsonp({success: false});
+					}
+				}).catch((error) => {
+					res.jsonp({success: false});
+				})
+			})
+		} else {
+			res.jsonp({success: false});
+		}
+    }).catch((error) => {
+		console.log("error when registering user");
+		console.log(error);
+		res.jsonp({success: false});
+	});
+});
+
 
 authRouter.get('/checkIfSignedIn', authenticated, function(req, res, next) {
 	// user is signed in 
