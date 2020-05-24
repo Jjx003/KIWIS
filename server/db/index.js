@@ -1,9 +1,9 @@
-var {firebase} = require('../firebase');
+var {db, admin} = require("../firebase")
 var auth = require('../auth/index');
 
 function getCompanyName(user_id) {
     return new Promise(function (resolve, reject) {
-        firebase.db.database().ref('/UserCompaniesID/' + user_id).once('value').then((snapshot) => {
+        db.database().ref('/UserCompaniesID/' + user_id).once('value').then((snapshot) => {
             resolve(snapshot.val());
         }).catch((error) => {
             reject(new Error(error));
@@ -15,20 +15,24 @@ function getCompanyName(user_id) {
 // NOTE (Eric): in order to get userId: firebase.auth().currentUser.uid
 // Also, forumDBRef requires the forumName so they can access the specific company
 
-function getCompanyPosts(company, posts){
-    const firebaseRef = firebase.db.database().ref(company).child('Posts');
-    firebaseRef.once('value', postSnapshot => {
-        postSnapshot.forEach(postId => {
-            let post = postId.val();
-            post.key = postId.key;
-            post.visible = true;  
-            posts.unshift(post);   
-        });
-    });
+function getCompanyPosts(company){
+    const firebaseRef = db.database().ref(company).child('Posts');
+    return new Promise((resolve, reject) => {
+        firebaseRef.once('value', postSnapShot => {
+            let posts = [];
+            postSnapShot.forEach(postId => {
+                let post = postId.val();
+                post.key = postId.key;
+                post.visible = true;
+                posts.unshift(post);
+            })
+            resolve(posts);
+        })
+    })
 }
 
 function getCompanyTags(company, tags){
-    return firebase.db.database().ref(company).child('Tags').once('value', tagSnapshot => {
+    return db.database().ref(company).child('Tags').once('value', tagSnapshot => {
         tagSnapshot.forEach(tag => {
             var x = tag.key;
             tags.push({ key: x, text: x, value: x });
@@ -38,7 +42,7 @@ function getCompanyTags(company, tags){
 
 // "POST" method for new tags
 function createNewTag(forumName, tagName) {
-    const forumDBRef = firebase.db.database().ref(forumName);
+    const forumDBRef = db.database().ref(forumName);
     var tag = {};
     tag[tagName] = {count: 0};
     forumDBRef.child("Tags").update(tag);
@@ -46,24 +50,24 @@ function createNewTag(forumName, tagName) {
 
 // "GET" method for tags in forums 
 function getTags(forumName) {
-    return firebase.db.database().ref(forumName).child('Tags').once('value');
+    return db.database().ref(forumName).child('Tags').once('value');
 }
 
 // "GET" method for a tag's number 
 function getTagCount(forumName, tagName) {
-    return firebase.db.database().ref(forumName).child('Tags/' + tagName).once('value');
+    return db.database().ref(forumName).child('Tags/' + tagName).once('value');
 }
 
 // Removes a tag from the company
 function removeTag(forumName, tagName) {
-    firebase.db.database().ref(forumName).child('Tags').child(tagName).remove();
+    db.database().ref(forumName).child('Tags').child(tagName).remove();
     removeTagFromAllUsers(forumName, tagName);
 
 }
 
 // Removes the tags from the users of a company
 function removeTagFromAllUsers(forumName, tagName) {
-    const forumDBRef = firebase.db.database().ref(forumName);
+    const forumDBRef = db.database().ref(forumName);
     forumDBRef.child('Users').once('value').then((data) => {
 
         // Goes to every user
@@ -90,7 +94,7 @@ function removeTagFromAllUsers(forumName, tagName) {
 
 // "POST" method for a new user 
 function createNewUser(forumName, firstName, lastName, email, password) {
-    const forumDBRef = firebase.db.database().ref(forumName);
+    const forumDBRef = db.database().ref(forumName);
     auth.signUp(email, password).then((data) => {
         var userID = data.user.uid
         var user = {};
@@ -108,14 +112,14 @@ function createNewUser(forumName, firstName, lastName, email, password) {
 
         var mapUserToCompany = {};
         mapUserToCompany[userID] = forumName;
-        firebase.db.database().ref("UserCompaniesID").update(mapUserToCompany);
+        db.database().ref("UserCompaniesID").update(mapUserToCompany);
     });
 }
 
 // "GET" method for a user's id
 function getCurrentUserID(token) {
     return new Promise(function(resolve, reject) {
-        firebase.admin.auth().verifyIdToken(token).then((decodedToken) => {
+        admin.auth().verifyIdToken(token).then((decodedToken) => {
             resolve(decodedToken.uid);
         }).catch((error) => {
             reject(new Error(error));
@@ -125,13 +129,13 @@ function getCurrentUserID(token) {
 
 // "GET" method for a user 
 function getUser(forumName, userID) {
-    return firebase.db.database().ref(forumName).child('Users/' + userID).once('value');
+    return db.database().ref(forumName).child('Users/' + userID).once('value');
 }
 
 function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
 
     // Reference the company's firebase
-    const firebaseRef = firebase.db.database().ref(forumName+"/Posts");
+    const firebaseRef = db.database().ref(forumName+"/Posts");
 
     var today = new Date();
     var date = (today.getMonth()+1)+'-'+today.getDate()+'-'+today.getFullYear()+' at '+today.getHours()+':'+today.getMinutes();
@@ -159,7 +163,7 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
 function upVotePost(forumName, post_id) {
 
     // Reference the post
-    const firebaseRef = firebase.db.database().ref(forumName+"/Posts"+post_id);
+    const firebaseRef = db.database().ref(forumName+"/Posts"+post_id);
 
     // Update the karma
     firebaseRef.update({karma: karma+1});
@@ -169,7 +173,7 @@ function upVotePost(forumName, post_id) {
 function endorseResponse(forumName, response_id) {
 
     // Reference the response
-    const firebaseRef = firebase.db.database().ref(forumName+"/Responses"+response_id);
+    const firebaseRef = db.database().ref(forumName+"/Responses"+response_id);
 
     // Endorse the response
     firebaseRef.update({endorsed: true});
@@ -178,16 +182,20 @@ function endorseResponse(forumName, response_id) {
 
 // "GET" method for users
 function getUsers(forumName) {
-    return firebase.db.database().ref(forumName).child('Users').once('value');
+    return db.database().ref(forumName).child('Users').once('value');
 }
 
 // Removes a user from the database
 function removeUser(forumName, userID) {
-    firebase.db.database().ref(forumName).child('Users').child(userID).remove();
+    db.database().ref(forumName).child('Users').child(userID).remove();
 }
 
 function checkRegistration(id) {
-    return firebase.db.database().ref('/Registrations/' + id).once('value');
+    return db.database().ref('/Registrations/' + id).once('value');
+}
+
+function createRegistration(id, company) {
+    return db.database().ref(`/Regristrations/${id}`).set(company)
 }
 
 module.exports = { 

@@ -62,12 +62,12 @@ class CreatePost extends React.Component {
         axios.defaults.withCredentials = true;
         axios({
 			    method: 'post',
-			    url: 'http://localhost:9000/post/CreatePost',
+			    url: 'http://localhost:9000/posts/CreatePost',
 			    data: {
-                title: title.value,
-                tag_ids: this.state.tags_selected,
-                content: content.value,
-            },
+                    title: title.value,
+                    tag_ids: this.state.tags_selected,
+                    content: content.value,
+                },
             withCredentials: true
           })
 

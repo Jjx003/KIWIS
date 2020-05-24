@@ -1,9 +1,13 @@
 var express = require("express");
+var bcrypt = require("bcrypt");
 var router = express.Router();
 var path = require('path');
 var mailgun = require("mailgun-js");
 var db = require("../../db/index");
 require('dotenv').config();
+
+const saltRounds = 10;
+const salt = bcrypt.genSaltSync(saltRounds);
 
 const mg = mailgun({
     apiKey:	process.env.MAILGUN_API_KEY, 
@@ -11,7 +15,6 @@ const mg = mailgun({
 });
 
 function sendEmail(email, subject, content) {
-    console.log(email)
 	const data = {
 		"from": "Excited User <ninja@mg.kiwis.tech>",
 		"to": email,
@@ -34,7 +37,14 @@ router.post('/', function (req, res, next) {
     // When moving to production, need a authentication cookie passed in as well
     // Or else people can exploit this route.
     try {
-        sendEmail(req.body.email, "test", req.body.content);
+        // TODO: Sanitize email?
+
+        let email = req.body.email;
+        bcrypt.hash(email, salt).then((hash) => {
+            let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`
+            let content = "Welcome!/n" + req.body.content + "/n" + inviteLink  + "/n";
+            sendEmail(email, "test", content);
+        })
     } catch (error) {
         res.send("failed");
         console.log(error)

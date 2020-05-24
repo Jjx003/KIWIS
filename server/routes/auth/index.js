@@ -1,12 +1,18 @@
 var express = require("express");
-var router = express.Router();
-var auth = require('../../auth/index');
+var authRouter = express.Router();
+var auth = require('../../auth/index'); //  TODO: WTF
+var dbIndex = require('../../db/index')
 
 // checks if the user is authenticated
 const authenticated = (req,res,next) => {
 	try {
-   		auth.checkToken(req.cookies.auth).then(() =>{
-			next();
+   		auth.checkToken(req.cookies.auth).then((decodedToken) => {
+			dbIndex.getCurrentUserID(req.cookies.auth).then((user_id) => {
+				dbIndex.getCompanyName(user_id).then((company_name) => {
+					req.user = {id:user_id, company: company_name, admin: decodedToken.email_verified}
+					next();
+				})
+			});
       	}).catch( function(error) {
 			console.log(error);
          	res.jsonp({success: false});
@@ -15,7 +21,7 @@ const authenticated = (req,res,next) => {
 	 		console.log(error);
 			console.log("Inside authenticated.");
         	res.jsonp({success: false});
-    }
+	}
 };
 
 // checks if the user is an admin
@@ -37,7 +43,7 @@ const isAdmin = (req, res, next) => {
 };
 
 // only signs up to firebase, doesn't follow the actual sign up process of our app. 
-router.post('/signUp', function (req, res) {
+authRouter.post('/signUp', function (req, res) {
     auth.signUp(req.body.email, req.body.password).then(() => {
         console.log("sign up successful.");
         res.jsonp({success: true});
@@ -47,10 +53,10 @@ router.post('/signUp', function (req, res) {
     });
 });
 
-router.get('/checkIfSignedIn', authenticated, function(req, res, next) {
+authRouter.get('/checkIfSignedIn', authenticated, function(req, res, next) {
 	// user is signed in 
 	res.jsonp({success: true});
 });
 
 
-module.exports = {router, authenticated, isAdmin};
+module.exports = {authRouter, authenticated, isAdmin};

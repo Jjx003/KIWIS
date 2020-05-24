@@ -11,6 +11,7 @@ class ViewPost extends React.Component {
         this.state = {
             loaded: false,
             postid: props.id,
+            userid: "",
             title: "",
             tags: [],
             datetime: "",
@@ -33,6 +34,7 @@ class ViewPost extends React.Component {
                 karma: results.data.karma,
                 responses: results.data.responses,
                 content: results.data.content,
+                userid: results.data.user_id,
                 loaded: true,
                 failed: false,
             })
@@ -55,6 +57,7 @@ class ViewPost extends React.Component {
                     <h1> {this.state.content || "cotent null"} </h1>
                     <h1> {this.state.karma || "Karma null"} </h1>
                     <h1> {this.state.responses || "response null"} </h1>
+                    <h1> {this.state.userid || "user null"} </h1>
                 </div>
             )
         } else if (!this.state.loaded && !this.state.failed) {

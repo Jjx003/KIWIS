@@ -3,13 +3,15 @@ const path = require('path');
 const app = express();
 const cors = require('cors');
 
+//var dbIndex = require('../../db/index')
+
 var inviteRouter = require('./routes/invite/index');
-var authRouter = require('./routes/auth/index');
+var {authenticated, authRouter} = require('./routes/auth/index');
 var postsRouter = require('./routes/posts/index');
 var tagsRouter = require('./routes/tags/index')
 var cookieParser = require('cookie-parser');
 var {startAlgolia} = require('./firebase');
-var postRouter = require('./routes/posts/index');
+var userRouter = require('./routes/users/index');
 
 startAlgolia(); // Start Listening for updates
 
@@ -20,8 +22,9 @@ app.use(cookieParser());
 
 app.use('/inviteUser', inviteRouter);
 app.use('/auth', authRouter);
-app.use('/posts', postsRouter);
-app.use('/tags', tagsRouter);
+app.use('/posts', authenticated, postsRouter);
+app.use('/tags', authenticated, tagsRouter);
+app.use('/users', authenticated, userRouter);
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');

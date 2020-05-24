@@ -1,13 +1,4 @@
-import * as firebase from 'firebase';
 import algoliasearch from 'algoliasearch';
-
-
-
-// TODO: Make this dynamically work with different companies
-const company = 'UXD14';    //needs to fix hard coding
-
-const client = algoliasearch("36A3GKBNZI", "22dc12a10fb0cec70da7edb08015731f");
-const index = client.initIndex(company); 
 
 const searchClient = algoliasearch(
   '36A3GKBNZI',
@@ -17,4 +8,4 @@ const searchClient = algoliasearch(
 
 // Get all contacts from Firebase
 
-export {searchClient, company};
+export {searchClient};

@@ -1,4 +1,4 @@
-import {searchClient, company} from '../db/index';
+import {searchClient} from '../db/index';
 import React from 'react';
 import '../css/index.css'
 import '../css/HomePosts.css'
@@ -18,8 +18,10 @@ class HomePosts extends React.Component {
 
         this.state = {
             posts: [],
+            users: [],
             textSearch: false,
-            updated: false
+            updated: false,
+            company: ""
         };
         
         this.updateTagSearch = this.updateTagSearch.bind(this);
@@ -48,13 +50,41 @@ class HomePosts extends React.Component {
 		  })
 		  .then((response) => { 
 			if (response.data.success) { 
-                console.log(response.data);
                 for(var key in response.data.posts){
                     this.setState({posts : [...this.state.posts, response.data.posts[key]]});
                 }
 			} else {
 				console.log("bad");
 			}
+		  })
+		  .catch((error) => {
+			console.log(error);
+          });
+
+          axios({
+			method: 'get',
+			url: 'http://localhost:9000/users/author',
+		  })
+		  .then((response) => { 
+			if(response.status == 200){
+                for(var key in response.data){
+                    response.data[key].key = key;
+                    this.setState({users : [...this.state.users, response.data[key]]});
+                }
+            }
+		  })
+		  .catch((error) => {
+			console.log(error);
+          });
+
+          axios({
+			method: 'get',
+			url: 'http://localhost:9000/users/company',
+		  })
+		  .then((response) => { 
+			if(response.status === 200){
+                this.setState({company: response.data})
+            }
 		  })
 		  .catch((error) => {
 			console.log(error);
@@ -112,13 +142,14 @@ class HomePosts extends React.Component {
             textSearch: false
         });
     }
+
     render() {
         return (
             <div className="container">
-                <InstantSearch indexName={company} searchClient={searchClient}>
+                <InstantSearch indexName={this.state.company} searchClient={searchClient}>
                     <Navbar updateForumDisp={this.updateTagSearch} setTextSearch={this.setTextSearchState} 
                     resetTextSearch={this.resetTextSearchState}/>     
-                    <PostContainer  posts={this.state.posts} textSearch={this.state.textSearch}/>
+                    <PostContainer  posts={this.state.posts} users={this.state.users} textSearch={this.state.textSearch}/>
                 </InstantSearch>
             </div>
         )
@@ -134,19 +165,29 @@ function PostContainer(props){
         </Results>);
     }
     else {
-        return <TagSearchPosts posts={props.posts}/>;
+        return <TagSearchPosts posts={props.posts} users={props.users}/>;
     }
 }
 
 //component for tag searching
 function TagSearchPosts(props){
+    const getName = (userid) => {
+        let name = "hello";
+        props.users.forEach((user) => {
+            if(user.key === userid){
+                name = user.firstName;
+            }
+        })
+        return name;
+    }
+
     return (
         <div className="posts-container">
         {props.posts.map( (item, i) => {
             if(item.visible)
                 return  <PostCards post_id={item.key} user_id={item.user_id} title={item.title}
                 tag_ids={item.tag_ids} date_time={item.date_time} karma={item.karma} 
-                content={item.content} responses={item.responses}/>
+                content={item.content} responses={item.responses} name={getName(item.user_id)}/>
             else return <div></div>;
         })}
         </div>

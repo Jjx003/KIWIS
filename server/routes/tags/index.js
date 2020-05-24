@@ -1,12 +1,13 @@
 var express = require("express");
 var auth = require('../../auth/index')
 var router = express.Router();
+const {check, validationResult } = require('express-validator');
 var {getCompanyTags} = require('../../db/index')
 var {authenticated, isAdmin} = require('../auth/index');
 
 router.get('/',
     function (req, res, next) {
-        const company = 'UXD14';        //needs to get company so not hard coded
+        const company = req.user.company;        //needs to get company so not hard coded
         let tags = [];
         getCompanyTags(company, tags).then(
             () => res.jsonp({success : true, tags: tags})
@@ -25,14 +26,12 @@ router.post('/remove',
     // Checks for errors when checking http parameters and checks if logged in
     function (req, res, next) {
         const errors = validationResult(req);
-        if(!errors.isEmpty()) {
+        if(!errors.isEmpty() || ! req.user.admin ) {
             return res.status(422).json({errors: errors.array() });
         }
 
 	 	  next();
     },
-
-	 authenticated, isAdmin, 
 
     // Removes the tag from company and users
     function (req, res, next) {
@@ -58,14 +57,12 @@ router.post('/add',
     // Checks for errors when checking http parameters and checks if logged in
     function (req, res, next) {
         const errors = validationResult(req);
-        if(!errors.isEmpty()) {
+        if(!errors.isEmpty() || !req.user.admin) {
             return res.status(422).json({errors: errors.array() });
         }
         
         next();
     },
-
-    authenticated, isAdmin, 
 
     function (req, res, next) {
         try {
@@ -93,8 +90,6 @@ router.get('/all',
 
         next();
     },
-
-    authenticated, 
 
     function (req, res, next) {
         try {
