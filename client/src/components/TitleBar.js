@@ -50,40 +50,6 @@ class TitleBar extends React.Component {
             </div>
         );
     }
-
-    // render() {
-    //     return (
-    //         <div>
-    //             <Menu secondary size='massive' color='olive' inverted className="navbar">
-    //                 <Menu.Item name='KIWI'>
-    //                     <Link to='/'>
-    //                         <Image link fluid size='tiny' src={logo} />
-    //                     </Link>
-
-    //                 </Menu.Item>
-    //                 <Menu.Item bold fitted style={{ fontSize: '28px' }}>
-    //                         |
-    //                 </Menu.Item>
-
-    //                 <Menu.Item centered fitted style={{ flexGrow: 2, fontSize: '32px' }}>
-    //                         {this.state.title}
-    //                 </Menu.Item>
-
-    //                 <Link style={{marginTop: "4px"}} to="/login">
-    //                     <Menu.Item onClick={this.handleSignOut} name='sign-out'>
-    //                         Sign Out
-    //                     </Menu.Item>
-    //                 </Link>
-
-    //                 <Menu.Item name='options'>
-    //                     <Link to='/settings'>
-    //                         <Icon link name="settings"/>
-    //                     </Link>
-    //                 </Menu.Item>
-    //             </Menu>
-    //         </div>
-    //     );
-    // }
 }
 
 export default TitleBar;
