@@ -1,63 +1,38 @@
 import React from 'react';
 import {Dropdown} from "semantic-ui-react"
-import { useContext } from 'react';
 import '../css/App.css';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
-import { AuthContext, UpdateContext } from "../auth/Auth"
 import { withRouter } from 'react-router-dom';
 
-const tags = [
-    {
-      key: 'Machine Learning',
-      text: 'Machine Learning',
-      value: 'Machine Learning'
-    },
-    {
-        key: 'Python',
-        text: 'Python',
-        value: 'Python'
-    },
-    {
-        key: 'help-needed',
-        text: 'help-needed',
-        value: 'help-needed'
-      },
-      {
-          key: 'announcement',
-          text: 'announcement',
-          value: 'announcement'
-      },
-      {
-        key: 'events',
-        text: 'events',
-        value: 'events'
-      },
-      {
-          key: 'lost and found',
-          text: 'lost and found',
-          value: 'lost and found'
-      },
-      {
-        key: 'C++',
-        text: 'C++',
-        value: 'C++'
-      },
-      {
-          key: 'React',
-          text: 'React',
-          value: 'React'
-      }
-]
 
 class CreatePost extends React.Component {
 
-    state = {tags_selected : []};
+    state = {tags_selected : [], tags: []};
+
+    componentWillMount() {
+        axios({
+			method: 'get',
+			url: 'http://localhost:9000/tags/',
+		})
+		.then((response) => { 
+		    if (response.data.success) { 
+                for(var key in response.data.tags){
+                    var x = response.data.tags[key].key;
+                    this.setState({tags:[...this.state.tags, { key: x, text: x, value: x }]});
+                }
+			} else {
+				console.log("bad");
+			}
+		})
+		.catch((error) => {
+		    console.log(error);
+        });
+    }
 
     sendPost = (event) => {
         event.preventDefault();
         // should tag_ids be in line below
-        const {title, content, tag_ids} = event.target.elements;
+        const {title, content} = event.target.elements;
         axios.defaults.withCredentials = true;
         axios({
 			    method: 'post',
@@ -111,7 +86,7 @@ class CreatePost extends React.Component {
                     Content
                     <input name="content" placeholder="Post Content" />
                 </label>
-                <Dropdown fluid multiple selection text="tags" options={tags} onChange={this.getTags} value={this.state.tags_selected}/>
+                <Dropdown fluid multiple selection text="tags" options={this.state.tags} onChange={this.getTags} value={this.state.tags_selected}/>
                 <button type="Publish Post"> Publish Post </button>
             </form>
         </div>

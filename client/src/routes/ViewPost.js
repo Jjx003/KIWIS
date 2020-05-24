@@ -45,14 +45,17 @@ class ViewPost extends React.Component {
             this.setState({failed:true})
           }).then(() => {
             axios({
-                method: 'get',
-                url: 'http://localhost:9000/users/allUsers',
+                method: 'post',
+                data: {
+                    userid: this.state.userid
+                },
+                url: 'http://localhost:9000/users/singleUser',
               })
               .then((response) => { 
-                if(response.status == 200){
-                    if(response.data[this.state.userid] != undefined){
-                        this.setState({firstName: response.data[this.state.userid].firstName});
-                        this.setState({lastName: response.data[this.state.userid].lastName});
+                if(response.status === 200){
+                    if(response.data !== undefined){
+                        this.setState({firstName: response.data.firstName});
+                        this.setState({lastName: response.data.lastName});
                     }  
                 }
               })

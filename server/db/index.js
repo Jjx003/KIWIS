@@ -92,28 +92,50 @@ function removeTagFromAllUsers(forumName, tagName) {
     });
 }	
 
-// "POST" method for a new user 
-function createNewUser(forumName, firstName, lastName, email, password) {
-    const forumDBRef = db.database().ref(forumName);
-    auth.signUp(email, password).then((data) => {
-        var userID = data.user.uid
-        var user = {};
-
-        // Creates a new user object with the userID as a key
-        user[userID] =  {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            admin: false,
-            tags: ['announcements', 'help-needed'],
-            following_IDs: []
-        };
-        forumDBRef.child("Users").update(user);
-
-        var mapUserToCompany = {};
-        mapUserToCompany[userID] = forumName;
-        db.database().ref("UserCompaniesID").update(mapUserToCompany);
-    });
+// "POST" method for a new user
+function createNewUser(registration_ID, forumName, firstName, lastName, email, password, isAdmin) {
+    //firebase.db.database().update(forumName);
+    //firebase.db.database().ref(forumName).update(“Users”);
+    return new Promise(function(resolve, reject){
+        try {
+            // Check if user is admin and if the company already exists
+            if(isAdmin == true) {
+                db.database().ref(forumName).once("value", snapshot => {
+                    if(snapshot.exists()) {
+                        console.log("This company already exists");
+                        resolve(false);
+                        return;
+                    }
+                })
+            }
+            const forumDBRef = db.database().ref(forumName);
+            auth.signUp(email, password, isAdmin).then((data) => {
+                var userID = data.uid;
+                var user = {};
+                // Creates a new user object with the userID as a key
+                user[userID] =  {
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    admin: isAdmin,
+                    tags: {'announcements':'announcements', 'help-needed':'help-needed'},
+                    following_IDs: []
+                };
+                forumDBRef.child('Users').update(user);
+                db.database().ref("UserCompaniesID").set({[userID]: forumName});
+                if(isAdmin == false) {
+                    db.database().ref("Registrations").child(registration_ID).remove();
+                }
+                resolve(true);
+            }).catch((error) =>{ 
+                console.log(error);
+                reject(new Error(error));
+            });
+        } catch(error) {
+            console.log(error);
+            reject(new Error(error));
+        }
+    })
 }
 
 // "GET" method for a user's id
@@ -194,8 +216,8 @@ function checkRegistration(id) {
     return db.database().ref('/Registrations/' + id).once('value');
 }
 
-function createRegistration(id, company) {
-    return db.database().ref(`/Registrations/${id}`).set({expected_company:company});
+function createRegistration(id, company, email) {
+    return db.database().ref(`/Registrations/${id}`).set({expected_company:company, expected_email:email});
 }
 
 module.exports = { 

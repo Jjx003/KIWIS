@@ -94,33 +94,34 @@ authRouter.post('/AdminSignUp', function (req, res) {
 authRouter.post('/EmployeeSignUp', function (req, res) {
 	// checkRegistration returns the company's name
 	dbIndex.checkRegistration(req.body.registration_ID).then((snapshot) => {
+		console.log(req.body);
 
 		let value = snapshot.val();
-		if (value && value.company) {
-			let company = value.comapny;
-			bcrypt.genSalt(saltRounds, (err, salt) => {
-				bcrypt.hash(email, salt).then((hash) => {
-					hash = hash.replace(/\W/g, '');
-					if (hash == req.body.registration_ID) {
-						dbIndex.createNewUser(req.body.registration_ID, company, req.body.first_name, req.body.last_name, 
-							req.body.email, req.body.password, false).then((result) => {
-							console.log("sign up successful.");
-							if(result == true) {
-								res.jsonp({success: true});
-							} else {
-								res.jsonp({success: false});
-							}
-						})
-					} else {
-						res.jsonp({success: false});
-					}
-				}).catch((error) => {
-					res.jsonp({success: false});
-				})
-			})
+		if (value && value.expected_company && value.expected_email) {
+			let company = value.expected_comapny;
+			let expectedEmail = value.expected_email;
+			let email = req.body.email;
+			if (email == expectedEmail) {
+				console.log("email match")
+				dbIndex.createNewUser(req.body.registration_ID, company, req.body.first_name, req.body.last_name,
+					req.body.email, req.body.password, false).then((result) => {
+						console.log("step6")
+						console.log("sign up successful.");
+						if (result == true) {
+							res.jsonp({ success: true });
+						} else {
+							res.jsonp({ success: false });
+						}
+					}).catch((error) => {
+						res.jsonp({ success: false });
+					})
+			} else {
+				res.jsonp({ success: false });
+			}
 		} else {
-			res.jsonp({success: false});
+			res.jsonp({ success: false });
 		}
+
     }).catch((error) => {
 		console.log("error when registering user");
 		console.log(error);

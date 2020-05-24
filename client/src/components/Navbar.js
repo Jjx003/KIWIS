@@ -75,7 +75,7 @@ class Navbar extends React.Component {
             <div>
                 <Menu secondary size='massive' color='olive' inverted className="navbar">
                     <Menu.Item name='KIWI'>
-                        <Image fluid size='tiny' src={logo} />
+                        <Image size='tiny' src={logo} />
                     </Menu.Item>
 
                     <Menu.Item fitted style={{ flexGrow: 2 }}>

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Button } from 'semantic-ui-react';
 import '../css/App.css';
-import axios from 'axios';
 import {UpdateContext} from '../auth/Auth';
 import firebase from '../auth/firebase';
 

@@ -29,6 +29,20 @@ router.get('/allUsers',
     }
 );
 
+router.post('/singleUser', 
+    function (req, res, next) {
+        try {
+            db.getUser(req.user.company, req.body.userid).then((data)=>{
+                console.log(data.val());
+                res.send(data.val());
+            });
+        } catch (error) {
+            console.log(error);
+            res.jsonp({success: false});
+        }  
+    }
+);
+
 router.post('/add', 
     [
         check('forumName').isLength({min: 1}).trim().escape(),
@@ -135,7 +149,6 @@ router.get('/all',
 
     function (req, res, next) {
         try {
-            console.log("GER");
             db.getUsers(req.user.company).then((data)=>{
                 res.send(data.val());
             });

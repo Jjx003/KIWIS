@@ -1,5 +1,6 @@
 var express = require("express");
-var bcrypt = require("bcrypt");
+//var bcrypt = require("bcrypt");
+var crypto = require('crypto');
 var router = express.Router();
 var path = require('path');
 var mailgun = require("mailgun-js");
@@ -36,6 +37,8 @@ router.get('/accept_invite/:uuid', (req, res, next) => {
   }).catch((error) => {
       console.log(error);
       res.jsonp({success:false});
+  }).catch((error) => {
+    console.log(error)
   })
 
 });
@@ -54,17 +57,16 @@ router.post('/', function (req, res, next) {
 
         let email = req.body.email;
         let company = req.user.company;
-        bcrypt.genSalt(saltRounds, (err, salt) => {
-            bcrypt.hash(email, salt).then((hash) => {
-                hash = hash.replace(/\W/g, '')
-                let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`;
-                db.createRegistration(hash, company).then(() => {
-                    let content = "Welcome!\n" + req.body.content + "\n" + inviteLink  + "\n";
-                    sendEmail(email, "test", content);
-                    res.jsonp({success: true}); 
-                })
+        crypto.randomBytes(16, (err, hash) => {
+            let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`;
+            db.createRegistration(hash, company, email).then(() => {
+                hash = hash.toString('hex')
+                let content = "Welcome!\n" + req.body.content + "\n" + inviteLink  + "\n";
+                sendEmail(email, "test", content);
+                res.jsonp({success: true}); 
             })
         })
+
 
     } catch (error) {
         res.send("failed");
@@ -76,30 +78,26 @@ router.post('/', function (req, res, next) {
   
 });
 
-/*
+
 try {
     // TODO: Sanitize email?
-
-    let email = "jeffxu2018@gmail.com";
     let company = "UXD14";
-    bcrypt.hash(email, salt).then((hash) => {
-        hash = hash.replace(/\W/g, '')
+    let email = "jeffxu2018@gmail.com"
+    crypto.randomBytes(16, (err, hash) => {
+        hash = hash.toString('hex')
         let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`;
-        db.createRegistration(hash, company).then(() => {
-            let content = "Welcome!\n"  + "\n" + inviteLink;
-            content = content + "\n" + "Inivtation link above";
+        db.createRegistration(hash, company, email).then(() => {
+            let content = "Welcome!\n" + "\n" + inviteLink  + "\n";
             sendEmail(email, "test", content);
+            res.jsonp({success: true}); 
         })
-    }).catch((error) => {
-        console.log(error);
-        console.log("sadasdasdasd");
     })
 } catch (error) {
 
     console.log(error)
     return;
 }
-*/
+
 
 
 

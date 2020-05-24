@@ -22,7 +22,7 @@ class HomePosts extends React.Component {
             users: {},
             textSearch: false,
             updated: false,
-            company: ""
+            company: "bruh"
         };
         
         this.updateTagSearch = this.updateTagSearch.bind(this);
@@ -32,12 +32,23 @@ class HomePosts extends React.Component {
     componentDidMount() {
         axios({
 			method: 'get',
+			url: 'http://localhost:9000/users/company',
+		  })
+		  .then((response) => { 
+			if(response.status === 200){
+                this.setState({company: response.data})
+            }
+		  })
+		  .catch((error) => {
+			console.log(error);
+        })
+
+        axios({
+			method: 'get',
 			url: 'http://localhost:9000/users/allUsers',
 		  })
 		  .then((response) => { 
-			if(response.status == 200){
-                console.log("What we good?");
-                console.log(response.data);
+			if(response.status === 200){
                 this.setState({users: response.data});
             }
 		  })
@@ -61,18 +72,6 @@ class HomePosts extends React.Component {
                 console.log(error);
             });
         })
-          axios({
-			method: 'get',
-			url: 'http://localhost:9000/users/company',
-		  })
-		  .then((response) => { 
-			if(response.status === 200){
-                this.setState({company: response.data})
-            }
-		  })
-		  .catch((error) => {
-			console.log(error);
-          });
     }
 
     //searching through posts state
@@ -153,8 +152,7 @@ function PostContainer(props){
 function TagSearchPosts(props){
     const getName = (userid) => {
         let name = "user not found";
-        console.log(props.users[userid]);
-        if (props.users != undefined && props.users[userid] != undefined) {
+        if (props.users !== undefined && props.users[userid] !== undefined) {
             name = props.users[userid].firstName + " " + props.users[userid].lastName;
             
         }
@@ -165,7 +163,7 @@ function TagSearchPosts(props){
         <div className="posts-container">
         {props.posts.map( (item, i) => {
             if(item.visible)
-                return  <PostCards post_id={item.key} user_id={item.user_id} title={item.title}
+                return  <PostCards key={i} post_id={item.key} user_id={item.user_id} title={item.title}
                 tag_ids={item.tag_ids} date_time={item.date_time} karma={item.karma} 
                 content={item.content} responses={item.responses} name={getName(item.user_id)}/>
             else return <div></div>;
@@ -178,7 +176,7 @@ function TagSearchPosts(props){
 function TextSearchPosts({hit, users}) {
     const getName = (userid) => {
         let name = "user not found";
-        if (users != undefined && users[userid] != undefined) {
+        if (users !== undefined && users[userid] !== undefined) {
             name = users[userid].firstName + " " + users[userid].lastName;
             
         }
