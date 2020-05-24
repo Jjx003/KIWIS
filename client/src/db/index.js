@@ -1,3 +1,4 @@
+import * as firebase from 'firebase';
 // for the default version
 import algoliasearch from 'algoliasearch';
 
