@@ -55,7 +55,7 @@ class ViewPost extends React.Component {
                     <h1> {this.state.tags || "tags null"} </h1>
                     <h1> {this.state.datetime || "time null"} </h1>
                     <h1> {this.state.content || "cotent null"} </h1>
-                    <h1> {this.state.karma || "Karma null"} </h1>
+                    <h1> {this.state.karma} </h1>
                     <h1> {this.state.responses || "response null"} </h1>
                     <h1> {this.state.userid || "user null"} </h1>
                 </div>

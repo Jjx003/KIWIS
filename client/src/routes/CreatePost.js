@@ -50,7 +50,6 @@ const tags = [
       }
 ]
 
-
 class CreatePost extends React.Component {
 
     state = {tags_selected : []};

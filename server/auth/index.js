@@ -1,5 +1,6 @@
 var firebase = require('../firebase');
 
+
 function signUp(email, password) {
     return firebase.admin.auth().createUser({
 	 	email: email,

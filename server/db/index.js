@@ -195,7 +195,7 @@ function checkRegistration(id) {
 }
 
 function createRegistration(id, company) {
-    return db.database().ref(`/Regristrations/${id}`).set(company)
+    return db.database().ref(`/Regristrations/${id}`).set({expected_company:company});
 }
 
 module.exports = { 
@@ -204,6 +204,7 @@ module.exports = {
     getTagCount, removeTag, getCurrentUserID,
     endorseResponse, upVotePost, getCompanyName,
     checkRegistration, addPostData,
-    getCompanyPosts, getCompanyTags
+    getCompanyPosts, getCompanyTags,
+    createRegistration
 };
     

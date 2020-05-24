@@ -10,6 +10,7 @@ import {
 } from 'react-instantsearch-dom';
 import PostCards from './PostCards';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 
 class HomePosts extends React.Component {
 
@@ -63,7 +64,7 @@ class HomePosts extends React.Component {
 
           axios({
 			method: 'get',
-			url: 'http://localhost:9000/users/author',
+			url: 'http://localhost:9000/users/allUsers',
 		  })
 		  .then((response) => { 
 			if(response.status == 200){
@@ -161,7 +162,7 @@ function PostContainer(props){
     if(props.textSearch){
         return ( 
         <Results props={props}>
-            <Hits className="posts-container" hitComponent={TextSearchPosts}/>
+            <Hits className="posts-container" hitComponent={({hit}) => <TextSearchPosts hit={hit} users={props.users}/>}/>
         </Results>);
     }
     else {
@@ -172,7 +173,7 @@ function PostContainer(props){
 //component for tag searching
 function TagSearchPosts(props){
     const getName = (userid) => {
-        let name = "hello";
+        let name = "user not found";
         props.users.forEach((user) => {
             if(user.key === userid){
                 name = user.firstName;
@@ -195,24 +196,33 @@ function TagSearchPosts(props){
 }
 
 //component for text searching
-function TextSearchPosts(props) {
+function TextSearchPosts({hit, users}) {
+    const getName = (userid) => {
+        let name = "user not found";
+        users.forEach((user) => {
+            if(user.key === userid){
+                name = user.firstName;
+            }
+        })
+        return name;
+    }
+
     return (
+        
         <div>
-            <PostCards post_id={props.hit.objectID} user_id={props.hit.user_id} title={props.hit.title}
-                tag_ids={props.hit.tag_ids} date_time={props.hit.date_time} karma={props.hit.karma} 
-                content={props.hit.content} responses={props.hit.responses}/>
+            <PostCards post_id={hit.objectID} user_id={hit.user_id} title={hit.title}
+                tag_ids={hit.tag_ids} date_time={hit.date_time} karma={hit.karma} 
+                content={hit.content} responses={hit.responses} name={getName(hit.user_id)}/>
         </div>
     );
 }
 
-/* This part is for routing to the Create post pages
 const RedirectButton = withRouter((props) => {
     const redirect = () => {
         props.history.push('/createPost');
     }
-    return <button onClick={redirect}>Hello</button>
+    return <button onClick={redirect}>Create Post</button>
 })
-*/
 
 //component is displayed then there are no results from algolia
 const Results = connectStateResults(
@@ -221,11 +231,9 @@ const Results = connectStateResults(
         children):(
         <div className="posts-container">
             <div className="no-results-msg">No results have been found for {searchState.query}
-                <button>Create Post</button>
+                <RedirectButton props={props}/>
             </div>
         </div>)
 );
 
-//<RedirectButton props={props}/>
-    
 export default HomePosts;

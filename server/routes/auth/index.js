@@ -1,4 +1,5 @@
 var express = require("express");
+var bcyress = require("express");
 var authRouter = express.Router();
 var auth = require('../../auth/index'); //  TODO: WTF
 var dbIndex = require('../../db/index')
@@ -44,13 +45,26 @@ const isAdmin = (req, res, next) => {
 
 // only signs up to firebase, doesn't follow the actual sign up process of our app. 
 authRouter.post('/signUp', function (req, res) {
-    auth.signUp(req.body.email, req.body.password).then(() => {
-        console.log("sign up successful.");
-        res.jsonp({success: true});
-    }).catch(() => {
-        console.log("error when signing up");
-        res.jsonp({success: false});
-    });
+	try {
+		let email = req.body.email;
+		let uuid = req.body.uuid;
+		
+		bcrypt.hash(email, salt).then((hash) => {
+			if (hash == uuid) {
+				auth.signUp(email, req.body.password).then(() => {
+					console.log("sign up successful.");
+					res.jsonp({success: true});
+				}).catch(() => {
+					console.log("error when signing up");
+					res.jsonp({success: false});
+				});
+			} else {
+				res.jsonp({success: true}); 
+			}
+		})
+	} catch(error) {
+		console.log("error ocucred");
+	}
 });
 
 authRouter.get('/checkIfSignedIn', authenticated, function(req, res, next) {

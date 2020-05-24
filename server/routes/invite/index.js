@@ -40,10 +40,14 @@ router.post('/', function (req, res, next) {
         // TODO: Sanitize email?
 
         let email = req.body.email;
+        let senderComapny = req.user.comapny;
         bcrypt.hash(email, salt).then((hash) => {
-            let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`
-            let content = "Welcome!/n" + req.body.content + "/n" + inviteLink  + "/n";
-            sendEmail(email, "test", content);
+            let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`;
+            db.createRegistration(hash, company).then(() => {
+                let content = "Welcome!/n" + req.body.content + "/n" + inviteLink  + "/n";
+                sendEmail(email, "test", content);
+                res.jsonp({success: true}); 
+            })
         })
     } catch (error) {
         res.send("failed");
@@ -67,10 +71,11 @@ router.get('/accept_invite/:uuid', function(req, res, next) {
 
 router.post('/validateID', function(req, res) {
     db.checkRegistration(req.body.uuid).then((snapshot) => {
-        if (snapshot.val() != null) {
-            res.jsonp({success: true}); 
-        } else{
-            res.jsonp({success: false});
+        let value = snapshot.val();
+        if (value != null || value != undefined) {
+            res.jsonp({success:true});
+        } else {
+            res.jsonp({success:false});
         }
     }).catch((error) => {
         console.log(error);

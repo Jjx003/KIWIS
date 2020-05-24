@@ -8,7 +8,6 @@ require('dotenv').config();
 router.get('/company', 
     function (req, res, next) {
         try {
-            console.log(req.user.company);
             res.send(req.user.company);
         } catch (error) {
             console.log(error);
@@ -17,7 +16,7 @@ router.get('/company',
     }
 );
 
-router.get('/author', 
+router.get('/allUsers', 
     function (req, res, next) {
         try {
             db.getUsers(req.user.company).then((data)=>{
@@ -30,7 +29,6 @@ router.get('/author',
     }
 );
 
- //yo joe are you here.? when are you coming back jason need to add me bak o man can u aks
 router.post('/add', 
     [
         check('forumName').isLength({min: 1}).trim().escape(),
