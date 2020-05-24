@@ -8,6 +8,7 @@ class Response extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            firstPoster: this.props.firstPoster,
             postID: this.props.postID,
             firstName: this.props.firstName,
             lastName: this.props.lastName,
@@ -39,6 +40,7 @@ class Response extends React.Component {
                     <div className={"rStar"}>
                         <Icon name="star outline" color={"green"} size={"big"}/>
                     </div>
+                    {this.state.firstPoster ? <div><button className={"button"}>Endorse</button></div> :<div></div>}
                     <div className={"rKarma"}>
                         <h1><button className={"button"}>Upvote</button>{"   + " + this.state.karma}</h1>
                     </div>

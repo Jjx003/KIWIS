@@ -71,10 +71,10 @@ class ViewPost extends React.Component {
                         {/*    </div>*/}
                         {/*</div>*/}
                         <div className="posts-container">
-                            <OriginalPoster postID={postID} userID={userID} title={title}
+                            <OriginalPoster firstPoster={false} postID={postID} userID={userID} title={title}
                                 tags={tags} datetime={datetime} karma={karma}
                                 content={content} firstName={firstName} lastName={lastName} />
-                            <Response userID={userID} datetime={datetime} karma={karma}
+                            <Response firstPoster={false} userID={userID} datetime={datetime} karma={karma}
                                 content={content} firstName={firstName} lastName={lastName} />
                             <button className={"makeReply"}>Reply</button>
                         </div>

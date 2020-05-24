@@ -9,6 +9,7 @@ class OriginalPoster extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            firstPoster: this.props.firstPoster,
             postID: this.props.postID,
             firstName: this.props.firstName,
             lastName: this.props.lastName,
@@ -33,9 +34,11 @@ class OriginalPoster extends React.Component {
                     <div className={"postBy"}>
                         <h2>{"Posted by: " + this.state.firstName + " " + this.state.lastName}</h2>
                     </div>
+                    {this.state.firstPoster ? <div></div> :
                     <span>
                         <button className={"button"}>Follow Post</button>
                     </span>
+                    }
                 </div>
                 <div className={"content"}>
                     <p className={"text-content"}>{this.state.content}</p>
@@ -43,7 +46,12 @@ class OriginalPoster extends React.Component {
                 <div className={"bottom-section"}>
                     <div className={"datetime"}>
                         <h3 className={"createdDate"}>{"Created on: " + this.state.datetime}</h3>
-                        <h1 className={"karma"}><button className={"button"}>View Endorsed</button><button className={"button"}>Upvote Response</button>{"+ " + this.state.karma}</h1>
+                        {this.state.firstPoster ? <h1 className={"karma"}><button className={"button"}>Edit Post</button>{"+ " + this.state.karma}</h1>:
+                            <h1 className={"karma"}>
+                                <button className={"button"}>View Endorsed</button>
+                                <button className={"button"}>Upvote Response</button>
+                                {"+ " + this.state.karma}</h1>
+                        }
                     </div>
                     <div className={"tagList"}>
                         <DisplayingTagsPost tags={this.state.tags} />
