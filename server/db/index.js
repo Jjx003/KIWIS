@@ -207,34 +207,6 @@ function notifyUsers(companyName, posts_tags) {
         });
 }
 
-function userMadePost(companyName, user_id, post_id) {
-
-    const firebaseRef = firebase.db.database().ref(companyName);
-        
-    firebaseRef.once('value', function(snapshot){
-
-        // Assuming there's at least 1 post in the company's forum
-        var posts_array = Object.keys(snapshot.child("Posts").val());
-
-        for(i = 0; i < posts_array.length; i++) {
-            var curr_post_id = posts_array[i];
-
-            // Assuming the post_id is in the database
-            if(curr_post_id == post_id) {
-
-                var creator_of_post = (snapshot.child("Posts/"+curr_post_id+"/user_id").val());
-
-                if(user_id == creator_of_post) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        }
-
-    });
-}
-
 // "GET" method for users
 function getUsers(forumName) {
     return firebase.db.database().ref(forumName).child('Users').once('value');
@@ -250,7 +222,7 @@ function checkRegistration(id) {
 }
 
 module.exports = { 
-	userMadePost, notifyUsers, sendEmail, createNewUser, getUser, getUsers, 
+	notifyUsers, sendEmail, createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID,
     getCompanyName, checkRegistration, addPostData};
