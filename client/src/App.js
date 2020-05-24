@@ -8,6 +8,8 @@ import SignUp from './routes/SignUp';
 import AdminSignUp from './routes/AdminSignUp'
 import Login from './routes/Login';
 import PrivateRoute from './auth/PrivateRoute';
+//<PrivateRoute path="/" exact render={(props) => <Home {...props}/>}/>
+import AddResponse from './routes/Responses';
 import ViewPost from './routes/ViewPost';
 //import CreatePosts from './routes/CreatePosts'
 
@@ -30,6 +32,7 @@ function App() {
 				<Route path="/adminsignup" exact render={(props) => <AdminSignUp {...props} />} />
 				<PrivateRoute path="/viewPost/:id" dynamic={true} component={ViewPost}/>
 				<PrivateRoute exact path="/" component={Home} />
+				<PrivateRoute exact path="/Response" component={AddResponse} /> 				
 			</div>
   );
 }

@@ -26,9 +26,8 @@ class ViewPost extends React.Component {
 			method: 'get',
 			url: 'http://localhost:9000/posts/' + this.props.id.toString(),
 		  }).then((results) => {
-            console.log(results.data);
             this.setState({
-                title: results.data.title,
+                title: results.title,
                 tags: results.data.tag_ids,
                 datetime: results.data.date_time,
                 karma: results.data.karma,
@@ -46,7 +45,6 @@ class ViewPost extends React.Component {
     render() {
         console.log(this.props.id)
         console.log("OGOAOOAO")
-    
         if (this.state.loaded) {
             return (
                 <div>
@@ -55,7 +53,7 @@ class ViewPost extends React.Component {
                     <h1> {this.state.tags || "tags null"} </h1>
                     <h1> {this.state.datetime || "time null"} </h1>
                     <h1> {this.state.content || "cotent null"} </h1>
-                    <h1> {this.state.karma} </h1>
+                    <h1> {this.state.karma || "Karma null"} </h1>
                     <h1> {this.state.responses || "response null"} </h1>
                 </div>
             )

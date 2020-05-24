@@ -1,66 +1,39 @@
 var {firebase} = require('../firebase');
 var {db} = require('../firebase');
-var auth = require('../auth/index');
+var {admin} = require('../firebase');
 
-// add database functions below
+// "POST" method for responses
+function pushResponse(company,r_user_id, r_post_id, r_content){
+    
+    // Company's ref 
+    const firebaseRef = db.database().ref(company);
 
-// NOTE (Eric): in order to get userId: firebase.auth().currentUser.uid
-// Also, forumDBRef requires the forumName so they can access the specific company
-
-// "POST" method for a new user 
-function createNewUser(registration_ID, forumName, firstName, lastName, email, password, isAdmin) {
-
-    return new Promise(function(resolve, reject){
-        try {
-
-            // Check if user is admin and if the company already exists
-            if(isAdmin == true) {
-                db.database().ref(forumName).once("value", snapshot => {
-                    if(snapshot.exists()) {
-                        console.log("This company already exists");
-                        resolve(false);
-                        return;
-                    }
-                })
-            }
-
-            const forumDBRef = db.database().ref(forumName);
-            auth.signUp(email, password, isAdmin).then((data) => {
-                var userID = data.uid;
-                var user = {};
-
-                // Creates a new user object with the userID as a key
-                user[userID] =  {
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    admin: isAdmin,
-                    tags: {'announcements': 'announcements', 'help-needed':'help-needed'},
-                    following_IDs: []
-                };
-                forumDBRef.child("Users").update(user);
-
-                var mapUserToCompany = {};
-                mapUserToCompany[userID] = forumName;
-                db.database().ref("UserCompaniesID").update(mapUserToCompany);
-
-                if(isAdmin == false) {
-
-                    db.database().ref("Registrations").child(registration_ID).remove();
-
-                }
-
-                resolve(true);
-            }).catch((error) => {
-                reject(new Error(error));
-            });
-            
-        } catch(error) {
-            console.log(error);
-            reject(new Error(error));
-        }
-    })
+    //datetime month-date-year "at" time
+    var today = new Date();
+    var datetime = (today.getMonth()+1)+'-'+today.getDate()+'-'+today.getFullYear()+' at '+today.getHours()+':'+today.getMinutes();
+    
+    firebaseRef.child("Responses").push({
+        user_id: r_user_id,
+        karma: 0,
+        post_id: r_post_id,
+        datetime: datetime,
+        content: r_content,
+        endorsed: false});
+    
 }
+
+
+// Retrieve data from a specific company based off of the post_id
+function pullResponse(company, post_id){
+    const responseRef = db.database().ref(company+ '/Responses/');
+    return responseRef.orderByChild("post_id").equalTo(post_id).once("value");
+}
+
+    
+
+
+
+var auth = require('../auth/index');
 
 // add database functions below
 
@@ -123,7 +96,7 @@ function removeTagFromAllUsers(forumName, tagName) {
 // "GET" method for a user's id
 function getCurrentUserID(token) {
     return new Promise(function(resolve, reject) {
-        firebase.admin.auth().verifyIdToken(token).then((decodedToken) => {
+        admin.auth().verifyIdToken(token).then((decodedToken) => {
             resolve(decodedToken.uid);
         }).catch((error) => {
             reject(new Error(error));
@@ -170,6 +143,68 @@ function getCompanyTags(company){
     });
 }
 
+// Removes the tags from the users of a company
+function removeTagFromAllUsers(forumName, tagName) {
+    const forumDBRef = db.database().ref(forumName);
+    forumDBRef.child('Users').once('value').then((data) => {
+
+        // Goes to every user
+        data.forEach(function (child) {
+            child.forEach(function (grandchild) {
+
+                // goes to the tags object in the user
+                if(grandchild.key === 'tags') {
+                    console.log(grandchild.key + " : " + grandchild.val());
+
+                    // Checks every tag and removes the one that doesn't matter
+                    grandchild.forEach(function (tagNameChild) {
+
+                        //Checks which tag to remove
+                        if(tagNameChild.val() === tagName) {
+                            forumDBRef.child('Users/' + child.key).child('tags/' + tagNameChild.key).remove()
+                        }
+                    });
+                }
+            });
+        });
+    });
+}	
+
+// "POST" method for a new user 
+function createNewUser(forumName, firstName, lastName, email, password) {
+    const forumDBRef = db.database().ref(forumName);
+    auth.signUp(email, password).then((data) => {
+        var userID = data.user.uid
+        var user = {};
+
+        // Creates a new user object with the userID as a key
+        user[userID] =  {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            admin: false,
+            tags: ['announcements', 'help-needed'],
+            following_IDs: []
+        };
+        forumDBRef.child("Users").update(user);
+
+        var mapUserToCompany = {};
+        mapUserToCompany[userID] = forumName;
+        db.database().ref("UserCompaniesID").update(mapUserToCompany);
+    });
+}
+
+// "GET" method for a user's id
+function getCurrentUserID(token) {
+    return new Promise(function(resolve, reject) {
+        admin.auth().verifyIdToken(token).then((decodedToken) => {
+            resolve(decodedToken.uid);
+        }).catch((error) => {
+            reject(new Error(error));
+        });
+    })
+}
+
 // "GET" method for a user 
 function getUser(forumName, userID) {
     return db.database().ref(forumName).child('Users/' + userID).once('value');
@@ -185,18 +220,18 @@ function removeUser(forumName, userID) {
     db.database().ref(forumName).child('Users').child(userID).remove();
 }
 
-function checkRegistration(id) {
-    return new Promise (function (resolve, reject) {
-        db.database().ref('/Registrations/' + id).once('value').then((result) => {
-            resolve(result.val());
+function getCompanyName(user_id) {
+    return new Promise(function (resolve, reject) {
+        db.database().ref('/UserCompaniesID/' + user_id).once('value').then((snapshot) => {
+            resolve(snapshot.val());
         }).catch((error) => {
             reject(new Error(error));
         });
-    })
+    });
 }
 
-
 module.exports = { 
-	getCompanyPosts, getCompanyTags, createNewUser, getUser, getUsers, 
-	removeUser, createNewTag, getTags, 
-    getTagCount, removeTag, getCurrentUserID, checkRegistration};
+	createNewUser, getUser, getUsers, 
+	removeUser, pushResponse, pullResponse, createNewTag, getTags, 
+    getTagCount, removeTag, getCurrentUserID,
+    getCompanyPosts, getCompanyTags, getCompanyName};
