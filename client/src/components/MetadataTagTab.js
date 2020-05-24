@@ -18,7 +18,8 @@ class MetadataTagTab extends React.Component{
             method: 'get',
             url: 'http://localhost:9000/tags/getTags'
           }).then((response) => {
-            this.setState({tagList: response.data});
+            this.setState({tagList: response.data.tags});
+            console.log(response.data.tags);
         });
     }
 
@@ -34,7 +35,7 @@ class MetadataTagTab extends React.Component{
                         <Icon loading name='spinner' /> loading 
                     </div> 
                     : 
-                    Object.keys(tagList).map((key, i) => {return <div> {key} </div>;})};
+                    Object.keys(tagList).map((key, i) => {return <div> {key} + {key.valueOf()} ===    </div>;})};
                     
                 </div> 
             </Tab.Pane> 
