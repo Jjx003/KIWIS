@@ -1,0 +1,62 @@
+.title_block {
+    width: 100%;
+    background-color: #175C17;
+    height: 70px;
+    display: grid;
+    grid-template-columns: 180px 0.1fr 8fr 1fr 1fr;
+}
+
+.kiwiLogo{
+    /* background-color: #24D56D; */
+    align-self: center;
+    margin: auto;
+}
+
+.vert-line {
+    /* background-color: olive; */
+    color: white;
+    margin: auto;
+    font-size: 30pt;
+    align-self: center;
+    margin-bottom: 10px;
+}
+
+
+.title {
+    /* background-color: olivedrab; */
+    font-size: 26pt;
+    color: white;
+    margin-left: 15px;
+    align-self: center;
+}
+
+.settings{
+    /* background-color: red; */
+    align-self: center;
+    margin: auto;
+}
+
+.logoutButton{
+    /* background-color: purple; */
+    align-self: center;
+    margin: auto;
+}
+
+.invisibleButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    color: white;
+    height: 35px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
