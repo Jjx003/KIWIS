@@ -59,6 +59,7 @@ router.post('/remove',
     }
 );
 
+
 // POST method to add a single tag
 router.post('/add', 
     [
@@ -85,18 +86,5 @@ router.post('/add',
     }
 );
 
-
-
-// use ours get tags that gets company specicic values
-router.get('/',
-    function (req, res, next) {
-        const company = 'UXD14';        //call get company
-        db.database().ref(company+'/Tags').once('value').then(function(snapshot) {
-            var tags = snapshot.val();
-            res.jsonp({success : true, tags: tags});
-        })
-
-    }
-);
 
 module.exports = router;

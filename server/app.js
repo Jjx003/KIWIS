@@ -23,7 +23,11 @@ app.use(cookieParser());
 
 app.use('/inviteUser', inviteRouter);
 app.use('/auth', authRouter.router);
+<<<<<<< HEAD
 
+=======
+app.use('/posts', postsRouter);
+>>>>>>> 12aaeea4d5a8b86e1071b41c40f806bde29648ec
 app.use('/tags', tagsRouter);
 app.use('/users', usersRouter);
 

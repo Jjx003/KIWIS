@@ -5,6 +5,10 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import {UpdateContext} from '../auth/Auth';
 import firebase from '../auth/firebase';
+<<<<<<< HEAD
+=======
+
+>>>>>>> 12aaeea4d5a8b86e1071b41c40f806bde29648ec
 
 import Cookies from 'universal-cookie';
 import HomePosts from '../components/HomePosts'
@@ -36,6 +40,7 @@ async function sendEmail(targetEmail, targetContent) {
 
 const Home = ({history}) => {
 	
+<<<<<<< HEAD
 	const updateFunction = useContext(UpdateContext);
 
 	const handleSignOut = () => {
@@ -62,6 +67,11 @@ const Home = ({history}) => {
 			<Link to="/userTags">
 				<Button> Hey</Button>
 			</Link>
+=======
+	return(
+		<div className="app">
+			<HomePosts />
+>>>>>>> 12aaeea4d5a8b86e1071b41c40f806bde29648ec
 		</div>
 	);
 }

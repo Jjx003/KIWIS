@@ -4,12 +4,18 @@ import axios from 'axios';
 import pic from '../css/vectorlogo.png';
 import Cookies from 'universal-cookie';
 import db from '../auth/firebase';
+<<<<<<< HEAD
 import { AuthContext } from "../auth/Auth";
 import { Redirect, useHistory } from "react-router-dom";
 
+=======
+>>>>>>> 12aaeea4d5a8b86e1071b41c40f806bde29648ec
 
-import '../css/App.css';
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 12aaeea4d5a8b86e1071b41c40f806bde29648ec
 class SignUp extends React.Component {
 	state = {
 		isLoading: true,
@@ -46,7 +52,7 @@ class SignUp extends React.Component {
 				})
 			} else {
 				// update gui to show error in signing up
-				console.log("error in sign up, most likely account has already been made");
+				alert("error in sign up, most likely the email is already being used.");
 			}
 		}).catch((error) => {
 			console.log(error);

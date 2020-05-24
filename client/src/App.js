@@ -30,6 +30,7 @@ import ViewPost from './routes/ViewPost';
 function App() {
   return (
 			<div>
+<<<<<<< HEAD
 
 				<Route path="/userTags" exact render={(props) => <UserTags {...props}/>}/>
 				<Route path="/signup/:id" exact render={(props) => <SignUp {...props}/>}/>
@@ -38,6 +39,12 @@ function App() {
 				<Route path="/adminsignup" exact render={(props) => <AdminSignUp {...props} />} />
 
 
+=======
+				<Route path="/login" exact render={(props) => <Login {...props}/>}/>
+				<Route path="/signup/:id" exact render={(props) => <SignUp {...props}/>}/>
+				<Route path="/signup" exact render={(props) => <Login {...props}/> }/>
+				<Route path="/adminsignup" exact render={(props) => <AdminSignUp {...props} />} />
+>>>>>>> 12aaeea4d5a8b86e1071b41c40f806bde29648ec
 				<PrivateRoute path="/viewPost/:id" dynamic={true} component={ViewPost}/>
 				<PrivateRoute exact path="/" component={Home} />
 				<PrivateRoute exact path="/settings" component={settings} />
