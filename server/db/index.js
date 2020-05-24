@@ -92,29 +92,6 @@ function removeTagFromAllUsers(forumName, tagName) {
     });
 }	
 
-// "POST" method for a new user 
-function createNewUser(forumName, firstName, lastName, email, password) {
-    const forumDBRef = db.database().ref(forumName);
-    auth.signUp(email, password).then((data) => {
-        var userID = data.user.uid
-        var user = {};
-
-        // Creates a new user object with the userID as a key
-        user[userID] =  {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            admin: false,
-            tags: ['announcements', 'help-needed'],
-            following_IDs: []
-        };
-        forumDBRef.child("Users").update(user);
-
-        var mapUserToCompany = {};
-        mapUserToCompany[userID] = forumName;
-        firebadb.database().ref("UserCompaniesID").update(mapUserToCompany);
-    });
-}
 
 // "GET" method for a user's id
 function getCurrentUserID(token) {
