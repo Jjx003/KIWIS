@@ -38,14 +38,45 @@ const isAdmin = (req, res, next) => {
 };
 
 // only signs up to firebase, doesn't follow the actual sign up process of our app. 
-router.post('/signUp', function (req, res) {
-    auth.signUp(req.body.email, req.body.password).then(() => {
-        console.log("sign up successful.");
-        res.jsonp({success: true});
-    }).catch(() => {
-        console.log("error when signing up");
+router.post('/AdminSignUp', function (req, res) {
+	db.createNewUser("N/A", req.body.company, req.body.first_name, req.body.last_name, 
+					req.body.email, req.body.password, true).then((result) => {
+		
+		if(result == true) {
+			console.log("sign up successful.");
+			res.jsonp({success: true});
+		} else {
+			console.log("sign up UNsuccessful.");
+			res.jsonp({success: false});
+		}
+    }).catch((error) => {
+		console.log("error when signing up");
+		console.log(error);
         res.jsonp({success: false});
     });
+});
+
+router.post('/EmployeeSignUp', function (req, res) {
+	// checkRegistration returns the company's name
+	db.checkRegistration(req.body.registration_ID).then((company) => {
+		db.createNewUser(req.body.registration_ID, company, req.body.first_name, req.body.last_name, 
+						req.body.email, req.body.password, false).then((result) => {
+			console.log("sign up successful.");
+			if(result == true) {
+				res.jsonp({success: true});
+			} else {
+				res.jsonp({success: false});
+			}
+    	}).catch((error) => {
+			console.log("error when creating new user");
+			console.log(error);
+			res.jsonp({success: false});
+		});
+    }).catch((error) => {
+		console.log("error when registering user");
+		console.log(error);
+		res.jsonp({success: false});
+	});
 });
 
 router.get('/checkIfSignedIn', authenticated, function(req, res, next) {
