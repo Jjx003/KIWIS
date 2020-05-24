@@ -17,7 +17,7 @@ router.get('/getUserMetadata',
             db.getCompanyName(decodedToken).then(function(snapshot) {
                 company_name = snapshot;
                 db.getMetadata(company_name).then((data) => {
-                    res.jsonp({success:true, data: data['userCount']});
+                    res.jsonp(data['userCount']);
                 }).catch( function(error) {
                     console.log(error);
                     res.jsonp({success: false});
@@ -42,7 +42,7 @@ router.get('/getTagMetadata',
             db.getCompanyName(decodedToken).then(function(snapshot) {
                 company_name = snapshot;
                 db.getMetadata(company_name).then((data) => {
-                    res.jsonp({success:true, data: data['tagCount']});
+                    res.jsonp(data['tagCount']);
                 }).catch( function(error) {
                     console.log(error);
                     res.jsonp({success: false});
