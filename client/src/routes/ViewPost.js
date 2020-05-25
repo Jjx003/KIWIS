@@ -17,12 +17,12 @@ class ViewPost extends React.Component {
             loaded: false,
             postID: props.id,
             userID: "",
-            title: "",
+            title: "Post Not Found",
             tags: [],
             datetime: "",
             content: "",
             karma: 0,
-            firstName: "",
+            firstName: "User Not Found",
             lastName: "",
             responses: [],
             failed: false,
@@ -40,10 +40,10 @@ class ViewPost extends React.Component {
                 tags: results.data.posts.tag_ids,
                 datetime: results.data.posts.date_time,
                 karma: results.data.posts.karma,
-                responses: results.data.posts.responses,
+                responses: results.data.responses,
                 content: results.data.posts.content,
                 userID: results.data.posts.user_id,
-                loaded: true,
+                loaded: false,
                 failed: false,
             })
         }).catch((error) => {
@@ -58,24 +58,34 @@ class ViewPost extends React.Component {
                 url: 'http://localhost:9000/users/singleUser',
             })
                 .then((response) => {
+                    console.log("name:" + response.data.firstName + " " + response.data.lastName);
                     if (response.status === 200) {
                         if (response.data !== undefined) {
                             this.setState({ firstName: response.data.firstName });
                             this.setState({ lastName: response.data.lastName });
+                            this.setState({ loaded: true })
                         }
                     }
                 })
                 .catch((error) => {
                     console.log(error);
+                    this.setState({ failed: true })
                 })
         })
+
     }
 
     render() {
         // TODO: add user info!
-        const { postID, title, tags, datetime, content, karma, loaded, failed } = this.state;
+        const { postID, title, tags, datetime, content, karma, firstName, lastName, responses, loaded, failed } = this.state;
 
         if (this.state.loaded) {
+            var responseArr = []
+            if (responses) {
+                responseArr = Object.values(responses)
+                console.log(responseArr)
+            }
+            var mapped = responseArr.map(obj => <Response datetime={obj.datetime} content={obj.content} karma={obj.karma} firstName={obj.user_id} lastName='Gillespie' />)
             return (
                 <div className={"container"}>
                     <div>
@@ -84,8 +94,7 @@ class ViewPost extends React.Component {
                             <OriginalPoster firstPoster={false} postID={this.state.postID} userID={this.state.userID} title={this.state.title}
                                 tags={this.state.tags} datetime={this.state.datetime} karma={this.state.karma}
                                 content={this.state.content} firstName={this.state.firstName} lastName={this.state.lastName} />
-                            <Response firstPoster={false} userID={this.state.userID} datetime={this.state.datetime} karma={this.state.karma}
-                                content={this.state.content} firstName={this.state.firstName} lastName={this.state.lastName} />
+                            {mapped}
                             <button className={"makeReply"}>Reply</button>
                         </div>
                     </div>

@@ -124,7 +124,6 @@ class HomePosts extends React.Component {
                     <Navbar updateForumDisp={this.updateTagSearch} setTextSearch={this.setTextSearchState}
                         resetTextSearch={this.resetTextSearchState} />
                     <PostContainer posts={this.state.posts} users={this.state.users} textSearch={this.state.textSearch} />
->>>>>>> master
                 </InstantSearch>
             </div>
         )

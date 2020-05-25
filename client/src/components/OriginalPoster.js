@@ -25,7 +25,7 @@ class OriginalPoster extends React.Component {
         return (
             <div className={"original-post"}>
                 <div className={"header"}>
-                    <h1 className={"title"} style={{color: "black"}}>{this.state.title}</h1>
+                    <h1 className={"title"} style={{ color: "black" }}>{this.state.title}</h1>
                 </div>
                 <div className={"postInfo"}>
                     <div>
@@ -35,9 +35,9 @@ class OriginalPoster extends React.Component {
                         <h2>{"Posted by: " + this.state.firstName + " " + this.state.lastName}</h2>
                     </div>
                     {this.state.firstPoster ? <div></div> :
-                    <span>
-                        <button className={"button"}>Follow Post</button>
-                    </span>
+                        <span>
+                            <button className={"button"}>Follow Post</button>
+                        </span>
                     }
                 </div>
                 <div className={"content"}>
@@ -46,7 +46,7 @@ class OriginalPoster extends React.Component {
                 <div className={"bottom-section"}>
                     <div className={"datetime"}>
                         <h3 className={"createdDate"}>{"Created on: " + this.state.datetime}</h3>
-                        {this.state.firstPoster ? <h1 className={"karma"}><button className={"button"}>Edit Post</button>{"+ " + this.state.karma}</h1>:
+                        {this.state.firstPoster ? <h1 className={"karma"}><button className={"button"}>Edit Post</button>{"+ " + this.state.karma}</h1> :
                             <h1 className={"karma"}>
                                 <button className={"button"}>View Endorsed</button>
                                 <button className={"button"}>Upvote Response</button>
