@@ -47,12 +47,8 @@ const isAdmin = (req, res, next) => {
 
 authRouter.post('/AdminSignUp', function (req, res) {
 	dbIndex.createNewUser("N/A", req.body.company, req.body.first_name, req.body.last_name, 
-					req.body.email, req.body.password, true).then((result) => {
-		if(result == true) {
-			res.jsonp({success: true});
-		} else {
-			res.jsonp({success: false});
-		}
+		req.body.email, req.body.password, true).then((result) => {
+			res.jsonp({success: result});
     }).catch((error) => {
         res.jsonp({success: false});
     });
@@ -70,11 +66,7 @@ authRouter.post('/EmployeeSignUp', function (req, res) {
 			if (email == expectedEmail) {
 				dbIndex.createNewUser(req.body.registration_ID, company, req.body.first_name, req.body.last_name,
 					req.body.email, req.body.password, false).then((result) => {
-						if (result == true) {
-							res.jsonp({ success: true });
-						} else {
-							res.jsonp({ success: false });
-						}
+						res.jsonp({ success: result });
 					}).catch((error) => {
 						res.jsonp({ success: false });
 					})

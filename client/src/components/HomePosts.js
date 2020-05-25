@@ -22,7 +22,7 @@ class HomePosts extends React.Component {
             users: {},
             textSearch: false,
             updated: false,
-            company: ""
+            company: "empty"
         };
         
         this.updateTagSearch = this.updateTagSearch.bind(this);
@@ -42,7 +42,6 @@ class HomePosts extends React.Component {
 		  .catch((error) => {
 			console.log(error);
         })
-
         axios({
 			method: 'get',
 			url: 'http://localhost:9000/users/allUsers',
@@ -66,7 +65,7 @@ class HomePosts extends React.Component {
             })
             .catch((error) => {
                 console.log(error);
-            });
+            }); 
     }
 
     //searching through posts state

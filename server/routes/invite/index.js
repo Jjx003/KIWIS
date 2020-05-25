@@ -59,10 +59,7 @@ router.post('/', function (req, res, next) {
         res.send("failed");
         console.log(error)
         return;
-    }
-    res.send("succ");
-
-  
+    }  
 });
 
 /*
