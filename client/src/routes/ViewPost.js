@@ -93,7 +93,7 @@ class ViewPost extends React.Component {
             );
             // TODO: MAP RESPONSES
         } else if (!loaded && !failed) {
-            return (<div> Loading... </div>)
+            return (<div> <TitleBar title="Post" /> <div className="posts-container"> Loading... </div> </div>)
         } else {
             return <Failure />
         }
