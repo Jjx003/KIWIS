@@ -60,9 +60,9 @@ authRouter.post('/AdminSignUp', function (req, res) {
 
 authRouter.post('/EmployeeSignUp', function (req, res) {
 	// checkRegistration returns the company's name
-	dbIndex.checkRegistration(req.body.registration_ID).then((snapshot) => {
+	dbIndex.checkRegistration(req.body.registration_ID).then((id) => {
 
-		let value = snapshot.val();
+		let value = id;
 		if (value && value.expected_company && value.expected_email) {
 			let company = value.expected_company;
 			let expectedEmail = value.expected_email;
