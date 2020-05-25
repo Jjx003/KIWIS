@@ -1,0 +1,49 @@
+.setting
+{
+    background-color: #C9E0C9;
+    font-family: Arial;
+    text-align: center;
+    height: 100vh;
+    width: 100vw;   
+    padding-top: 30px;
+}
+
+.settingsWrap
+{
+    background-color: whitesmoke;
+    width:30%;
+    border-style: solid;
+    border-width: 10px;
+    border-radius: 12px;
+    border-color: #80C180;
+    text-align: center;
+    display: inline-block;
+}
+
+.textBox{
+    border-radius: 40px;
+    width: 100%;
+    height: 30px;
+}
+
+.settings-item
+{
+    text-align: left;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.buttonz {        
+    background-color: #175C17;
+    border-width: thin;
+    color: white;
+    border-radius: 40px;
+    margin-right: 5%;
+    border-width: thin;
+    width: 100%;
+    height: 30px;
+}
+
+.instructions{
+    color: #4E854E;
+}

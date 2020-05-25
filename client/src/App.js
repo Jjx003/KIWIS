@@ -8,8 +8,6 @@ import SignUp from './routes/SignUp';
 import AdminSignUp from './routes/AdminSignUp'
 import Login from './routes/Login';
 import PrivateRoute from './auth/PrivateRoute';
-//<PrivateRoute path="/" exact render={(props) => <Home {...props}/>}/>
-import AddResponse from './routes/Responses';
 import ViewPost from './routes/ViewPost';
 //import CreatePosts from './routes/CreatePosts'
 
@@ -22,16 +20,30 @@ import ViewPost from './routes/ViewPost';
 // route /POSTID:
 // return the proper post information. 
 
+import CreatePost from './routes/CreatePost';
+import Settings from "./routes/Settings";
+import AdminPage from "./routes/AdminPage"
+import UserTags from './routes/UserTags';
+import AddResponse from './routes/Responses';
 
+
+
+
+
+//<Route path="/signup" exact render={(props) => <Login {...props}/> }/> we took this out
 function App() {
   return (
 			<div>
 				<Route path="/login" exact render={(props) => <Login {...props}/>}/>
-				<Route path="/signup/:id" exact render={(props) => <SignUp {...props}/>}/>
-				<Route path="/signup" exact render={(props) => <Login {...props}/> }/>
-				<Route path="/adminsignup" exact render={(props) => <AdminSignUp {...props} />} />
+				<Route path="/signup" exact render={(props) => <SignUp {...props}/>}/>
 				<PrivateRoute path="/viewPost/:id" dynamic={true} component={ViewPost}/>
+				<Route path="/signup/:id" exact render={(props) => <SignUp {...props}/>}/>
 				<PrivateRoute exact path="/" component={Home} />
+				<PrivateRoute exact path="/createPost" component={CreatePost} />
+				<Route path="/userTags" exact render={(props) => <UserTags {...props}/>}/>
+				<Route path="/adminsignup" exact render={(props) => <AdminSignUp {...props} />} />
+				<PrivateRoute exact path="/settings" component={Settings} />
+				<PrivateRoute exact path="/adminPage" component={AdminPage} />
 				<PrivateRoute exact path="/Response" component={AddResponse} /> 				
 			</div>
   );

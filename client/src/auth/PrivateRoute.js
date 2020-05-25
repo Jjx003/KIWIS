@@ -17,7 +17,6 @@ const PrivateRoute = ({component: RouteComponent, dynamic: isDynamic, ...rest}) 
             <Route
             {...rest}
             render={({match}, routeProps) => {
-                //console.log(match.params)
                 return (currentUser ? (<RouteComponent {...routeProps} id={match.params.id}  />) : (<Redirect to="/login"/>))
             }}
         />
