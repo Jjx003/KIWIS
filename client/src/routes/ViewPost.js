@@ -87,7 +87,12 @@ class ViewPost extends React.Component {
                 responseArr = Object.values(responses)
                 console.log(responseArr)
             }
-            var mapped = responseArr.map(obj => <Response firstPoster={createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={getName(obj.user_id)} />)
+
+            var mapped = new Array(responseArr.length)
+            for (var i = 0; i < responseArr.length; ++i) {
+                mapped[i] = <Response key={i} firstPoster={createdPost} datetime={responseArr[i].datetime} content={responseArr[i].content} karma={responseArr[i].karma} endorsed={responseArr[i].endorsed} name={getName(responseArr[i].user_id)} />
+            }
+            console.log(mapped)
 
             return (
                 <div className={"container"}>
