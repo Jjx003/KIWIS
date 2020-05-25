@@ -180,6 +180,8 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
                 };
                 forumDBRef.child("Users").update(user);
 
+                forumDBRef.child('Tags').update({'announcements':'announcements', 'help-needed':'help-needed'})
+
                 var mapUserToCompany = {};
                 mapUserToCompany[userID] = forumName;
                 db.database().ref("UserCompaniesID").update(mapUserToCompany);
