@@ -16,6 +16,8 @@ startAlgolia(); // Start Listening for updates
 var usersRouter = require('./routes/users/index');
 var tagsRouter = require('./routes/tags/index');
 
+var followingRouter = require('./routes/following/index');
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -30,6 +32,7 @@ app.use('/tags', tagsRouter);
 app.use('/users', usersRouter);
 
 app.use('/posts', postsRouter);
+app.use('/following', followingRouter);
 
 
 
