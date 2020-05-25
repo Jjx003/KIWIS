@@ -8,6 +8,7 @@ var authRouter = require('./routes/auth/index');
 var postsRouter = require('./routes/posts/index');
 var tagsRouter = require('./routes/tags/index')
 var responseRouter  = require('./routes/responses/index');
+var metadataRouter  = require('./routes/metadata/index');
 var cookieParser = require('cookie-parser');
 var {startAlgolia} = require('./firebase');
 
@@ -30,8 +31,7 @@ app.use('/tags', tagsRouter);
 app.use('/users', usersRouter);
 
 app.use('/posts', postsRouter);
-
-
+app.use('/metadata', metadataRouter);
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');

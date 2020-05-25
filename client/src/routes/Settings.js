@@ -33,6 +33,25 @@ class Settings extends React.Component {
         });
     }
 
+    handleResetPassword = (event) =>{
+            event.preventDefault();
+            // should tag_ids be in line below
+            const {password} = event.target.elements;
+            this.setState({newPassword: password.value});
+            if(window.confirm("Confirm Reset Password?"))
+            {
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:9000/auth/resetPassword',
+                    data: { 
+                        newPassword:  this.state.newPassword 
+                    }
+                }).then(() => {
+                    alert("Password Changed to: " + this.state.newPassword);
+                });
+            }
+    }
+
     render(){
         if(this.state.admin){
 
@@ -45,17 +64,19 @@ class Settings extends React.Component {
                                 <div className = "settings-item">                         
                                     <input className="textBox" name="email" type="email" placeholder= {"   " + this.state.user_email}/>
                                 </div>
-                                <div className = "settings-item">                         
-                                    <input className="textBox" name="password" type="password" placeholder="  randomPassword"/>
-                                </div>
+                                <form onSubmit={this.handleResetPassword.bind(this)}> 
+                                    <div className = "settings-item">                         
+                                        <input className="textBox" name="password" type="password" placeholder="  randomPassword"/>
+                                    </div>
+                                    <div className = "settings-item">
+                                        <button className= "buttonz"> Submit </button>
+                                    </div>
+                                </form>
                                 <div className = "settings-item"> 
                                     <Checkbox toggle label={{ children: 'Email Notification' }}/>
                                 </div>
                                 <div className = "settings-item"> 
                                     <Checkbox toggle label={{ children: 'Browser Notification' }}/>
-                                </div>
-                                <div className = "settings-item">
-                                    <button className= "buttonz"> Submit </button>
                                 </div>
                                 
                                 <div className="instructions"> Click here to change specialization. This affects your default tags.  </div>

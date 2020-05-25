@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var auth = require('../../auth/index');
 var db = require('../../db/index');
+const { check } = require('express-validator');
 
 // checks if the user is authenticated
 const authenticated = (req,res,next) => {
@@ -90,5 +91,26 @@ router.get('/checkIfSignedIn', authenticated, function(req, res, next) {
 	res.jsonp({success: true});
 });
 
+// reset password function
+router.post('/resetPassword', 
+	[
+		check('newPassword').isLength({min: 1}).trim().escape()
+	],
+
+	authenticated,
+
+	function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+
+			auth.updateUserPassword(decodedToken, req.body.newPassword).then(function() {
+				// Update successful.
+				res.jsonp({success: true});
+			}).catch((error) => {
+				console.log("error when resetting password");
+				console.log(error);
+				res.jsonp({success: false});
+			});
+		});
+});
 
 module.exports = {router, authenticated, isAdmin};
