@@ -17,13 +17,13 @@ class ViewPost extends React.Component {
             loaded: false,
             postID: props.id,
             userID: "",
+            users: {},
             title: "Post Not Found",
             tags: [],
             datetime: "",
             content: "",
             karma: 0,
-            firstName: "User Not Found",
-            lastName: "",
+            name: "User Not Found",
             responses: [],
             failed: false,
         }
@@ -51,20 +51,13 @@ class ViewPost extends React.Component {
             this.setState({ failed: true })
         }).then(() => {
             axios({
-                method: 'post',
-                data: {
-                    userid: this.state.userID
-                },
-                url: 'http://localhost:9000/users/singleUser',
+                method: 'get',
+                url: 'http://localhost:9000/users/allUsers',
             })
                 .then((response) => {
-                    console.log("name:" + response.data.firstName + " " + response.data.lastName);
                     if (response.status === 200) {
-                        if (response.data !== undefined) {
-                            this.setState({ firstName: response.data.firstName });
-                            this.setState({ lastName: response.data.lastName });
-                            this.setState({ loaded: true })
-                        }
+                        this.setState({ users: response.data });
+                        this.setState({ loaded: true })
                     }
                 })
                 .catch((error) => {
@@ -76,16 +69,26 @@ class ViewPost extends React.Component {
     }
 
     render() {
-        // TODO: add user info!
-        const { postID, title, tags, datetime, content, karma, firstName, lastName, responses, loaded, failed } = this.state;
+        const { postID, title, tags, datetime, content, karma, name, responses, loaded, failed } = this.state;
 
         if (this.state.loaded) {
+            // Stole method from HomePosts.js
+            const getName = (userid) => {
+                let name = "no_user";
+                if (this.state.users !== undefined && this.state.users[userid] !== undefined) {
+                    name = this.state.users[userid].firstName + " " + this.state.users[userid].lastName;
+
+                }
+                return name;
+            }
+
             var responseArr = []
             if (responses) {
                 responseArr = Object.values(responses)
                 console.log(responseArr)
             }
-            var mapped = responseArr.map(obj => <Response datetime={obj.datetime} content={obj.content} karma={obj.karma} firstName={obj.user_id} lastName='Gillespie' />)
+            var mapped = responseArr.map(obj => <Response datetime={obj.datetime} content={obj.content} karma={obj.karma} name={getName(this.state.userID)} />)
+
             return (
                 <div className={"container"}>
                     <div>
@@ -93,7 +96,7 @@ class ViewPost extends React.Component {
                         <div className="posts-container">
                             <OriginalPoster firstPoster={false} postID={this.state.postID} userID={this.state.userID} title={this.state.title}
                                 tags={this.state.tags} datetime={this.state.datetime} karma={this.state.karma}
-                                content={this.state.content} firstName={this.state.firstName} lastName={this.state.lastName} />
+                                content={this.state.content} name={getName(this.state.userID)} />
                             {mapped}
                             <button className={"makeReply"}>Reply</button>
                         </div>

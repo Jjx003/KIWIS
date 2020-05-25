@@ -1,6 +1,6 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
-import {Icon} from "semantic-ui-react";
+import { withRouter } from 'react-router-dom';
+import { Icon } from "semantic-ui-react";
 import "../css/Forum.css"
 
 class Response extends React.Component {
@@ -10,8 +10,7 @@ class Response extends React.Component {
         this.state = {
             firstPoster: this.props.firstPoster,
             postID: this.props.postID,
-            firstName: this.props.firstName,
-            lastName: this.props.lastName,
+            name: this.props.name,
             title: this.props.title,
             tags: this.props.tags,
             datetime: this.props.datetime,
@@ -25,10 +24,10 @@ class Response extends React.Component {
             <div className={"response-post"}>
                 <div className={"leftSide"}>
                     <div className={"rPoster"}>
-                        <h2 className={"responder"}>{this.state.firstName + " " + this.state.lastName + ": "}</h2>
+                        <h2 className={"responder"}>{this.state.name + ": "}</h2>
                     </div>
                     <div className={"rDate"}>
-                        <h3>{"Created on: " }{"\n"}{this.state.datetime}</h3>
+                        <h3>{"Created on: "}{"\n"}{this.state.datetime}</h3>
                     </div>
                 </div>
                 <div className={"middleContent"}>
@@ -38,9 +37,9 @@ class Response extends React.Component {
                 </div>
                 <div className={"rightSide"}>
                     <div className={"rStar"}>
-                        <Icon name="star outline" color={"green"} size={"big"}/>
+                        <Icon name="star outline" color={"green"} size={"big"} />
                     </div>
-                    {this.state.firstPoster ? <div><button className={"button"}>Endorse</button></div> :<div></div>}
+                    {this.state.firstPoster ? <div><button className={"button"}>Endorse</button></div> : <div></div>}
                     <div className={"rKarma"}>
                         <h1><button className={"button"}>Upvote</button>{"   + " + this.state.karma}</h1>
                     </div>

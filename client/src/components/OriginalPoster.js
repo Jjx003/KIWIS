@@ -11,8 +11,7 @@ class OriginalPoster extends React.Component {
         this.state = {
             firstPoster: this.props.firstPoster,
             postID: this.props.postID,
-            firstName: this.props.firstName,
-            lastName: this.props.lastName,
+            name: this.props.name,
             title: this.props.title,
             tags: this.props.tags,
             datetime: this.props.datetime,
@@ -32,7 +31,7 @@ class OriginalPoster extends React.Component {
                         <h2 className={"postID"}>{this.state.postID}</h2>
                     </div>
                     <div className={"postBy"}>
-                        <h2>{"Posted by: " + this.state.firstName + " " + this.state.lastName}</h2>
+                        <h2>{"Posted by: " + this.state.name}</h2>
                     </div>
                     {this.state.firstPoster ? <div></div> :
                         <span>
