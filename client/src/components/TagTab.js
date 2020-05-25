@@ -16,7 +16,7 @@ class TagTab extends React.Component{
 
     componentWillMount(){
         axios({
-            method: 'get',
+            method: 'post',
             url: 'http://localhost:9000/tags/getTags'
           }).then((response) => {
             this.setState({tagList: Object.keys(response.data.tags),
@@ -36,7 +36,7 @@ class TagTab extends React.Component{
                     method: 'post',
                     url: 'http://localhost:9000/tags/add',
                     data: {
-                    tagName: tagname.value
+                        tagName: tagname.value
                     }
                 }).then(() => {
                     this.state.tagList.push(this.state.currTag);
@@ -48,7 +48,7 @@ class TagTab extends React.Component{
 
         return(
             <Tab.Pane className="adminPageAP" >
-                <h1 style={{textAlign: "center"}}> Add and Remove Specialization </h1>
+                <h1 style={{textAlign: "center"}}> Add and Remove Employees </h1>
                 <div className="tagListAP"> 
                     {this.state.loading_tag ? 
                     <div> 
