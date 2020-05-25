@@ -11,6 +11,7 @@ import firebase from '../auth/firebase';
 import Cookies from 'universal-cookie';
 import {withRouter} from 'react-router-dom';
 
+
 const tags = [
     {
       key: 'Machine Learning',
@@ -75,14 +76,14 @@ class Navbar extends React.Component {
 
 		// removing cookie
 		const cookies = new Cookies();
-		cookies.remove('auth');
-
-		// redirect to home page
+        cookies.remove('auth');
+        
+        window.localStorage.removeItem('tags');
+        // redirect to home page
 		this.props.history.push("/login");
     }
 
     componentDidMount(){
-
         axios({
 			method: 'get',
 			url: 'http://localhost:9000/tags/getTags',
@@ -91,36 +92,58 @@ class Navbar extends React.Component {
 			if (response.data.success) { 
                 for(var key in response.data.tags){
                     var x = key;
-                    console.log(x);
                     this.setState({forum_tags:[...this.state.forum_tags, { key: x, text: x, value: x }]});
                 }
-
-                var tags_string = window.localStorage.getItem('tags');
                 
-                console.log("string: " + tags_string);
+                if (localStorage.getItem('tags') == undefined) {
+                    axios.defaults.withCredentials = true;
+                    axios({
+			            method: 'GET',
+			            url: 'http://localhost:9000/users/userTags',
+                        withCredentials: true
+                    })
 
-                var tags_array = JSON.parse(tags_string);
-                console.log("array: " + tags_array);
+                    .then((response) => {
+			            if (response.data.success) {
+                            var string_tags = JSON.stringify(response.data.tags);
+                            var tags_array = JSON.parse(string_tags);
 
-                for (var key in tags_array) {
-                    if (tags_array.hasOwnProperty(key)) {
-                        //this.setState({default_tags:[...this.state.default_tags, { key: tags_array[key], text: tags_array[key], value: tags_array[key] }]});
-                        //this.setState({tags : [...this.state.tags, { key: tags_array[key], text: tags_array[key], value: tags_array[key] }]});
-                        this.setState({tags : [ 
-                            //{ key: tags_array[key], text: tags_array[key], value: tags_array[key] }
-                            {key: "Machine Learning"}
-                        ]});
-                        //console.log(key + " -> " + p[key]);
+                            for (var key in tags_array) {
+                                if (tags_array.hasOwnProperty(key)) {
+                                   this.setState({default_tags : [...this.state.default_tags, tags_array[key]]});
+                                }
+                            }
+                            window.localStorage.setItem('tags', string_tags);
+                            this.setState({got_specializations : true});
+                            this.props.updateForumDisp(this.state.default_tags);
+                            // Store the tags in local storage
+			            } else {
+				            alert("Couldn't get the tags of the user");
+			            }
+                    })
+		            .catch((error) => {
+
+                        console.log(error);
+                    
+                    });
+                
+			    } else {
+                    var string_tags = window.localStorage.getItem('tags');
+                    console.log(string_tags);
+                    var tags_array = JSON.parse(string_tags);
+
+                    for (var key in tags_array) {
+                        if (tags_array.hasOwnProperty(key)) {
+                            this.setState({default_tags : [...this.state.default_tags, tags_array[key]]});
+                        }
                     }
+
+                    this.props.updateForumDisp(this.state.default_tags);
+                
+                    this.setState({got_specializations : true});
                 }
-                this.setState({got_specializations : true});
-
-                //this.props.updateForumDisp(this.state.tags); 
-
-			} else {
-				console.log("bad");
-			}
-		  })
+            }
+		})
 		  .catch((error) => {
 			console.log(error);
           });
@@ -129,8 +152,12 @@ class Navbar extends React.Component {
     //called when the tag dropdown changes
     handleChange = (e, {value}) => {
         this.setState({tags : value}, ()=>{
-        console.log(this.state.tags);});
-        this.props.updateForumDisp(value);     
+        this.props.updateForumDisp(value);
+
+        const cookies = new Cookies();
+        cookies.set('tags', JSON.stringify(value));
+        window.localStorage.setItem('tags', JSON.stringify(value));
+        });
     }
 
     //called when the search box changes
@@ -175,7 +202,7 @@ class Navbar extends React.Component {
                                 <Grid.Column>
                                     <Dropdown fluid multiple selection placeholder='Tags'
                                         loading = {(!this.state.got_specializations) ? true : false}
-                                        defaultValue = {this.state.tags}
+                                        defaultValue = {this.state.default_tags}
                                         onChange={this.handleChange}
                                         options={[...this.state.forum_tags]} />
                                 </Grid.Column>

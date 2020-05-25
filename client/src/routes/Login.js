@@ -23,34 +23,7 @@ const Login = ({history}) => {
 				const cookies = new Cookies();
                 cookies.set('auth', idToken, {path: '/'});
                 
-                axios.defaults.withCredentials = true;
-                axios({
-			        method: 'GET',
-			        url: 'http://localhost:9000/users/userTags',
-                    withCredentials: true
-                })
-
-                .then((response) => {
-			        if (response.data.success) {
-
-                        var string_tags = JSON.stringify(response.data.tags);
-
-                        // Store the tags in local storage
-                        window.localStorage.setItem('tags', string_tags);
-
-                        console.log(window.localStorage.getItem('tags'));
-
-                        // Wait until update processes before redirecting
-                        alert("Got the tags of the users");
-                        // Redirect to home page
-				        this.props.history.replace('/');
-			        } else {
-				        alert("Couldn't get the tags of the user");
-			        }
-		        })
-		        .catch((error) => {
-			        console.log(error);
-		        });
+                
 				
 				// redirect to home page
 				update().then(() => {
