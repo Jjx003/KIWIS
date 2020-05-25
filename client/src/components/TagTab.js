@@ -16,7 +16,7 @@ class TagTab extends React.Component{
 
     componentWillMount(){
         axios({
-            method: 'post',
+            method: 'get',
             url: 'http://localhost:9000/tags/getTags'
           }).then((response) => {
             this.setState({tagList: Object.keys(response.data.tags),
@@ -36,7 +36,7 @@ class TagTab extends React.Component{
                     method: 'post',
                     url: 'http://localhost:9000/tags/add',
                     data: {
-                        tagName: tagname.value
+                    tagName: tagname.value
                     }
                 }).then(() => {
                     this.state.tagList.push(this.state.currTag);

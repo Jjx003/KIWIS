@@ -26,6 +26,9 @@ import ViewPost from './routes/ViewPost';
 // route /POSTID:
 // return the proper post information. 
 
+import CreatePost from './routes/CreatePost';
+
+
 
 
 
@@ -33,15 +36,14 @@ import ViewPost from './routes/ViewPost';
 function App() {
   return (
 			<div>
-
-				<Route path="/userTags" exact render={(props) => <UserTags {...props}/>}/>
-				<Route path="/signup/:id" exact render={(props) => <SignUp {...props}/>}/>
-				<Route path="/login" exact render={(props) => <Login {...props}/> }/>
-				<Route path="/signup" exact render={(props) => <Login {...props}/> }/>
-				<Route path="/adminsignup" exact render={(props) => <AdminSignUp {...props} />} />
-
+				<Route path="/login" exact render={(props) => <Login {...props}/>}/>
+				<Route path="/signup" exact render={(props) => <SignUp {...props}/>}/>
 				<PrivateRoute path="/viewPost/:id" dynamic={true} component={ViewPost}/>
+				<Route path="/signup/:id" exact render={(props) => <SignUp {...props}/>}/>
 				<PrivateRoute exact path="/" component={Home} />
+				<PrivateRoute exact path="/createPost" component={CreatePost} />
+				<Route path="/userTags" exact render={(props) => <UserTags {...props}/>}/>
+				<Route path="/adminsignup" exact render={(props) => <AdminSignUp {...props} />} />
 				<PrivateRoute exact path="/settings" component={Settings} />
 				<PrivateRoute exact path="/adminPage" component={AdminPage} />
 				<PrivateRoute exact path="/Response" component={AddResponse} /> 				

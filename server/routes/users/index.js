@@ -6,17 +6,51 @@ var auth = require('../../auth/index');
 const { check, validationResult } = require('express-validator');
 require('dotenv').config();
 
+router.get('/company', 
+    function (req, res, next) {
+        try {
+            res.send(req.user.company);
+        } catch (error) {
+            console.log(error);
+            res.jsonp({success: false});
+        }  
+    }
+);
+
+router.get('/allUsers', 
+    function (req, res, next) {
+        try {
+            db.getUsers(req.user.company).then((data)=>{
+                res.send(data.val());
+            });
+        } catch (error) {
+            console.log(error);
+            res.jsonp({success: false});
+        }  
+    }
+);
+
+router.post('/singleUser', 
+    function (req, res, next) {
+        try {
+            db.getUser(req.user.company, req.body.userid).then((data)=>{
+                res.send(data.val());
+            });
+        } catch (error) {
+            console.log(error);
+            res.jsonp({success: false});
+        }  
+    }
+);
+
 
 router.post('/removeAllUserTags',
-
-    authenticated,
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
             var user_id = decodedToken;
             db.getCompanyName(decodedToken).then(function(snapshot) {
                 var company_name = snapshot;
-                console.log("\n\n\n " + company_name)
                 var removed = db.removeAllUserTags(company_name, user_id);
                 res.jsonp({success: removed});
             }).catch( function(error) {
@@ -25,7 +59,6 @@ router.post('/removeAllUserTags',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
@@ -33,8 +66,6 @@ router.post('/removeAllUserTags',
 
 
 router.get('/userTags',
-
-    authenticated,
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
@@ -55,10 +86,7 @@ router.get('/userTags',
     }
 );
 
-
 router.post('/removeSpecialization', 
-
-    authenticated,
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
@@ -81,8 +109,6 @@ router.post('/removeSpecialization',
 
 
 router.post('/addSpecialization', 
-
-    authenticated,
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
@@ -116,15 +142,12 @@ router.post('/add',
     // Checks for errors when checking http parameters and checks if logged in
     function (req, res, next) {
         const errors = validationResult(req);
-        if(!errors.isEmpty()) {
+        if(!errors.isEmpty() || !req.user.admin) {
             return res.status(422).json({errors: errors.array() });
         }
         
         next(); 
     }, 
-
-    authenticated, isAdmin, 
-
     function (req, res, next) {
         try {
             db.createNewUser(req.body.forumName, req.body.firstName, req.body.lastName, req.body.email, req.body.password);
@@ -142,7 +165,14 @@ router.post('/remove',
         check('userID').isLength({min: 1})
     ],
 
-    authenticated, isAdmin,
+    // Checks for errors when checking http parameters and checks if logged in
+    function (req, res, next) {
+        const errors = validationResult(req);
+        if(!errors.isEmpty() || !req.user.admin) {
+            return res.status(422).json({errors: errors.array() });
+        }
+        next();
+    }, 
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
@@ -157,8 +187,8 @@ router.post('/remove',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
+
     }
 );
 
@@ -178,9 +208,6 @@ router.get('/',
         }
         next();
     },
-    
-    authenticated,  
-
     function (req, res, next) {
         // When moving to production, need a authentication cookie passed in as well
         // Or else people can exploit this route.
@@ -219,16 +246,20 @@ router.get('/all',
     }
 );
 
+
 router.post('/toggleAdmin', 
     [
         check('userID').isLength({min: 1})
     ],
 
-    authenticated, 
+    function (req, res, next) {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.array() });
+        }
+        next();
+    },
     
-    isAdmin,
-    
-
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
             var user_id = decodedToken;
@@ -249,8 +280,6 @@ router.post('/toggleAdmin',
 
 router.get('/getUserEmail', 
     
-    authenticated,
-        
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
             var user_id = decodedToken;
@@ -265,14 +294,11 @@ router.get('/getUserEmail',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
 
 router.get('/isUserAdmin', 
-
-    authenticated,
     
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
@@ -288,7 +314,6 @@ router.get('/isUserAdmin',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );

@@ -35,9 +35,15 @@ async function sendEmail(targetEmail, targetContent) {
 */
 
 const Home = ({history}) => {
-
 	
 	const updateFunction = useContext(UpdateContext);
+
+	const createPost = () => {
+
+		history.push('/createPost');
+
+
+	}
 
 	const handleSignOut = () => {
 		firebase.auth().signOut();
@@ -55,11 +61,11 @@ const Home = ({history}) => {
 	return(
 		<div className="app">
 			<HomePosts />
-
+			<Button onClick={handleSignOut}>Signout</Button>
+			<Button onClick={createPost}>Create Post</Button>
 		</div>
 	);
 }
-
 
 
 export default Home;

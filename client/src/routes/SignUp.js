@@ -7,8 +7,6 @@ import db from '../auth/firebase';
 import { AuthContext } from "../auth/Auth";
 import { Redirect, useHistory } from "react-router-dom";
 
-
-
 class SignUp extends React.Component {
 	state = {
 		isLoading: true,

@@ -1,36 +1,55 @@
 var express = require("express");
-var auth = require('../../auth/index')
 var router = express.Router();
 var {db} = require('../../firebase')
-var {getCompanyPosts, getCompanyTags} = require('../../db/index')
+var {authenticated} = require('../auth/index');
+var dbIndex = require('../../db/index')
+
+router.get('/:id', 
+    function (req, res) {
+        let user_id = req.user.id;
+        let company = req.user.company;
+        var posts;
+        db.database().ref(company + '/Posts/' + req.params.id).once('value').then((snapshot) => {
+            posts = snapshot.val();
+        }).catch((error) => {
+            console.log(error);
+            res.jsonp({ success: false });
+        })
+
+        dbIndex.pullResponse(company, req.params.id).then((responseData) => {
+
+            dbIndex.userMadePost(company, user_id, req.params.id).then((result) => {
+                console.log(posts);
+                res.jsonp({ posts: posts, responses: responseData, createdPost: result })
+
+            }).catch((error) => {
+                console.log(error);
+                res.jsonp({ success: false });
+            })
+
+        }).catch((error) =>{
+            console.log(error);
+            res.jsonp({ success: false });
+        })
 
 
-router.get('/:id', function (req, res, next) {
-    auth.checkToken(req.cookies.auth).then(() =>{
-        next()
-    }).catch( function(error) {
-        console.log("error occured when checking token, request denied");
-        res.jsonp({success: false});
-    })  
-},
-function (req, res, next) {
-    const company = 'UXD14';        //call get company, this should not be hard coded
-    db.database().ref(company+'/Posts/'+req.params.id).once('value').then(function(snapshot) {
-        var posts = snapshot.val();
-        res.jsonp(posts);
-    })
-
-}
-);
+    });
 
 //check auth with this get request
-router.get('/',
-    function (req, res, next) {
-        const company = 'UXD14';        //call get company
-        let posts = [];
-        getCompanyPosts(company, posts);
-        res.jsonp({success : true, posts: posts});
+router.get('/', (req, res, next) => {
+        const company = req.user.company; 
+        dbIndex.getCompanyPosts(company).then((posts) =>
+        res.jsonp({success : true, posts: posts}));
     }
 );
+
+router.post('/CreatePost', (req, res, next) => {
+    var company_name = req.user.company;
+    var user_id = req.user.id;
+    console.log(company_name, user_id);
+    var pushedData = dbIndex.addPostData(company_name, user_id, req.body.title, req.body.tag_ids, req.body.content);
+    res.jsonp({success : pushedData});
+    }
+)
 
 module.exports = router;
