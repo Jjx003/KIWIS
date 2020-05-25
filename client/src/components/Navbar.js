@@ -78,7 +78,9 @@ class Navbar extends React.Component {
 		const cookies = new Cookies();
         cookies.remove('auth');
         
-        window.localStorage.removeItem('tags');
+        window.localStorage.removeItem('current_tags');
+        window.localStorage.removeItem('original_tags');
+
         // redirect to home page
 		this.props.history.push("/login");
     }
@@ -95,7 +97,7 @@ class Navbar extends React.Component {
                     this.setState({forum_tags:[...this.state.forum_tags, { key: x, text: x, value: x }]});
                 }
                 
-                if (localStorage.getItem('tags') == undefined) {
+                if (localStorage.getItem('current_tags') == undefined) {
                     axios.defaults.withCredentials = true;
                     axios({
 			            method: 'GET',
@@ -113,9 +115,11 @@ class Navbar extends React.Component {
                                    this.setState({default_tags : [...this.state.default_tags, tags_array[key]]});
                                 }
                             }
-                            window.localStorage.setItem('tags', string_tags);
-                            this.setState({got_specializations : true});
+                            window.localStorage.setItem('current_tags', string_tags);
+                            window.localStorage.setItem('original_tags', string_tags);
+
                             this.props.updateForumDisp(this.state.default_tags);
+                            this.setState({got_specializations : true});
                             // Store the tags in local storage
 			            } else {
 				            alert("Couldn't get the tags of the user");
@@ -128,7 +132,7 @@ class Navbar extends React.Component {
                     });
                 
 			    } else {
-                    var string_tags = window.localStorage.getItem('tags');
+                    var string_tags = window.localStorage.getItem('current_tags');
                     console.log(string_tags);
                     var tags_array = JSON.parse(string_tags);
 
@@ -149,6 +153,29 @@ class Navbar extends React.Component {
           });
     }
 
+    resetSpecializations = () => {
+        this.setState({got_specializations: false});
+        window.localStorage.setItem('current_tags', window.localStorage.getItem('original_tags'));
+
+        console.log(window.localStorage.getItem('current_tags'));
+        var string_tags = window.localStorage.getItem('current_tags');
+        console.log(string_tags);
+        var tags_array = JSON.parse(string_tags);
+
+        this.setState({default_tags: []});
+        for (var key in tags_array) {
+            if (tags_array.hasOwnProperty(key)) {
+                this.setState({default_tags : [...this.state.default_tags, tags_array[key]]});
+            }
+        }
+
+    
+        window.location.reload(true);
+        this.setState({got_specializations : true});
+        this.props.updateForumDisp(this.state.default_tags);
+    }
+
+
     //called when the tag dropdown changes
     handleChange = (e, {value}) => {
         this.setState({tags : value}, ()=>{
@@ -156,7 +183,7 @@ class Navbar extends React.Component {
 
         const cookies = new Cookies();
         cookies.set('tags', JSON.stringify(value));
-        window.localStorage.setItem('tags', JSON.stringify(value));
+        window.localStorage.setItem('current_tags', JSON.stringify(value));
         });
     }
 
@@ -174,12 +201,15 @@ class Navbar extends React.Component {
         });
     });
 
+
+
     render() {
-        if(!this.state.got_specializations) {
-            return <h1>loading</h1>
+        if (!this.state.got_specializations) {
+            return <h1> loading navbar... </h1>
         }
         return (
             <div>
+                <button onClick={this.resetSpecializations.bind(this)}> reset specializations </button> 
                 <Menu secondary size='massive' color='olive' inverted className="navbar">
                     <Menu.Item name='KIWI'>
                         <Link to='/'>
@@ -202,8 +232,8 @@ class Navbar extends React.Component {
                                 <Grid.Column>
                                     <Dropdown fluid multiple selection placeholder='Tags'
                                         loading = {(!this.state.got_specializations) ? true : false}
-                                        defaultValue = {this.state.default_tags}
                                         onChange={this.handleChange}
+                                        defaultValue = {this.state.default_tags}
                                         options={[...this.state.forum_tags]} />
                                 </Grid.Column>
                             </Grid.Row>

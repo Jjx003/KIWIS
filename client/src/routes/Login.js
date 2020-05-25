@@ -23,7 +23,6 @@ const Login = ({history}) => {
 				const cookies = new Cookies();
                 cookies.set('auth', idToken, {path: '/'});
                 
-                
 				
 				// redirect to home page
 				update().then(() => {
