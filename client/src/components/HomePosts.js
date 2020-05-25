@@ -54,16 +54,14 @@ class HomePosts extends React.Component {
 		  })
 		  .catch((error) => {
 			console.log(error);
-        }).then(() => {
+        })
             axios({
                 method: 'get',
                 url: 'http://localhost:9000/posts/',
             })
             .then((response) => { 
                 if (response.data.success) { 
-                    for(var key in response.data.posts){
-                        this.setState({posts : [...this.state.posts, response.data.posts[key]]});
-                    }
+                    this.setState({posts: response.data.posts});
                 } else {
                     console.log("bad");
                 }
@@ -71,7 +69,7 @@ class HomePosts extends React.Component {
             .catch((error) => {
                 console.log(error);
             });
-        })
+    
     }
 
     //searching through posts state
@@ -151,7 +149,7 @@ function PostContainer(props){
 //component for tag searching
 function TagSearchPosts(props){
     const getName = (userid) => {
-        let name = "user not found";
+        let name = "no_user";
         if (props.users !== undefined && props.users[userid] !== undefined) {
             name = props.users[userid].firstName + " " + props.users[userid].lastName;
             
@@ -175,7 +173,7 @@ function TagSearchPosts(props){
 //component for text searching
 function TextSearchPosts({hit, users}) {
     const getName = (userid) => {
-        let name = "user not found";
+        let name = "no_user";
         if (users !== undefined && users[userid] !== undefined) {
             name = users[userid].firstName + " " + users[userid].lastName;
             

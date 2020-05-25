@@ -77,8 +77,8 @@ class ViewPost extends React.Component {
                     <h1> {this.state.karma} </h1>
                     <h1> {this.state.responses || "response null"} </h1>
                     <h1> {this.state.userid || "user null"} </h1>
-                    <h1> {this.state.firstName || "user null"} </h1>
-                    <h1> {this.state.lastName || "user null"} </h1>
+                    <h1> {this.state.firstName || "first null"} </h1>
+                    <h1> {this.state.lastName || "last null"} </h1>
                 </div>
             )
         } else if (!this.state.loaded && !this.state.failed) {

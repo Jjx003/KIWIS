@@ -111,6 +111,7 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
             const forumDBRef = db.database().ref(forumName);
             auth.signUp(email, password, isAdmin).then((data) => {
                 var userID = data.uid;
+                console.log(userID, "is userID")
                 var user = {};
                 // Creates a new user object with the userID as a key
                 user[userID] =  {
@@ -121,8 +122,14 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
                     tags: {'announcements':'announcements', 'help-needed':'help-needed'},
                     following_IDs: []
                 };
+                console.log(userID, "is userID")
                 forumDBRef.child('Users').update(user);
-                db.database().ref("UserCompaniesID").set({[userID]: forumName});
+                //db.database().ref(`UserCompaniesID/${userID}`).set({forumName});
+                var mapUserToCompany = {};
+                mapUserToCompany[userID] = forumName;
+                console.log(mapUserToCompany)
+                db.database().ref("UserCompaniesID").update(mapUserToCompany);
+
                 if(isAdmin == false) {
                     db.database().ref("Registrations").child(registration_ID).remove();
                 }

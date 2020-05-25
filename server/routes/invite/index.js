@@ -82,7 +82,7 @@ router.post('/', function (req, res, next) {
 try {
     // TODO: Sanitize email?
     let company = "UXD14";
-    let email = "jeffxu2018@gmail.com"
+    let email = "j"
     crypto.randomBytes(16, (err, hash) => {
         hash = hash.toString('hex')
         let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`;

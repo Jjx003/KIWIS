@@ -4,8 +4,6 @@ var authRouter = express.Router();
 var auth = require('../../auth/index'); //  TODO: WTF
 var dbIndex = require('../../db/index')
 
-const saltRounds = 10;
-
 // checks if the user is authenticated
 const authenticated = (req,res,next) => {
 	try {
@@ -45,34 +43,6 @@ const isAdmin = (req, res, next) => {
 	}
 };
 
-// only signs up to firebase, doesn't follow the actual sign up process of our app. 
-/*
-authRouter.post('/signUp', function (req, res) {
-	db.checkRegistration(req.params.uuid).then((snapshot) => {
-		if (snapshot.val()) {
-			let company = snapshot.val().company_name;
-			let email = req.body.email;
-			let uuid = req.body.uuid;
-			
-			bcrypt.hash(email, salt).then((hash) => {
-				if (hash == uuid) {
-					auth.signUp(email, req.body.password).then(() => {
-						console.log("sign up successful.");
-						res.jsonp({success: true});
-					}).catch(() => {
-						console.log("error when signing up");
-						res.jsonp({success: false});
-					});
-				} else {
-					res.jsonp({success: true}); 
-				}
-			})
-		}
-	})
-
-});
-*/
-
 authRouter.post('/AdminSignUp', function (req, res) {
 	dbIndex.createNewUser("N/A", req.body.company, req.body.first_name, req.body.last_name, 
 					req.body.email, req.body.password, true).then((result) => {
@@ -94,19 +64,15 @@ authRouter.post('/AdminSignUp', function (req, res) {
 authRouter.post('/EmployeeSignUp', function (req, res) {
 	// checkRegistration returns the company's name
 	dbIndex.checkRegistration(req.body.registration_ID).then((snapshot) => {
-		console.log(req.body);
 
 		let value = snapshot.val();
 		if (value && value.expected_company && value.expected_email) {
-			let company = value.expected_comapny;
+			let company = value.expected_company;
 			let expectedEmail = value.expected_email;
 			let email = req.body.email;
 			if (email == expectedEmail) {
-				console.log("email match")
 				dbIndex.createNewUser(req.body.registration_ID, company, req.body.first_name, req.body.last_name,
 					req.body.email, req.body.password, false).then((result) => {
-						console.log("step6")
-						console.log("sign up successful.");
 						if (result == true) {
 							res.jsonp({ success: true });
 						} else {

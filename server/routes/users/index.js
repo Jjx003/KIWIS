@@ -33,7 +33,6 @@ router.post('/singleUser',
     function (req, res, next) {
         try {
             db.getUser(req.user.company, req.body.userid).then((data)=>{
-                console.log(data.val());
                 res.send(data.val());
             });
         } catch (error) {
