@@ -12,7 +12,8 @@ class Response extends React.Component {
             name: this.props.name,
             datetime: this.props.datetime,
             karma: this.props.karma,
-            content: this.props.content
+            content: this.props.content,
+            endorsed: this.props.endorsed
         };
     }
 
@@ -34,7 +35,7 @@ class Response extends React.Component {
                 </div>
                 <div className={"rightSide"}>
                     <div className={"rStar"}>
-                        <Icon name="star outline" color={"green"} size={"big"} />
+                        {this.state.endorsed ? <Icon name="star" color={"yellow"} size={"big"} /> : <div />}
                     </div>
                     {this.state.firstPoster ? <div><button className={"button"}>Endorse</button></div> : <div></div>}
                     <div className={"rKarma"}>

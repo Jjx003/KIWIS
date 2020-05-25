@@ -87,7 +87,7 @@ class ViewPost extends React.Component {
                 responseArr = Object.values(responses)
                 console.log(responseArr)
             }
-            var mapped = responseArr.map(obj => <Response firstPoster={createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} name={getName(this.state.userID)} />)
+            var mapped = responseArr.map(obj => <Response firstPoster={createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={getName(obj.user_id)} />)
 
             return (
                 <div className={"container"}>
@@ -96,7 +96,7 @@ class ViewPost extends React.Component {
                         <div className="posts-container">
                             <OriginalPoster firstPoster={createdPost} postID={postID} userID={userID} title={title}
                                 tags={tags} datetime={datetime} karma={karma}
-                                content={content} name={getName(this.state.userID)} />
+                                content={content} name={getName(userID)} />
                             {mapped}
                             <button className={"makeReply"}>Reply</button>
                         </div>
