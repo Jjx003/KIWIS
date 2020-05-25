@@ -22,7 +22,7 @@ class HomePosts extends React.Component {
             users: {},
             textSearch: false,
             updated: false,
-            company: "bruh"
+            company: "test"
         };
         
         this.updateTagSearch = this.updateTagSearch.bind(this);
@@ -69,7 +69,6 @@ class HomePosts extends React.Component {
             .catch((error) => {
                 console.log(error);
             });
-    
     }
 
     //searching through posts state
@@ -156,7 +155,6 @@ function TagSearchPosts(props){
         }
         return name;
     }
-
     return (
         <div className="posts-container">
         {props.posts.map( (item, i) => {
@@ -164,6 +162,7 @@ function TagSearchPosts(props){
                 return  <PostCards key={i} post_id={item.key} user_id={item.user_id} title={item.title}
                 tag_ids={item.tag_ids} date_time={item.date_time} karma={item.karma} 
                 content={item.content} responses={item.responses} name={getName(item.user_id)}/>
+
             else return <div></div>;
         })}
         </div>
@@ -182,7 +181,6 @@ function TextSearchPosts({hit, users}) {
     }
 
     return (
-        
         <div>
             <PostCards post_id={hit.objectID} user_id={hit.user_id} title={hit.title}
                 tag_ids={hit.tag_ids} date_time={hit.date_time} karma={hit.karma} 

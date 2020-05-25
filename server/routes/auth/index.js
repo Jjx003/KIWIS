@@ -1,8 +1,8 @@
 var express = require("express");
-var bcrypt = require("bcrypt");
 var authRouter = express.Router();
 var auth = require('../../auth/index'); //  TODO: WTF
 var dbIndex = require('../../db/index')
+
 
 // checks if the user is authenticated
 const authenticated = (req,res,next) => {
@@ -29,9 +29,12 @@ const authenticated = (req,res,next) => {
 const isAdmin = (req, res, next) => {
 	try {
 		auth.checkToken(req.cookies.auth).then((decodedToken) => {
-			if (decodedToken.email_verified) { next(); }
-			console.log("Request Denied: User is not an admin."); 
-			res.jsonp({success: false});
+			if (decodedToken.email_verified) { next();
+			} else {
+				console.log("Request Denied: User is not an admin."); 
+				res.jsonp({success: false});
+			}
+
 		}).catch((error) =>{
 			console.log(error);
 		});
@@ -101,5 +104,5 @@ authRouter.get('/checkIfSignedIn', authenticated, function(req, res, next) {
 	res.jsonp({success: true});
 });
 
-
 module.exports = {authRouter, authenticated, isAdmin};
+

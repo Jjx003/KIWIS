@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var db = require("../../db/index")
+var {authenticated, isAdmin} = require('../auth/index');
 var auth = require('../../auth/index');
 const { check, validationResult } = require('express-validator');
 require('dotenv').config();
@@ -42,6 +43,94 @@ router.post('/singleUser',
     }
 );
 
+
+router.post('/removeAllUserTags',
+
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
+                console.log("\n\n\n " + company_name)
+                var removed = db.removeAllUserTags(company_name, user_id);
+                res.jsonp({success: removed});
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
+            console.log(error);
+            console.log()
+        });
+    }
+);
+
+
+
+router.get('/userTags',
+
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
+                db.getUserTags(company_name, user_id).then((data) => {
+                    res.send(data.val());
+                });
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
+            console.log(error);
+            console.log()
+        });
+    }
+);
+
+router.post('/removeSpecialization', 
+
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
+                var removed = db.removeSpecialization(company_name, user_id, req.body.tag);
+                res.jsonp({success : removed});
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
+            console.log(error);
+            console.log()
+        });
+    }
+);
+
+
+
+router.post('/addSpecialization', 
+
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
+                var added = db.addSpecialization(company_name, user_id, req.body.tag);
+                res.jsonp({success : added});
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
+            console.log(error);
+            console.log()
+        });
+    }
+);
+
+// POST method to create user to the database
 router.post('/add', 
     [
         check('forumName').isLength({min: 1}).trim().escape(),
@@ -88,14 +177,22 @@ router.post('/remove',
         next();
     }, 
 
-    function (req, res, next) {
-        try {
-            db.removeUser(req.body.forumName, req.body.userID);
-            res.jsonp({success: true});
-        } catch (error) {
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
+                db.removeUser(company_name, req.body.userID);
+                res.jsonp({success : true});
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
             console.log(error);
-            res.jsonp({success: false});
-        }
+            console.log()
+        });
+
     }
 );
 
@@ -115,7 +212,6 @@ router.get('/',
         }
         next();
     },
-    
     function (req, res, next) {
         // When moving to production, need a authentication cookie passed in as well
         // Or else people can exploit this route.
@@ -132,6 +228,7 @@ router.get('/',
 
 // GET method to get all users from the database
 router.get('/all', 
+
     [
         check('forumName').isLength({min: 1}).trim().escape()
     ],
@@ -145,20 +242,98 @@ router.get('/all',
 
         next();
     },
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
+                db.getUsers(company_name).then((data)=>{
+                    res.send(data.val());
+                });
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
+            console.log(error);
+            console.log()
+        });
+    }
+);
+
+router.post('/toggleAdmin', 
+    [
+        check('userID').isLength({min: 1})
+    ],
 
     function (req, res, next) {
-        try {
-            db.getUsers(req.user.company).then((data)=>{
-                res.send(data.val());
-            });
-        } catch (error) {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()) {
+            return res.status(422).json({errors: errors.array() });
+        }
+        next();
+    },
+    
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
+                db.toggleAdmin(company_name, req.body.userID);
+                res.jsonp({success : true});
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
             console.log(error);
-            res.jsonp({success: false});
-        }  
+            console.log()
+        });
+    }
+);
+
+router.get('/getUserEmail', 
+    
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
+                db.getUserEmail(company_name, user_id).then(function(snapshot) {
+                    res.jsonp({success : true, userEmail: snapshot.val()});
+                })
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
+            console.log(error);
+            console.log()
+        });
+    }
+);
+
+router.get('/isUserAdmin', 
+    
+    function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+            var user_id = decodedToken;
+            db.getCompanyName(decodedToken).then(function(snapshot) {
+                var company_name = snapshot;
+                db.isUserAdmin(company_name, user_id).then(function(snapshot) {
+                    res.jsonp({success : true, admin: snapshot.val()});
+                })
+            }).catch( function(error) {
+                console.log(error);
+                res.jsonp({success: false});
+            })  
+        }).catch((error) => {
+            console.log(error);
+            console.log()
+        });
     }
 );
 
 
 
 module.exports = router;
-

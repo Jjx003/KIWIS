@@ -5,8 +5,6 @@ import pic from '../css/vectorlogo.png';
 import Cookies from 'universal-cookie';
 import db from '../auth/firebase';
 
-
-
 class SignUp extends React.Component {
 	state = {
 		isLoading: true,

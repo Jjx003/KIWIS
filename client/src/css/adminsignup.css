@@ -1,0 +1,100 @@
+.signup {
+    background-color: #C9E0C9;
+    font-family: Arial;
+    text-align: center;
+    height: 100vh;
+    width: 100vw;
+    padding: 60px;
+    padding-top: 100px;
+
+}
+
+.signupRow {
+    width: 70%; 
+    height: 500px;
+    text-align: centered;
+    margin-left: 6%;
+    display: inline-block;
+}
+
+.left {
+    background-color: #BF5B8A;
+    width: 45%;
+    height: 100%;
+    float: left;
+    padding-top: 50px;
+    align-content: left;
+    text-align: left;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-top-left-radius: 80px;
+    border-bottom-left-radius: 80px;
+}
+
+.right {
+    background-color: #C589A5;
+    width: 45%;
+    height: 100%;
+    float: left;
+    padding-top: 50px;
+    text-align: left;
+    align-content: left;
+    padding-left: 80px;
+    padding-right: 80px;
+
+}
+
+.picture {
+    text-align: center;
+    align-content: center;    
+    height: 60px;
+    margin-bottom: 40px;
+}
+
+.leftText {
+    font-size: medium;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-family: Arial;
+    font-style: italic;
+}
+
+.rightTitle {
+    font-style: initial;
+    margin-left: 10px;
+}
+
+.inputBox{
+    border-radius: 40px;
+    width: 100%;
+    height: 30px;
+    margin-top:20px;
+    border-width: thin;
+}
+
+.button12 {
+    width:45%;
+    border-radius: 40px;
+    margin-right: 5%;
+    background-color: #24D56D;
+    height: 100%;
+    align-content: left;
+    border-width: thin;
+}
+
+.button22 {
+    width:45%;
+    border-radius: 40px;
+    margin-left: 5%;
+    height: 100%;
+    align-content: left;
+    border-width: thin;
+}
+
+.endText {     
+    position: absolute; 
+    bottom: 5px; 
+    left: 0; 
+    width: 100%; 
+    text-align: center;
+}

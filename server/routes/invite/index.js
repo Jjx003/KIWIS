@@ -7,8 +7,6 @@ var mailgun = require("mailgun-js");
 var db = require("../../db/index");
 require('dotenv').config();
 
-const saltRounds = 10;
-
 const mg = mailgun({
     apiKey:	process.env.MAILGUN_API_KEY, 
 	domain: 'mg.kiwis.tech', 
@@ -27,7 +25,6 @@ function sendEmail(email, subject, content) {
 	})
 }
 
-//http://localhost:3000/inviteUser/accept_invite/2b10yQFd029pA4atAm5FW4D1x3hyLWtELv1aEJKWwlifaEgFT7X7BvW
 router.get('/accept_invite/:uuid', (req, res, next) => {
     let uuid = req.params.uuid;
   // checking if uuid is present in registration table
@@ -44,17 +41,8 @@ router.get('/accept_invite/:uuid', (req, res, next) => {
 });
 
 router.post('/', function (req, res, next) {
-    /*
-    uid , 
-    nodemailer 
-    localhost9000/invite/uid
-    */
-
-    // When moving to production, need a authentication cookie passed in as well
-    // Or else people can exploit this route.
     try {
         // TODO: Sanitize email?
-
         let email = req.body.email;
         let company = req.user.company;
         crypto.randomBytes(16, (err, hash) => {
@@ -78,7 +66,7 @@ router.post('/', function (req, res, next) {
   
 });
 
-
+/*
 try {
     // TODO: Sanitize email?
     let company = "UXD14";
@@ -97,11 +85,7 @@ try {
     console.log(error)
     return;
 }
-
-
-
-
-
+*/
 
 router.post('/validateID', (req, res) => {
     console.log("i was hit?")
@@ -117,6 +101,7 @@ router.post('/validateID', (req, res) => {
         res.jsonp({success:false});
     }) 
 })
+
 
 
 module.exports = router;

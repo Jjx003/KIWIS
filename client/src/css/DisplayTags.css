@@ -1,0 +1,17 @@
+.tagButtonDT {
+    width: fit-content;
+    background-color: #CF88AA;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 40px;
+    border-radius: 20px;
+    border-width: thin;
+    border-style: ridge;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.tagButtonDT:hover{
+    background-color: rgb(185, 121, 152);
+}
