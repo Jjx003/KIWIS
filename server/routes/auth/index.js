@@ -93,15 +93,12 @@ router.get('/checkIfSignedIn', authenticated, function(req, res, next) {
 
 // reset password function
 router.post('/resetPassword', 
-	[
-		check('newPassword').isLength({min: 1}).trim().escape()
-	],
 
 	authenticated,
 
 	function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
-
+			console.log(req.body.newPassword);
 			auth.updateUserPassword(decodedToken, req.body.newPassword).then(function() {
 				// Update successful.
 				res.jsonp({success: true});

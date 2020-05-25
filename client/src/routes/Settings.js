@@ -36,18 +36,23 @@ class Settings extends React.Component {
     handleResetPassword = (event) =>{
             event.preventDefault();
             // should tag_ids be in line below
-            const {password} = event.target.elements;
-            this.setState({newPassword: password.value});
+            const {password, confirmPassword} = event.target.elements;
+
+            if(password.value != confirmPassword.value) {
+                alert('Please Make Sure the Passwords Match');
+                return;
+            }
+
             if(window.confirm("Confirm Reset Password?"))
             {
                 axios({
                     method: 'post',
                     url: 'http://localhost:9000/auth/resetPassword',
                     data: { 
-                        newPassword:  this.state.newPassword 
+                        newPassword:  password.value
                     }
                 }).then(() => {
-                    alert("Password Changed to: " + this.state.newPassword);
+                    alert("Password Changed");
                 });
             }
     }
@@ -61,12 +66,15 @@ class Settings extends React.Component {
                     <div className = "setting">            
                         <div className = "settingsWrap">
                             <Segment basic textAlign='center'>
-                                <div className = "settings-item">                         
-                                    <input className="textBox" name="email" type="email" placeholder= {"   " + this.state.user_email}/>
+                                <div className = "settings-item" style={{paddingLeft:"10px"}}>                
+                                    Email:     <b>{this.state.user_email}</b>
                                 </div>
                                 <form onSubmit={this.handleResetPassword.bind(this)}> 
                                     <div className = "settings-item">                         
-                                        <input className="textBox" name="password" type="password" placeholder="  randomPassword"/>
+                                        <input className="textBox" name="password" type="password" placeholder="  New Password"/>
+                                    </div>
+                                    <div className = "settings-item">                         
+                                        <input className="textBox" name="confirmPassword" type="password" placeholder="  Confirm Password"/>
                                     </div>
                                     <div className = "settings-item">
                                         <button className= "buttonz"> Submit </button>
@@ -116,20 +124,25 @@ class Settings extends React.Component {
                 <div className = "setting">            
                     <div className = "settingsWrap">
                         <Segment basic textAlign='center'>
-                            <div className = "settings-item">                         
-                                <input className="textBox" name="email" type="email" placeholder= {"   " + this.state.user_email}/>
+                            <div className = "settings-item" style={{paddingLeft:"10px"}}>                
+                                    Email:     <b>{this.state.user_email}</b>
                             </div>
-                            <div className = "settings-item">                         
-                                <input className="textBox" name="password" type="password" placeholder="  randomPassword"/>
-                            </div>
+                            <form onSubmit={this.handleResetPassword.bind(this)}> 
+                                <div className = "settings-item">                         
+                                    <input className="textBox" name="password" type="password" placeholder="  New Password"/>
+                                </div>
+                                <div className = "settings-item">                         
+                                    <input className="textBox" name="confirmPassword" type="password" placeholder="  Confirm Password"/>
+                                </div>
+                                <div className = "settings-item">
+                                    <button className= "buttonz"> Submit </button>
+                                </div>
+                            </form>
                             <div className = "settings-item"> 
                                 <Checkbox toggle label={{ children: 'Email Notification' }}/>
                             </div>
                             <div className = "settings-item"> 
                                 <Checkbox toggle label={{ children: 'Browser Notification' }}/>
-                            </div>
-                            <div className = "settings-item">
-                                <button className= "buttonz"> Submit </button>
                             </div>
                             
                             <div className="instructions"> Click here to change specialization. This affects your default tags.  </div>
