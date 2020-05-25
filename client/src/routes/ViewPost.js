@@ -2,7 +2,6 @@ import React from 'react';
 import '../css/Home.css';
 import '../css/App.css';
 import OriginalPoster from "../components/OriginalPoster";
-import { withRouter } from 'react-router-dom';
 import Response from "../components/Response";
 import Failure from '../components/Failure'
 import axios from 'axios'
@@ -24,7 +23,6 @@ class ViewPost extends React.Component {
             datetime: "",
             content: "",
             karma: 0,
-            name: "",
             responses: [],
             failed: false,
         }
@@ -71,14 +69,14 @@ class ViewPost extends React.Component {
     }
 
     render() {
-        const { createdPost, postID, title, tags, datetime, content, karma, name, responses, loaded, failed } = this.state;
+        const { createdPost, postID, userID, title, tags, datetime, content, karma, responses, loaded, failed, users } = this.state;
 
         if (this.state.loaded) {
             // Stole method from HomePosts.js
             const getName = (userid) => {
                 let name = "User Not Found";
-                if (this.state.users !== undefined && this.state.users[userid] !== undefined) {
-                    name = this.state.users[userid].firstName + " " + this.state.users[userid].lastName;
+                if (users !== undefined && users[userid] !== undefined) {
+                    name = users[userid].firstName + " " + users[userid].lastName;
 
                 }
                 return name;
@@ -96,9 +94,9 @@ class ViewPost extends React.Component {
                     <div>
                         <TitleBar title="Post" />
                         <div className="posts-container">
-                            <OriginalPoster firstPoster={createdPost} postID={this.state.postID} userID={this.state.userID} title={this.state.title}
-                                tags={this.state.tags} datetime={this.state.datetime} karma={this.state.karma}
-                                content={this.state.content} name={getName(this.state.userID)} />
+                            <OriginalPoster firstPoster={createdPost} postID={postID} userID={userID} title={title}
+                                tags={tags} datetime={datetime} karma={karma}
+                                content={content} name={getName(this.state.userID)} />
                             {mapped}
                             <button className={"makeReply"}>Reply</button>
                         </div>
