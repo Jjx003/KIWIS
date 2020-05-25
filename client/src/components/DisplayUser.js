@@ -14,14 +14,28 @@ class DisplayUser extends React.Component{
             first_name: props.first_name,
             last_name: props.last_name,
             email: props.email,
-            admin: props.admin
+            admin: props.admin,
+            checkemail: '',
         };
+
+        axios({
+            method: 'get',
+            url: 'http://localhost:9000/users/getUserEmail',
+          }).then((response) => {
+            this.setState({checkemail: response.data.userEmail});
+            console.log(response.data);
+        });
     }
+
 
     render(){
         var pending = (this.state.user_id == null) ? true : false;
         
         const handleAdmin = () => {
+            if(this.state.checkemail == this.state.email) {
+                alert('Can\'t Un-admin Yourself');
+                return;
+            }
             axios({
                 method: 'post',
                 url: 'http://localhost:9000/users/toggleAdmin',
@@ -34,6 +48,10 @@ class DisplayUser extends React.Component{
         }
 
         const handleRemove = () => {
+            if(this.state.checkemail == this.state.email) {
+                alert('Can\'t Delete Yourself');
+                return;
+            }
             if(window.confirm("Removing" + " " + this.state.first_name + " " + this.state.last_name))
             {
                 axios({

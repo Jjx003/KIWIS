@@ -17,9 +17,12 @@ class MetadataTagTab extends React.Component{
             method: 'get',
             url: 'http://localhost:9000/metadata/getTagMetadata'
           }).then((response) => {
-
-            this.setState({tagList: response.data,
-            loading: false});
+            console.log(response)
+            if(response.data.success) {
+                this.setState({tagList:response.data, loading:false});
+            } else {
+                this.setState({tagList:{'No Metadata Recorded': 'Requires Posts to Record Data'}, loading:false});
+            }
         });
     }
 
