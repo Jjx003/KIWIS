@@ -22,7 +22,7 @@ class HomePosts extends React.Component {
             users: {},
             textSearch: false,
             updated: false,
-            company: "test"
+            company: ""
         };
         
         this.updateTagSearch = this.updateTagSearch.bind(this);
@@ -62,8 +62,6 @@ class HomePosts extends React.Component {
             .then((response) => { 
                 if (response.data.success) { 
                     this.setState({posts: response.data.posts});
-                } else {
-                    console.log("bad");
                 }
             })
             .catch((error) => {

@@ -41,7 +41,6 @@ const isAdmin = (req, res, next) => {
 	
 	} catch (error) {
 		console.log(error);
-		console.log("Inside isAdmin.");
 		res.jsonp({success: false});
 	}
 };
@@ -49,17 +48,12 @@ const isAdmin = (req, res, next) => {
 authRouter.post('/AdminSignUp', function (req, res) {
 	dbIndex.createNewUser("N/A", req.body.company, req.body.first_name, req.body.last_name, 
 					req.body.email, req.body.password, true).then((result) => {
-		
 		if(result == true) {
-			console.log("sign up successful.");
 			res.jsonp({success: true});
 		} else {
-			console.log("sign up UNsuccessful.");
 			res.jsonp({success: false});
 		}
     }).catch((error) => {
-		console.log("error when signing up");
-		console.log(error);
         res.jsonp({success: false});
     });
 });
@@ -92,7 +86,6 @@ authRouter.post('/EmployeeSignUp', function (req, res) {
 		}
 
     }).catch((error) => {
-		console.log("error when registering user");
 		console.log(error);
 		res.jsonp({success: false});
 	});

@@ -51,7 +51,6 @@ router.post('/removeAllUserTags',
             var user_id = decodedToken;
             db.getCompanyName(decodedToken).then(function(snapshot) {
                 var company_name = snapshot;
-                console.log("\n\n\n " + company_name)
                 var removed = db.removeAllUserTags(company_name, user_id);
                 res.jsonp({success: removed});
             }).catch( function(error) {
@@ -60,7 +59,6 @@ router.post('/removeAllUserTags',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
@@ -190,7 +188,6 @@ router.post('/remove',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
 
     }
@@ -298,7 +295,6 @@ router.get('/getUserEmail',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
@@ -319,7 +315,6 @@ router.get('/isUserAdmin',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
