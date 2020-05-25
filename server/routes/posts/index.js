@@ -2,7 +2,8 @@ var express = require("express");
 var auth = require('../../auth/index')
 var router = express.Router();
 var {db} = require('../../firebase')
-var {getCompanyPosts, getCompanyTags} = require('../../db/index')
+var {getCompanyPosts, getCompanyTags, pullResponse, getCurrentUserID,
+        getCompanyName} = require('../../db/index')
 
 
 router.get('/:id', function (req, res, next) {
@@ -13,15 +14,32 @@ router.get('/:id', function (req, res, next) {
         res.jsonp({success: false});
     })  
 },
-function (req, res, next) {
-    const company = 'UXD14';        //call get company, this should not be hard coded
-    db.database().ref(company+'/Posts/'+req.params.id).once('value').then(function(snapshot) {
-        var posts = snapshot.val();
-        res.jsonp(posts);
-    })
-
-}
-);
+function (req, res) {
+    getCurrentUserID(req.cookies.auth).then((user_id) => {
+        getCompanyName(user_id).then(function(company) {
+            var posts;
+            db.database().ref(company+'/Posts/'+req.params.id).once('value').then(function(snapshot) {
+                posts = snapshot.val();
+               
+           }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })
+            pullResponse(company, req.params.id).then( (responseData) =>{
+                res.jsonp({posts: posts, responses: responseData})
+            }).catch(function(error){
+                console.log(error);
+                res.jsonp({success: false});
+            })
+        }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })
+    })        
+    
+    
+    
+});
 
 //check auth with this get request
 router.get('/',

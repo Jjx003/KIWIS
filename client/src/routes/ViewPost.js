@@ -55,6 +55,7 @@ class ViewPost extends React.Component {
                     <h1> {this.state.content || "cotent null"} </h1>
                     <h1> {this.state.karma || "Karma null"} </h1>
                     <h1> {this.state.responses || "response null"} </h1>
+                    
                 </div>
             )
         } else if (!this.state.loaded && !this.state.failed) {

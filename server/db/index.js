@@ -72,25 +72,26 @@ function removeTagFromAllUsers(forumName, tagName) {
 
         // Goes to every user
         data.forEach(function (child) {
-            console.log(child.key)
-            removeSpecialization(forumName, child.key, tagName);
+            child.forEach(function (grandchild) {
+
+                // goes to the tags object in the user
+                if(grandchild.key === 'tags') {
+                    console.log(grandchild.key + " : " + grandchild.val());
+
+                    // Checks every tag and removes the one that doesn't matter
+                    grandchild.forEach(function (tagNameChild) {
+
+                        //Checks which tag to remove
+                        if(tagNameChild.val() === tagName) {
+                            forumDBRef.child('Users/' + child.key).child('tags/' + tagNameChild.key).remove()
+                        }
+                    });
+                }
+            });
         });
     });
 }	
 
-function addSpecialization(forumName, userID, tagName) {
-    var tagtoadd = {};
-    tagtoadd[tagName] = tagName;
-    db.database().ref(forumName).child('Users/').child(userID).child('tags').update(tagtoadd);
-}
-
-function removeSpecialization(forumName, userID, tagName) {
-    db.database().ref(forumName).child('Users/').child(userID).child('tags').child(tagName).remove();
-}
-
-function isUserAdmin(forumName, userID) {
-    return db.database().ref(forumName).child('Users').child(userID).child('admin').once('value');
-}
 
 // "GET" method for a user's id
 function getCurrentUserID(token) {
@@ -116,7 +117,6 @@ function getUsers(forumName) {
 // Removes a user from the database
 function removeUser(forumName, userID) {
     db.database().ref(forumName).child('Users').child(userID).remove();
-    admin.auth().deleteUser(userID);
 }
 
     
@@ -143,62 +143,55 @@ function getCompanyTags(company){
     });
 }
 
+// Removes the tags from the users of a company
+function removeTagFromAllUsers(forumName, tagName) {
+    const forumDBRef = db.database().ref(forumName);
+    forumDBRef.child('Users').once('value').then((data) => {
+
+        // Goes to every user
+        data.forEach(function (child) {
+            child.forEach(function (grandchild) {
+
+                // goes to the tags object in the user
+                if(grandchild.key === 'tags') {
+                    console.log(grandchild.key + " : " + grandchild.val());
+
+                    // Checks every tag and removes the one that doesn't matter
+                    grandchild.forEach(function (tagNameChild) {
+
+                        //Checks which tag to remove
+                        if(tagNameChild.val() === tagName) {
+                            forumDBRef.child('Users/' + child.key).child('tags/' + tagNameChild.key).remove()
+                        }
+                    });
+                }
+            });
+        });
+    });
+}	
 
 // "POST" method for a new user 
-function createNewUser(registration_ID, forumName, firstName, lastName, email, password, isAdmin) {
-    //firebase.db.database().update(forumName);
-    //firebase.db.database().ref(forumName).update("Users");
+function createNewUser(forumName, firstName, lastName, email, password) {
+    const forumDBRef = db.database().ref(forumName);
+    auth.signUp(email, password).then((data) => {
+        var userID = data.user.uid
+        var user = {};
 
-    return new Promise(function(resolve, reject){
+        // Creates a new user object with the userID as a key
+        user[userID] =  {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            admin: false,
+            tags: ['announcements', 'help-needed'],
+            following_IDs: []
+        };
+        forumDBRef.child("Users").update(user);
 
-        try {
-
-            // Check if user is admin and if the company already exists
-            if(isAdmin == true) {
-                db.database().ref(forumName).once("value", snapshot => {
-                    if(snapshot.exists()) {
-                        console.log("This company already exists");
-                        resolve(false);
-                        return;
-                    }
-                })
-            }
-
-            const forumDBRef = db.database().ref(forumName);
-            auth.signUp(email, password, isAdmin).then((data) => {
-                var userID = data.uid;
-                var user = {};
-
-                // Creates a new user object with the userID as a key
-                user[userID] =  {
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    admin: isAdmin,
-                    tags: {'announcements':'announcements', 'help-needed':'help-needed'},
-                    following_IDs: []
-                };
-                forumDBRef.child("Users").update(user);
-
-                var mapUserToCompany = {};
-                mapUserToCompany[userID] = forumName;
-                db.database().ref("UserCompaniesID").update(mapUserToCompany);
-
-                if(isAdmin == false) {
-
-                    db.database().ref("Registrations").child(registration_ID).remove();
-
-                }
-
-                resolve(true);
-            });
-            
-        } catch(error) {
-            console.log(error);
-            reject(new Error(error));
-        }
-    })
-
+        var mapUserToCompany = {};
+        mapUserToCompany[userID] = forumName;
+        db.database().ref("UserCompaniesID").update(mapUserToCompany);
+    });
 }
 
 // "GET" method for a user's id
@@ -222,6 +215,11 @@ function getUsers(forumName) {
     return db.database().ref(forumName).child('Users').once('value');
 }
 
+// Removes a user from the database
+function removeUser(forumName, userID) {
+    db.database().ref(forumName).child('Users').child(userID).remove();
+}
+
 function getCompanyName(user_id) {
     return new Promise(function (resolve, reject) {
         db.database().ref('/UserCompaniesID/' + user_id).once('value').then((snapshot) => {
@@ -232,52 +230,26 @@ function getCompanyName(user_id) {
     });
 }
 
-function checkRegistration(id) {
-    return new Promise (function (resolve, reject) {
-        db.database().ref('/Registrations/' + id).once('value').then((result) => {
-            resolve(result.val());
-        }).catch((error) => {
-            reject(new Error(error));
-        });
-    });
+// Edits a post's content.
+function editPost(company, post_id, content){
+    var postRef = db.database().ref(company + '/Posts/' + post_id);
+    var postUpdate = {};
+        postUpdate["content"] = content;
+        postRef.update(postUpdate);
+    
 }
 
-function getUserEmail(forumName, userID) {
-    return db.database().ref(forumName).child('Users').child(userID).child('email').once('value');
-}
-
-function removeAllUserTags(forumName, user_id) {
-    const userTags = db.database().ref(forumName).child('Users/').child(user_id).child('tags');
-    userTags.once('value').then((data) => { 
-         data.forEach(function (child) {
-            userTags.child(child.key).remove();
-         });
-    });
-}
-
-function getUserTags(forumName, userID) {
-    return db.database().ref(forumName).child('Users').child(userID).child('tags').once('value');
-}
-
-function toggleAdmin(forumName, userID){
-    db.database().ref(forumName).child('Users/' + userID).child("admin").once('value').then( (data) => {
-        if(data.val()){
-            db.database().ref(forumName).child('Users/' + userID).update({admin: false});
-            admin.auth().updateUser(userID, {emailVerified: false});
-        }
-        else{
-            db.database().ref(forumName).child('Users/' + userID).update({admin: true});
-            admin.auth().updateUser(userID, {emailVerified: true});
-        }
-    });
+// Edit a response's content
+function editResponse(company, response_id, content){
+    var resRef = db.database().ref(company + '/Responses/' + response_id);
+    var responseUpdate = {};
+    responseUpdate["content"] = content;
+    resRef.update(responseUpdate);
+    
 }
 
 module.exports = { 
-    getCompanyName, createNewUser, getUser, getUsers, 
-	removeUser, createNewTag, getTags, 
+	createNewUser, getUser, getUsers, 
+	removeUser, pushResponse, pullResponse, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID,
-    getUserTags, removeSpecialization,
-    addSpecialization, removeAllUserTags, toggleAdmin,
-    getCompanyPosts, getCompanyTags, getUserEmail,
-    isUserAdmin, pullResponse, pushResponse, checkRegistration
-};
+    getCompanyPosts, getCompanyTags, getCompanyName, editPost, editResponse};

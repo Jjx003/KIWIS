@@ -66,5 +66,32 @@ function (req, res) {
     })
 });
 
+router.post('/editResponse',
+
+function (req, res, next) {
+    auth.checkToken(req.cookies.auth).then(() =>{
+        next()
+    }).catch( function(error) {
+        console.log("error occured when checking token, request denied");
+        res.jsonp({success: false});
+    })  
+},
+
+function (req, res) {
+    db.getCurrentUserID(req.cookies.auth).then((user_id) => {
+    db.getCompanyName(user_id).then(function(company) {
+        db.pullResponse(company, req.body.post_id).then(
+            res.jsonp({success : true})
+        );
+        }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })
+    }).catch(function(error){
+        console.log(error);
+        res.jsonp({success: false});
+    })
+});
+
 
 module.exports = router;
