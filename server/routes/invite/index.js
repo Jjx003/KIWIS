@@ -87,9 +87,8 @@ try {
 */
 
 router.post('/validateID', (req, res) => {
-    db.checkRegistration(req.body.uuid).then((snapshot) => {
-        let value = snapshot.val();
-        if (value != null || value != undefined) {
+    db.checkRegistration(req.body.uuid).then((id) => {
+        if (id != null || id != undefined) {
             res.jsonp({success:true});
         } else {
             res.jsonp({success:false});
