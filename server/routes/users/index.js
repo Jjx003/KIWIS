@@ -229,19 +229,8 @@ router.get('/',
 // GET method to get all users from the database
 router.get('/all', 
 
-    [
-        check('forumName').isLength({min: 1}).trim().escape()
-    ],
+    authenticated,
 
-    // Checks for errors when checking http parameters and checks if logged in
-    function (req, res, next) {
-        const errors = validationResult(req);
-        if(!errors.isEmpty()) {
-            return res.status(422).json({errors: errors.array() });
-        }
-
-        next();
-    },
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
             var user_id = decodedToken;
@@ -260,6 +249,7 @@ router.get('/all',
         });
     }
 );
+
 
 router.post('/toggleAdmin', 
     [
