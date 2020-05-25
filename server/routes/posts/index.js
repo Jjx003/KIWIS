@@ -24,7 +24,16 @@ function (req, res) {
             res.jsonp({success: false});
         })
             pullResponse(company, req.params.id).then( (responseData) =>{
-                res.jsonp({posts: posts, responses: responseData})
+
+                db.userMadePost(company, user_id, req.params.id).then(function(result) {
+                
+                    res.jsonp({posts: posts, responses: responseData, createdPost: result})
+                    
+                }).catch( function(error) {
+                    console.log(error);
+                    res.jsonp({success: false});
+                })
+
             }).catch(function(error){
                 console.log(error);
                 res.jsonp({success: false});
@@ -33,6 +42,8 @@ function (req, res) {
             console.log(error);
             res.jsonp({success: false});
         })
+
+
     })        
     
     
