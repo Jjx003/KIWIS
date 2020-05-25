@@ -11,6 +11,50 @@ import firebase from '../auth/firebase';
 import Cookies from 'universal-cookie';
 import {withRouter} from 'react-router-dom';
 
+const tags = [
+    {
+      key: 'Machine Learning',
+      text: 'Machine Learning',
+      value: 'Machine Learning'
+    },
+    {
+        key: 'Python',
+        text: 'Python',
+        value: 'Python'
+    },
+    {
+        key: 'help-needed',
+        text: 'help-needed',
+        value: 'help-needed'
+      },
+      {
+          key: 'announcement',
+          text: 'announcement',
+          value: 'announcement'
+      },
+      {
+        key: 'events',
+        text: 'events',
+        value: 'events'
+      },
+      {
+          key: 'lost and found',
+          text: 'lost and found',
+          value: 'lost and found'
+      },
+      {
+        key: 'C++',
+        text: 'C++',
+        value: 'C++'
+      },
+      {
+          key: 'React',
+          text: 'React',
+          value: 'React'
+      }
+]
+
+
 class Navbar extends React.Component {
 
     constructor(props) {
@@ -18,8 +62,10 @@ class Navbar extends React.Component {
         this.state = {
             tags: [],
             forum_tags:[],
+            default_tags:[],
             value: '',
-            searching: false
+            searching: false,
+            got_specializations: false
         }
 
     }
@@ -36,14 +82,6 @@ class Navbar extends React.Component {
     }
 
     componentDidMount(){
-        /*
-        const companyTags = company.concat('/Tags');
-        db.database().ref(companyTags).once('value', tagSnapshot => {
-            tagSnapshot.forEach(tag => {
-                var x = tag.key;
-                this.setState({forum_tags:[...this.state.forum_tags, { key: x, text: x, value: x }]});
-            });
-        }); */
 
         axios({
 			method: 'get',
@@ -56,6 +94,29 @@ class Navbar extends React.Component {
                     console.log(x);
                     this.setState({forum_tags:[...this.state.forum_tags, { key: x, text: x, value: x }]});
                 }
+
+                var tags_string = window.localStorage.getItem('tags');
+                
+                console.log("string: " + tags_string);
+
+                var tags_array = JSON.parse(tags_string);
+                console.log("array: " + tags_array);
+
+                for (var key in tags_array) {
+                    if (tags_array.hasOwnProperty(key)) {
+                        //this.setState({default_tags:[...this.state.default_tags, { key: tags_array[key], text: tags_array[key], value: tags_array[key] }]});
+                        //this.setState({tags : [...this.state.tags, { key: tags_array[key], text: tags_array[key], value: tags_array[key] }]});
+                        this.setState({tags : [ 
+                            //{ key: tags_array[key], text: tags_array[key], value: tags_array[key] }
+                            {key: "Machine Learning"}
+                        ]});
+                        //console.log(key + " -> " + p[key]);
+                    }
+                }
+                this.setState({got_specializations : true});
+
+                //this.props.updateForumDisp(this.state.tags); 
+
 			} else {
 				console.log("bad");
 			}
@@ -87,6 +148,9 @@ class Navbar extends React.Component {
     });
 
     render() {
+        if(!this.state.got_specializations) {
+            return <h1>loading</h1>
+        }
         return (
             <div>
                 <Menu secondary size='massive' color='olive' inverted className="navbar">
@@ -110,6 +174,8 @@ class Navbar extends React.Component {
                                 </Grid.Column>
                                 <Grid.Column>
                                     <Dropdown fluid multiple selection placeholder='Tags'
+                                        loading = {(!this.state.got_specializations) ? true : false}
+                                        defaultValue = {this.state.tags}
                                         onChange={this.handleChange}
                                         options={[...this.state.forum_tags]} />
                                 </Grid.Column>

@@ -42,7 +42,7 @@ router.get('/userTags',
             db.getCompanyName(decodedToken).then(function(snapshot) {
                 var company_name = snapshot;
                 db.getUserTags(company_name, user_id).then((data) => {
-                    res.send(data.val());
+                    res.send({tags : data.val(), success: true});
                 });
             }).catch( function(error) {
                 console.log(error);
