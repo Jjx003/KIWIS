@@ -14,6 +14,7 @@ const Login = ({history}) => {
 		event.preventDefault();
 		const {email, password} = event.target.elements;
 
+
 		// sign in user
 		db.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
 

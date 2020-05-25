@@ -11,11 +11,14 @@ class ViewPost extends React.Component {
         this.state = {
             loaded: false,
             postid: props.id,
+            userid: "",
             title: "",
             tags: [],
             datetime: "",
             content: "",
             karma: 0,
+            firstName: "",
+            lastName: "",
             responses: [],
             failed: false,
         }
@@ -27,24 +30,42 @@ class ViewPost extends React.Component {
 			url: 'http://localhost:9000/posts/' + this.props.id.toString(),
 		  }).then((results) => {
             this.setState({
-                title: results.title,
-                tags: results.data.tag_ids,
-                datetime: results.data.date_time,
-                karma: results.data.karma,
-                responses: results.data.responses,
-                content: results.data.content,
+                title: results.data.posts.title,
+                tags: results.data.posts.tag_ids,
+                datetime: results.data.posts.date_time,
+                karma: results.data.posts.karma,
+                responses: results.data.posts.responses,
+                content: results.data.posts.content,
+                userid: results.data.posts.user_id,
                 loaded: true,
                 failed: false,
             })
           }).catch((error) => {
             console.log(error);
             this.setState({failed:true})
+          }).then(() => {
+            axios({
+                method: 'post',
+                data: {
+                    userid: this.state.userid
+                },
+                url: 'http://localhost:9000/users/singleUser',
+              })
+              .then((response) => { 
+                if(response.status === 200){
+                    if(response.data !== undefined){
+                        this.setState({firstName: response.data.firstName});
+                        this.setState({lastName: response.data.lastName});
+                    }  
+                }
+              })
+              .catch((error) => {
+                console.log(error);
+            })
           })
     }
     
     render() {
-        console.log(this.props.id)
-        console.log("OGOAOOAO")
         if (this.state.loaded) {
             return (
                 <div>
@@ -53,8 +74,11 @@ class ViewPost extends React.Component {
                     <h1> {this.state.tags || "tags null"} </h1>
                     <h1> {this.state.datetime || "time null"} </h1>
                     <h1> {this.state.content || "cotent null"} </h1>
-                    <h1> {this.state.karma || "Karma null"} </h1>
+                    <h1> {this.state.karma} </h1>
                     <h1> {this.state.responses || "response null"} </h1>
+                    <h1> {this.state.userid || "user null"} </h1>
+                    <h1> {this.state.firstName || "first null"} </h1>
+                    <h1> {this.state.lastName || "last null"} </h1>
                 </div>
             )
         } else if (!this.state.loaded && !this.state.failed) {
@@ -62,36 +86,7 @@ class ViewPost extends React.Component {
         } else {
             return <Failure/>
         }
-
-        //if (this.props.location.state === undefined) {
-        //    return <h1> 404: No Post Selected </h1>;
-        //}
-        //const {postID, firstName, lastName, title, tags, datetime, content, karma, responses} = this.props.location.state;
-        /*
-        return (
-            <div className='App'>
-            <h1> {postID || "post id null"} </h1>
-            <h1> {firstName || "first name null"} </h1> 
-            <h1> {lastName || "last name null"} </h1>
-            <h1> {title || "title null"} </h1>
-            <h1> {tags || "tags null"} </h1>
-            <h1> {datetime || "time null"} </h1>
-            <h1> {content || "cotent null"} </h1>
-            <h1> {karma || "Karma null"} </h1>
-            <h1> {responses || "response null"} </h1>
-          </div>
-          */
-          /*
-            "userID": "dumbo jumbo",
-            "title": "What's 2+2?",
-            "tags": ["math", "dumbass"],
-            "Datetime": "May 6, 2020",
-            "Content": "I've been up for days trying to solve this pls help :(",
-            "Karma" : "1000000"
-            
-        ); */
     }
 }
 
-//export default withRouter(ViewPost);
 export default ViewPost;
