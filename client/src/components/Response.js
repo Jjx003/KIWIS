@@ -9,10 +9,7 @@ class Response extends React.Component {
         super(props);
         this.state = {
             firstPoster: this.props.firstPoster,
-            postID: this.props.postID,
             name: this.props.name,
-            title: this.props.title,
-            tags: this.props.tags,
             datetime: this.props.datetime,
             karma: this.props.karma,
             content: this.props.content
