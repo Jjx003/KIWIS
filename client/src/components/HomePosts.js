@@ -22,7 +22,7 @@ class HomePosts extends React.Component {
             users: {},
             textSearch: false,
             updated: false,
-            company: ""
+            company: "empty"
         };
         
         this.updateTagSearch = this.updateTagSearch.bind(this);

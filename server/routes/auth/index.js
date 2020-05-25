@@ -98,4 +98,3 @@ authRouter.get('/checkIfSignedIn', authenticated, function(req, res, next) {
 });
 
 module.exports = {authRouter, authenticated, isAdmin};
-

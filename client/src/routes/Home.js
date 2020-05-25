@@ -58,7 +58,6 @@ const Home = ({history}) => {
 	return(
 		<div className="app">
 			<HomePosts />
-			<Button onClick={handleSignOut}>Signout</Button>
 			<Button onClick={createPost}>Create Post</Button>
 		</div>
 	);
