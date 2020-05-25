@@ -14,7 +14,6 @@ const db = firebase_init.initializeApp({
     appId: process.env.ID,
     measurementId: process.env.MEASUREMENT_ID
 });
-
 // used for generating tokens
 var serviceAccount = require("./serviceKey.json");
 const admin = firebase_admin.initializeApp({
@@ -24,7 +23,8 @@ const admin = firebase_admin.initializeApp({
 
 
 // List of comapnies where key is company name (in database) and index in algolia
-const companies = {"UXD14": "UXD14"}
+const companies = {"UXD14": "UXD14", "bruh": "bruh"}
+
 const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_API_KEY);
 // Set an update function for all the companies
 function startAlgolia(){

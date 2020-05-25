@@ -16,11 +16,14 @@ class ViewPost extends React.Component {
         this.state = {
             loaded: false,
             postID: props.id,
+            userID: "",
             title: "",
             tags: [],
             datetime: "",
             content: "",
             karma: 0,
+            firstName: "",
+            lastName: "",
             responses: [],
             failed: false,
         }
@@ -33,18 +36,38 @@ class ViewPost extends React.Component {
         }).then((results) => {
             console.log(results.data);
             this.setState({
-                title: results.data.title,
-                tags: results.data.tag_ids,
-                datetime: results.data.date_time,
-                karma: results.data.karma,
-                responses: results.data.responses,
-                content: results.data.content,
+                title: results.data.posts.title,
+                tags: results.data.posts.tag_ids,
+                datetime: results.data.posts.date_time,
+                karma: results.data.posts.karma,
+                responses: results.data.posts.responses,
+                content: results.data.posts.content,
+                userID: results.data.posts.user_id,
                 loaded: true,
                 failed: false,
             })
         }).catch((error) => {
             console.log(error);
             this.setState({ failed: true })
+        }).then(() => {
+            axios({
+                method: 'post',
+                data: {
+                    userid: this.state.userID
+                },
+                url: 'http://localhost:9000/users/singleUser',
+            })
+                .then((response) => {
+                    if (response.status === 200) {
+                        if (response.data !== undefined) {
+                            this.setState({ firstName: response.data.firstName });
+                            this.setState({ lastName: response.data.lastName });
+                        }
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         })
     }
 
@@ -57,18 +80,6 @@ class ViewPost extends React.Component {
                 <div className={"container"}>
                     <div>
                         <TitleBar title="Post" />
-                        {/*<div className={"posts-container"}>*/}
-                        {/*    <div>*/}
-                        {/*    <h1> {postID || "null"} </h1>*/}
-                        {/*    <h1> {firstName || "null"} </h1>*/}
-                        {/*    <h1> {lastName || "null"} </h1>*/}
-                        {/*    <h1> {title || "null"} </h1>*/}
-                        {/*    <h1> {tags || "null"} </h1>*/}
-                        {/*    <h1> {datetime || "null"} </h1>*/}
-                        {/*    <h1> {content || "null"} </h1>*/}
-                        {/*    <h1> {karma || "null"} </h1>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
                         <div className="posts-container">
                             <OriginalPoster firstPoster={false} postID={this.state.postID} userID={this.state.userID} title={this.state.title}
                                 tags={this.state.tags} datetime={this.state.datetime} karma={this.state.karma}
@@ -86,15 +97,7 @@ class ViewPost extends React.Component {
         } else {
             return <Failure />
         }
-        /*
-          "userID": "dumbo jumbo",
-          "title": "What's 2+2?",
-          "tags": ["math", "dumbass"],
-          "Datetime": "May 6, 2020",
-          "Content": "I've been up for days trying to solve this pls help :(",
-          "Karma" : "1000000"
-          */
     }
 }
 
-export default withRouter(ViewPost);
+export default ViewPost;

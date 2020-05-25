@@ -52,7 +52,7 @@ class Navbar extends React.Component {
             .then((response) => {
                 if (response.data.success) {
                     for (var key in response.data.tags) {
-                        var x = key;
+                        var x = response.data.tags[key].key;
                         this.setState({ forum_tags: [...this.state.forum_tags, { key: x, text: x, value: x }] });
                     }
                 } else {
