@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import Response from "../components/Response";
 import Failure from '../components/Failure'
 import axios from 'axios'
+import TitleBar from "../components/TitleBar";
 
 class ViewPost extends React.Component {
 
@@ -55,6 +56,7 @@ class ViewPost extends React.Component {
             return (
                 <div className={"container"}>
                     <div>
+                        <TitleBar title="Post" />
                         {/*<div className={"posts-container"}>*/}
                         {/*    <div>*/}
                         {/*    <h1> {postID || "null"} </h1>*/}
