@@ -28,8 +28,8 @@ function sendEmail(email, subject, content) {
 router.get('/accept_invite/:uuid', (req, res, next) => {
     let uuid = req.params.uuid;
   // checking if uuid is present in registration table
-  db.checkRegistration(req.params.uuid).then((snapshot) => {
-      if (snapshot.val() != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
+  db.checkRegistration(req.params.uuid).then((id) => {
+      if (id != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
   }).catch((error) => {
       console.log(error);
       res.jsonp({success:false});
@@ -87,9 +87,8 @@ try {
 */
 
 router.post('/validateID', (req, res) => {
-    db.checkRegistration(req.body.uuid).then((snapshot) => {
-        let value = snapshot.val();
-        if (value != null || value != undefined) {
+    db.checkRegistration(req.body.uuid).then((id) => {
+        if (id != null || id != undefined) {
             res.jsonp({success:true});
         } else {
             res.jsonp({success:false});
