@@ -297,7 +297,53 @@ function userMadePost(companyName, user_id, post_id) {
     })
 }
 
-module.exports = { endorseResponse, undoUpvote, updateKarma, getCompanyName,
+function deletePostData(companyName, post_id) {
+
+    const firebaseRef = firebase.db.database().ref(companyName);
+
+    firebaseRef.once('value', function(snapshot){
+
+        // Assuming there's at least 1 response in the company's forum
+        var responses_array = Object.keys(snapshot.child("Responses").val());
+
+        for(i = 0; i < responses_array.length; i++) {
+            var curr_response_id = responses_array[i];
+
+            if((snapshot.child("Responses/"+curr_response_id+"/post_id").val()) == post_id) {
+
+                firebaseRef.child("Responses/"+curr_response_id).remove();
+
+            }
+
+        }
+
+        firebaseRef.child("Posts/"+post_id).remove();
+        return true;
+
+    }) .catch( function(error) {
+        console.log(error);
+        return false;
+    })
+}
+
+function deleteResponseData(companyName, response_id) {
+
+    const firebaseRef = firebase.db.database().ref(companyName+"/Responses");
+
+    try {
+        firebaseRef.child(response_id).remove();
+
+    } catch(error) {
+        console.log(error);
+        return false;
+    }
+
+    return true;
+        
+}
+
+module.exports = { deleteResponseData, deletePostData, endorseResponse, 
+    undoUpvote, updateKarma, getCompanyName,
 	userMadePost, createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID};
