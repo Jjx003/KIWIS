@@ -25,7 +25,7 @@ class OriginalPoster extends React.Component {
         return (
             <div className={"original-post"}>
                 <div className={"header"}>
-                    <h1 className={"title"}>{this.state.title}</h1>
+                    <h1 className={"title"} style={{color: "black"}}>{this.state.title}</h1>
                 </div>
                 <div className={"postInfo"}>
                     <div>
