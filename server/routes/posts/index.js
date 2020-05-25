@@ -4,14 +4,36 @@ var {db} = require('../../firebase')
 var {authenticated} = require('../auth/index');
 var dbIndex = require('../../db/index')
 
-router.get('/:id', (req, res, next) => {
-    db.database().ref(req.user.company + '/Posts/' + req.params.id).once('value').then((snapshot) => {
-        var posts = snapshot.val();
-        res.jsonp(posts);
-    }).catch((error) => {
-        console.log(error)
-    })
-});
+router.get('/:id', 
+    function (req, res) {
+        let user_id = req.user.id;
+        let company = req.user.company;
+        var posts;
+        db.database().ref(company + '/Posts/' + req.params.id).once('value').then((snapshot) => {
+            posts = snapshot.val();
+        }).catch((error) => {
+            console.log(error);
+            res.jsonp({ success: false });
+        })
+
+        dbIndex.pullResponse(company, req.params.id).then((responseData) => {
+
+            dbIndex.userMadePost(company, user_id, req.params.id).then((result) => {
+                console.log(posts);
+                res.jsonp({ posts: posts, responses: responseData, createdPost: result })
+
+            }).catch((error) => {
+                console.log(error);
+                res.jsonp({ success: false });
+            })
+
+        }).catch((error) =>{
+            console.log(error);
+            res.jsonp({ success: false });
+        })
+
+
+    });
 
 //check auth with this get request
 router.get('/', (req, res, next) => {

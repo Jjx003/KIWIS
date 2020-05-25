@@ -1,4 +1,3 @@
-var {firebase} = require('../firebase');
 var {db} = require('../firebase');
 var {admin} = require('../firebase');
 
@@ -243,6 +242,39 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
 
 }
 
+function userMadePost(companyName, user_id, post_id) {
+
+    return new Promise(function(resolve, reject){
+
+        const firebaseRef = db.database().ref(companyName);
+        
+        firebaseRef.once('value', function(snapshot){
+
+            // Assuming there's at least 1 post in the company's forum
+            var posts_array = Object.keys(snapshot.child("Posts").val());
+
+            for(i = 0; i < posts_array.length; i++) {
+                var curr_post_id = posts_array[i];
+
+                // Assuming the post_id is in the database
+                if(curr_post_id == post_id) {
+
+                    var creator_of_post = (snapshot.child("Posts/"+curr_post_id+"/user_id").val());
+
+                    if(user_id == creator_of_post) {
+                        resolve(true);
+                        return;
+                    } else {
+                        resolve(false);
+                        return;
+                    }
+                }
+            }
+
+        });
+    })
+}
+
 // Upvoting response would look really similar
 function upVotePost(forumName, post_id) {
 
@@ -330,7 +362,7 @@ function toggleAdmin(forumName, userID){
 }
 
 module.exports = { 
-    getCompanyName, createNewUser, getUser, getUsers, 
+    getCompanyName, userMadePost, createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID,
     getUserTags, removeSpecialization,

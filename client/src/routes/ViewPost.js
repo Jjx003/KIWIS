@@ -30,13 +30,13 @@ class ViewPost extends React.Component {
 			url: 'http://localhost:9000/posts/' + this.props.id.toString(),
 		  }).then((results) => {
             this.setState({
-                title: results.data.title,
-                tags: results.data.tag_ids,
-                datetime: results.data.date_time,
-                karma: results.data.karma,
-                responses: results.data.responses,
-                content: results.data.content,
-                userid: results.data.user_id,
+                title: results.data.posts.title,
+                tags: results.data.posts.tag_ids,
+                datetime: results.data.posts.date_time,
+                karma: results.data.posts.karma,
+                responses: results.data.posts.responses,
+                content: results.data.posts.content,
+                userid: results.data.posts.user_id,
                 loaded: true,
                 failed: false,
             })
