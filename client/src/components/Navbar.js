@@ -229,7 +229,7 @@ class Navbar extends React.Component {
                         options={[...this.state.forum_tags]} clearable />
                 </div>
                 <div className={"reset"}>
-                    <button className={"invisibleButton"} onClick={this.resetSpecializations.bind(this)}> reset </button>
+                    <button className={"invisibleButton"} onClick={this.resetSpecializations.bind(this)}>reset specializations</button>
                 </div>
                 <div className={"settings"}>
                     <button className={"invisibleButton"} onClick={() => { this.props.history.push("/settings") }}>
