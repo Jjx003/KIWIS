@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, Icon} from 'semantic-ui-react';
+import { Dropdown, Icon } from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
 import '../css/index.css'
 import {
@@ -14,9 +14,9 @@ import '../css/Navbar.css'
 
 const tags = [
     {
-      key: 'Machine Learning',
-      text: 'Machine Learning',
-      value: 'Machine Learning'
+        key: 'Machine Learning',
+        text: 'Machine Learning',
+        value: 'Machine Learning'
     },
     {
         key: 'Python',
@@ -27,32 +27,32 @@ const tags = [
         key: 'help-needed',
         text: 'help-needed',
         value: 'help-needed'
-      },
-      {
-          key: 'announcement',
-          text: 'announcement',
-          value: 'announcement'
-      },
-      {
+    },
+    {
+        key: 'announcement',
+        text: 'announcement',
+        value: 'announcement'
+    },
+    {
         key: 'events',
         text: 'events',
         value: 'events'
-      },
-      {
-          key: 'lost and found',
-          text: 'lost and found',
-          value: 'lost and found'
-      },
-      {
+    },
+    {
+        key: 'lost and found',
+        text: 'lost and found',
+        value: 'lost and found'
+    },
+    {
         key: 'C++',
         text: 'C++',
         value: 'C++'
-      },
-      {
-          key: 'React',
-          text: 'React',
-          value: 'React'
-      }
+    },
+    {
+        key: 'React',
+        text: 'React',
+        value: 'React'
+    }
 ]
 
 
@@ -62,8 +62,8 @@ class Navbar extends React.Component {
         super(props);
         this.state = {
             tags: [],
-            forum_tags:[],
-            default_tags:[],
+            forum_tags: [],
+            default_tags: [],
             value: '',
             searching: false,
             got_specializations: false
@@ -74,87 +74,87 @@ class Navbar extends React.Component {
     handleSignOut = () => {
         firebase.auth().signOut();
 
-		// removing cookie
-		const cookies = new Cookies();
+        // removing cookie
+        const cookies = new Cookies();
         cookies.remove('auth');
-        
+
         window.localStorage.removeItem('current_tags');
         window.localStorage.removeItem('original_tags');
 
         // redirect to home page
-		this.props.history.push("/login");
+        this.props.history.push("/login");
     }
 
-    componentDidMount(){
+    componentDidMount() {
         axios({
-			method: 'get',
-			url: 'http://localhost:9000/tags/getTags',
-		  })
-		  .then((response) => { 
-			if (response.data.success) { 
-                for(var key in response.data.tags){
-                    var x = key;
-                    this.setState({forum_tags:[...this.state.forum_tags, { key: x, text: x, value: x }]});
-                }
-                
-                if (localStorage.getItem('current_tags') == undefined) {
-                    axios.defaults.withCredentials = true;
-                    axios({
-			            method: 'GET',
-			            url: 'http://localhost:9000/users/userTags',
-                        withCredentials: true
-                    })
-
-                    .then((response) => {
-			            if (response.data.success) {
-                            var string_tags = JSON.stringify(response.data.tags);
-                            var tags_array = JSON.parse(string_tags);
-
-                            for (var key in tags_array) {
-                                if (tags_array.hasOwnProperty(key)) {
-                                   this.setState({default_tags : [...this.state.default_tags, tags_array[key]]});
-                                }
-                            }
-                            window.localStorage.setItem('current_tags', string_tags);
-                            window.localStorage.setItem('original_tags', string_tags);
-
-                            this.props.updateForumDisp(this.state.default_tags);
-                            this.setState({got_specializations : true});
-                            // Store the tags in local storage
-			            } else {
-				            alert("Couldn't get the tags of the user");
-			            }
-                    })
-		            .catch((error) => {
-
-                        console.log(error);
-                    
-                    });
-                
-			    } else {
-                    var string_tags = window.localStorage.getItem('current_tags');
-                    console.log(string_tags);
-                    var tags_array = JSON.parse(string_tags);
-
-                    for (var key in tags_array) {
-                        if (tags_array.hasOwnProperty(key)) {
-                            this.setState({default_tags : [...this.state.default_tags, tags_array[key]]});
-                        }
+            method: 'get',
+            url: 'http://localhost:9000/tags/getTags',
+        })
+            .then((response) => {
+                if (response.data.success) {
+                    for (var key in response.data.tags) {
+                        var x = key;
+                        this.setState({ forum_tags: [...this.state.forum_tags, { key: x, text: x, value: x }] });
                     }
 
-                    this.props.updateForumDisp(this.state.default_tags);
-                
-                    this.setState({got_specializations : true});
+                    if (localStorage.getItem('current_tags') == undefined) {
+                        axios.defaults.withCredentials = true;
+                        axios({
+                            method: 'GET',
+                            url: 'http://localhost:9000/users/userTags',
+                            withCredentials: true
+                        })
+
+                            .then((response) => {
+                                if (response.data.success) {
+                                    var string_tags = JSON.stringify(response.data.tags);
+                                    var tags_array = JSON.parse(string_tags);
+
+                                    for (var key in tags_array) {
+                                        if (tags_array.hasOwnProperty(key)) {
+                                            this.setState({ default_tags: [...this.state.default_tags, tags_array[key]] });
+                                        }
+                                    }
+                                    window.localStorage.setItem('current_tags', string_tags);
+                                    window.localStorage.setItem('original_tags', string_tags);
+
+                                    this.props.updateForumDisp(this.state.default_tags);
+                                    this.setState({ got_specializations: true });
+                                    // Store the tags in local storage
+                                } else {
+                                    alert("Couldn't get the tags of the user");
+                                }
+                            })
+                            .catch((error) => {
+
+                                console.log(error);
+
+                            });
+
+                    } else {
+                        var string_tags = window.localStorage.getItem('current_tags');
+                        console.log(string_tags);
+                        var tags_array = JSON.parse(string_tags);
+
+                        for (var key in tags_array) {
+                            if (tags_array.hasOwnProperty(key)) {
+                                this.setState({ default_tags: [...this.state.default_tags, tags_array[key]] });
+                            }
+                        }
+
+                        this.props.updateForumDisp(this.state.default_tags);
+
+                        this.setState({ got_specializations: true });
+                    }
                 }
-            }
-		})
-		  .catch((error) => {
-			console.log(error);
-          });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     resetSpecializations = () => {
-        this.setState({got_specializations: false});
+        this.setState({ got_specializations: false });
         window.localStorage.setItem('current_tags', window.localStorage.getItem('original_tags'));
 
         console.log(window.localStorage.getItem('current_tags'));
@@ -162,23 +162,23 @@ class Navbar extends React.Component {
         console.log(string_tags);
         var tags_array = JSON.parse(string_tags);
 
-        this.setState({default_tags: []});
+        this.setState({ default_tags: [] });
         for (var key in tags_array) {
             if (tags_array.hasOwnProperty(key)) {
-                this.setState({default_tags : [...this.state.default_tags, tags_array[key]]});
+                this.setState({ default_tags: [...this.state.default_tags, tags_array[key]] });
             }
         }
 
-    
+
         window.location.reload(true);
-        this.setState({got_specializations : true});
+        this.setState({ got_specializations: true });
         this.props.updateForumDisp(this.state.default_tags);
     }
 
 
     //called when the tag dropdown changes
-    handleChange = (e, {value}) => {
-        this.setState({tags : value}, ()=>{
+    handleChange = (e, { value }) => {
+        this.setState({ tags: value }, () => {
             console.log(this.state.tags);
         });
         this.props.updateForumDisp(value);
@@ -210,8 +210,8 @@ class Navbar extends React.Component {
         return (
             <div className="navbar_block">
                 <div className={"kiwiLogo"}>
-                    <button className={"invisibleButton"} onClick={() => {this.props.history.push("/")}}>
-                    <img src={logo} height={'40px'} alt={"KIWI"}/>
+                    <button className={"invisibleButton"} onClick={() => { this.props.history.push("/") }}>
+                        <img src={logo} height={'40px'} alt={"KIWI"} />
                     </button>
                 </div>
                 <div className={"searchBar"}>
@@ -224,16 +224,16 @@ class Navbar extends React.Component {
                 <div className={"tagComponent"}>
                     <Dropdown fluid multiple selection scrolling search placeholder='Tags'
                         onChange={this.handleChange}
-                        loading = {(!this.state.got_specializations) ? true : false}
-                        defaultValue = {this.state.default_tags}
-                        options={[...this.state.forum_tags]} clearable/>
+                        loading={(!this.state.got_specializations) ? true : false}
+                        defaultValue={this.state.default_tags}
+                        options={[...this.state.forum_tags]} clearable />
                 </div>
-                <div>
-                    <button onClick={this.resetSpecializations.bind(this)}> reset </button> 
+                <div className={"reset"}>
+                    <button className={"invisibleButton"} onClick={this.resetSpecializations.bind(this)}> reset </button>
                 </div>
                 <div className={"settings"}>
-                    <button className={"invisibleButton"} onClick={() => {this.props.history.push("/settings")}}>
-                    <Icon name="settings" size={"big"} color='grey' inverted />
+                    <button className={"invisibleButton"} onClick={() => { this.props.history.push("/settings") }}>
+                        <Icon name="settings" size={"big"} color='grey' inverted />
                     </button>
                 </div>
                 <div className={"logoutButton"}>
