@@ -29,6 +29,7 @@ class ViewPost extends React.Component {
     }
 
     componentDidMount() {
+        // TODO: THESE CAN BE ASYNC AS LONG AS BOTH ARE RETRIEVED BEFORE RENDER
         axios({
             method: 'get',
             url: 'http://localhost:9000/posts/' + this.props.id.toString(),
