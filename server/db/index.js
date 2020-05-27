@@ -364,7 +364,6 @@ module.exports = {
     addSpecialization, removeAllUserTags, toggleAdmin,
     getCompanyPosts, getCompanyTags, getUserEmail,
     isUserAdmin, pullResponse, pushResponse, checkRegistration,
-    createRegistration, upVotePost, addPostData, removeUser, endorseResponse,
-    getCompanies
+    createRegistration, upVotePost, addPostData, removeUser, endorseResponse
 };
 

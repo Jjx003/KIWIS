@@ -55,18 +55,19 @@ class HomePosts extends React.Component {
 		  .catch((error) => {
 			console.log(error);
         })
-            axios({
-                method: 'get',
-                url: 'http://localhost:9000/posts/',
-            })
-            .then((response) => { 
-                if (response.data.success) { 
-                    this.setState({posts: response.data.posts});
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        
+        axios({
+            method: 'get',
+            url: 'http://localhost:9000/posts/',
+        })
+        .then((response) => { 
+            if (response.data.success) { 
+                this.setState({posts: response.data.posts});
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
 
     //searching through posts state

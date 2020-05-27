@@ -47,12 +47,17 @@ const isAdmin = (req, res, next) => {
 
 authRouter.post('/AdminSignUp', function (req, res) {
 	dbIndex.createNewUser("N/A", req.body.company, req.body.first_name, req.body.last_name, 
+<<<<<<< HEAD
 					req.body.email, req.body.password, true).then((result) => {
 		if(result == true) {
 			res.jsonp({success: true});
 		} else {
 			res.jsonp({success: false});
 		}
+=======
+		req.body.email, req.body.password, true).then((result) => {
+			res.jsonp({success: result});
+>>>>>>> 3d05912a639a20133c629b2981057dad1783b6f7
     }).catch((error) => {
         res.jsonp({success: false});
     });
@@ -60,9 +65,15 @@ authRouter.post('/AdminSignUp', function (req, res) {
 
 authRouter.post('/EmployeeSignUp', function (req, res) {
 	// checkRegistration returns the company's name
+<<<<<<< HEAD
 	dbIndex.checkRegistration(req.body.registration_ID).then((id) => {
 
 		let value = id;
+=======
+	dbIndex.checkRegistration(req.body.registration_ID).then((snapshot) => {
+
+		let value = snapshot.val();
+>>>>>>> 3d05912a639a20133c629b2981057dad1783b6f7
 		if (value && value.expected_company && value.expected_email) {
 			let company = value.expected_company;
 			let expectedEmail = value.expected_email;
@@ -70,11 +81,15 @@ authRouter.post('/EmployeeSignUp', function (req, res) {
 			if (email == expectedEmail) {
 				dbIndex.createNewUser(req.body.registration_ID, company, req.body.first_name, req.body.last_name,
 					req.body.email, req.body.password, false).then((result) => {
+<<<<<<< HEAD
 						if (result == true) {
 							res.jsonp({ success: true });
 						} else {
 							res.jsonp({ success: false });
 						}
+=======
+						res.jsonp({ success: result });
+>>>>>>> 3d05912a639a20133c629b2981057dad1783b6f7
 					}).catch((error) => {
 						res.jsonp({ success: false });
 					})
@@ -98,3 +113,7 @@ authRouter.get('/checkIfSignedIn', authenticated, function(req, res, next) {
 });
 
 module.exports = {authRouter, authenticated, isAdmin};
+<<<<<<< HEAD
+=======
+
+>>>>>>> 3d05912a639a20133c629b2981057dad1783b6f7

@@ -28,17 +28,28 @@ function sendEmail(email, subject, content) {
 router.get('/accept_invite/:uuid', (req, res, next) => {
     let uuid = req.params.uuid;
   // checking if uuid is present in registration table
+<<<<<<< HEAD
   db.checkRegistration(req.params.uuid).then((id) => {
       if (id != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
+=======
+  db.checkRegistration(req.params.uuid).then((snapshot) => {
+      if (snapshot.val() != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
+>>>>>>> 3d05912a639a20133c629b2981057dad1783b6f7
   }).catch((error) => {
       console.log(error);
       res.jsonp({success:false});
   }).catch((error) => {
     console.log(error)
   })
+<<<<<<< HEAD
 
 });
 
+=======
+
+});
+
+>>>>>>> 3d05912a639a20133c629b2981057dad1783b6f7
 router.post('/', function (req, res, next) {
     try {
         // TODO: Sanitize email?
@@ -59,10 +70,7 @@ router.post('/', function (req, res, next) {
         res.send("failed");
         console.log(error)
         return;
-    }
-    res.send("succ");
-
-  
+    }  
 });
 
 /*
@@ -87,8 +95,14 @@ try {
 */
 
 router.post('/validateID', (req, res) => {
+<<<<<<< HEAD
     db.checkRegistration(req.body.uuid).then((id) => {
         if (id != null || id != undefined) {
+=======
+    db.checkRegistration(req.body.uuid).then((snapshot) => {
+        let value = snapshot.val();
+        if (value != null || value != undefined) {
+>>>>>>> 3d05912a639a20133c629b2981057dad1783b6f7
             res.jsonp({success:true});
         } else {
             res.jsonp({success:false});

@@ -14,6 +14,7 @@ class PostCards extends React.Component {
             pathname: '/viewPost/'+this.props.post_id.toString(), 
         });
     }
+    
     render() {
         return(
             <div onClick={this.handleClick.bind(this)} className="post-cards">
