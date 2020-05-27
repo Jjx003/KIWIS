@@ -6,32 +6,17 @@ import DisplayingTags from "./DisplayingTags";
 class PostCards extends React.Component {
     constructor(props){
         super(props);
-        this.state = {
-            buttonClicked: false
-        }
-        this.redirectToPostpage = this.redirectToPostpage.bind(this);
     }
 
-
-    redirectToPostpage() {
-        this.setState({buttonClicked: true});
-    }
-
-    componentWillUnmount() { 
-        this.setState({buttonClicked: false});
-    }
-
-    render() {
+    handleClick() {
         const {history} = this.props;
-        if(this.state.buttonClicked) {
-            history.push({      //change to replace and add back button
-                pathname: '/viewPost/'+this.props.post_id.toString(), 
-            });
-        }
-
-    
+        history.push({      //change to replace and add back button
+            pathname: '/viewPost/'+this.props.post_id.toString(), 
+        });
+    }
+    render() {
         return(
-            <div onClick={this.redirectToPostpage} className="post-cards">
+            <div onClick={this.handleClick.bind(this)} className="post-cards">
                 <h1 className="PostTitle"> {this.props.title} </h1>
                 <div className="PostTags">
                     <DisplayingTags tags={this.props.tag_ids}/>

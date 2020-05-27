@@ -30,7 +30,7 @@ function startAlgolia(){
   db.database().ref().once('value').then((value) => {
     Object.keys(value.val()).forEach((company) => {
       // no include Registrations, UserCompaniesID, Users
-      if(company == 'UXD14' || company == 'bruh' || company == 'PIzza'){
+      if(company == 'UXD14' || company == 'bruh' || company == 'PIzza' || company=='Sympin'){
         companies[company] = company;
       }
     })
