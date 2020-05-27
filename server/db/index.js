@@ -427,7 +427,210 @@ function toggleAdmin(forumName, userID){
     });
 }
 
+function updateKarma(companyName, user_id, response_id) {
+
+    return new Promise(function(resolve, reject){
+
+        const firebaseRef = db.database().ref(companyName + '/Responses/' + response_id);
+
+        var updates = {};
+        firebaseRef.once('value', function(snapshot){
+
+            var upvoters_array = (snapshot.child("upvoters").val());
+        
+            if(upvoters_array != null && upvoters_array.indexOf(user_id, 0) != -1) {
+                reject(new Error("User already upvoted"))
+
+            } else {
+
+                if(upvoters_array == null) {
+                    upvoters_array = [];
+                }
+
+                upvoters_array.push(user_id);
+                updates["upvoters"] = upvoters_array;
+                firebaseRef.update(updates);
+
+                updates = {};
+                firebaseRef.once('value', function(snapshot){
+                    var karma = (snapshot.child("karma").val());
+                    updates["karma"] = karma + 1;
+                    firebaseRef.update(updates);
+
+                    resolve(true)
+    
+                })
+
+                .catch( function(error) {
+                    console.log(error);
+                })
+
+            }
+    
+        });
+    })
+}
+
+function undoUpvote(companyName, user_id, response_id) {
+
+    return new Promise(function(resolve, reject){
+
+        const firebaseRef = db.database().ref(companyName + '/Responses/' + response_id);
+        console.log(firebaseRef);
+        var updates = {};
+        firebaseRef.once('value', function(snapshot){
+
+            var upvoters_array = (snapshot.child("upvoters").val());
+        
+            if(upvoters_array == null || upvoters_array.indexOf(user_id, 0) == -1) {
+                reject(new Error("User did not upvote"))
+
+            } else {
+
+                upvoter_index = upvoters_array.indexOf(user_id, 0);
+                upvoters_array.splice(upvoter_index, 1);
+                updates["upvoters"] = upvoters_array;
+                firebaseRef.update(updates);
+
+                updates = {};
+                firebaseRef.once('value', function(snapshot){
+                    var karma = (snapshot.child("karma").val());
+                    updates["karma"] = karma - 1;
+                    firebaseRef.update(updates);
+
+                    resolve(true)
+    
+                })
+
+                .catch( function(error) {
+                    console.log(error);
+                })
+
+            }
+    
+        });
+    })
+}
+
+// We want the user id of the person trying to endorse
+/*
+1. Check if user_id is the owner of the post of the response_id
+    - If not, then return
+
+2. Turn the response_id's endorse to true
+
+Tests:
+    - The user_id does not match the creator of the post
+    - The user_id matches so endorse the post
+    - The response is already endorsed
+*/
+function endorseResponse(companyName, user_id, response_id) {
+
+    return new Promise(function(resolve, reject){
+
+        const firebaseRef = db.database().ref(companyName);
+        
+        firebaseRef.once('value', function(snapshot){
+
+            var post_idOfResponse = (snapshot.child("Responses/"+response_id+"/post_id").val());
+
+            // Assuming there's at least 1 post in the company's forum
+            var posts_array = Object.keys(snapshot.child("Posts").val());
+
+            for(i = 0; i < posts_array.length; i++) {
+                var curr_post_id = posts_array[i];
+
+                // Assuming the post id of the reponse is in the post's table
+                if(curr_post_id == post_idOfResponse) {
+
+                    var creator_of_post = (snapshot.child("Posts/"+curr_post_id+"/user_id").val());
+
+                    if(user_id == creator_of_post) {
+                        break
+                    } else {
+                        reject(new Error("Only the creator of the post can endorse this response."))
+                        return
+                    }
+                }
+            }
+
+            // If we made it down here then the user_id is valid so set endorse to true
+            const responseRef = db.database().ref(companyName + '/Responses/' + response_id);
+            updates = {};
+            responseRef.once('value', function(snapshot){
+                var endorsed = (snapshot.child("endorsed").val());
+
+                if(endorsed == true) {
+                    reject(new Error("This response is already endorsed."))
+                    return
+                }
+
+                updates["endorsed"] = true;
+                responseRef.update(updates);
+
+                resolve(true)
+    
+            })
+
+            .catch( function(error) {
+                console.log(error);
+            })
+    
+        });
+    })
+}
+
+/*
+
+function deletePostData(companyName, post_id) {
+
+    const firebaseRef = db.database().ref(companyName);
+
+    firebaseRef.once('value', function(snapshot){
+
+        // Assuming there's at least 1 response in the company's forum
+        var responses_array = Object.keys(snapshot.child("Responses").val());
+
+        for(i = 0; i < responses_array.length; i++) {
+            var curr_response_id = responses_array[i];
+
+            if((snapshot.child("Responses/"+curr_response_id+"/post_id").val()) == post_id) {
+
+                firebaseRef.child("Responses/"+curr_response_id).remove();
+
+            }
+
+        }
+
+        firebaseRef.child("Posts/"+post_id).remove();
+        return true;
+
+    }) .catch( function(error) {
+        console.log(error);
+        return false;
+    })
+}
+
+*/
+
+function deleteResponseData(companyName, response_id) {
+
+    const firebaseRef = db.database().ref(companyName+"/Responses");
+
+    try {
+        firebaseRef.child(response_id).remove();
+
+    } catch(error) {
+        console.log(error);
+        return false;
+    }
+
+    return true;
+        
+}
+
 module.exports = { 
+    updateKarma, undoUpvote, endorseResponse, deletePostData, deleteResponseData,
     notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID,
