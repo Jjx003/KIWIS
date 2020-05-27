@@ -29,8 +29,7 @@ const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_API
 function startAlgolia(){
   db.database().ref().once('value').then((value) => {
     Object.keys(value.val()).forEach((company) => {
-      // no include (company != 'Registrations' || company != 'UserCompaniesID' || company != 'Users')
-      if(company == 'UXD14' || company == 'bruh' || company == 'PIzza' || company=='Sympin'){
+      if(company !== "Registrations" && company !== "UserCompaniesID"){
         companies[company] = company;
       }
     })
