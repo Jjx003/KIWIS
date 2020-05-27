@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Button } from 'semantic-ui-react';
 import '../css/App.css';
-import {UpdateContext} from '../auth/Auth';
+import { UpdateContext } from '../auth/Auth';
 import firebase from '../auth/firebase';
 
 import Cookies from 'universal-cookie';
@@ -32,8 +32,9 @@ async function sendEmail(targetEmail, targetContent) {
 }
 */
 
-const Home = ({history}) => {
-	
+
+const Home = ({ history }) => {
+
 	const updateFunction = useContext(UpdateContext);
 
 	const createPost = () => {
@@ -53,9 +54,9 @@ const Home = ({history}) => {
 		// redirect to home page
 		history.push("/login");
 	}
-		
 
-	return(
+
+	return (
 		<div className="app">
 			<HomePosts />
 			<Button onClick={handleSignOut}>Signout</Button>
@@ -63,6 +64,5 @@ const Home = ({history}) => {
 		</div>
 	);
 }
-
 
 export default Home;

@@ -34,4 +34,3 @@ yarn-error.log*
 .idea
 # ignore Eric's testing file
 *eric_test*.js
-
