@@ -18,10 +18,12 @@ class MetadataTagTab extends React.Component{
             url: 'http://localhost:9000/metadata/getTagMetadata'
           }).then((response) => {
             console.log(response)
-            if(response.data.success) {
-                this.setState({tagList:response.data, loading:false});
+            if(response.data.success == null) {
+              this.setState({tagList:response.data, loading:false});
+            } else if(!response.data.success) {
+              this.setState({tagList:{'No Metadata Recorded': 'Requires Posts to Record Data'}, loading:false});
             } else {
-                this.setState({tagList:{'No Metadata Recorded': 'Requires Posts to Record Data'}, loading:false});
+              this.setState({tagList:{'No Metadata Recorded': 'Requires Posts to Record Data'}, loading:false});
             }
         });
     }

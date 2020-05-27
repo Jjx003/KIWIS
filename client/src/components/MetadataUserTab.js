@@ -18,10 +18,12 @@ class MetadataUserTab extends React.Component{
             url: 'http://localhost:9000/metadata/getUserMetadata'
           }).then((response) => {
               console.log(response)
-              if(response.data.success) {
-                  this.setState({userList:response.data, loading:false});
+              if(response.data.success == null) {
+                this.setState({userList:response.data, loading:false});
+              } else if(!response.data.success) {
+                this.setState({userList:{'No Metadata Recorded': 'Requires Posts to Record Data'}, loading:false});
               } else {
-                  this.setState({userList:{'No Metadata Recorded': 'Requires Posts to Record Data'}, loading:false});
+                this.setState({userList:{'No Metadata Recorded': 'Requires Posts to Record Data'}, loading:false});
               }
         });
     }

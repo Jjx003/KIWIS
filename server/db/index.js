@@ -183,6 +183,10 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
                 if(isAdmin == false) {
                     db.database().ref("Registrations").child(registration_ID).remove();
                 }
+
+                // Add the default 2 tags if it doesn't exist
+                forumDBRef.child('Tags').update({"annoucements":"annoucements", "help-needed":"help-needed"});
+
                 resolve(true);
             }).catch((error) =>{ 
                 console.log(error);

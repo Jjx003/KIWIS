@@ -88,11 +88,11 @@ class Settings extends React.Component {
                                     <Checkbox toggle label={{ children: 'Browser Notification' }}/>
                                 </div>
                                 
-                                <div className="instructions"> Click below to change specialization. This affects your default tags. </div>
+                                <div className="instructions">Click below to modify specializations.</div>
 
                                 <div className = "settings-item">  
                                     <Link to='/userTags'>
-                                        <button className= "buttonz">  Specialization</button>
+                                        <button className= "buttonz">  Specializations</button>
                                     </Link>     
                                 </div>
 
@@ -143,11 +143,11 @@ class Settings extends React.Component {
                                 <Checkbox toggle label={{ children: 'Browser Notification' }}/>
                             </div>
                             
-                            <div className="instructions"> Click here to change specialization. This affects your default tags.  </div>
+                            <div className="instructions">Click below to modify specializations.</div>
 
                             <div className = "settings-item">  
                                 <Link to='/userTags'>
-                                    <button className= "buttonz">  Specialization</button>
+                                    <button className= "buttonz">  Specializations</button>
                                 </Link>     
                             </div>
                         </Segment>
