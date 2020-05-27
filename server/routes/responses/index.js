@@ -9,12 +9,12 @@ router.get('/UpvoteResponse',
 function (req, res) {
     //var user_id = db.getUserID();
     console.log("Entered route");
-    //var user_id = "zmeQUPa7Dqg282ycBUkuxnGjHgE22"
-    var user_id = "Rz5mBuIvkDNSwdzK3B2W8H6seQ32"
+    var user_id = "zmeQUPa7Dqg282ycBUkuxnGjHgE22"
+    //var user_id = "Rz5mBuIvkDNSwdzK3B2W8H6seQ32"
     db.getCompanyName(user_id).then(function(snapshot) {
         //var company_name = snapshot.val();
         var company_name = "UXD14";
-        db.updateKarma(company_name, user_id, "-M7AyPI9Ydzq_3OvBUhu").then(function(result) {
+        db.updateKarma(company_name, user_id, "-M7B3VARsTGG-Hu1thYu").then(function(result) {
             if(result == true) {
                 res.jsonp({success: true});
             } else {
