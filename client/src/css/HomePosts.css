@@ -12,6 +12,10 @@
     overflow-y: auto;
 }
 
+original-post {
+    background-color: aqua;
+}
+
 .container {
   background-color: #C9E0C9;
   width: 100%;
@@ -24,10 +28,6 @@ ul {
     list-style-type: none;
     padding: 0;
   }
-
-.ais-Hits-item {
-  
-}
 
 .ais-SearchBox-input {
   background-color: aliceblue;

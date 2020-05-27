@@ -8,4 +8,4 @@ const searchClient = algoliasearch(
    process.env.REACT_APP_ALGOLIA_SEARCH_API_KEY
 );
 
-export {client, searchClient};
+export { client, searchClient };

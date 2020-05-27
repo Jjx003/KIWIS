@@ -1,10 +1,10 @@
 import React from 'react';
 import "../css/PostCards.css";
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import DisplayingTags from "./DisplayingTags";
 
 class PostCards extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
     }
 
@@ -20,12 +20,12 @@ class PostCards extends React.Component {
             <div onClick={this.handleClick.bind(this)} className="post-cards">
                 <h1 className="PostTitle"> {this.props.title} </h1>
                 <div className="PostTags">
-                    <DisplayingTags tags={this.props.tag_ids}/>
+                    <DisplayingTags tags={this.props.tag_ids} />
                 </div>
-                <h3 className="Poster"> {"Created by: " + this.props.name} </h3> 
+                <h3 className="Poster"> {"Created by: " + this.props.name} </h3>
                 <h3 className="PostDate"> {"Date Created: " + this.props.date_time} </h3>
-            
-            </div>
+
+            </div >
         );
     }
 }

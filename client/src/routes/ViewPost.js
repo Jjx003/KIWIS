@@ -1,90 +1,115 @@
 import React from 'react';
+import '../css/Home.css';
 import '../css/App.css';
-import axios from 'axios'
+import OriginalPoster from "../components/OriginalPoster";
+import Response from "../components/Response";
 import Failure from '../components/Failure'
-//import {withRouter} from 'react-router-dom';
+import axios from 'axios'
+import TitleBar from "../components/TitleBar";
+
 class ViewPost extends React.Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
+            createdPost: false,
             loaded: false,
-            postid: props.id,
-            userid: "",
-            title: "",
+            postID: props.id,
+            userID: "",
+            users: {},
+            title: "Post Not Found",
             tags: [],
             datetime: "",
             content: "",
             karma: 0,
-            firstName: "",
-            lastName: "",
             responses: [],
             failed: false,
         }
     }
-    
-    componentDidMount(){
+
+    componentDidMount() {
+        // TODO: THESE CAN BE ASYNC AS LONG AS BOTH ARE RETRIEVED BEFORE RENDER
         axios({
-			method: 'get',
-			url: 'http://localhost:9000/posts/' + this.props.id.toString(),
-		  }).then((results) => {
+            method: 'get',
+            url: 'http://localhost:9000/posts/' + this.props.id.toString(),
+        }).then((results) => {
+            console.log(results.data);
             this.setState({
+                createdPost: results.data.createdPost,
                 title: results.data.posts.title,
                 tags: results.data.posts.tag_ids,
                 datetime: results.data.posts.date_time,
                 karma: results.data.posts.karma,
-                responses: results.data.posts.responses,
+                responses: results.data.responses,
                 content: results.data.posts.content,
-                userid: results.data.posts.user_id,
-                loaded: true,
+                userID: results.data.posts.user_id,
+                loaded: false,
                 failed: false,
             })
-          }).catch((error) => {
+        }).catch((error) => {
             console.log(error);
-            this.setState({failed:true})
-          }).then(() => {
+            this.setState({ failed: true })
+        }).then(() => {
             axios({
-                method: 'post',
-                data: {
-                    userid: this.state.userid
-                },
-                url: 'http://localhost:9000/users/singleUser',
-              })
-              .then((response) => { 
-                if(response.status === 200){
-                    if(response.data !== undefined){
-                        this.setState({firstName: response.data.firstName});
-                        this.setState({lastName: response.data.lastName});
-                    }  
-                }
-              })
-              .catch((error) => {
-                console.log(error);
+                method: 'get',
+                url: 'http://localhost:9000/users/allUsers',
             })
-          })
+                .then((response) => {
+                    if (response.status === 200) {
+                        this.setState({ users: response.data });
+                        this.setState({ loaded: true })
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.setState({ failed: true })
+                })
+        })
+
     }
-    
+
     render() {
+        const { createdPost, postID, userID, title, tags, datetime, content, karma, responses, loaded, failed, users } = this.state;
+
         if (this.state.loaded) {
+            // Stole method from HomePosts.js
+            const getName = (userid) => {
+                let name = "User Not Found";
+                if (users !== undefined && users[userid] !== undefined) {
+                    name = users[userid].firstName + " " + users[userid].lastName;
+
+                }
+                return name;
+            }
+
+            var responseArr = []
+            if (responses) {
+                responseArr = Object.values(responses)
+                console.log(responseArr)
+            }
+            var mapped = responseArr.map((obj, i) => <Response key={i} firstPoster={createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={getName(obj.user_id)} />)
+
+
+
             return (
-                <div>
-                    <h1> {this.state.postid || "post id null"} </h1>
-                    <h1> {this.state.title || "title null"} </h1>
-                    <h1> {this.state.tags || "tags null"} </h1>
-                    <h1> {this.state.datetime || "time null"} </h1>
-                    <h1> {this.state.content || "cotent null"} </h1>
-                    <h1> {this.state.karma} </h1>
-                    <h1> {this.state.responses || "response null"} </h1>
-                    <h1> {this.state.userid || "user null"} </h1>
-                    <h1> {this.state.firstName || "first null"} </h1>
-                    <h1> {this.state.lastName || "last null"} </h1>
+                <div className={"container"}>
+                    <div>
+                        <TitleBar title="Post" />
+                        <div className="posts-container">
+                            <OriginalPoster firstPoster={createdPost} postID={postID} userID={userID} title={title}
+                                tags={tags} datetime={datetime} karma={karma}
+                                content={content} name={getName(userID)} />
+                            {mapped}
+                            <button className={"makeReply"}>Reply</button>
+                        </div>
+                    </div>
                 </div>
-            )
-        } else if (!this.state.loaded && !this.state.failed) {
-            return <div> Loading </div>
+            );
+        } else if (!loaded && !failed) {
+            return (<div> <TitleBar title="Post" /> <div className="posts-container"> Loading... </div> </div>)
         } else {
-            return <Failure/>
+            return <Failure />
         }
     }
 }
