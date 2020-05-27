@@ -22,6 +22,7 @@ class Settings extends React.Component {
             url: 'http://localhost:9000/users/getUserEmail'
           }).then((response) => {
             this.setState({user_email: response.data.userEmail});
+            console.log(response)
         });
 
         axios({
@@ -94,9 +95,6 @@ class Settings extends React.Component {
                                         <button className= "buttonz">  Specialization</button>
                                     </Link>     
                                 </div>
-                                <div className = "settings-item">                 
-                                    <button className= "buttonz"> Sign Out </button>
-                                </div>
 
                                 <Divider horizontal> Admins Only </Divider>
 
@@ -151,9 +149,6 @@ class Settings extends React.Component {
                                 <Link to='/userTags'>
                                     <button className= "buttonz">  Specialization</button>
                                 </Link>     
-                            </div>
-                            <div className = "settings-item">                 
-                                <button className= "buttonz"> Sign Out </button>
                             </div>
                         </Segment>
                         </div>

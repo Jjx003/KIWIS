@@ -59,10 +59,10 @@ class TagTab extends React.Component{
                 </div> 
                 <div className="addTagAP"> 
                     <div className="tagPromptAP">Add tag name </div>
-                        <form className="TagForm" onSubmit={handleAddTag.bind(this)}>
-                            <input className="inputBoxAP" name="tagname" type="tagname" placeholder="  tag name" />
-                            <button> + </button>
-                        </form>
+                    <form className="TagForm" onSubmit={handleAddTag.bind(this)}>
+                        <input className="inputBoxAP" name="tagname" type="tagname" placeholder="  tag name" />
+                        <button> + </button>
+                    </form>
                 </div>
             </Tab.Pane> );
     }

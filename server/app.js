@@ -26,15 +26,15 @@ app.use(express.json());
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(cookieParser());
 
-app.use('/inviteUser', inviteRouter);
 
 app.use('/auth', authRouter);
 app.use('/posts', authenticated, postsRouter);
 app.use('/tags', authenticated, tagsRouter);
 app.use('/users', authenticated, userRouter);
+app.use('/inviteUser', authenticated, inviteRouter);
 
-app.use('/Response', responseRouter);
-app.use('/metadata', metadataRouter);
+app.use('/Response', authenticated, responseRouter);
+app.use('/metadata', authenticated, metadataRouter);
 
 
 app.use((req, res, next) => {
