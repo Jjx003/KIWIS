@@ -53,7 +53,7 @@ class TitleBar extends React.Component {
                 </div>
                 <div className={"logoutButton"}>
                     <Link to="/login">
-                        <button className={"invisibleButton"} onClick={this.handleSignOut}><Icon name="sign out" size={"big"} color='grey' inverted /></button>
+                        <button className={"invisibleButton"} onClick={this.handleSignOut}><Icon link name="sign out" size={"big"} color='grey' inverted /></button>
                     </Link>
                 </div>
             </div>

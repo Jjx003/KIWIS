@@ -8,4 +8,4 @@ const searchClient = algoliasearch(
   'faecca1d5632ce9521cda7cd1857bd20'
 );
 
-export {client, searchClient};
+export { client, searchClient };
