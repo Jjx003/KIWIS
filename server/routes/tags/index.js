@@ -6,10 +6,7 @@ var {authenticated, isAdmin} = require('../auth/index')
 const { check, validationResult } = require('express-validator');
 require('dotenv').config();
 var {getCompanyTags} = require('../../db/index')
-<<<<<<< HEAD
 
-=======
->>>>>>> 3d05912a639a20133c629b2981057dad1783b6f7
 router.get('/',
     function (req, res, next) {
         const company = req.user.company;        //needs to get company so not hard coded

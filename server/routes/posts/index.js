@@ -9,11 +9,7 @@ router.get('/:id',
         let user_id = req.user.id;
         let company = req.user.company;
         var posts;
-<<<<<<< HEAD
         db.database().ref(company + '/Posts/' + req.params.id).once('value').then((snapshot) => { 
-=======
-        db.database().ref(company + '/Posts/' + req.params.id).once('value').then((snapshot) => {
->>>>>>> 3d05912a639a20133c629b2981057dad1783b6f7
             posts = snapshot.val();
         }).catch((error) => {
             console.log(error);
@@ -29,7 +25,6 @@ router.get('/:id',
                 console.log(error);
                 res.jsonp({ success: false });
             })
-<<<<<<< HEAD
 
         }).catch((error) =>{
             console.log(error);
@@ -39,18 +34,6 @@ router.get('/:id',
 
     });
 
-=======
-
-        }).catch((error) =>{
-            console.log(error);
-            res.jsonp({ success: false });
-        })
-
-
-    });
-
-//check auth with this get request
->>>>>>> 3d05912a639a20133c629b2981057dad1783b6f7
 router.get('/', (req, res, next) => {
         const company = req.user.company; 
         dbIndex.getCompanyPosts(company).then((posts) =>
@@ -61,10 +44,6 @@ router.get('/', (req, res, next) => {
 router.post('/CreatePost', (req, res, next) => {
     var company_name = req.user.company;
     var user_id = req.user.id;
-<<<<<<< HEAD
-=======
-    console.log(company_name, user_id);
->>>>>>> 3d05912a639a20133c629b2981057dad1783b6f7
     var pushedData = dbIndex.addPostData(company_name, user_id, req.body.title, req.body.tag_ids, req.body.content);
     res.jsonp({success : pushedData});
     }
