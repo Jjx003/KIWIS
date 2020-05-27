@@ -11,7 +11,8 @@ const Login = ({history}) => {
 
     const handleLogin = (event) => {
 		event.preventDefault();
-		const {email, password} = event.target.elements;
+		const { email, password } = event.target.elements;
+
 
 		// sign in user
 		db.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
@@ -20,14 +21,14 @@ const Login = ({history}) => {
 			db.auth().currentUser.getIdToken(true).then((idToken) => {
 				// store token into cookie 
 				const cookies = new Cookies();
-				cookies.set('auth', idToken, {path: '/'});
-				
+				cookies.set('auth', idToken, { path: '/' });
+
 				// redirect to home page
 				update().then(() => {
 					history.push('/');
 				});
 			})
-			.catch((error) => console.log(error));
+				.catch((error) => console.log(error));
 
 		}).catch((error) => {
             console.log(error);

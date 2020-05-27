@@ -2,16 +2,21 @@ var express = require("express");
 var router = express.Router();
 var db = require("../../db/index")
 var auth = require('../../auth/index');
-var {authenticated, isAdmin} = require('../auth/index');
+var {authenticated, isAdmin} = require('../auth/index')
 const { check, validationResult } = require('express-validator');
 require('dotenv').config();
+var {getCompanyTags} = require('../../db/index')
+router.get('/',
+    function (req, res, next) {
+        const company = req.user.company;        //needs to get company so not hard coded
+        let tags = [];
+        getCompanyTags(company, tags).then(
+            () => res.jsonp({success : true, tags: tags})
+        );
+    }
+);
 
-
-
-router.get('/getTags', 
-
-    authenticated,
-
+router.get('/getTags',
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
             var user_id = decodedToken;
@@ -39,7 +44,7 @@ router.post('/remove',
         check('tagName').isLength({min: 1}).trim().escape()
     ],
 
-    authenticated, isAdmin, 
+    isAdmin, 
      
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
@@ -66,7 +71,7 @@ router.post('/add',
         check('tagName').isLength({min: 1}).trim().escape()
     ],
 
-    authenticated, isAdmin, 
+    isAdmin, 
 
     function (req, res) {
         db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
@@ -81,7 +86,6 @@ router.post('/add',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );

@@ -1,4 +1,6 @@
 var express = require("express");
+//var bcrypt = require("bcrypt");
+var crypto = require('crypto');
 var router = express.Router();
 var path = require('path');
 var mailgun = require("mailgun-js");
@@ -11,7 +13,6 @@ const mg = mailgun({
 });
 
 function sendEmail(email, subject, content) {
-    console.log(email)
 	const data = {
 		"from": "Excited User <ninja@mg.kiwis.tech>",
 		"to": email,
@@ -24,17 +25,36 @@ function sendEmail(email, subject, content) {
 	})
 }
 
-router.post('/', function (req, res, next) {
-    /*
-    uid , 
-    nodemailer 
-    localhost9000/invite/uid
-    */
+router.get('/accept_invite/:uuid', (req, res, next) => {
+    let uuid = req.params.uuid;
+  // checking if uuid is present in registration table
+  db.checkRegistration(req.params.uuid).then((id) => {
+      if (id != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
+  }).catch((error) => {
+      console.log(error);
+      res.jsonp({success:false});
+  }).catch((error) => {
+    console.log(error)
+  })
 
-    // When moving to production, need a authentication cookie passed in as well
-    // Or else people can exploit this route.
+});
+
+router.post('/', function (req, res, next) {
     try {
-        sendEmail(req.body.email, "test", req.body.content);
+        // TODO: Sanitize email?
+        let email = req.body.email;
+        let company = req.user.company;
+        crypto.randomBytes(16, (err, hash) => {
+            let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`;
+            db.createRegistration(hash, company, email).then(() => {
+                hash = hash.toString('hex')
+                let content = "Welcome!\n" + req.body.content + "\n" + inviteLink  + "\n";
+                sendEmail(email, "test", content);
+                res.jsonp({success: true}); 
+            })
+        })
+
+
     } catch (error) {
         res.send("failed");
         console.log(error)
@@ -45,30 +65,40 @@ router.post('/', function (req, res, next) {
   
 });
 
-router.get('/accept_invite/:uuid', function(req, res, next) {
-  // checking if uuid is present in registration table
-
-  db.checkRegistration(req.params.uuid).then((company) => {
-      console.log(company);
-      if (company != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
-      res.send("Invalid Registration ID");
-  }).catch((error) => {
-      console.log(error);
-  })
-});
-
-router.post('/validateID', function(req, res) {
-    db.checkRegistration(req.body.uuid).then((company) => {
-        if (company != null) {
+/*
+try {
+    // TODO: Sanitize email?
+    let company = "UXD14";
+    let email = "j"
+    crypto.randomBytes(16, (err, hash) => {
+        hash = hash.toString('hex')
+        let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`;
+        db.createRegistration(hash, company, email).then(() => {
+            let content = "Welcome!\n" + "\n" + inviteLink  + "\n";
+            sendEmail(email, "test", content);
             res.jsonp({success: true}); 
-        } else{
-            res.jsonp({success: false});
+        })
+    })
+} catch (error) {
+
+    console.log(error)
+    return;
+}
+*/
+
+router.post('/validateID', (req, res) => {
+    db.checkRegistration(req.body.uuid).then((id) => {
+        if (id != null || id != undefined) {
+            res.jsonp({success:true});
+        } else {
+            res.jsonp({success:false});
         }
     }).catch((error) => {
         console.log(error);
         res.jsonp({success:false});
     }) 
 })
+
 
 
 module.exports = router;
