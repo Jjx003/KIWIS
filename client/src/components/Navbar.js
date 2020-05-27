@@ -79,6 +79,7 @@ class Navbar extends React.Component {
             if (this.state.value.length === 0) {
                 this.setState({ searching: false });
                 this.props.resetTextSearch();
+
             } else if (!this.state.searching) {
                 this.setState({ searching: true });
                 this.props.setTextSearch();
@@ -108,11 +109,11 @@ class Navbar extends React.Component {
                 </div>
                 <div className={"settings"}>
                     <button className={"invisibleButton"} onClick={() => {this.props.history.push("/settings")}}>
-                    <Icon name="settings" size={"big"} color='grey' inverted />
+                    <Icon link name="settings" size={"big"} color='grey' inverted />
                     </button>
                 </div>
                 <div className={"logoutButton"}>
-                    <button className={"invisibleButton"} onClick={this.handleSignOut}><Icon name="sign out" size={"big"} color='grey' inverted /></button>
+                    <button className={"invisibleButton"} onClick={this.handleSignOut}><Icon link name="sign out" size={"big"} color='grey' inverted /></button>
                 </div>
             </div>
         );

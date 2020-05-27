@@ -239,8 +239,77 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
         return false;
     }
 
+    try {
+        notifyUsers(forumName, p_tag_ids);
+
+    } catch(error) {
+        console.log(error);
+        return false;
+    }
+
     return true;
 
+}
+
+var mailgun = require("mailgun-js");
+require('dotenv').config();
+
+const mg = mailgun({
+    apiKey:	process.env.MAILGUN_API_KEY, 
+	domain: 'mg.kiwis.tech', 
+});
+
+function sendEmail(email, subject, content) {
+    console.log(email)
+	const data = {
+		"from": "KIWI Forum <no-reply@mg.kiwis.tech>",
+		"to": email,
+		"subject": subject ? subject : 'Hello',
+		"text": content,
+    }
+	mg.messages().send(data, function(error, body){
+        console.log(body);
+        console.log(error);
+	})
+}
+
+function notifyUsers(companyName, posts_tags) {
+
+        // If the post has no tags, then just return
+        if(posts_tags == null || posts_tags.length == 0) {
+            console.log("Post did not have tags");
+            return;
+        }
+
+        const firebaseRef = db.database().ref(companyName);
+
+        firebaseRef.once('value', function(snapshot){
+
+            var users_array = Object.keys(snapshot.child("Users").val());
+        
+            // For each user in the company
+            for(i = 0; i < users_array.length; i++) {
+                var user_id = users_array[i];
+                var user_email = (snapshot.child("Users/"+user_id+"/email").val());
+
+                var curr_user_tags = (snapshot.child("Users/"+user_id+"/tags").val());
+
+                // For each tag in this user's list
+                for(j = 0; j < curr_user_tags.length; j++) {
+                    var curr_tag = curr_user_tags[j];
+
+                    // If this tag is in the post
+                    if(posts_tags.indexOf(curr_tag, 0) != -1) {
+
+                        var subject = "Relevant Post was created in "+companyName+"'s KIWI Forum";
+                        var content = "A post tagged with at least one of your specialities in "+companyName+"'s KIWI Forum was created.";
+                        console.log("SENT EMAIL TO "+ user_email);
+                        sendEmail(user_email, subject, content);
+                        break
+                    }
+                }
+            }
+        });
 }
 
 function userMadePost(companyName, user_id, post_id) {
@@ -414,7 +483,7 @@ function getMetadata(forumName) {
 
 
 module.exports = { 
-    getCompanyName, userMadePost, createNewUser, getUser, getUsers, 
+    notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID,
     getUserTags, removeSpecialization,

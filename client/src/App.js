@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import './css/App.css';
 
 
@@ -24,7 +24,7 @@ import ViewPost from './routes/ViewPost';
 // post -> click (dont pass down props CONTENT from algolia was this, display this)
 // kiwis.tech/company/forum/POSTID
 // route /POSTID:
-// return the proper post information. 
+// return the proper post information.
 
 import CreatePost from './routes/CreatePost';
 
@@ -51,4 +51,4 @@ function App() {
   );
 }
 //<PrivateRoute exact path="/createPost" component={CreatePosts} />
-export default App;
+export default withRouter(App);
