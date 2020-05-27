@@ -374,17 +374,18 @@ function getMetadata(forumName) {
             Object.keys(data.val()).forEach(postID => {
     
                 // For each post's tags
-                Object.keys(data.val()[postID]['tag_ids']).forEach(tagIndex => {
-                    var tagName = data.val()[postID]['tag_ids'][tagIndex];
-                    console.log(tagName)
-                    
-                    if (tagName in metaData['tagCount']) {
-                        metaData['tagCount'][tagName] += 1;
-                    } else {
-                        console.log('Tag ' + '\"' + tagName + '\"' + " not counted, currently adding to metadata");
-                        metaData['tagCount'][tagName] = 1;
-                    }
-                });
+                if(data.val()[postID]['tag_ids'] != null) {
+                    Object.keys(data.val()[postID]['tag_ids']).forEach(tagIndex => {
+                        var tagName = data.val()[postID]['tag_ids'][tagIndex];
+                        
+                        if (tagName in metaData['tagCount']) {
+                            metaData['tagCount'][tagName] += 1;
+                        } else {
+                            console.log('Tag ' + '\"' + tagName + '\"' + " not counted, currently adding to metadata");
+                            metaData['tagCount'][tagName] = 1;
+                        }
+                    });
+                }
     
                 // For each post's owner
                 var userID = data.val()[postID]['user_id'];
@@ -396,8 +397,10 @@ function getMetadata(forumName) {
                 }
                 getUsers(forumName).then(data => {
                     Object.keys(metaData['userIDCount']).forEach(userID => {
-                        var userFullName = data.val()[userID]['firstName'] + " " + data.val()[userID]['lastName'];
-                        metaData['userCount'][userFullName] = metaData['userIDCount'][userID];
+                        if(data.val()[userID] != null) {
+                            var userFullName = data.val()[userID]['firstName'] + " " + data.val()[userID]['lastName'];
+                            metaData['userCount'][userFullName] = metaData['userIDCount'][userID];
+                        }
                     });
                     resolve(metaData);
                 });
