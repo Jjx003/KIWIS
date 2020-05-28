@@ -14,11 +14,10 @@ var metadataRouter  = require('./routes/metadata/index');
 var cookieParser = require('cookie-parser');
 var {startAlgolia} = require('./firebase');
 var userRouter = require('./routes/users/index');
+var followingRouter = require('./routes/following/index');
 
 startAlgolia(); // Start Listening for updates
 
-var usersRouter = require('./routes/users/index');
-var tagsRouter = require('./routes/tags/index');
 
 
 app.use(express.urlencoded({ extended: true }));
@@ -31,11 +30,15 @@ app.use('/auth', authRouter);
 app.use('/posts', authenticated, postsRouter);
 app.use('/tags', authenticated, tagsRouter);
 app.use('/users', authenticated, userRouter);
+
 app.use('/inviteUser', authenticated, inviteRouter);
 
 app.use('/Response', authenticated, responseRouter);
 app.use('/metadata', authenticated, metadataRouter);
 
+
+
+app.use('/following', followingRouter);
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');

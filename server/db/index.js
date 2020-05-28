@@ -431,6 +431,26 @@ function toggleAdmin(forumName, userID){
     });
 }
 
+// Add a user to the post's following; user should no longer follow the post
+function addFollowingUser(forumName, postID, userID) {
+    var userIDObjectToBeAdded = {};
+    userIDObjectToBeAdded[userID] = userID;
+    var postIDObjectToBeAdded = {};
+    postIDObjectToBeAdded[postID] = postID;
+    db.database().ref(forumName).child("Posts/" + postID + "/follower_ids").update(userIDObjectToBeAdded);
+    db.database().ref(forumName).child("Users/" + userID + "/following_IDs").update(postIDObjectToBeAdded);
+}
+
+// Remove a user to the post's following; user should no longer follow the post
+function removeFollowingUser(forumName, postID, userID) {
+    var userIDObjectToBeAdded = {};
+    userIDObjectToBeAdded[userID] = userID;
+    var postIDObjectToBeAdded = {};
+    postIDObjectToBeAdded[postID] = postID;
+    db.database().ref(forumName).child("Posts/" + postID + "/follower_ids/" + userID).remove();
+    db.database().ref(forumName).child("Users/" + userID + "/following_IDs/" + postID).remove();
+}
+
 
 // Gets metadata for user activity and tag popularity
 // Returns: Count of Tags used in Posts, Count of Posts/Responses per User
@@ -484,12 +504,13 @@ function getMetadata(forumName) {
 
 module.exports = { 
     notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers, 
-	removeUser, createNewTag, getTags, 
+	  removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID,
     getUserTags, removeSpecialization,
     addSpecialization, removeAllUserTags, toggleAdmin,
     getCompanyPosts, getCompanyTags, getUserEmail,
     isUserAdmin, pullResponse, pushResponse, checkRegistration,
     getMetadata, createRegistration, upVotePost, addPostData, removeUser, endorseResponse
+    addFollowingUser, removeFollowingUser
 };
 
