@@ -26,6 +26,23 @@ class UserTab extends React.Component{
     }
 
     render(){
+        const handleAddEmployee = (event) => {
+            event.preventDefault();
+            // should tag_ids be in line below
+            const {email} = event.target.elements;
+            if(window.confirm("Adding employee with email:  " + email.value))
+            {
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:9000/inviteUser/',
+                    data: {
+                        email: email.value
+                    }
+                })
+            }
+            event.target.reset();
+        }
+        
         return( <Tab.Pane className="adminPageAP"> 
                         <h1 style={{textAlign: "center"}}> Add and Remove Employees </h1>
 
@@ -47,8 +64,10 @@ class UserTab extends React.Component{
                     <div>
                         <div className="addEmployeeAP"> 
                             <div className="invitePromptAP">Add Employee Email </div>
-                            <input className="inputBoxAP" name="email" type="email" placeholder="  email" />
-                        <button> + </button>
+                            <form className="TagForm" onSubmit={handleAddEmployee.bind(this)}>
+                                <input className="inputBoxAP" name="email" type="email" placeholder="  email" />
+                                <button> + </button>
+                            </form>
                         </div>
                     </div>
                 </div> 
