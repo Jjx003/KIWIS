@@ -66,5 +66,54 @@ function (req, res) {
     })
 });
 
+router.post('/upvote', 
+function (req, res, next) {
+    auth.checkToken(req.cookies.auth).then(() =>{
+        next()
+    }).catch( function(error) {
+        console.log("error occured when checking token, request denied");
+        res.jsonp({success: false});
+    })  
+}, 
+function (req, res) {
+    db.getCurrentUserID(req.cookies.auth).then((user_id) => {
+    db.getCompanyName(user_id).then(function(company) {
+        db.upVoteResponse(company, req.body.response_id).then(
+            res.jsonp({success : true})
+        );
+        }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })
+    }).catch(function(error){
+        console.log(error);
+        res.jsonp({success: false});
+    })
+});
+
+router.post('/endorse', 
+function (req, res, next) {
+    auth.checkToken(req.cookies.auth).then(() =>{
+        next()
+    }).catch( function(error) {
+        console.log("error occured when checking token, request denied");
+        res.jsonp({success: false});
+    })  
+}, 
+function (req, res) {
+    db.getCurrentUserID(req.cookies.auth).then((user_id) => {
+    db.getCompanyName(user_id).then(function(company) {
+        db.endorseResponse(company, req.body.response_id).then(
+            res.jsonp({success : true})
+        );
+        }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })
+    }).catch(function(error){
+        console.log(error);
+        res.jsonp({success: false});
+    })
+});
 
 module.exports = router;

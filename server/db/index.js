@@ -427,6 +427,17 @@ function toggleAdmin(forumName, userID){
     });
 }
 
+// Upvoting response would look really similar
+function upVoteResponse(forumName, response_id) {
+
+    // Reference the response
+    const firebaseRef = db.database().ref(forumName+"/Responses"+response_id);
+
+    // Update the karma
+    firebaseRef.update({karma: karma+1});
+
+}
+
 module.exports = { 
     notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
@@ -435,6 +446,7 @@ module.exports = {
     addSpecialization, removeAllUserTags, toggleAdmin,
     getCompanyPosts, getCompanyTags, getUserEmail,
     isUserAdmin, pullResponse, pushResponse, checkRegistration,
-    createRegistration, upVotePost, addPostData, removeUser, endorseResponse
+    createRegistration, upVotePost, addPostData, removeUser, endorseResponse,
+    upVoteResponse
 };
 
