@@ -29,7 +29,7 @@ class SpecializationButton extends React.Component{
         })
         .then((response) => { 
             // rechecks if the user has the tag 
-            if (response != undefined) { 
+            if (response !== undefined) { 
                 // updates user
                 this.setState({user_info: response.data});   
                 if(response.data.hasOwnProperty(this.state.thisTag)) {

@@ -29,10 +29,10 @@ class DisplayUser extends React.Component{
 
 
     render(){
-        var pending = (this.state.user_id == null) ? true : false;
+        //var pending = (this.state.user_id == null) ? true : false;
         
         const handleAdmin = () => {
-            if(this.state.checkemail == this.state.email) {
+            if(this.state.checkemail === this.state.email) {
                 alert('Can\'t Un-admin Yourself');
                 return;
             }
@@ -48,11 +48,11 @@ class DisplayUser extends React.Component{
         }
 
         const handleRemove = () => {
-            if(this.state.checkemail == this.state.email) {
+            if(this.state.checkemail === this.state.email) {
                 alert('Can\'t Delete Yourself');
                 return;
             }
-            if(window.confirm("Removing" + " " + this.state.first_name + " " + this.state.last_name))
+            if(window.confirm("Removing " + this.state.first_name + " " + this.state.last_name))
             {
                 axios({
                     method: 'post',

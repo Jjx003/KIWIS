@@ -9,10 +9,6 @@ import { Tab } from 'semantic-ui-react'
 
 
 class AdminPage extends React.Component{
-    constructor(props){
-        super(props);
-    }
-
     render(){
         var panes = [
             { menuItem: 'Users', render: () => <UserTab />},

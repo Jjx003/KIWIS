@@ -1,11 +1,9 @@
-import React, { useCallBack, useContext } from "react";
+import React from "react";
 import "../css/signup.css";
 import axios from 'axios';
 import pic from '../css/vectorlogo.png';
 import Cookies from 'universal-cookie';
 import db from '../auth/firebase';
-import { AuthContext } from "../auth/Auth";
-import { Redirect, useHistory } from "react-router-dom";
 
 class SignUp extends React.Component {
 	state = {
@@ -29,13 +27,11 @@ class SignUp extends React.Component {
 		}).then((response) => {
 			if (response.data.success) {
 				db.auth().signInWithEmailAndPassword(email.value, password.value).then(() => {
-					console.log("Entered sign in");
 					// create token for user
 					db.auth().currentUser.getIdToken(true).then((idToken) => {
 						// store token into cookie 
 						const cookies = new Cookies();
 						cookies.set('auth', idToken, {path: '/'});
-						console.log("Entered create token");
 						// redirect to home page
 						setTimeout(()=>{this.props.history.push("/")}, 3000);
 					})
@@ -89,7 +85,7 @@ class SignUp extends React.Component {
                 <div className="signupRow">
                     <div className="left">
                         <div className="picture">
-                            <img className="picture" src={pic} />
+                            <img alt="Kiwi Logo" className="picture" src={pic} />
                         </div>
                         <div className="leftText">
                             <p1>Our company will ensure the success and coordination of all co-workers.

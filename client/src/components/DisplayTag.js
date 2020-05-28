@@ -14,7 +14,7 @@ class DisplayTag extends React.Component{
 
     render(){
         const handleRemove = () => {
-            if(window.confirm("Removing" + " " + this.state.tag_id))
+            if(window.confirm("Removing " + this.state.tag_id))
             {
                 axios({
                     method: 'post',

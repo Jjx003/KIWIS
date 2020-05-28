@@ -1,4 +1,4 @@
-import React, { useCallBack } from "react";
+import React from "react";
 import "../css/adminsignup.css";
 import axios from 'axios';
 import pic from '../css/vectorlogo.png';
@@ -10,7 +10,7 @@ const AdminSignUp = ({ history }) => {
         event.preventDefault();
         const { company, first_name, last_name, email, password, passwordcopy } = event.target.elements;
 
-        if(password.value != passwordcopy.value) {
+        if(password.value !== passwordcopy.value) {
             alert('Please make sure the passwords match.');
             return;
         }
@@ -48,7 +48,7 @@ const AdminSignUp = ({ history }) => {
             <div className="signupRow">
                 <div className="left">
                     <div className="picture">
-                        <img className="picture" src={pic} />
+                        <img alt="Kiwi Logo"className="picture" src={pic} />
                     </div>
                     <div className="leftText">
                         <p1>Our company will ensure the success and coordination of all co-workers.

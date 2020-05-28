@@ -25,7 +25,7 @@ class UserTags extends React.Component {
             withCredentials: true,
 		  })
 		  .then((response) => { 
-			if (response != undefined) { 
+			if (response !== undefined) { 
                 this.setState({info: response.data.tags});   
 
 			} else {

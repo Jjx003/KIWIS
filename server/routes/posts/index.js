@@ -19,7 +19,6 @@ router.get('/:id',
         dbIndex.pullResponse(company, req.params.id).then((responseData) => {
 
             dbIndex.userMadePost(company, user_id, req.params.id).then((result) => {
-                console.log(posts);
                 res.jsonp({ posts: posts, responses: responseData, createdPost: result })
 
             }).catch((error) => {

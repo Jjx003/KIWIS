@@ -40,7 +40,7 @@ function startAlgolia(){
 }
 
   const addOrUpdateIndexRecord = (index, contact) => {
-  //console.log(index)s
+
   // Get Firebase object
   const record = contact.val();
   // Specify Algolia's objectID using the Firebase object key

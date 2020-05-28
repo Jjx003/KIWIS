@@ -81,7 +81,6 @@ router.get('/userTags',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
@@ -101,7 +100,6 @@ router.post('/removeSpecialization',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
@@ -123,7 +121,6 @@ router.post('/addSpecialization',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
@@ -241,7 +238,6 @@ router.get('/all',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
@@ -273,7 +269,6 @@ router.post('/toggleAdmin',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );

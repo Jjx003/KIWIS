@@ -20,7 +20,6 @@ const authenticated = (req,res,next) => {
       })  
     } catch(error) {
 	 		console.log(error);
-			console.log("Inside authenticated.");
         	res.jsonp({success: false});
 	}
 };

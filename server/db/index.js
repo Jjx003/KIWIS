@@ -155,7 +155,7 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
             if(isAdmin == true) {
                 db.database().ref(forumName).once("value", snapshot => {
                     if(snapshot.exists()) {
-                        console.log("This company already exists");
+                        // company already exists
                         resolve(false);
                         return;
                     }
@@ -303,7 +303,6 @@ function notifyUsers(companyName, posts_tags) {
 
                         var subject = "Relevant Post was created in "+companyName+"'s KIWI Forum";
                         var content = "A post tagged with at least one of your specialities in "+companyName+"'s KIWI Forum was created.";
-                        console.log("SENT EMAIL TO "+ user_email);
                         sendEmail(user_email, subject, content);
                         break
                     }
@@ -450,7 +449,7 @@ function getMetadata(forumName) {
                         if (tagName in metaData['tagCount']) {
                             metaData['tagCount'][tagName] += 1;
                         } else {
-                            console.log('Tag ' + '\"' + tagName + '\"' + " not counted, currently adding to metadata");
+                            // tag not counted, adding to metadata
                             metaData['tagCount'][tagName] = 1;
                         }
                     });
@@ -461,7 +460,7 @@ function getMetadata(forumName) {
                 if(userID in metaData['userIDCount']) {
                     metaData['userIDCount'][userID] += 1;
                 } else {
-                    console.log('UserID ' + '\"' + userID + '\"' + " not counted, currently adding to metadata");
+                    // user not counted, adding to metadata
                     metaData['userIDCount'][userID] = 1;
                 }
                 getUsers(forumName).then(data => {
