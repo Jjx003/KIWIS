@@ -13,4 +13,8 @@ function checkToken(token) {
     return firebase.admin.auth().verifyIdToken(token);
 }
 
-module.exports = { signUp, checkToken };
+function updateUserPassword(userID, newPassword) {
+	return firebase.admin.auth().updateUser(userID, {password: newPassword});
+}
+
+module.exports = { updateUserPassword, signUp, checkToken };

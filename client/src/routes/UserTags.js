@@ -66,14 +66,10 @@ class UserTags extends React.Component {
           });
     }
 
-
     
     
     render() {
         const {info} = this.state;
-        const {user_info} = this.state;
-        //const tags = Object.keys(info).map(x => { return { key: x, text: x, value: x } });
-
 
         return(
             <div>
@@ -84,9 +80,9 @@ class UserTags extends React.Component {
                         Select Your Specializations
                     </h1>
                     <div className="tagListBox">
-                        { Object.keys(info).map((key, i) => ( 
-                            <SpecializationButton tag={key}/>
-                        ))}
+                        { 
+                            Object.keys(info).map((key, i) => ( <SpecializationButton tag={key}/>))
+                        }
                     </div>
                     <div className="doneButtons">
                         <button onClick={this.resetTags} className="resetButton">Clear Specializations</button>
