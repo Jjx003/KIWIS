@@ -162,7 +162,6 @@ router.post('/add',
 // POST method to remove certain user from the database given a UUID
 router.post('/remove', 
     [
-        check('forumName').isLength({min: 1}).trim().escape(),
         check('userID').isLength({min: 1})
     ],
 

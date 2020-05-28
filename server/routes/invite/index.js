@@ -45,10 +45,10 @@ router.post('/', function (req, res, next) {
         let email = req.body.email;
         let company = req.user.company;
         crypto.randomBytes(16, (err, hash) => {
-            let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`;
+            hash = hash.toString('hex')
+            let inviteLink = `http://localhost:9000/inviteUser/accept_invite/${hash}`;
             db.createRegistration(hash, company, email).then(() => {
-                hash = hash.toString('hex')
-                let content = "Welcome!\n" + req.body.content + "\n" + inviteLink  + "\n";
+                let content = "Welcome to KIWI!\n" + "You have invited to the " + company + " KIWI forum!" + "\n" + "Please click the link below to get started." + "\n" + inviteLink  + "\n";
                 sendEmail(email, "test", content);
                 res.jsonp({success: true}); 
             })

@@ -6,6 +6,8 @@ var {authenticated, isAdmin} = require('../auth/index')
 const { check, validationResult } = require('express-validator');
 require('dotenv').config();
 var {getCompanyTags} = require('../../db/index')
+
+
 router.get('/',
     function (req, res, next) {
         const company = req.user.company;        //needs to get company so not hard coded
@@ -23,7 +25,12 @@ router.get('/getTags',
             db.getCompanyName(decodedToken).then(function(snapshot) {
                 company_name = snapshot;
                 db.getTags(company_name).then((data) => {
-                    res.send({success: true, tags: data.val()});
+                    if(data.val() != null) {
+                        res.send({success: true, tags: data.val()});
+                    }
+                    else {
+                        res.send({success: true, tags: {}});
+                    }
                 });
             }).catch( function(error) {
                 console.log(error);
