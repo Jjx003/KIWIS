@@ -345,27 +345,6 @@ function userMadePost(companyName, user_id, post_id) {
     })
 }
 
-// Upvoting response would look really similar
-function upVotePost(forumName, post_id) {
-
-    // Reference the post
-    const firebaseRef = db.database().ref(forumName+"/Posts"+post_id);
-
-    // Update the karma
-    firebaseRef.update({karma: karma+1});
-
-}
-
-function endorseResponse(forumName, response_id) {
-
-    // Reference the response
-    const firebaseRef = db.database().ref(forumName+"/Responses"+response_id);
-
-    // Endorse the response
-    firebaseRef.update({endorsed: true});
-
-}
-
 // Removes a user from the database
 function removeUser(forumName, userID) {
     db.database().ref(forumName).child('Users').child(userID).remove();
@@ -712,7 +691,7 @@ module.exports = {
     addSpecialization, removeAllUserTags, toggleAdmin,
     getCompanyPosts, getCompanyTags, getUserEmail,
     isUserAdmin, pullResponse, pushResponse, checkRegistration,
-    getMetadata, createRegistration, upVotePost, addPostData, removeUser,
+    getMetadata, createRegistration, addPostData, removeUser,
     addFollowingUser, removeFollowingUser
 };
 
