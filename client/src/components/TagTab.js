@@ -48,7 +48,7 @@ class TagTab extends React.Component{
 
         return(
             <Tab.Pane className="adminPageAP" >
-                <h1 style={{textAlign: "center"}}> Add and Remove Specialization </h1>
+                <h1 style={{textAlign: "center"}}> Add and Remove Specializations </h1>
                 <div className="tagListAP"> 
                     {this.state.loading_tag ? 
                     <div> 
@@ -59,10 +59,10 @@ class TagTab extends React.Component{
                 </div> 
                 <div className="addTagAP"> 
                     <div className="tagPromptAP">Add tag name </div>
-                        <form className="TagForm" onSubmit={handleAddTag.bind(this)}>
-                            <input className="inputBoxAP" name="tagname" type="tagname" placeholder="  tag name" />
-                            <button> + </button>
-                        </form>
+                    <form className="TagForm" onSubmit={handleAddTag.bind(this)}>
+                        <input className="inputBoxAP" name="tagname" type="tagname" placeholder="  tag name" />
+                        <button> + </button>
+                    </form>
                 </div>
             </Tab.Pane> );
     }

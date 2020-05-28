@@ -8,6 +8,12 @@ import SignUp from './routes/SignUp';
 import AdminSignUp from './routes/AdminSignUp'
 import Login from './routes/Login';
 import PrivateRoute from './auth/PrivateRoute';
+import Settings from "./routes/Settings";
+import AdminPage from "./routes/AdminPage"
+import UserTags from './routes/UserTags';
+
+//<PrivateRoute path="/" exact render={(props) => <Home {...props}/>}/>
+import AddResponse from './routes/Responses';
 import ViewPost from './routes/ViewPost';
 //import CreatePosts from './routes/CreatePosts'
 
@@ -21,10 +27,6 @@ import ViewPost from './routes/ViewPost';
 // return the proper post information.
 
 import CreatePost from './routes/CreatePost';
-import Settings from "./routes/Settings";
-import AdminPage from "./routes/AdminPage"
-import UserTags from './routes/UserTags';
-import AddResponse from './routes/Responses';
 
 
 

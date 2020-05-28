@@ -33,7 +33,7 @@ function startAlgolia(){
         companies[company] = company;
       }
     })
-    //console.log(companies);
+    console.log(companies);
     for (var key in companies) {
       const company = companies[key];
       const index = client.initIndex(company);
@@ -52,11 +52,11 @@ function startAlgolia(){
 }
 
   const addOrUpdateIndexRecord = (index, contact) => {
-  //console.log(index)s
   // Get Firebase object
   const record = contact.val();
   // Specify Algolia's objectID using the Firebase object key
   record.objectID = contact.key;
+  
   // Add or update object
   index
     .saveObject(record)
@@ -72,6 +72,7 @@ function startAlgolia(){
   const deleteIndexRecord = (index, { key }) => {
   // Get Algolia's objectID from the Firebase object key
   const objectID = key;
+  console.log(objectID);
   // Remove the object from Algolia
   index
     .deleteObject(objectID)

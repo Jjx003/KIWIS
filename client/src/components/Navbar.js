@@ -1,5 +1,6 @@
 import React from 'react';
-import { Dropdown, Icon} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
+import { Menu, Dropdown, Image, Icon, Grid } from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
 import '../css/index.css'
 import {

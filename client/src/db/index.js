@@ -9,3 +9,4 @@ const searchClient = algoliasearch(
 );
 
 export { client, searchClient };
+

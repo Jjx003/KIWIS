@@ -24,7 +24,12 @@ router.get('/getTags',
             db.getCompanyName(decodedToken).then(function(snapshot) {
                 company_name = snapshot;
                 db.getTags(company_name).then((data) => {
-                    res.send({success: true, tags: data.val()});
+                    if(data.val() != null) {
+                        res.send({success: true, tags: data.val()});
+                    }
+                    else {
+                        res.send({success: true, tags: {}});
+                    }
                 });
             }).catch( function(error) {
                 console.log(error);
