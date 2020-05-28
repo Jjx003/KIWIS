@@ -48,8 +48,6 @@ class CreatePost extends React.Component {
             .then((response) => {
                 if (response.data.success) {
                     // Wait until update processes before redirecting
-                    alert("Post was successfully created!");
-                    // Redirect to home page
                     this.props.history.replace('/');
                 } else {
                     alert("Post was not created. Try again.");
