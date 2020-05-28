@@ -431,7 +431,6 @@ function toggleAdmin(forumName, userID){
     });
 }
 
-<<<<<<< HEAD
 // Upvoting response would look really similar
 function upVoteResponse(forumName, response_id) {
 
@@ -443,7 +442,6 @@ function upVoteResponse(forumName, response_id) {
 
 }
 
-=======
 // Add a user to the post's following; user should no longer follow the post
 function addFollowingUser(forumName, postID, userID) {
     var userIDObjectToBeAdded = {};
@@ -515,7 +513,6 @@ function getMetadata(forumName) {
 }
 
 
->>>>>>> 495a3dbdc5e5125c1747f2ea1509b9905d1367d2
 module.exports = { 
     notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers, 
 	  removeUser, createNewTag, getTags, 
@@ -524,12 +521,9 @@ module.exports = {
     addSpecialization, removeAllUserTags, toggleAdmin,
     getCompanyPosts, getCompanyTags, getUserEmail,
     isUserAdmin, pullResponse, pushResponse, checkRegistration,
-<<<<<<< HEAD
-    createRegistration, upVotePost, addPostData, removeUser, endorseResponse,
-    upVoteResponse
-=======
-    getMetadata, createRegistration, upVotePost, addPostData, removeUser, endorseResponse
+    upVotePost, addPostData, endorseResponse,
+    upVoteResponse,
+    getMetadata, createRegistration,
     addFollowingUser, removeFollowingUser
->>>>>>> 495a3dbdc5e5125c1747f2ea1509b9905d1367d2
 };
 
