@@ -72,7 +72,7 @@ function startAlgolia(){
   const deleteIndexRecord = (index, { key }) => {
   // Get Algolia's objectID from the Firebase object key
   const objectID = key;
-  console.log(objectID);
+
   // Remove the object from Algolia
   index
     .deleteObject(objectID)
