@@ -561,7 +561,63 @@ function endorseResponse(companyName, user_id, response_id) {
 
         })
     })
-}    
+}
+
+function undoEndorse(companyName, user_id, response_id) {
+
+    return new Promise(function(resolve, reject){
+
+        const firebaseRef = db.database().ref(companyName);
+        
+        firebaseRef.once('value', function(snapshot){
+
+            var post_idOfResponse = (snapshot.child("Responses/"+response_id+"/post_id").val());
+
+            // Assuming there's at least 1 post in the company's forum
+            var posts_array = Object.keys(snapshot.child("Posts").val());
+
+            for(i = 0; i < posts_array.length; i++) {
+                var curr_post_id = posts_array[i];
+
+                // Assuming the post id of the reponse is in the post's table
+                if(curr_post_id == post_idOfResponse) {
+
+                    var creator_of_post = (snapshot.child("Posts/"+curr_post_id+"/user_id").val());
+
+                    if(user_id == creator_of_post) {
+                        break
+                    } else {
+                        reject(new Error("Only the creator of the post can unendorse this response."))
+                        return
+                    }
+                }
+            }
+
+            // If we made it down here then the user_id is valid so set endorse to false
+            const responseRef = db.database().ref(companyName + '/Responses/' + response_id);
+            updates = {};
+            responseRef.once('value', function(snapshot){
+                var endorsed = (snapshot.child("endorsed").val());
+
+                if(endorsed == false) {
+                    reject(new Error("This response is not endorsed."))
+                    return
+                }
+
+                updates["endorsed"] = false;
+                responseRef.update(updates);
+
+                resolve(true)
+    
+            })
+
+            .catch( function(error) {
+                console.log(error);
+            })
+
+        })
+    })
+}
 
 // Add a user to the post's following; user should no longer follow the post
 function addFollowingUser(forumName, postID, userID) {
@@ -633,8 +689,6 @@ function getMetadata(forumName) {
     })
 }
 
-/*
-
 function deletePostData(companyName, post_id) {
 
     const firebaseRef = db.database().ref(companyName);
@@ -655,6 +709,31 @@ function deletePostData(companyName, post_id) {
 
         }
 
+        // Assuming there's at least 1 user in the company's forum
+        var user_array = Object.keys(snapshot.child("Users").val());
+
+        for(i = 0; i < user_array.length; i++) {
+            var curr_user_id = user_array[i];
+
+            // I'm assuming "following_ids" is the name
+            var curr_user_following = snapshot.child("Users/"+curr_user_id+"/following_ids").val();
+
+            // If the current user is not following any posts or they are not following the post_id
+            if(curr_user_following == null || curr_user_following.indexOf(post_id, 0) == -1) {
+                continue;
+            } else {
+
+                var updates = {};
+                post_id_index = curr_user_following.indexOf(post_id, 0);
+                curr_user_following.splice(post_id_index, 1);
+                updates["following_ids"] = curr_user_following;
+                const followingRef = db.database().ref(companyName + '/Users/' + curr_user_id);
+                followingRef.update(updates);
+
+            }
+
+        }
+
         firebaseRef.child("Posts/"+post_id).remove();
         return true;
 
@@ -663,8 +742,6 @@ function deletePostData(companyName, post_id) {
         return false;
     })
 }
-
-*/
 
 function deleteResponseData(companyName, response_id) {
 
@@ -683,7 +760,7 @@ function deleteResponseData(companyName, response_id) {
 }
 
 module.exports = { 
-    updateKarma, undoUpvote, endorseResponse, deletePostData, deleteResponseData,
+    undoEndorse, updateKarma, undoUpvote, endorseResponse, deletePostData, deleteResponseData,
     notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers, 
 	  removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID,

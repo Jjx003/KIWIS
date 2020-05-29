@@ -52,21 +52,14 @@ router.post('/CreatePost', (req, res, next) => {
     }
 )
 
-/*
-
-router.get('/DeletePostData', 
-
-function (req, res) {
-
-    console.log("Entered deletePost");
-    var company_name = "UXD14";
-    var post_id = "-M7Kaie-9Gh51a9mhcTX";
-    // Change db back to whatever
+router.post('/DeletePostData', (req, res) => {
+    var company_name = req.user.company;
+    // Not sure if this should be params or body
+    var post_id = req.body.post_id;
+    console.log(company_name, post_id);
     var deletedData = dbIndex.deletePostData(company_name, post_id);
     res.jsonp({success : deletedData});
-
-});
-
-*/
+    
+})
 
 module.exports = router;
