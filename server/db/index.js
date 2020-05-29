@@ -501,6 +501,10 @@ function getMetadata(forumName) {
     })
 }
 
+// Remove a user to the post's following; user should no longer follow the post
+function isFollowingUser(forumName, postID, userID) {
+    return db.database().ref(forumName).child("Posts/" + postID + "/follower_ids/" + userID).once("value");
+}
 
 module.exports = { 
     notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers, 
@@ -510,7 +514,7 @@ module.exports = {
     addSpecialization, removeAllUserTags, toggleAdmin,
     getCompanyPosts, getCompanyTags, getUserEmail,
     isUserAdmin, pullResponse, pushResponse, checkRegistration,
-    getMetadata, createRegistration, upVotePost, addPostData, removeUser, endorseResponse
-    addFollowingUser, removeFollowingUser
+    getMetadata, createRegistration, upVotePost, addPostData, removeUser, endorseResponse,
+    addFollowingUser, removeFollowingUser, isFollowingUser
 };
 

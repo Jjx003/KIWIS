@@ -52,4 +52,63 @@ router.post('/CreatePost', (req, res, next) => {
     }
 )
 
+router.post('/follow',
+
+authenticated,
+
+function (req, res) {
+    dbIndex.getCurrentUserID(req.cookies.auth).then((user_id) => {
+        dbIndex.getCompanyName(user_id).then(function(company) {
+        dbIndex.addFollowingUser(company, req.body.post_id, user_id)
+        res.jsonp({success : true})
+        }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })
+    }).catch(function(error){
+        console.log(error);
+        res.jsonp({success: false});
+    })
+});
+
+router.post('/unfollow',
+
+authenticated,
+
+function (req, res) {
+    dbIndex.getCurrentUserID(req.cookies.auth).then((user_id) => {
+        dbIndex.getCompanyName(user_id).then(function(company) {
+        dbIndex.removeFollowingUser(company, req.body.post_id, user_id)
+        res.jsonp({success : true})
+        }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })
+    }).catch(function(error){
+        console.log(error);
+        res.jsonp({success: false});
+    })
+});
+
+router.post('/isFollowing',
+
+authenticated,
+
+function (req, res) {
+    dbIndex.getCurrentUserID(req.cookies.auth).then((user_id) => {
+        dbIndex.getCompanyName(user_id).then(function(company) {
+        dbIndex.isFollowingUser(company, req.body.post_id, user_id).then((response) => {
+            var isFollowing = (response.val() === user_id)
+            res.jsonp({isFollowing: isFollowing, success : true})
+        }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })})
+        
+    }).catch(function(error){
+        console.log(error);
+        res.jsonp({success: false});
+    })
+});
+
 module.exports = router;
