@@ -6,6 +6,7 @@ import Response from "../components/Response";
 import Failure from '../components/Failure'
 import axios from 'axios'
 import TitleBar from "../components/TitleBar";
+import AddResponse from "./Responses";
 
 class ViewPost extends React.Component {
 
@@ -101,7 +102,7 @@ class ViewPost extends React.Component {
                                 tags={tags} datetime={datetime} karma={karma}
                                 content={content} name={getName(userID)} />
                             {mapped}
-                            <button className={"makeReply"}>Reply</button>
+                            <AddResponse postID={postID}/>
                         </div>
                     </div>
                 </div>
