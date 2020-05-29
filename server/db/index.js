@@ -279,6 +279,31 @@ function deletePostData(companyName, post_id) {
 
         }
 
+        // Assuming there's at least 1 user in the company's forum
+        var user_array = Object.keys(snapshot.child("Users").val());
+
+        for(i = 0; i < user_array.length; i++) {
+            var curr_user_id = user_array[i];
+
+            // I'm assuming "following_ids" is the name
+            var curr_user_following = snapshot.child("Users/"+curr_user_id+"/following_ids").val();
+
+            // If the current user is not following any posts or they are not following the post_id
+            if(curr_user_following == null || curr_user_following.indexOf(post_id, 0) == -1) {
+                continue;
+            } else {
+
+                var updates = {};
+                post_id_index = curr_user_following.indexOf(post_id, 0);
+                curr_user_following.splice(post_id_index, 1);
+                updates["following_ids"] = curr_user_following;
+                const followingRef = firebase.db.database().ref(companyName + '/Users/' + curr_user_id);
+                followingRef.update(updates);
+
+            }
+
+        }
+
         firebaseRef.child("Posts/"+post_id).remove();
         return true;
 
@@ -306,7 +331,7 @@ function deleteResponseData(companyName, response_id) {
 
 module.exports = { deleteResponseData, deletePostData, endorseResponse, 
     undoUpvote, updateKarma, getCompanyName,
-	userMadePost, createNewUser, getUser, getUsers, 
+	createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID};
     

@@ -10,7 +10,7 @@ function (req, res) {
 
     console.log("Entered deletePost");
     var company_name = "UXD14";
-    var post_id = "-M87FFdLm50teYStxDHb";
+    var post_id = "-M7Kbmak49nsNSGaVVFG";
     // Change db back to whatever
     var deletedData = db.deletePostData(company_name, post_id);
     res.jsonp({success : deletedData});
