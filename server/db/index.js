@@ -207,6 +207,47 @@ function notifyUsers(companyName, posts_tags) {
         });
 }
 
+// Notifies users how are following a post if a new response is made.
+function notifyUsersResponses(companyName, post_id) {
+
+
+    const firebaseRef = firebase.db.database().ref(companyName);
+
+    firebaseRef.once('value', function(snapshot){
+
+        var post_following = snapshot.child("Posts/" + post_id + "/following_ids").val();
+        
+        // If the post has no users following, then just return
+        if(post_following.length == 1) {
+            console.log("Post did not have any users following");
+            return;
+        }
+
+        var users_array = Object.keys(snapshot.child("Users").val());
+        var post_id_title = snapshot.child("Posts/" + post_id +"/title").val();
+    
+        // For each user following the question.
+        for(i = 1; i < post_following.length; i++) {
+            var user_id = post_following[i];
+            var user_email = (snapshot.child("Users/"+user_id+"/email").val());
+            // Search for user in company user's
+            for(j = 0; j < users_array.length; j++) {
+                curr_user_id = users_array[j];
+                // If this tag is in the post
+                if(user_id == curr_user_id) {
+
+                    var subject = "Relevant Response to Post: " + post_id_title +  " was created in "+ companyName +"'s KIWI Forum ";
+                    var content = "A response to the post: " + post_id_title + " you were following was created in "
+                                    + companyName + "'sKIWI Forum ";
+                    console.log("SENT EMAIL TO "+ user_email);
+                    sendEmail(user_email, subject, content);
+                    break
+                }
+            }
+        }
+    });
+}
+
 function userMadePost(companyName, user_id, post_id) {
 
     const firebaseRef = firebase.db.database().ref(companyName);
@@ -253,4 +294,4 @@ module.exports = {
 	userMadePost, notifyUsers, sendEmail, createNewUser, getUser, getUsers, 
 	removeUser, createNewTag, getTags, 
     getTagCount, removeTag, getCurrentUserID,
-    getCompanyName, checkRegistration, addPostData};
+    getCompanyName, checkRegistration, addPostData, notifyUsersResponses};
