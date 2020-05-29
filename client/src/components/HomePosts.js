@@ -76,7 +76,7 @@ class HomePosts extends React.Component {
             if(post.tag_ids !== undefined){
                 post.tag_ids.forEach(tag => {
                     if (value.includes(tag)) {
-                        keyList.push(post.title);
+                        keyList.push(post.key);
                     }
                 })
             }
@@ -87,7 +87,6 @@ class HomePosts extends React.Component {
     updateTagSearch(value) {
         let keyList = []
         this.searchTags(value, keyList);
-
         if (this.state.posts) {
             this.setState(state => {
                 state.posts.forEach(
@@ -95,8 +94,9 @@ class HomePosts extends React.Component {
                         if (value.length === 0) {
                             post.visible = true;
                         }
-                        else if (keyList.includes(post.title)) {
+                        else if (keyList.includes(post.key)) {
                             post.visible = true;
+                            //console.log(post);
                         }
                         else
                             post.visible = false;
