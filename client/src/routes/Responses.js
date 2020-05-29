@@ -1,10 +1,11 @@
 import React from 'react';
-
+import "../css/Forum.css"
 import '../css/App.css';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import { AuthContext, UpdateContext } from "../auth/Auth"
 import { withRouter } from 'react-router-dom';
+import {Icon} from "semantic-ui-react";
 
 
 class AddResponse extends React.Component {
@@ -94,8 +95,37 @@ class AddResponse extends React.Component {
                 </label>
                 <button type="Pull response"> Pull responses</button>
             </form>
+            {/*nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn*/}
+            <div className={"writingReply"}>
+                <div className={"leftSide"}>
+                    <div className={"rPoster"}>
+                        <h2 className={"responder"}>{"Gary" + ": "}</h2>
+                    </div>
+                    <div>
+                        <button className={"button"}>Post Response</button>
+                    </div>
+                </div>
+
+
+
+                {/*<form onSubmit={this.addResponse}>*/}
+                {/*    <label>*/}
+                {/*        Post*/}
+                {/*        <input name="post_id" placeholder="Post_ID" />*/}
+                {/*    </label>*/}
+                {/*    <label>*/}
+                {/*        Response Content*/}
+                {/*        <input name="content" placeholder="Response Content" />*/}
+                {/*    </label>*/}
+                {/*    <button type="Submit Response"> Submit Response </button>*/}
+                {/*</form>*/}
+
+
+
+
+                        <textarea placeholder={"Write your response here."}/>
+            </div>
         </div>
-        
         );
 
     }
