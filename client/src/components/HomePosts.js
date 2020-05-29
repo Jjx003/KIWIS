@@ -200,7 +200,7 @@ const Results = connectStateResults(
         searchResults && searchResults.nbHits !== 0 ? (
             children) : (
                 <div className="posts-container">
-                    <div className="no-results-msg">No results have been found for {searchState.query}
+                    <div className="no-results-msg"><p>No results have been found for "{searchState.query}"</p> <br />
                         <RedirectButton props={props} />
                     </div>
                 </div>)
