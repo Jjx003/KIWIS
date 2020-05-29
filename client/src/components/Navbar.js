@@ -67,9 +67,7 @@ class Navbar extends React.Component {
 
     //called when the tag dropdown changes
     handleChange = (e, { value }) => {
-        this.setState({ tags: value }, () => {
-            console.log(this.state.tags);
-        });
+        this.setState({ tags: value });
         this.props.updateForumDisp(value);
     }
 

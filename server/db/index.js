@@ -1,5 +1,6 @@
 var { db } = require('../firebase');
 var { admin } = require('../firebase');
+var auth = require('../auth/index');
 
 // "POST" method for responses
 function pushResponse(company, r_user_id, r_post_id, r_content) {
@@ -28,13 +29,6 @@ function pullResponse(company, post_id) {
     const responseRef = db.database().ref(company + '/Responses/');
     return responseRef.orderByChild("post_id").equalTo(post_id).once("value");
 }
-
-var auth = require('../auth/index');
-
-// add database functions below
-
-// NOTE (Eric): in order to get userId: firebase.auth().currentUser.uid
-// Also, forumDBRef requires the forumName so they can access the specific company
 
 // "POST" method for new tags
 function createNewTag(forumName, tagName) {
@@ -392,7 +386,7 @@ function getCompanyName(user_id) {
 function checkRegistration(id) {
     return new Promise(function (resolve, reject) {
         db.database().ref('/Registrations/' + id).once('value').then((result) => {
-            resolve(result.val());
+            resolve(result);
         }).catch((error) => {
             reject(new Error(error));
         });

@@ -4,12 +4,7 @@ var auth = require('../../auth/index');
 var db = require('../../db/index');
 var firebase = require('../../firebase');
 
-
 // We are printing the console logs but the tag_ids is undefined
-
-
-
-
 router.post('/AddResponse',
 
 // Got this from jeff auth
