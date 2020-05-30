@@ -353,20 +353,6 @@ function upVotePost(forumName, post_id) {
 
 }
 
-function endorseResponse(forumName, response_id) {
-
-    // Reference the response
-    const firebaseRef = db.database().ref(forumName + "/Responses" + response_id);
-
-    // Endorse the response
-    firebaseRef.update({ endorsed: true });
-
-}
-
-// Removes a user from the database
-function removeUser(forumName, userID) {
-    db.database().ref(forumName).child('Users').child(userID).remove();
-}
 
 // "GET" method for users
 function getUsers(forumName) {
@@ -803,7 +789,7 @@ function getUpvoteArray(responses, userID) {
 module.exports = {
     undoEndorse, updateKarma, undoUpvote, deletePostData, deleteResponseData,
     notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers,
-    removeUser, createNewTag, getTags,
+    createNewTag, getTags,
     getTagCount, removeTag, getCurrentUserID,
     getUserTags, removeSpecialization,
     addSpecialization, removeAllUserTags, toggleAdmin,
