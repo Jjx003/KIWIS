@@ -6,7 +6,7 @@ import Response from "../components/Response";
 import Failure from '../components/Failure'
 import axios from 'axios'
 import TitleBar from "../components/TitleBar";
-import AddResponse from "./Responses";
+import AddResponse from "../components/AddResponse";
 
 class ViewPost extends React.Component {
 

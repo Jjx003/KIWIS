@@ -2,18 +2,13 @@ import React from 'react';
 import "../css/Forum.css"
 import '../css/App.css';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
-import { AuthContext, UpdateContext } from "../auth/Auth"
 import { withRouter } from 'react-router-dom';
-import { Icon } from "semantic-ui-react";
+import "../css/AddResponse.css"
 
 
 class AddResponse extends React.Component {
 
-
-
     addResponse = (event) => {
-
         event.preventDefault();
         const { responseText } = event.target.elements;
         axios.defaults.withCredentials = true;
@@ -43,14 +38,12 @@ class AddResponse extends React.Component {
             });
     }
 
-
-
     render() {
         return (
             <form onSubmit={this.addResponse}>
                 <div className="AddResponse-submission">
                     <div className={"writingReply"}>
-                        <textarea name={"responseText"} placeholder={"Write your response here."} />
+                        <textarea name={"responseText"} classname={"responseText"} placeholder={"Write your response here."} />
                         <div className={"postResponse"}>
                             <button className={"button"}>Post Response</button>
                         </div>
@@ -59,10 +52,7 @@ class AddResponse extends React.Component {
                 </div>
             </form>
         );
-
     }
-
 }
-
 
 export default withRouter(AddResponse);
