@@ -329,14 +329,13 @@ function notifyUsersResponses(companyName, post_id) {
 
 
     const firebaseRef = db.database().ref(companyName);
-
     firebaseRef.once('value', function(snapshot){
 
-        var post_following = snapshot.child("Posts/" + post_id + "/following_ids").val();
+        var post_following = snapshot.child("Posts/" + post_id + "/follower_ids").val();
         console.log(post_following);
-        
+        console.log(post_id);
         // If the post has no users following, then just return
-        if(post_following.length == 1) {
+        if(post_following.length == 0) {
             console.log("Post did not have any users following");
             return;
         }
@@ -345,7 +344,7 @@ function notifyUsersResponses(companyName, post_id) {
         var post_id_title = snapshot.child("Posts/" + post_id +"/title").val();
     
         // For each user following the question.
-        for(i = 1; i < post_following.length; i++) {
+        for(i = 0; i < post_following.length; i++) {
             var user_id = post_following[i];
             var user_email = (snapshot.child("Users/"+user_id+"/email").val());
             // Search for user in company user's
