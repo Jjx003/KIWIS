@@ -37,7 +37,7 @@ class ViewPost extends React.Component {
     }
 
     getName = (userid) => {
-        let name = "User Not Found";
+        let name = "Deleted User";
         if (this.state.users !== undefined && this.state.users[userid] !== undefined) {
             name = this.state.users[userid].firstName + " " + this.state.users[userid].lastName;
 
