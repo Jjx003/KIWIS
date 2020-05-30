@@ -102,7 +102,7 @@ function (req, res) {
         dbIndex.isFollowingUser(company, req.body.post_id, user_id).then((response) => {
             var isFollowing = (response.val() === user_id)
             res.jsonp({isFollowing: isFollowing, success : true})
-        }).catch(function(error){
+        }).catch(function(error) {
             console.log(error);
             res.jsonp({success: false});
         })})
