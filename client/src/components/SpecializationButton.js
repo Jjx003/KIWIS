@@ -12,6 +12,8 @@ class SpecializationButton extends React.Component{
             user_info: this.props.user_tags,
             tagButton: 'tagButton'
         };
+
+        this.checkSpecialization();
     }
 
 
@@ -84,6 +86,23 @@ class SpecializationButton extends React.Component{
 			console.log(error);
           });
     }
+    
+
+    // This will check if its in the right state checked or unchecked
+    checkSpecialization() {
+        const {user_info} = this.state;
+        const {tagButton} = this.state;
+        const {thisTag} = this.state;
+
+        // if the user has the property then it displays it highlighted
+        if(user_info.hasOwnProperty(thisTag) && tagButton == 'tagButton') {
+            this.setState({tagButton: 'tagButton2'})
+        } // else if the user doesnt have that property and its the wrong highlighted version
+        else if (!user_info.hasOwnProperty(thisTag) && tagButton == 'tagButton2') {
+            this.setState({tagButton: 'tagButton'})
+        }
+    }
+
 
 
     render(){
@@ -91,17 +110,11 @@ class SpecializationButton extends React.Component{
         const {tagButton} = this.state;
         const {thisTag} = this.state;
 
-        
-        if(user_info.hasOwnProperty(thisTag) && tagButton == 'tagButton') {
-            this.setState({tagButton: 'tagButton2'})
-        }
-        else if (!user_info.hasOwnProperty(thisTag) && tagButton == 'tagButton2') {
-            this.setState({tagButton: 'tagButton'})
-        }
+        this.checkSpecialization();
 
         // method to change what is currently on page
         const handleToggle = () => {
-            if(user_info.hasOwnProperty(this.state.thisTag)) {
+            if(user_info.hasOwnProperty(thisTag)) {
                 this.removeSpecialization(thisTag);
             }
             else {
