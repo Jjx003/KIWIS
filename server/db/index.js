@@ -229,8 +229,13 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
             content: p_content,
             karma: 0,
             responses: ["-1"],
-            follower_ids: [p_user_id]
+            follower_ids: []
         });
+
+        var updates = {};
+        updates[p_user_id] = p_user_id;
+        db.database().ref(forumName + "/Posts/" + post_reference.key + "/follower_ids").update(updates);
+
     } catch (error) {
         console.log(error);
         return false;
