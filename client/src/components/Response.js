@@ -13,9 +13,12 @@ class Response extends React.Component {
             datetime: this.props.datetime,
             karma: this.props.karma,
             content: this.props.content,
-            endorsed: this.props.endorsed
+            endorsed: this.props.endorsed,
+            userEndorsed: this.props.userEndorsed
         };
     }
+
+
 
     render() {
         return (
@@ -39,7 +42,7 @@ class Response extends React.Component {
                     </div>
                     {this.state.firstPoster ? <div><button className={"button"}>Endorse</button></div> : <div></div>}
                     <div className={"rKarma"}>
-                        <h1><button className={"button"}>Upvote</button>{"   + " + this.state.karma}</h1>
+                        <h1><button className={"button"}>{this.state.userEndorsed ? "Upvote" : "Remove Upvote"}</button>{"   + " + this.state.karma}</h1>
                     </div>
                 </div>
             </div>
