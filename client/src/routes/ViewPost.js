@@ -17,6 +17,7 @@ class ViewPost extends React.Component {
         this.lockResponse = false;
 
         this.state = {
+            endorsedID: null,
             createdPost: false,
             loaded: false,
             postID: props.id,
@@ -28,8 +29,9 @@ class ViewPost extends React.Component {
             content: "",
             OP: "",
             karma: 0,
-            responses: [],
             responseObjs: [],
+            responseText: [],
+            responseIDs: [],
             failed: false,
         }
     }
@@ -50,6 +52,20 @@ class ViewPost extends React.Component {
         return arr1
     }
 
+    postEndorse = (id) => {
+        this.setState({
+            endorsedID: id,
+            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={id} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
+        })
+    }
+
+    postUnendorse = () => {
+        this.setState({
+            endorsedID: null,
+            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={null} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
+        })
+    }
+
     componentDidMount() {
         // TODO: THESE CAN BE ASYNC AS LONG AS BOTH ARE RETRIEVED BEFORE RENDER
         axios({
@@ -57,13 +73,16 @@ class ViewPost extends React.Component {
             url: 'http://localhost:9000/posts/' + this.props.id.toString(),
         }).then((results) => {
             console.log(results.data);
+            var responses = []
+            responses = this.upvotedMerge(results.data.responses, results.data.responseBools)
             this.setState({
                 createdPost: results.data.createdPost,
                 title: results.data.posts.title,
                 tags: results.data.posts.tag_ids,
                 datetime: results.data.posts.date_time,
                 karma: results.data.posts.karma,
-                responses: this.upvotedMerge(results.data.responses, results.data.responseBools),
+                responseText: Object.values(responses),
+                responseIDs: Object.keys(responses),
                 content: results.data.posts.content,
                 userID: results.data.posts.user_id,
                 loaded: false,
@@ -78,21 +97,23 @@ class ViewPost extends React.Component {
                     .then((response) => {
                         if (response.status === 200) {
                             this.setState({ users: response.data });
-                            console.log(response.data)
                         }
                     })
                     .then(() => {
-                        var responseText = [];
-                        var responseIDs = [];
-                        if (this.state.responses) {
-                            responseText = Object.values(this.state.responses)
-                            responseIDs = Object.keys(this.state.responses)
+                        // get endorsed response, assuming only one in backend which will be enforced by frontend
+                        for (var i = 0; i < this.state.responseText.length; ++i) {
+                            if (this.state.responseText[i].endorsed === true) {
+                                this.setState({
+                                    endorsedID: this.state.responseIDs[i]
+                                })
+                                break;
+                            }
                         }
 
-                        this.latestResponse = responseText.length
+                        this.latestResponse = this.state.responseText.length
 
                         this.setState({
-                            responseObjs: responseText.map((obj, i) => <Response key={i} responseID={responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
+                            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={this.state.endorsedID} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
                             OP: this.getName(this.state.userID),
                             loaded: true
                         })
@@ -107,8 +128,6 @@ class ViewPost extends React.Component {
             })
 
     }
-
-
 
     refreshResponse = () => {
         /* NOTE: PROBABLY MUCH BETTER WAY TO DO THIS! */
