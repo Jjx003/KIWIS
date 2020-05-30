@@ -27,7 +27,7 @@ class AddResponse extends React.Component {
                     // Wait until update processes before redirecting
                     // Redirect to home page
                     // this.props.history.refresh(this.props.postID);
-                    this.props.responseUpdate(responseText.value)
+                    this.props.responseUpdate()
                     responseText.value = ""
                 } else {
                     alert("Response was not created. Try again.");
