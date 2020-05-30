@@ -180,7 +180,7 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
                 }
 
                 // Add the default 2 tags if it doesn't exist
-                forumDBRef.child('Tags').update({ "annoucements": "annoucements", "help-needed": "help-needed" });
+                forumDBRef.child('Tags').update({ "announcements": "announcements", "help-needed": "help-needed" });
 
                 resolve(true);
             }).catch((error) => {
@@ -229,7 +229,7 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
             content: p_content,
             karma: 0,
             responses: ["-1"],
-            follower_ids: ["-1"]
+            follower_ids: [p_user_id]
         });
     } catch (error) {
         console.log(error);
