@@ -12,15 +12,30 @@ function pushResponse(company, r_user_id, r_post_id, r_content) {
     var today = new Date();
     var datetime = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear() + ' at ' + today.getHours() + ':' + today.getMinutes();
 
-    firebaseRef.child("Responses").push({
+    try{
+        firebaseRef.child("Responses").push({
         user_id: r_user_id,
         karma: 0,
         post_id: r_post_id,
         datetime: datetime,
         content: r_content,
         endorsed: false
-    });
+        });
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
 
+
+    try {
+        notifyUsersResponses(company, r_post_id);
+
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
+
+    return true;
 }
 
 
@@ -301,6 +316,48 @@ function notifyUsers(companyName, posts_tags) {
                     var subject = "Relevant Post was created in " + companyName + "'s KIWI Forum";
                     var content = "A post tagged with at least one of your specialities in " + companyName + "'s KIWI Forum was created.";
                     console.log("SENT EMAIL TO " + user_email);
+                    sendEmail(user_email, subject, content);
+                    break
+                }
+            }
+        }
+    });
+}
+
+// Notifies users how are following a post if a new response is made.
+function notifyUsersResponses(companyName, post_id) {
+
+
+    const firebaseRef = db.database().ref(companyName);
+
+    firebaseRef.once('value', function(snapshot){
+
+        var post_following = snapshot.child("Posts/" + post_id + "/following_ids").val();
+        console.log(post_following);
+        
+        // If the post has no users following, then just return
+        if(post_following.length == 1) {
+            console.log("Post did not have any users following");
+            return;
+        }
+
+        var users_array = Object.keys(snapshot.child("Users").val());
+        var post_id_title = snapshot.child("Posts/" + post_id +"/title").val();
+    
+        // For each user following the question.
+        for(i = 1; i < post_following.length; i++) {
+            var user_id = post_following[i];
+            var user_email = (snapshot.child("Users/"+user_id+"/email").val());
+            // Search for user in company user's
+            for(j = 0; j < users_array.length; j++) {
+                curr_user_id = users_array[j];
+                // If this tag is in the post
+                if(user_id == curr_user_id) {
+
+                    var subject = "Relevant Response to Post: " + post_id_title +  " was created in "+ companyName +"'s KIWI Forum ";
+                    var content = "A response to the post: " + post_id_title + " you were following was created in "
+                                    + companyName + "'sKIWI Forum ";
+                    console.log("SENT EMAIL TO "+ user_email);
                     sendEmail(user_email, subject, content);
                     break
                 }
@@ -789,7 +846,7 @@ function getUpvoteArray(responses, userID) {
 module.exports = {
     undoEndorse, updateKarma, undoUpvote, deletePostData, deleteResponseData,
     notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers,
-    createNewTag, getTags,
+    createNewTag, getTags, notifyUsersResponses,
     getTagCount, removeTag, getCurrentUserID,
     getUserTags, removeSpecialization,
     addSpecialization, removeAllUserTags, toggleAdmin,
