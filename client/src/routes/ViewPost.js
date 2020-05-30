@@ -75,14 +75,19 @@ class ViewPost extends React.Component {
             console.log(results.data);
             var responses = []
             responses = this.upvotedMerge(results.data.responses, results.data.responseBools)
+            var responseText = [], responseIDs = []
+            if (responses) {
+                responseText = Object.values(responses)
+                responseIDs = Object.keys(responses)
+            }
             this.setState({
                 createdPost: results.data.createdPost,
                 title: results.data.posts.title,
                 tags: results.data.posts.tag_ids,
                 datetime: results.data.posts.date_time,
                 karma: results.data.posts.karma,
-                responseText: Object.values(responses),
-                responseIDs: Object.keys(responses),
+                responseText: responseText,
+                responseIDs: responseIDs,
                 content: results.data.posts.content,
                 userID: results.data.posts.user_id,
                 loaded: false,
