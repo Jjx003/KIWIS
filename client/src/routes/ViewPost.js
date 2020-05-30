@@ -62,10 +62,8 @@ class ViewPost extends React.Component {
                 loaded: false,
                 failed: false,
             })
-        }).catch((error) => {
-            console.log(error);
-            this.setState({ failed: true })
-        }).then(() => {
+        })
+        .then(() => {
             axios({
                 method: 'get',
                 url: 'http://localhost:9000/users/allUsers',
@@ -76,10 +74,7 @@ class ViewPost extends React.Component {
                         console.log(response.data)
                     }
                 })
-                .catch((error) => {
-                    console.log(error);
-                    this.setState({ failed: true })
-                }).then(() => {
+                .then(() => {
                     var responseText = [];
                     if (this.state.responseIDs) {
                         responseText = Object.values(this.state.responseIDs)
@@ -92,6 +87,13 @@ class ViewPost extends React.Component {
                         OP: this.getName(this.state.userID),
                         loaded: true
                     })
+                }).catch((error) => {
+                console.log(error);
+                this.setState({failed: true})
+            })
+                .catch((error) => {
+                    console.log(error);
+                    this.setState({ failed: true })
                 })
         })
 
