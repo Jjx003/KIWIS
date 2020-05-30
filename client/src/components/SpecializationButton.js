@@ -9,10 +9,11 @@ class SpecializationButton extends React.Component{
         // takes in what tag we print and a list of user info and the class 
         this.state = {
             thisTag: this.props.tag,
-            user_info: this.props.user_tags
+            user_info: this.props.user_tags,
+            tagButton: 'tagButton'
         };
-
     }
+
 
 
     // adds a specialization
@@ -81,11 +82,16 @@ class SpecializationButton extends React.Component{
 
     render(){
         const {user_info} = this.state;
-        var tagButton = 'tagButton';
-        if(this.state.user_info.hasOwnProperty(this.state.thisTag)) {
-            tagButton = 'tagButton2'
-        }
+        const {tagButton} = this.state;
+        const {thisTag} = this.state;
 
+
+        if(user_info.hasOwnProperty(thisTag) && tagButton == 'tagButton') {
+            this.setState({tagButton: 'tagButton2'})
+        }
+        else if (!user_info.hasOwnProperty(thisTag) && tagButton == 'tagButton2') {
+            this.setState({tagButton: 'tagButton'})
+        }
 
         // method to change what is currently on page
         const handleToggle = () => {
@@ -94,7 +100,6 @@ class SpecializationButton extends React.Component{
             }
             else {
                 this.addSpecialization(this.state.thisTag);
-                this.setState({tagButton: true});
             }
         }
         
