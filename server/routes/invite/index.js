@@ -6,6 +6,7 @@ var path = require('path');
 var mailgun = require("mailgun-js");
 var db = require("../../db/index");
 var auth = require('../../auth/index');
+var {authenticated, isAdmin} = require('../auth/index')
 require('dotenv').config();
 
 const mg = mailgun({
@@ -42,15 +43,7 @@ router.get('/accept_invite/:uuid', (req, res, next) => {
 });
 
 router.post('/', 
-
-function (req, res, next) {
-    auth.checkToken(req.cookies.auth).then(() =>{
-        next()
-    }).catch( function(error) {
-        console.log("error occured when checking token, request denied");
-        res.jsonp({success: false});
-    })  
-},
+isAdmin,
 
 function (req, res, next) {
     try {
@@ -74,27 +67,6 @@ function (req, res, next) {
         return;
     }  
 });
-
-/*
-try {
-    // TODO: Sanitize email?
-    let company = "UXD14";
-    let email = "j"
-    crypto.randomBytes(16, (err, hash) => {
-        hash = hash.toString('hex')
-        let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`;
-        db.createRegistration(hash, company, email).then(() => {
-            let content = "Welcome!\n" + "\n" + inviteLink  + "\n";
-            sendEmail(email, "test", content);
-            res.jsonp({success: true}); 
-        })
-    })
-} catch (error) {
-
-    console.log(error)
-    return;
-}
-*/
 
 router.post('/validateID', (req, res) => {
     db.checkRegistration(req.body.uuid).then((snapshot) => {
