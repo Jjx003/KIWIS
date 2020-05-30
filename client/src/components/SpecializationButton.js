@@ -20,8 +20,11 @@ class SpecializationButton extends React.Component{
     addSpecialization = (thisTag) => {
         // this tag is what we are removing
         var currTag = thisTag;
-        var newJSON = this.state.user_info;
-
+        if (this.state.user_info == '' ) {
+            var newJSON = {};
+        } else {
+            var newJSON = this.state.user_info;
+        }
         axios.defaults.withCredentials = true;
         axios({
 			method: 'post',
@@ -52,8 +55,11 @@ class SpecializationButton extends React.Component{
     removeSpecialization = (thisTag) => {
         // this tag is what we are removing
         var currTag = thisTag;
-        var newJSON = this.state.user_info;
-
+        if (this.state.user_info == '' ) {
+            var newJSON = {};
+        } else {
+            var newJSON = this.state.user_info;
+        }
         axios.defaults.withCredentials = true;
         axios({
 			method: 'post',
@@ -85,7 +91,7 @@ class SpecializationButton extends React.Component{
         const {tagButton} = this.state;
         const {thisTag} = this.state;
 
-
+        
         if(user_info.hasOwnProperty(thisTag) && tagButton == 'tagButton') {
             this.setState({tagButton: 'tagButton2'})
         }
@@ -96,16 +102,16 @@ class SpecializationButton extends React.Component{
         // method to change what is currently on page
         const handleToggle = () => {
             if(user_info.hasOwnProperty(this.state.thisTag)) {
-                this.removeSpecialization(this.state.thisTag);
+                this.removeSpecialization(thisTag);
             }
             else {
-                this.addSpecialization(this.state.thisTag);
+                this.addSpecialization(thisTag);
             }
         }
         
         // just prints one button with the styling
         return (
-            <button onClick={handleToggle} className={tagButton}>{this.state.thisTag}</button>
+            <button onClick={handleToggle} className={tagButton}>{thisTag}</button>
         );
     
     }
