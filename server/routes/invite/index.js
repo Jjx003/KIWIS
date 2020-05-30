@@ -5,6 +5,7 @@ var router = express.Router();
 var path = require('path');
 var mailgun = require("mailgun-js");
 var db = require("../../db/index");
+var auth = require('../../auth/index');
 require('dotenv').config();
 
 const mg = mailgun({
@@ -29,6 +30,7 @@ router.get('/accept_invite/:uuid', (req, res, next) => {
     let uuid = req.params.uuid;
   // checking if uuid is present in registration table
   db.checkRegistration(req.params.uuid).then((snapshot) => {
+      console.log(snapshot)
       if (snapshot.val() != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
   }).catch((error) => {
       console.log(error);
@@ -39,7 +41,18 @@ router.get('/accept_invite/:uuid', (req, res, next) => {
 
 });
 
-router.post('/', function (req, res, next) {
+router.post('/', 
+
+function (req, res, next) {
+    auth.checkToken(req.cookies.auth).then(() =>{
+        next()
+    }).catch( function(error) {
+        console.log("error occured when checking token, request denied");
+        res.jsonp({success: false});
+    })  
+},
+
+function (req, res, next) {
     try {
         // TODO: Sanitize email?
         let email = req.body.email;
