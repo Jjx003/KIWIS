@@ -763,7 +763,31 @@ function deleteResponseData(companyName, response_id) {
         
 }
 
+
+function getUpvoteArray(responses, userID) {
+    return new Promise( (resolve, reject) => {
+        var values = responses.val();
+        if (responses.val() == null) {
+            resolve(values);
+        }
+        var returnVal = {};
+        for( var key in values) {
+            returnVal[key] = false;
+            if(values[key].upvoters != undefined) {
+                for(var i = 0; i < values[key].upvoters.length; i++) {
+                    if (values[key].upvoters[i] == userID) {
+                        returnVal[key] = true;
+                        break;
+                    }
+                }
+            }
+        }
+        resolve(returnVal);
+    })
+}
+
 module.exports = {
+    undoEndorse, updateKarma, undoUpvote, deletePostData, deleteResponseData,
     notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers,
     createNewTag, getTags,
     getTagCount, removeTag, getCurrentUserID,
@@ -772,7 +796,7 @@ module.exports = {
     getCompanyPosts, getCompanyTags, getUserEmail,
     isUserAdmin, pullResponse, pushResponse, checkRegistration,
     getMetadata, createRegistration, upVotePost, addPostData, removeUser, endorseResponse,
-    addFollowingUser, removeFollowingUser,
+    addFollowingUser, removeFollowingUser, getUpvoteArray,
     undoEndorse, updateKarma, undoUpvote, deletePostData, deleteResponseData
 };
 
