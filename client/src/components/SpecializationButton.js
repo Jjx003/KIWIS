@@ -9,40 +9,18 @@ class SpecializationButton extends React.Component{
         // takes in what tag we print and a list of user info and the class 
         this.state = {
             thisTag: this.props.tag,
-            user_info: {},
-            theClass: 'tagButton'
+            user_info: this.props.user_tags,
+            tagButton: 'tagButton'
         };
-
-        // updates to see if the user has the tag
-        this.getUserInfo();
-          
+        
+        this.updateButton();
     }
 
-    // gets the current information on what tags user has
-    getUserInfo = () => {
-        // gets the user tags list
-        axios.defaults.withCredentials = true;
-        axios({
-            method: 'get',
-            url: 'http://localhost:9000/users/userTags',
-            withCredentials: true,
-        })
-        .then((response) => { 
-            // rechecks if the user has the tag 
-            if (response != undefined) { 
-                // updates user
-                this.setState({user_info: response.data});   
-                if(response.data.hasOwnProperty(this.state.thisTag)) {
-                    this.setState({theClass: 'tagButton2'});
-                }
-            } else {
-                console.log("error with tags.");
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }
+    updateButton = () => {
+        if(this.state.user_info.hasOwnProperty(this.state.thisTag) && this.state.tagButton == 'tagButton') {
+            this.setState({tagButton: 'tagButton2'});
+        }
+     }
 
     // adds a specialization
     addSpecialization = (thisTag) => {
@@ -107,24 +85,26 @@ class SpecializationButton extends React.Component{
 
 
     render(){
-        const {user_info} = this.state;
+        
+        const {tagButton} = this.state
+        const {user_info} = this.state
+        this.updateButton();
 
         // method to change what is currently on page
         const handleToggle = () => {
-            this.getUserInfo();
             if(user_info.hasOwnProperty(this.state.thisTag)) {
                 this.removeSpecialization(this.state.thisTag);
-                this.setState({theClass: 'tagButton'});
+                this.setState({tagButton: 'tagButton'});
             }
             else {
                 this.addSpecialization(this.state.thisTag);
-                this.setState({theClass: 'tagButton2'});
+                this.setState({tagButton: 'tagButton2'});
             }
         }
         
         // just prints one button with the styling
         return (
-            <button onClick={handleToggle} className={this.state.theClass}>{this.state.thisTag}</button>
+            <button onClick={handleToggle} className={tagButton}>{this.state.thisTag}</button>
         );
     
     }
