@@ -14,6 +14,7 @@ class ViewPost extends React.Component {
         super(props);
 
         this.latestResponse = 0;
+        this.lockResponse = false;
 
         this.state = {
             createdPost: false,
@@ -35,9 +36,8 @@ class ViewPost extends React.Component {
 
     getName = (userid) => {
         let name = "User Not Found";
-        const users = this.state.users;
-        if (users !== undefined && users[userid] !== undefined) {
-            name = users[userid].firstName + " " + users[userid].lastName;
+        if (this.state.users !== undefined && this.state.users[userid] !== undefined) {
+            name = this.state.users[userid].firstName + " " + this.state.users[userid].lastName;
 
         }
         return name;
@@ -73,26 +73,26 @@ class ViewPost extends React.Component {
                 .then((response) => {
                     if (response.status === 200) {
                         this.setState({ users: response.data });
+                        console.log(response.data)
                     }
                 })
                 .catch((error) => {
                     console.log(error);
                     this.setState({ failed: true })
+                }).then(() => {
+                    var responseText = [];
+                    if (this.state.responseIDs) {
+                        responseText = Object.values(this.state.responseIDs)
+                    }
+
+                    this.latestResponse = responseText.length
+
+                    this.setState({
+                        responseObjs: responseText.map((obj, i) => <Response key={i} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
+                        OP: this.getName(this.state.userID),
+                        loaded: true
+                    })
                 })
-        }).then(() => {
-            // Stole method from HomePosts.js
-            var responseText = [];
-            if (this.state.responseIDs) {
-                responseText = Object.values(this.state.responseIDs)
-            }
-
-            this.latestResponse = responseText.length
-
-            this.setState({
-                responseObjs: responseText.map((obj, i) => <Response key={i} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
-                OP: this.getName(this.state.userID),
-                loaded: true
-            })
         })
 
     }
@@ -100,28 +100,38 @@ class ViewPost extends React.Component {
 
 
     refreshResponse = () => {
+        /* NOTE: PROBABLY MUCH BETTER WAY TO DO THIS! */
+        while (this.lockResponse) { }
+
+        this.lockResponse = true
+
         axios({
             method: 'get',
             url: 'http://localhost:9000/posts/' + this.props.id.toString(),
         }).then((results) => {
             // do this to convince javascript that responses is an array
-            var newResponses = []
-            newResponses = results.data.responses
-            if (newResponses) { // now convinced that it is an array...
-                newResponses = Object.values(newResponses)
+            var responses = []
+            responses = results.data.responses
+            if (responses) { // now convinced that it is an array...
+                responses = Object.values(responses)
                 // cut it to the responses we haven't seen yet
-                newResponses = newResponses.slice(this.latestResponse)
+                var newResponses = responses.slice(this.latestResponse)
+
+                // update variables! offset is how many we already have, latest response is all the responses we've now read
+                var offset = this.latestResponse
+                this.latestResponse = responses.length
 
                 // update the state to have the new response objects
                 this.setState({
-                    responseObjs: this.state.responseObjs.concat(newResponses.map((obj, i) => <Response key={this.latestResponse + i} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />))
+                    responseObjs: this.state.responseObjs.concat(newResponses.map((obj, i) => <Response key={offset + i} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />))
                 })
-                // update latest response to show we've read new responses
-                this.latestResponse = results.data.responses.length
+
+                // we're done, unlock the method
+                this.lockResponse = false
             } else {
                 console.log("no new responses")
+                this.lockResponse = false
             }
-
         }).catch((error) => {
             console.log(error);
             this.setState({ failed: true })
