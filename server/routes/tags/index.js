@@ -85,7 +85,7 @@ router.post('/add',
             db.getCompanyName(decodedToken).then(function(snapshot) {
                 var company_name = snapshot;
                 db.createNewTag(company_name, req.body.tagName);
-                res.jsonp({success : added});
+                res.jsonp({success : true});
             }).catch( function(error) {
                 console.log(error);
                 res.jsonp({success: false});
