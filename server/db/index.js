@@ -180,7 +180,7 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
                 }
 
                 // Add the default 2 tags if it doesn't exist
-                forumDBRef.child('Tags').update({ "annoucements": "annoucements", "help-needed": "help-needed" });
+                forumDBRef.child('Tags').update({ "announcements": "announcements", "help-needed": "help-needed" });
 
                 resolve(true);
             }).catch((error) => {
