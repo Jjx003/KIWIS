@@ -9,23 +9,17 @@ class SpecializationButton extends React.Component{
         // takes in what tag we print and a list of user info and the class 
         this.state = {
             thisTag: this.props.tag,
-            user_info: this.props.user_tags,
-            tagButton: 'tagButton'
+            user_info: this.props.user_tags
         };
-        
-        this.updateButton();
+
     }
 
-    updateButton = () => {
-        if(this.state.user_info.hasOwnProperty(this.state.thisTag) && this.state.tagButton == 'tagButton') {
-            this.setState({tagButton: 'tagButton2'});
-        }
-     }
 
     // adds a specialization
     addSpecialization = (thisTag) => {
         // this tag is what we are removing
         var currTag = thisTag;
+        var newJSON = this.state.user_info;
 
         axios.defaults.withCredentials = true;
         axios({
@@ -40,8 +34,9 @@ class SpecializationButton extends React.Component{
           .then((response) => {
 			if (response.data.success) {
                 // Wait until update processes before redirecting
-                console.log("Tag was successfully added!");
-                this.state.user_info[thisTag] = thisTag;
+                console.log("successfully added");
+                newJSON[thisTag] = thisTag;
+                this.setState({user_info: newJSON});
 			} else {
 				console.log("Tag was not added");
             }
@@ -56,6 +51,7 @@ class SpecializationButton extends React.Component{
     removeSpecialization = (thisTag) => {
         // this tag is what we are removing
         var currTag = thisTag;
+        var newJSON = this.state.user_info;
 
         axios.defaults.withCredentials = true;
         axios({
@@ -71,7 +67,8 @@ class SpecializationButton extends React.Component{
 			if (response.data.success) {
                 // Wait until update processes before redirecting
                 console.log("Tag was successfully removed!");
-                delete this.state.user_info[thisTag];
+                delete newJSON[thisTag];
+                this.setState({user_info: newJSON});
 			} else {
 				console.log("Tag was not added");
             }
@@ -83,19 +80,21 @@ class SpecializationButton extends React.Component{
 
 
     render(){
-        const {tagButton} = this.state;
         const {user_info} = this.state;
-        this.updateButton();
+        var tagButton = 'tagButton';
+        if(this.state.user_info.hasOwnProperty(this.state.thisTag)) {
+            tagButton = 'tagButton2'
+        }
+
 
         // method to change what is currently on page
         const handleToggle = () => {
             if(user_info.hasOwnProperty(this.state.thisTag)) {
                 this.removeSpecialization(this.state.thisTag);
-                this.setState({tagButton: 'tagButton'});
             }
             else {
                 this.addSpecialization(this.state.thisTag);
-                this.setState({tagButton: 'tagButton2'});
+                this.setState({tagButton: true});
             }
         }
         
