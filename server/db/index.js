@@ -331,9 +331,7 @@ function notifyUsersResponses(companyName, post_id) {
     const firebaseRef = db.database().ref(companyName);
     firebaseRef.once('value', function(snapshot){
 
-        var post_following = snapshot.child("Posts/" + post_id + "/follower_ids").val();
-        console.log(post_following);
-        console.log(post_id);
+        var post_following = Object.keys(snapshot.child("Posts/" + post_id + "/follower_ids").val());
         // If the post has no users following, then just return
         if(post_following.length == 0) {
             console.log("Post did not have any users following");
