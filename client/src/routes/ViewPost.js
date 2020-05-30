@@ -28,6 +28,13 @@ class ViewPost extends React.Component {
         }
     }
 
+    upvotedMerge = (arr1, arr2) => {
+        for (var key in arr2) {
+            arr1[key].userUpvoted = arr2[key]
+        }
+        return arr1
+    }
+
     componentDidMount() {
         // TODO: THESE CAN BE ASYNC AS LONG AS BOTH ARE RETRIEVED BEFORE RENDER
         axios({
@@ -41,7 +48,7 @@ class ViewPost extends React.Component {
                 tags: results.data.posts.tag_ids,
                 datetime: results.data.posts.date_time,
                 karma: results.data.posts.karma,
-                responses: results.data.responses,
+                responses: this.upvotedMerge(results.data.responses, results.data.responseBools),
                 content: results.data.posts.content,
                 userID: results.data.posts.user_id,
                 loaded: false,
@@ -84,13 +91,12 @@ class ViewPost extends React.Component {
             }
 
             var responseArr = []
+            var responseIDs = []
             if (responses) {
                 responseArr = Object.values(responses)
-                console.log(responseArr)
+                responseIDs = Object.keys(responses)
             }
-            var mapped = responseArr.map((obj, i) => <Response key={i} firstPoster={createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={getName(obj.user_id)} />)
-
-
+            var mapped = responseArr.map((obj, i) => <Response key={i} responseID={responseIDs[i]} userUpvoted={obj.userUpvoted} firstPoster={createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={getName(obj.user_id)} />)
 
             return (
                 <div className={"container"}>
