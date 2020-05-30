@@ -5,6 +5,8 @@ var router = express.Router();
 var path = require('path');
 var mailgun = require("mailgun-js");
 var db = require("../../db/index");
+var auth = require('../../auth/index');
+var {authenticated, isAdmin} = require('../auth/index')
 require('dotenv').config();
 
 const mg = mailgun({
@@ -28,8 +30,9 @@ function sendEmail(email, subject, content) {
 router.get('/accept_invite/:uuid', (req, res, next) => {
     let uuid = req.params.uuid;
   // checking if uuid is present in registration table
-  db.checkRegistration(req.params.uuid).then((id) => {
-      if (id != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
+  db.checkRegistration(req.params.uuid).then((snapshot) => {
+      console.log(snapshot)
+      if (snapshot.val() != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
   }).catch((error) => {
       console.log(error);
       res.jsonp({success:false});
@@ -39,7 +42,10 @@ router.get('/accept_invite/:uuid', (req, res, next) => {
 
 });
 
-router.post('/', function (req, res, next) {
+router.post('/', 
+authenticated, isAdmin, 
+
+function (req, res, next) {
     try {
         // TODO: Sanitize email?
         let email = req.body.email;
@@ -59,36 +65,13 @@ router.post('/', function (req, res, next) {
         res.send("failed");
         console.log(error)
         return;
-    }
-    res.send("succ");
-
-  
+    }  
 });
 
-/*
-try {
-    // TODO: Sanitize email?
-    let company = "UXD14";
-    let email = "j"
-    crypto.randomBytes(16, (err, hash) => {
-        hash = hash.toString('hex')
-        let inviteLink = `http://localhost:3000/inviteUser/accept_invite/${hash}`;
-        db.createRegistration(hash, company, email).then(() => {
-            let content = "Welcome!\n" + "\n" + inviteLink  + "\n";
-            sendEmail(email, "test", content);
-            res.jsonp({success: true}); 
-        })
-    })
-} catch (error) {
-
-    console.log(error)
-    return;
-}
-*/
-
 router.post('/validateID', (req, res) => {
-    db.checkRegistration(req.body.uuid).then((id) => {
-        if (id != null || id != undefined) {
+    db.checkRegistration(req.body.uuid).then((snapshot) => {
+        let value = snapshot.val();
+        if (value != null || value != undefined) {
             res.jsonp({success:true});
         } else {
             res.jsonp({success:false});

@@ -22,7 +22,7 @@ class HomePosts extends React.Component {
             users: {},
             textSearch: false,
             updated: false,
-            company: ""
+            company: "empty"
         };
 
         this.updateTagSearch = this.updateTagSearch.bind(this);
@@ -42,40 +42,44 @@ class HomePosts extends React.Component {
             .catch((error) => {
                 console.log(error);
             })
+
         axios({
             method: 'get',
             url: 'http://localhost:9000/users/allUsers',
         })
-            .then((response) => {
-                if (response.status === 200) {
-                    this.setState({ users: response.data });
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            })
+        .then((response) => {
+            if (response.status === 200) {
+                this.setState({ users: response.data });
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+
         axios({
             method: 'get',
             url: 'http://localhost:9000/posts/',
         })
-            .then((response) => {
-                if (response.data.success) {
-                    this.setState({ posts: response.data.posts });
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        .then((response) => { 
+            if (response.data.success) { 
+                this.setState({posts: response.data.posts});
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     }
 
     //searching through posts state
     searchTags(value, keyList) {
         return this.state.posts.forEach(post => {
-            post.tag_ids.forEach(tag => {
-                if (value.includes(tag)) {
-                    keyList.push(post.title);
-                }
-            })
+            if(post.tag_ids !== undefined){
+                post.tag_ids.forEach(tag => {
+                    if (value.includes(tag)) {
+                        keyList.push(post.key);
+                    }
+                })
+            }
         })
     }
 
@@ -83,7 +87,6 @@ class HomePosts extends React.Component {
     updateTagSearch(value) {
         let keyList = []
         this.searchTags(value, keyList);
-
         if (this.state.posts) {
             this.setState(state => {
                 state.posts.forEach(
@@ -91,8 +94,9 @@ class HomePosts extends React.Component {
                         if (value.length === 0) {
                             post.visible = true;
                         }
-                        else if (keyList.includes(post.title)) {
+                        else if (keyList.includes(post.key)) {
                             post.visible = true;
+                            //console.log(post);
                         }
                         else
                             post.visible = false;
@@ -200,7 +204,7 @@ const Results = connectStateResults(
         searchResults && searchResults.nbHits !== 0 ? (
             children) : (
                 <div className="posts-container">
-                    <div className="no-results-msg">No results have been found for {searchState.query}
+                    <div className="no-results-msg"><p>No results have been found for "{searchState.query}"</p> <br />
                         <RedirectButton props={props} />
                     </div>
                 </div>)

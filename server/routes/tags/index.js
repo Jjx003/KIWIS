@@ -7,7 +7,6 @@ const { check, validationResult } = require('express-validator');
 require('dotenv').config();
 var {getCompanyTags} = require('../../db/index')
 
-
 router.get('/',
     function (req, res, next) {
         const company = req.user.company;        //needs to get company so not hard coded

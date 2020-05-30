@@ -82,8 +82,6 @@
 .response-post{
     display: grid;
     grid-template-columns: 1fr 5fr 1fr;
-
-
     width: 78vw;
     margin: auto;
     margin-top: 1%;
@@ -96,6 +94,27 @@
     border-width: 4px;
     padding-top: 0.00002%;
     padding: 5px;
+}
+
+.writingReply{
+    /*background-color: blue;*/
+
+    display: grid;
+    grid-template-rows: 8fr 1fr;
+    width: 78vw;
+    margin: auto;
+    margin-top: 1%;
+    height: 20vh;
+    overflow: hidden;
+    background-color: white;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: gray;
+    border-width: 4px;
+    padding-top: 0.00002%;
+    padding: 5px;
+
+    margin-bottom: 2vh;
 }
 
 .rPoster{
@@ -160,4 +179,11 @@
     margin: 4px 2px;
     cursor: pointer;
     margin-left: 130px;
+}
+
+.postResponse{
+    /*background-color: #C589A5;*/
+    align-self: center;
+    float: right;
+    margin-left: auto;
 }

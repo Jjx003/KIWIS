@@ -96,7 +96,7 @@ class OriginalPoster extends React.Component {
                         {this.state.firstPoster ? <h1 className={"karma"}><button className={"button"}>Edit Post</button>{"+ " + this.state.karma}</h1> :
                             <h1 className={"karma"}>
                                 <button className={"button"}>View Endorsed</button>
-                                <button className={"button"}>Upvote Response</button>
+                                <button className={"button"}>Upvote Post</button>
                                 {"+ " + this.state.karma}</h1>
                         }
                     </div>
