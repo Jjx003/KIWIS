@@ -100,11 +100,11 @@
     /*background-color: blue;*/
 
     display: grid;
-    grid-template-columns: 1fr 5fr;
+    grid-template-rows: 8fr 1fr;
     width: 78vw;
     margin: auto;
     margin-top: 1%;
-    height: 15vh;
+    height: 20vh;
     overflow: hidden;
     background-color: white;
     border-radius: 10px;
@@ -177,4 +177,11 @@
     margin: 4px 2px;
     cursor: pointer;
     margin-left: 130px;
+}
+
+.postResponse{
+    /*background-color: #C589A5;*/
+    align-self: center;
+    float: right;
+    margin-left: auto;
 }

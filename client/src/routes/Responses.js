@@ -49,37 +49,13 @@ class AddResponse extends React.Component {
         return (
             <form onSubmit={this.addResponse}>
                 <div className="AddResponse-submission">
-                    {/*<form onSubmit={this.addResponse}>*/}
-                    {/*    <label>*/}
-                    {/*        Post*/}
-                    {/*        <input name="post_id" placeholder="Post_ID" />*/}
-                    {/*    </label>*/}
-                    {/*    <label>*/}
-                    {/*        Response Content*/}
-                    {/*        <input name="content" placeholder="Response Content" />*/}
-                    {/*    </label>*/}
-                    {/*    <button type="Submit Response"> Submit Response </button>*/}
-                    {/*</form>*/}
-                    {/*<form onSubmit={this.pullResponse}>*/}
-                    {/*    <label>*/}
-                    {/*        Post_ID*/}
-                    {/*        <input name = "post_id1" placeholder = "POST_ID" />*/}
-                    {/*    </label>*/}
-                    {/*    <button type="Pull response"> Pull responses</button>*/}
-                    {/*</form>*/}
-                    {/*nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn*/}
                     <div className={"writingReply"}>
-                        <div className={"leftSide"}>
-                            <div className={"rPoster"}>
-                                <h2 className={"responder"}>{"Gary" + ": "}</h2>
-                            </div>
-                            <div>
-                                <button className={"button"}>Post Response</button>
-                            </div>
-                        </div>
-
                         <textarea name={"responseText"} placeholder={"Write your response here."} />
+                        <div className={"postResponse"}>
+                            <button className={"button"}>Post Response</button>
+                        </div>
                     </div>
+
                 </div>
             </form>
         );
