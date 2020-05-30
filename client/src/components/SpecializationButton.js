@@ -41,8 +41,7 @@ class SpecializationButton extends React.Component{
 			if (response.data.success) {
                 // Wait until update processes before redirecting
                 console.log("Tag was successfully added!");
-                // Redirect to home page
-				this.props.history.replace('/');
+                this.state.user_info[thisTag] = thisTag;
 			} else {
 				console.log("Tag was not added");
             }
@@ -71,9 +70,8 @@ class SpecializationButton extends React.Component{
           .then((response) => {
 			if (response.data.success) {
                 // Wait until update processes before redirecting
-                console.log("Tag was successfully added!");
-                // Redirect to home page
-				this.props.history.replace('/');
+                console.log("Tag was successfully removed!");
+                delete this.state.user_info[thisTag];
 			} else {
 				console.log("Tag was not added");
             }
@@ -85,9 +83,8 @@ class SpecializationButton extends React.Component{
 
 
     render(){
-        
-        const {tagButton} = this.state
-        const {user_info} = this.state
+        const {tagButton} = this.state;
+        const {user_info} = this.state;
         this.updateButton();
 
         // method to change what is currently on page
