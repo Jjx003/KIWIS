@@ -17,9 +17,14 @@ router.get('/:id',
         })
 
         dbIndex.pullResponse(company, req.params.id).then((responseData) => {
+            
 
             dbIndex.userMadePost(company, user_id, req.params.id).then((result) => {
-                res.jsonp({ posts: posts, responses: responseData, createdPost: result })
+
+                dbIndex.getUpvoteArray(responseData, user_id).then((array) => {
+                    res.jsonp({ posts: posts, responses: responseData, createdPost: result, responseBools: array })
+                
+                })
 
             }).catch((error) => {
                 console.log(error);

@@ -28,7 +28,7 @@ class ViewPost extends React.Component {
             content: "",
             OP: "",
             karma: 0,
-            responseIDs: [],
+            responses: [],
             responseObjs: [],
             failed: false,
         }
@@ -41,6 +41,13 @@ class ViewPost extends React.Component {
 
         }
         return name;
+    }
+
+    upvotedMerge = (arr1, arr2) => {
+        for (var key in arr2) {
+            arr1[key].userUpvoted = arr2[key]
+        }
+        return arr1
     }
 
     componentDidMount() {
@@ -56,46 +63,49 @@ class ViewPost extends React.Component {
                 tags: results.data.posts.tag_ids,
                 datetime: results.data.posts.date_time,
                 karma: results.data.posts.karma,
-                responseIDs: results.data.responses,
+                responses: this.upvotedMerge(results.data.responses, results.data.responseBools),
                 content: results.data.posts.content,
                 userID: results.data.posts.user_id,
                 loaded: false,
                 failed: false,
             })
+
         })
-        .then(() => {
-            axios({
-                method: 'get',
-                url: 'http://localhost:9000/users/allUsers',
-            })
-                .then((response) => {
-                    if (response.status === 200) {
-                        this.setState({ users: response.data });
-                        console.log(response.data)
-                    }
+            .then(() => {
+                axios({
+                    method: 'get',
+                    url: 'http://localhost:9000/users/allUsers',
                 })
-                .then(() => {
-                    var responseText = [];
-                    if (this.state.responseIDs) {
-                        responseText = Object.values(this.state.responseIDs)
-                    }
-
-                    this.latestResponse = responseText.length
-
-                    this.setState({
-                        responseObjs: responseText.map((obj, i) => <Response key={i} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
-                        OP: this.getName(this.state.userID),
-                        loaded: true
+                    .then((response) => {
+                        if (response.status === 200) {
+                            this.setState({ users: response.data });
+                            console.log(response.data)
+                        }
                     })
-                }).catch((error) => {
-                console.log(error);
-                this.setState({failed: true})
+                    .then(() => {
+                        var responseText = [];
+                        var responseIDs = [];
+                        if (this.state.responses) {
+                            responseText = Object.values(this.state.responses)
+                            responseIDs = Object.keys(this.state.responses)
+                        }
+
+                        this.latestResponse = responseText.length
+
+                        this.setState({
+                            responseObjs: responseText.map((obj, i) => <Response key={i} responseID={responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
+                            OP: this.getName(this.state.userID),
+                            loaded: true
+                        })
+                    }).catch((error) => {
+                        console.log(error);
+                        this.setState({ failed: true })
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        this.setState({ failed: true })
+                    })
             })
-                .catch((error) => {
-                    console.log(error);
-                    this.setState({ failed: true })
-                })
-        })
 
     }
 

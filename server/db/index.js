@@ -353,20 +353,6 @@ function upVotePost(forumName, post_id) {
 
 }
 
-function endorseResponse(forumName, response_id) {
-
-    // Reference the response
-    const firebaseRef = db.database().ref(forumName + "/Responses" + response_id);
-
-    // Endorse the response
-    firebaseRef.update({ endorsed: true });
-
-}
-
-// Removes a user from the database
-function removeUser(forumName, userID) {
-    db.database().ref(forumName).child('Users').child(userID).remove();
-}
 
 // "GET" method for users
 function getUsers(forumName) {
@@ -777,16 +763,40 @@ function deleteResponseData(companyName, response_id) {
         
 }
 
+
+function getUpvoteArray(responses, userID) {
+    return new Promise( (resolve, reject) => {
+        var values = responses.val();
+        if (responses.val() == null) {
+            resolve(values);
+        }
+        var returnVal = {};
+        for( var key in values) {
+            returnVal[key] = false;
+            if(values[key].upvoters != undefined) {
+                for(var i = 0; i < values[key].upvoters.length; i++) {
+                    if (values[key].upvoters[i] == userID) {
+                        returnVal[key] = true;
+                        break;
+                    }
+                }
+            }
+        }
+        resolve(returnVal);
+    })
+}
+
 module.exports = {
+    undoEndorse, updateKarma, undoUpvote, deletePostData, deleteResponseData,
     notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers,
-    removeUser, createNewTag, getTags,
+    createNewTag, getTags,
     getTagCount, removeTag, getCurrentUserID,
     getUserTags, removeSpecialization,
     addSpecialization, removeAllUserTags, toggleAdmin,
     getCompanyPosts, getCompanyTags, getUserEmail,
     isUserAdmin, pullResponse, pushResponse, checkRegistration,
     getMetadata, createRegistration, upVotePost, addPostData, removeUser, endorseResponse,
-    addFollowingUser, removeFollowingUser,
+    addFollowingUser, removeFollowingUser, getUpvoteArray,
     undoEndorse, updateKarma, undoUpvote, deletePostData, deleteResponseData
 };
 

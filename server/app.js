@@ -31,7 +31,7 @@ app.use('/posts', authenticated, postsRouter);
 app.use('/tags', authenticated, tagsRouter);
 app.use('/users', authenticated, userRouter);
 
-app.use('/inviteUser', authenticated, inviteRouter);
+app.use('/inviteUser', inviteRouter);
 
 app.use('/Response', authenticated, responseRouter);
 app.use('/metadata', authenticated, metadataRouter);
