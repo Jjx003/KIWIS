@@ -108,7 +108,6 @@ class Response extends React.Component {
                 })
                     .then((response) => {
                         if (response.data.success) {
-                            console.log("updating global")
                             this.props.postEndorse(this.state.responseID)
                             // Wait until update processes before redirecting
                             this.setState({

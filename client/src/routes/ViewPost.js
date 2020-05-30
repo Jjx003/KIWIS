@@ -97,7 +97,6 @@ class ViewPost extends React.Component {
                     .then((response) => {
                         if (response.status === 200) {
                             this.setState({ users: response.data });
-                            console.log(response.data)
                         }
                     })
                     .then(() => {
