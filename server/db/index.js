@@ -229,7 +229,7 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
             content: p_content,
             karma: 0,
             responses: ["-1"],
-            follower_ids: ["-1"]
+            follower_ids: [p_user_id]
         });
     } catch (error) {
         console.log(error);
