@@ -699,6 +699,11 @@ function getMetadata(forumName) {
     })
 }
 
+// Remove a user to the post's following; user should no longer follow the post
+function isFollowingUser(forumName, postID, userID) {
+    return db.database().ref(forumName).child("Posts/" + postID + "/follower_ids/" + userID).once("value");
+}
+
 function deletePostData(companyName, post_id) {
 
     const firebaseRef = db.database().ref(companyName);
@@ -802,7 +807,7 @@ module.exports = {
     getCompanyPosts, getCompanyTags, getUserEmail,
     isUserAdmin, pullResponse, pushResponse, checkRegistration,
     getMetadata, createRegistration, upVotePost, addPostData, removeUser, endorseResponse,
-    addFollowingUser, removeFollowingUser, getUpvoteArray,
+    addFollowingUser, removeFollowingUser, getUpvoteArray, isFollowingUser,
     undoEndorse, updateKarma, undoUpvote, deletePostData, deleteResponseData
 };
 
