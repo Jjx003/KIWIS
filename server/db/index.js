@@ -810,6 +810,7 @@ module.exports = {
     getCompanyPosts, getCompanyTags, getUserEmail,
     isUserAdmin, pullResponse, pushResponse, checkRegistration,
     getMetadata, createRegistration, upVotePost, addPostData, removeUser, endorseResponse,
-    addFollowingUser, removeFollowingUser, getUpvoteArray
+    addFollowingUser, removeFollowingUser, getUpvoteArray,
+    undoEndorse, updateKarma, undoUpvote, deletePostData, deleteResponseData
 };
 
