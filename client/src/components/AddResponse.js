@@ -43,7 +43,7 @@ class AddResponse extends React.Component {
             <form onSubmit={this.addResponse}>
                 <div className="AddResponse-submission">
                     <div className={"writingReply"}>
-                        <textarea name={"responseText"} classname={"responseText"} placeholder={"Write your response here."} />
+                        <textarea name={"responseText"} className={"responseText"} placeholder={"Write your response here."} />
                         <div className={"postResponse"}>
                             <button className={"button"}>Post Response</button>
                         </div>
