@@ -35,31 +35,9 @@ async function sendEmail(targetEmail, targetContent) {
 
 const Home = ({ history }) => {
 
-	const updateFunction = useContext(UpdateContext);
-
-	const createPost = () => {
-
-		history.push('/createPost');
-
-
-	}
-
-	const handleSignOut = () => {
-		firebase.auth().signOut();
-
-		// removing cookie
-		const cookies = new Cookies();
-		cookies.remove('auth');
-
-		// redirect to home page
-		history.push("/login");
-	}
-
-
 	return (
 		<div className="app">
 			<HomePosts />
-			<Button onClick={createPost}>Create Post</Button>
 		</div>
 	);
 }
