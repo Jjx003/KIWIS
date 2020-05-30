@@ -1,31 +1,32 @@
-var {db} = require('../firebase');
-var {admin} = require('../firebase');
+var { db } = require('../firebase');
+var { admin } = require('../firebase');
 var auth = require('../auth/index');
 
 // "POST" method for responses
-function pushResponse(company,r_user_id, r_post_id, r_content){
-    
+function pushResponse(company, r_user_id, r_post_id, r_content) {
+
     // Company's ref 
     const firebaseRef = db.database().ref(company);
 
     //datetime month-date-year "at" time
     var today = new Date();
-    var datetime = (today.getMonth()+1)+'-'+today.getDate()+'-'+today.getFullYear()+' at '+today.getHours()+':'+today.getMinutes();
-    
+    var datetime = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear() + ' at ' + today.getHours() + ':' + today.getMinutes();
+
     firebaseRef.child("Responses").push({
         user_id: r_user_id,
         karma: 0,
         post_id: r_post_id,
         datetime: datetime,
         content: r_content,
-        endorsed: false});
-    
+        endorsed: false
+    });
+
 }
 
 
 // Retrieve data from a specific company based off of the post_id
-function pullResponse(company, post_id){
-    const responseRef = db.database().ref(company+ '/Responses/');
+function pullResponse(company, post_id) {
+    const responseRef = db.database().ref(company + '/Responses/');
     return responseRef.orderByChild("post_id").equalTo(post_id).once("value");
 }
 
@@ -33,7 +34,7 @@ function pullResponse(company, post_id){
 function createNewTag(forumName, tagName) {
     const forumDBRef = db.database().ref(forumName);
     var tag = {};
-    tag[tagName] = {count: 0};
+    tag[tagName] = { count: 0 };
     forumDBRef.child("Tags").update(tag);
 }
 
@@ -67,7 +68,7 @@ function removeTagFromAllUsers(forumName, tagName) {
             removeSpecialization(forumName, child.key, tagName);
         });
     });
-}	
+}
 
 function addSpecialization(forumName, userID, tagName) {
     var tagtoadd = {};
@@ -85,7 +86,7 @@ function isUserAdmin(forumName, userID) {
 
 // "GET" method for a user's id
 function getCurrentUserID(token) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         admin.auth().verifyIdToken(token).then((decodedToken) => {
             resolve(decodedToken.uid);
         }).catch((error) => {
@@ -110,8 +111,8 @@ function removeUser(forumName, userID) {
     admin.auth().deleteUser(userID);
 }
 
-    
-function getCompanyPosts(company){
+
+function getCompanyPosts(company) {
     const firebaseRef = db.database().ref(company).child('Posts');
     return new Promise((resolve, reject) => {
         firebaseRef.once('value', postSnapShot => {
@@ -127,7 +128,7 @@ function getCompanyPosts(company){
     })
 }
 
-function getCompanyTags(company, tags){
+function getCompanyTags(company, tags) {
     return db.database().ref(company).child('Tags').once('value', tagSnapshot => {
         tagSnapshot.forEach(tag => {
             var x = tag.key;
@@ -142,13 +143,13 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
     //firebase.db.database().update(forumName);
     //firebase.db.database().ref(forumName).update("Users");
 
-    return new Promise(function(resolve, reject){
+    return new Promise(function (resolve, reject) {
 
         try {
             // Check if user is admin and if the company already exists
-            if(isAdmin == true) {
+            if (isAdmin == true) {
                 db.database().ref(forumName).once("value", snapshot => {
-                    if(snapshot.exists()) {
+                    if (snapshot.exists()) {
                         console.log("This company already exists");
                         resolve(false);
                         return;
@@ -160,34 +161,34 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
                 var userID = data.uid;
                 var user = {};
                 // Creates a new user object with the userID as a key
-                user[userID] =  {
+                user[userID] = {
                     firstName: firstName,
                     lastName: lastName,
                     email: email,
                     admin: isAdmin,
-                    tags: {'announcements':'announcements', 'help-needed':'help-needed'},
+                    tags: { 'announcements': 'announcements', 'help-needed': 'help-needed' },
                     following_IDs: []
                 };
-                
+
                 forumDBRef.child('Users').update(user);
                 var mapUserToCompany = {};
                 mapUserToCompany[userID] = forumName;
                 db.database().ref("UserCompaniesID").update(mapUserToCompany);
 
-                if(isAdmin == false) {
+                if (isAdmin == false) {
                     db.database().ref("Registrations").child(registration_ID).remove();
                 }
 
                 // Add the default 2 tags if it doesn't exist
-                forumDBRef.child('Tags').update({"annoucements":"annoucements", "help-needed":"help-needed"});
+                forumDBRef.child('Tags').update({ "annoucements": "annoucements", "help-needed": "help-needed" });
 
                 resolve(true);
-            }).catch((error) =>{ 
+            }).catch((error) => {
                 console.log(error);
                 reject(new Error(error));
             });
 
-        } catch(error) {
+        } catch (error) {
             console.log(error);
             reject(new Error(error));
         }
@@ -196,7 +197,7 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
 
 // "GET" method for a user's id
 function getCurrentUserID(token) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         admin.auth().verifyIdToken(token).then((decodedToken) => {
             resolve(decodedToken.uid);
         }).catch((error) => {
@@ -213,22 +214,24 @@ function getUser(forumName, userID) {
 function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
 
     // Reference the company's firebase
-    const firebaseRef = db.database().ref(forumName+"/Posts");
+    const firebaseRef = db.database().ref(forumName + "/Posts");
 
     var today = new Date();
-    var date = (today.getMonth()+1)+'-'+today.getDate()+'-'+today.getFullYear()+' at '+today.getHours()+':'+today.getMinutes();
+    var date = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear() + ' at ' + today.getHours() + ':' + today.getMinutes();
 
     // Push data inputted to firebase and also store reference of the push in "post_reference"
     try {
-        var post_reference = firebaseRef.push({user_id: p_user_id,  
-                                        title: p_title, 
-                                        tag_ids: p_tag_ids, 
-                                        date_time: date, 
-                                        content: p_content, 
-                                        karma: 0,
-                                        responses: ["-1"], 
-                                        follower_ids: ["-1"]});
-    } catch(error) {
+        var post_reference = firebaseRef.push({
+            user_id: p_user_id,
+            title: p_title,
+            tag_ids: p_tag_ids,
+            date_time: date,
+            content: p_content,
+            karma: 0,
+            responses: ["-1"],
+            follower_ids: ["-1"]
+        });
+    } catch (error) {
         console.log(error);
         return false;
     }
@@ -236,7 +239,7 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
     try {
         notifyUsers(forumName, p_tag_ids);
 
-    } catch(error) {
+    } catch (error) {
         console.log(error);
         return false;
     }
@@ -249,83 +252,83 @@ var mailgun = require("mailgun-js");
 require('dotenv').config();
 
 const mg = mailgun({
-    apiKey:	process.env.MAILGUN_API_KEY, 
-	domain: 'mg.kiwis.tech', 
+    apiKey: process.env.MAILGUN_API_KEY,
+    domain: 'mg.kiwis.tech',
 });
 
 function sendEmail(email, subject, content) {
     console.log(email)
-	const data = {
-		"from": "KIWI Forum <no-reply@mg.kiwis.tech>",
-		"to": email,
-		"subject": subject ? subject : 'Hello',
-		"text": content,
+    const data = {
+        "from": "KIWI Forum <no-reply@mg.kiwis.tech>",
+        "to": email,
+        "subject": subject ? subject : 'Hello',
+        "text": content,
     }
-	mg.messages().send(data, function(error, body){
+    mg.messages().send(data, function (error, body) {
         console.log(body);
         console.log(error);
-	})
+    })
 }
 
 function notifyUsers(companyName, posts_tags) {
 
-        // If the post has no tags, then just return
-        if(posts_tags == null || posts_tags.length == 0) {
-            console.log("Post did not have tags");
-            return;
-        }
+    // If the post has no tags, then just return
+    if (posts_tags == null || posts_tags.length == 0) {
+        console.log("Post did not have tags");
+        return;
+    }
 
-        const firebaseRef = db.database().ref(companyName);
+    const firebaseRef = db.database().ref(companyName);
 
-        firebaseRef.once('value', function(snapshot){
+    firebaseRef.once('value', function (snapshot) {
 
-            var users_array = Object.keys(snapshot.child("Users").val());
-        
-            // For each user in the company
-            for(i = 0; i < users_array.length; i++) {
-                var user_id = users_array[i];
-                var user_email = (snapshot.child("Users/"+user_id+"/email").val());
+        var users_array = Object.keys(snapshot.child("Users").val());
 
-                var curr_user_tags = (snapshot.child("Users/"+user_id+"/tags").val());
+        // For each user in the company
+        for (i = 0; i < users_array.length; i++) {
+            var user_id = users_array[i];
+            var user_email = (snapshot.child("Users/" + user_id + "/email").val());
 
-                // For each tag in this user's list
-                for(j = 0; j < curr_user_tags.length; j++) {
-                    var curr_tag = curr_user_tags[j];
+            var curr_user_tags = (snapshot.child("Users/" + user_id + "/tags").val());
 
-                    // If this tag is in the post
-                    if(posts_tags.indexOf(curr_tag, 0) != -1) {
+            // For each tag in this user's list
+            for (j = 0; j < curr_user_tags.length; j++) {
+                var curr_tag = curr_user_tags[j];
 
-                        var subject = "Relevant Post was created in "+companyName+"'s KIWI Forum";
-                        var content = "A post tagged with at least one of your specialities in "+companyName+"'s KIWI Forum was created.";
-                        console.log("SENT EMAIL TO "+ user_email);
-                        sendEmail(user_email, subject, content);
-                        break
-                    }
+                // If this tag is in the post
+                if (posts_tags.indexOf(curr_tag, 0) != -1) {
+
+                    var subject = "Relevant Post was created in " + companyName + "'s KIWI Forum";
+                    var content = "A post tagged with at least one of your specialities in " + companyName + "'s KIWI Forum was created.";
+                    console.log("SENT EMAIL TO " + user_email);
+                    sendEmail(user_email, subject, content);
+                    break
                 }
             }
-        });
+        }
+    });
 }
 
 function userMadePost(companyName, user_id, post_id) {
 
-    return new Promise(function(resolve, reject){
+    return new Promise(function (resolve, reject) {
 
         const firebaseRef = db.database().ref(companyName);
-        
-        firebaseRef.once('value', function(snapshot){
+
+        firebaseRef.once('value', function (snapshot) {
 
             // Assuming there's at least 1 post in the company's forum
             var posts_array = Object.keys(snapshot.child("Posts").val());
 
-            for(i = 0; i < posts_array.length; i++) {
+            for (i = 0; i < posts_array.length; i++) {
                 var curr_post_id = posts_array[i];
 
                 // Assuming the post_id is in the database
-                if(curr_post_id == post_id) {
+                if (curr_post_id == post_id) {
 
-                    var creator_of_post = (snapshot.child("Posts/"+curr_post_id+"/user_id").val());
+                    var creator_of_post = (snapshot.child("Posts/" + curr_post_id + "/user_id").val());
 
-                    if(user_id == creator_of_post) {
+                    if (user_id == creator_of_post) {
                         resolve(true);
                         return;
                     } else {
@@ -343,20 +346,20 @@ function userMadePost(companyName, user_id, post_id) {
 function upVotePost(forumName, post_id) {
 
     // Reference the post
-    const firebaseRef = db.database().ref(forumName+"/Posts"+post_id);
+    const firebaseRef = db.database().ref(forumName + "/Posts" + post_id);
 
     // Update the karma
-    firebaseRef.update({karma: karma+1});
+    firebaseRef.update({ karma: karma + 1 });
 
 }
 
 function endorseResponse(forumName, response_id) {
 
     // Reference the response
-    const firebaseRef = db.database().ref(forumName+"/Responses"+response_id);
+    const firebaseRef = db.database().ref(forumName + "/Responses" + response_id);
 
     // Endorse the response
-    firebaseRef.update({endorsed: true});
+    firebaseRef.update({ endorsed: true });
 
 }
 
@@ -381,7 +384,7 @@ function getCompanyName(user_id) {
 }
 
 function checkRegistration(id) {
-    return new Promise (function (resolve, reject) {
+    return new Promise(function (resolve, reject) {
         db.database().ref('/Registrations/' + id).once('value').then((result) => {
             resolve(result);
         }).catch((error) => {
@@ -391,7 +394,7 @@ function checkRegistration(id) {
 }
 
 function createRegistration(id, company, email) {
-    return db.database().ref(`/Registrations/${id}`).set({expected_company:company, expected_email:email});
+    return db.database().ref(`/Registrations/${id}`).set({ expected_company: company, expected_email: email });
 }
 
 
@@ -402,9 +405,9 @@ function getUserEmail(forumName, userID) {
 function removeAllUserTags(forumName, user_id) {
     const userTags = db.database().ref(forumName).child('Users/').child(user_id).child('tags');
     userTags.once('value').then((data) => {
-         data.forEach(function (child) {
+        data.forEach(function (child) {
             userTags.child(child.key).remove();
-         });
+        });
     });
 }
 
@@ -412,15 +415,15 @@ function getUserTags(forumName, userID) {
     return db.database().ref(forumName).child('Users').child(userID).child('tags').once('value');
 }
 
-function toggleAdmin(forumName, userID){
-    db.database().ref(forumName).child('Users/' + userID).child("admin").once('value').then( (data) => {
-        if(data.val()){
-            db.database().ref(forumName).child('Users/' + userID).update({admin: false});
-            admin.auth().updateUser(userID, {emailVerified: false});
+function toggleAdmin(forumName, userID) {
+    db.database().ref(forumName).child('Users/' + userID).child("admin").once('value').then((data) => {
+        if (data.val()) {
+            db.database().ref(forumName).child('Users/' + userID).update({ admin: false });
+            admin.auth().updateUser(userID, { emailVerified: false });
         }
-        else{
-            db.database().ref(forumName).child('Users/' + userID).update({admin: true});
-            admin.auth().updateUser(userID, {emailVerified: true});
+        else {
+            db.database().ref(forumName).child('Users/' + userID).update({ admin: true });
+            admin.auth().updateUser(userID, { emailVerified: true });
         }
     });
 }
@@ -449,18 +452,18 @@ function removeFollowingUser(forumName, postID, userID) {
 // Gets metadata for user activity and tag popularity
 // Returns: Count of Tags used in Posts, Count of Posts/Responses per User
 function getMetadata(forumName) {
-    return new Promise(function(resolve, reject) {
-        var metaData = {'tagCount': {}, 'userCount': {}, 'userIDCount': {}};
-        db.database().ref(forumName).child('Posts').once('value').then( (data) => {
+    return new Promise(function (resolve, reject) {
+        var metaData = { 'tagCount': {}, 'userCount': {}, 'userIDCount': {} };
+        db.database().ref(forumName).child('Posts').once('value').then((data) => {
 
             // For each post
             Object.keys(data.val()).forEach(postID => {
-    
+
                 // For each post's tags
-                if(data.val()[postID]['tag_ids'] != null) {
+                if (data.val()[postID]['tag_ids'] != null) {
                     Object.keys(data.val()[postID]['tag_ids']).forEach(tagIndex => {
                         var tagName = data.val()[postID]['tag_ids'][tagIndex];
-                        
+
                         if (tagName in metaData['tagCount']) {
                             metaData['tagCount'][tagName] += 1;
                         } else {
@@ -469,10 +472,10 @@ function getMetadata(forumName) {
                         }
                     });
                 }
-    
+
                 // For each post's owner
                 var userID = data.val()[postID]['user_id'];
-                if(userID in metaData['userIDCount']) {
+                if (userID in metaData['userIDCount']) {
                     metaData['userIDCount'][userID] += 1;
                 } else {
                     console.log('UserID ' + '\"' + userID + '\"' + " not counted, currently adding to metadata");
@@ -480,14 +483,14 @@ function getMetadata(forumName) {
                 }
                 getUsers(forumName).then(data => {
                     Object.keys(metaData['userIDCount']).forEach(userID => {
-                        if(data.val()[userID] != null) {
+                        if (data.val()[userID] != null) {
                             var userFullName = data.val()[userID]['firstName'] + " " + data.val()[userID]['lastName'];
                             metaData['userCount'][userFullName] = metaData['userIDCount'][userID];
                         }
                     });
                     resolve(metaData);
                 });
-    
+
             })
         }).catch(err => {
             reject(err);
@@ -496,9 +499,9 @@ function getMetadata(forumName) {
 }
 
 
-module.exports = { 
-    notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers, 
-	  removeUser, createNewTag, getTags, 
+module.exports = {
+    notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers,
+    removeUser, createNewTag, getTags,
     getTagCount, removeTag, getCurrentUserID,
     getUserTags, removeSpecialization,
     addSpecialization, removeAllUserTags, toggleAdmin,
