@@ -70,7 +70,53 @@ class Response extends React.Component {
         }
     }
 
-
+    endorseSwitch = () => {
+        if (this.state.endorsed === true) { // logic for removing endorsement
+            axios({
+                method: 'post',
+                url: 'http://localhost:9000/response/undoEndorse',
+                data: {
+                    response_id: this.state.responseID
+                },
+                withCredentials: true
+            })
+                .then((response) => {
+                    if (response.data.success) {
+                        // Wait until update processes before redirecting
+                        this.setState({
+                            endorsed: false
+                        });
+                    } else {
+                        alert("Removing endorsement was not processed. Try again.");
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else { // userUpvoted === false, add upvote
+            axios({
+                method: 'post',
+                url: 'http://localhost:9000/response/EndorseResponse',
+                data: {
+                    response_id: this.state.responseID
+                },
+                withCredentials: true
+            })
+                .then((response) => {
+                    if (response.data.success) {
+                        // Wait until update processes before redirecting
+                        this.setState({
+                            endorsed: true
+                        })
+                    } else {
+                        alert("Endorsement was not processed. Try again.");
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    }
 
     render() {
         return (
@@ -92,7 +138,7 @@ class Response extends React.Component {
                     <div className={"rStar"}>
                         {this.state.endorsed ? <Icon name="star" color={"yellow"} size={"big"} /> : <div />}
                     </div>
-                    {this.state.firstPoster ? <div><button className={"button"}>Endorse</button></div> : <div></div>}
+                    {this.state.firstPoster ? <div><button className={"button"} onClick={this.endorseSwitch}>{this.state.endorsed ? "Unendorse" : "Endorse"}</button></div> : <div></div>}
                     <div className={"rKarma"}>
                         <h1><button className={"button"} onClick={this.upvoteSwitch.bind(this)}>{this.state.userUpvoted ? "Remove Upvote" : "Upvote"}</button>{"   + " + this.state.karma}</h1>
                     </div>
