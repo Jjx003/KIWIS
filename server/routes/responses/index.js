@@ -61,5 +61,150 @@ function (req, res) {
     })
 });
 
+router.post('/DeleteResponseData', 
+
+function (req, res, next) {
+    auth.checkToken(req.cookies.auth).then(() =>{
+        next()
+    }).catch( function(error) {
+        console.log("error occured when checking token, request denied");
+        res.jsonp({success: false});
+    })  
+},
+
+function (req, res) {
+    db.getCurrentUserID(req.cookies.auth).then((user_id) => {
+        db.getCompanyName(user_id).then(function(company) {
+            db.deleteResponseData(company, req.body.response_id).then(
+                res.jsonp({success : true})
+            ).catch(function(error){
+                console.log(error);
+                res.jsonp({success: false});
+            })
+        }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })
+    }).catch((error) => {
+        console.log(error);
+    });
+});
+
+
+router.post('/UpvoteResponse',
+
+function (req, res, next) {
+    auth.checkToken(req.cookies.auth).then(() =>{
+        next()
+    }).catch( function(error) {
+        console.log("error occured when checking token, request denied");
+        res.jsonp({success: false});
+    })  
+},
+
+function (req, res) {
+    db.getCurrentUserID(req.cookies.auth).then((user_id) => {
+        db.getCompanyName(user_id).then(function(company) {
+            db.updateKarma(company, user_id, req.body.response_id).then((data) => {
+                res.jsonp({success : data})
+            }).catch(function(error){
+                console.log(error);
+                res.jsonp({success: false});
+            })
+        }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })
+    }).catch((error) => {
+        console.log(error);
+    });
+});
+
+router.post('/UndoUpvote',
+
+function (req, res, next) {
+    auth.checkToken(req.cookies.auth).then(() =>{
+        next()
+    }).catch( function(error) {
+        console.log("error occured when checking token, request denied");
+        res.jsonp({success: false});
+    })  
+},
+
+function (req, res) {
+    db.getCurrentUserID(req.cookies.auth).then((user_id) => {
+        db.getCompanyName(user_id).then(function(company) {
+            db.undoUpvote(company, user_id, req.body.response_id).then((data) => {
+                res.jsonp({success : data})
+            }).catch(function(error){
+                console.log(error);
+                res.jsonp({success: false});
+            })
+        }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })
+    }).catch((error) => {
+        console.log(error);
+    });
+});
+
+router.post('/EndorseResponse',
+
+function (req, res, next) {
+    auth.checkToken(req.cookies.auth).then(() =>{
+        next()
+    }).catch( function(error) {
+        console.log("error occured when checking token, request denied");
+        res.jsonp({success: false});
+    })  
+},
+
+function (req, res) {
+    db.getCurrentUserID(req.cookies.auth).then((user_id) => {
+        db.getCompanyName(user_id).then(function(company) {
+            db.endorseResponse(company, user_id, req.body.response_id).then((data) => {
+                res.jsonp({success : data})
+            }).catch(function(error){
+                console.log(error);
+                res.jsonp({success: false});
+            })
+        }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })
+    }).catch((error) => {
+        console.log(error);
+    });
+});
+
+router.post('/undoEndorse',
+
+function (req, res, next) {
+    auth.checkToken(req.cookies.auth).then(() =>{
+        next()
+    }).catch( function(error) {
+        console.log("error occured when checking token, request denied");
+        res.jsonp({success: false});
+    })  
+},
+
+function (req, res) {
+    db.getCurrentUserID(req.cookies.auth).then((user_id) => {
+        db.getCompanyName(user_id).then(function(company) {
+            db.undoEndorse(company, user_id, req.body.response_id).then((data) => {
+                res.jsonp({success : data})
+            }).catch(function(error){
+                console.log(error);
+                res.jsonp({success: false});
+            })
+        }).catch(function(error){
+            console.log(error);
+            res.jsonp({success: false});
+        })
+    }).catch((error) => {
+        console.log(error);
+    });
+});
 
 module.exports = router;
