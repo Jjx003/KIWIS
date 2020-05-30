@@ -43,7 +43,7 @@ router.get('/accept_invite/:uuid', (req, res, next) => {
 });
 
 router.post('/', 
-isAdmin,
+authenticated, isAdmin, 
 
 function (req, res, next) {
     try {
