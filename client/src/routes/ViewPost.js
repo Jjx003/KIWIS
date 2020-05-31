@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import '../css/Home.css';
 import '../css/App.css';
 import OriginalPoster from "../components/OriginalPoster";
@@ -18,6 +18,7 @@ class ViewPost extends React.Component {
 
         this.state = {
             endorsedID: null,
+            endorsedRef: useRef(null),
             createdPost: false,
             loaded: false,
             postID: props.id,
@@ -55,14 +56,14 @@ class ViewPost extends React.Component {
     postEndorse = (id) => {
         this.setState({
             endorsedID: id,
-            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={id} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
+            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} ref={obj.endorsed ? this.state.endorsedRef : null} isPostEndorsed={id} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
         })
     }
 
     postUnendorse = () => {
         this.setState({
             endorsedID: null,
-            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={null} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
+            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} ref={obj.endorsed ? this.state.endorsedRef : null} isPostEndorsed={null} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
         })
     }
 
@@ -118,7 +119,7 @@ class ViewPost extends React.Component {
                         this.latestResponse = this.state.responseText.length
 
                         this.setState({
-                            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={this.state.endorsedID} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
+                            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} ref={obj.endorsed ? this.state.endorsedRef : null} isPostEndorsed={this.state.endorsedID} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
                             OP: this.getName(this.state.userID),
                             loaded: true
                         })
@@ -158,7 +159,7 @@ class ViewPost extends React.Component {
 
                 // update the state to have the new response objects
                 this.setState({
-                    responseObjs: this.state.responseObjs.concat(newResponses.map((obj, i) => <Response key={offset + i} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />))
+                    responseObjs: this.state.responseObjs.concat(newResponses.map((obj, i) => <Response key={offset + i} ref={obj.endorsed ? this.state.endorsedRef : null} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />))
                 })
 
                 // we're done, unlock the method
@@ -173,6 +174,12 @@ class ViewPost extends React.Component {
         })
     }
 
+    scrollEndorsed = () => {
+        if (ref.current) {
+            window.scrollTo(0, ref.current.offsetTop)
+        }
+    }
+
     render() {
         const { createdPost, postID, userID, title, tags, datetime, content, karma, responseObjs, loaded, failed, OP } = this.state;
 
@@ -184,7 +191,7 @@ class ViewPost extends React.Component {
                         <div className="posts-container">
                             <OriginalPoster firstPoster={createdPost} postID={postID} userID={userID} title={title}
                                 tags={tags} datetime={datetime} karma={karma}
-                                content={content} name={OP} />
+                                content={content} name={OP} scrollEndorsed={this.scrollEndorsed.bind(this)} />
                             {responseObjs}
                             <AddResponse postID={postID} responseUpdate={this.refreshResponse.bind(this)} />
                         </div>

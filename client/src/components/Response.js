@@ -126,7 +126,7 @@ class Response extends React.Component {
 
     render() {
         return (
-            <div className={"response-post"}>
+            <div className={"response-post"} id={this.props.ref}>
                 <div className={"leftSide"}>
                     <div className={"rPoster"}>
                         <h2 className={"responder"}>{this.state.name + ": "}</h2>
