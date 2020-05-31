@@ -94,6 +94,7 @@ class ViewPost extends React.Component {
                 loaded: false,
                 failed: false,
             })
+
         })
             .then(() => {
                 axios({
@@ -192,11 +193,14 @@ class ViewPost extends React.Component {
                             <OriginalPoster firstPoster={createdPost} postID={postID} userID={userID} title={title}
                                 tags={tags} datetime={datetime} karma={karma}
                                 content={content} name={OP} scrollEndorsed={this.scrollEndorsed.bind(this)} />
+                            <a className={"content-link"} href={"#responseAdding"}><button className={"renderResponse"} href>Reply</button></a>
                             {responseObjs}
-                            <AddResponse postID={postID} responseUpdate={this.refreshResponse.bind(this)} />
+                            <div id={"responseAdding"}>
+                                <AddResponse postID={postID} responseUpdate={this.refreshResponse.bind(this)} />
+                            </div>
                         </div>
                     </div>
-                </div>
+                </div >
             );
         } else if (!loaded && !failed) {
             return (<div> <TitleBar title="Post" /> <div className="posts-container"> Loading... </div> </div>)
