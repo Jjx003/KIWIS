@@ -181,8 +181,6 @@ class Navbar extends React.Component {
         this.setState({ tags: value });
         this.props.updateForumDisp(value);
 
-        const cookies = new Cookies();
-        cookies.set('tags', JSON.stringify(value));
         window.localStorage.setItem('current_tags', JSON.stringify(value));
     }
 
