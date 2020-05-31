@@ -10,7 +10,9 @@ function pushResponse(company, r_user_id, r_post_id, r_content) {
 
     //datetime month-date-year "at" time
     var today = new Date();
-    var datetime = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear() + ' at ' + today.getHours() + ':' + today.getMinutes();
+    var datetime = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear()
+                    + ' at ' + ((today.getHours() < 10)?"0":"") + today.getHours() + ':'
+                    + ((this.getMinutes() < 10)?"0":"") + today.getMinutes();
 
     try{
         firebaseRef.child("Responses").push({
