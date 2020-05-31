@@ -52,6 +52,7 @@
     font-size: 20px;
 }
 
+/*Design for buttons*/
 .button{
     display: flex;
     align-items: center;
@@ -70,6 +71,16 @@
     margin: 4px 2px;
     cursor: pointer;
 }
+
+/*Adds button animations*/
+.button:hover{
+    background-color: #378b5b;
+}
+
+.button:active{
+    background-color: #449466;
+}
+
 
 /*Skips to bottom for creating a new response*/
 .renderResponse{
@@ -91,6 +102,10 @@
     cursor: pointer;
     position: absolute;
     margin-left: 1vw;
+}
+
+.renderResponse:hover{
+    background-color: #378b5b;
 }
 
 .bottom-section{
@@ -140,7 +155,6 @@
     border-width: 4px;
     padding-top: 0.00002%;
     padding: 5px;
-
     margin-bottom: 2vh;
 }
 
@@ -183,6 +197,7 @@
 .rightSide{
     /*background-color: #80C180;*/
     text-align: right;
+    align-self: flex-end;
     display: grid;
     grid-template-rows: 1fr 1fr 1fr;
 }
