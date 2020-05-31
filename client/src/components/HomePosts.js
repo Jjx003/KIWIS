@@ -47,33 +47,33 @@ class HomePosts extends React.Component {
             method: 'get',
             url: 'http://localhost:9000/users/allUsers',
         })
-        .then((response) => {
-            if (response.status === 200) {
-                this.setState({ users: response.data });
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+            .then((response) => {
+                if (response.status === 200) {
+                    this.setState({ users: response.data });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
         axios({
             method: 'get',
             url: 'http://localhost:9000/posts/',
         })
-        .then((response) => { 
-            if (response.data.success) { 
-                this.setState({posts: response.data.posts});
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            .then((response) => {
+                if (response.data.success) {
+                    this.setState({ posts: response.data.posts });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     //searching through posts state
     searchTags(value, keyList) {
         return this.state.posts.forEach(post => {
-            if(post.tag_ids !== undefined){
+            if (post.tag_ids !== undefined) {
                 post.tag_ids.forEach(tag => {
                     if (value.includes(tag)) {
                         keyList.push(post.key);
@@ -150,7 +150,7 @@ function PostContainer(props) {
 //component for tag searching
 function TagSearchPosts(props) {
     const getName = (userid) => {
-        let name = "no_user";
+        let name = "Deleted User";
         if (props.users !== undefined && props.users[userid] !== undefined) {
             name = props.users[userid].firstName + " " + props.users[userid].lastName;
 
