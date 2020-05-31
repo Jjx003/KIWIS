@@ -55,14 +55,14 @@ class ViewPost extends React.Component {
     postEndorse = (id) => {
         this.setState({
             endorsedID: id,
-            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={id} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
+            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={id} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} userUpvoted={obj.userUpvoted}/>),
         })
     }
 
     postUnendorse = () => {
         this.setState({
             endorsedID: null,
-            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={null} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
+            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={null} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} userUpvoted={obj.userUpvoted}/>),
         })
     }
 
@@ -80,6 +80,7 @@ class ViewPost extends React.Component {
                 responseText = Object.values(responses)
                 responseIDs = Object.keys(responses)
             }
+            console.log(responseText)
             this.setState({
                 createdPost: results.data.createdPost,
                 title: results.data.posts.title,
@@ -119,7 +120,7 @@ class ViewPost extends React.Component {
                         this.latestResponse = this.state.responseText.length
 
                         this.setState({
-                            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={this.state.endorsedID} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />),
+                            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={this.state.endorsedID} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} userUpvoted={obj.userUpvoted} />),
                             OP: this.getName(this.state.userID),
                             loaded: true
                         })
@@ -186,10 +187,10 @@ class ViewPost extends React.Component {
                             <OriginalPoster firstPoster={createdPost} postID={postID} userID={userID} title={title}
                                 tags={tags} datetime={datetime} karma={karma}
                                 content={content} name={OP} />
-                                <a className={"content-link"} href={"#responseAdding"}><button className={"renderResponse"} href>Reply</button></a>
+                            <a className={"content-link"} href={"#responseAdding"}><button className={"renderResponse"} href>Reply</button></a>
                             {responseObjs}
                             <div id={"responseAdding"}>
-                            <AddResponse postID={postID} responseUpdate={this.refreshResponse.bind(this)} />
+                                <AddResponse postID={postID} responseUpdate={this.refreshResponse.bind(this)} />
                             </div>
                         </div>
                     </div>
