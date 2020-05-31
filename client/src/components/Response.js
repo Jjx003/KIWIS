@@ -83,6 +83,7 @@ class Response extends React.Component {
                 .then((response) => {
                     if (response.data.success) {
                         // Wait until update processes before redirecting
+                        this.props.postUnendorse() // change post
                         this.setState({
                             endorsed: false
                         });
@@ -94,27 +95,32 @@ class Response extends React.Component {
                     console.log(error);
                 });
         } else { // userUpvoted === false, add upvote
-            axios({
-                method: 'post',
-                url: 'http://localhost:9000/response/EndorseResponse',
-                data: {
-                    response_id: this.state.responseID
-                },
-                withCredentials: true
-            })
-                .then((response) => {
-                    if (response.data.success) {
-                        // Wait until update processes before redirecting
-                        this.setState({
-                            endorsed: true
-                        })
-                    } else {
-                        alert("Endorsement was not processed. Try again.");
-                    }
+            if (this.props.isPostEndorsed !== null) { // the post is endorsed!
+                alert("This post already has an endorsement. Please remove the other endorsement if you wish to endorse this instead.")
+            } else { // post not endorsed, we're good
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:9000/response/EndorseResponse',
+                    data: {
+                        response_id: this.state.responseID
+                    },
+                    withCredentials: true
                 })
-                .catch((error) => {
-                    console.log(error);
-                });
+                    .then((response) => {
+                        if (response.data.success) {
+                            this.props.postEndorse(this.state.responseID)
+                            // Wait until update processes before redirecting
+                            this.setState({
+                                endorsed: true
+                            })
+                        } else {
+                            alert("Endorsement was not processed. Try again.");
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            }
         }
     }
 

@@ -93,8 +93,8 @@ router.post('/removeSpecialization',
             var user_id = decodedToken;
             db.getCompanyName(decodedToken).then(function(snapshot) {
                 var company_name = snapshot;
-                var removed = db.removeSpecialization(company_name, user_id, req.body.tag);
-                res.jsonp({success : removed});
+                db.removeSpecialization(company_name, user_id, req.body.tag);
+                res.jsonp({success : true});
             }).catch( function(error) {
                 console.log(error);
                 res.jsonp({success: false});
@@ -115,8 +115,8 @@ router.post('/addSpecialization',
             var user_id = decodedToken;
             db.getCompanyName(decodedToken).then(function(snapshot) {
                 var company_name = snapshot;
-                var added = db.addSpecialization(company_name, user_id, req.body.tag);
-                res.jsonp({success : added});
+                db.addSpecialization(company_name, user_id, req.body.tag);
+                res.jsonp({success : true});
             }).catch( function(error) {
                 console.log(error);
                 res.jsonp({success: false});
