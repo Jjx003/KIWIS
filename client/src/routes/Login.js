@@ -60,7 +60,7 @@ const Login = ({history}) => {
                     </div>
                     <div className="buttons">
                         <button className="button1" type="submit">Log In</button>
-                        <button className="button2" type="button" onClick={redirectToAdminSignUp}>Sign UP</button>
+                        <button className="button2" type="button" onClick={redirectToAdminSignUp}>Sign Up</button>
                     </div>
                 </form>
                 
