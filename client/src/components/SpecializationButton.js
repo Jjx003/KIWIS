@@ -41,6 +41,13 @@ class SpecializationButton extends React.Component{
 			if (response.data.success) {
                 // Wait until update processes before redirecting
                 console.log("successfully added");
+
+                // update local storage to use the newly selected tag
+                var current_tags = JSON.parse(window.localStorage.getItem('current_tags'));
+                current_tags[thisTag] = thisTag;
+                
+                window.localStorage.setItem('original_tags', JSON.stringify(current_tags));
+
                 newJSON[thisTag] = thisTag;
                 this.setState({user_info: newJSON});
 			} else {
@@ -77,6 +84,13 @@ class SpecializationButton extends React.Component{
                 // Wait until update processes before redirecting
                 console.log("Tag was successfully removed!");
                 delete newJSON[thisTag];
+
+                // removes tag from local storage
+                // update local storage to use the newly selected tag
+                var current_tags = JSON.parse(window.localStorage.getItem('current_tags'));
+                delete current_tags[thisTag];
+                window.localStorage.setItem('original_tags', JSON.stringify(current_tags));
+
                 this.setState({user_info: newJSON});
 			} else {
 				console.log("Tag was not added");

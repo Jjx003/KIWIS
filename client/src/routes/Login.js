@@ -5,6 +5,7 @@ import { UpdateContext } from "../auth/Auth";
 import db from '../auth/firebase';
 import '../css/App.css';
 import pic from '../css/vectorlogo.png';
+import axios from 'axios';
 
 const Login = ({history}) => {
     let update = useContext(UpdateContext);
@@ -21,8 +22,9 @@ const Login = ({history}) => {
 			db.auth().currentUser.getIdToken(true).then((idToken) => {
 				// store token into cookie 
 				const cookies = new Cookies();
-				cookies.set('auth', idToken, { path: '/' });
-
+                cookies.set('auth', idToken, {path: '/'});
+                
+				
 				// redirect to home page
 				update().then(() => {
 					history.push('/');
