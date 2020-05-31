@@ -32,7 +32,7 @@ const AdminSignUp = ({ history }) => {
             } else {
                 // update gui to show error in signing up
                 console.log("error in sign up, most likely account has already been made");
-                alert("Invalid parameters");
+                alert("Invalid company/email/password. Company or email may already be in use and password must be at least 6 characters.");
             }
         }).catch((error) => {
             console.log(error);
