@@ -10,10 +10,13 @@ function pushResponse(company, r_user_id, r_post_id, r_content) {
 
     //datetime month-date-year "at" time
     var today = new Date();
+    var hours = today.getHours()
+    var ampm = (today.getHours() >= 12 ? 'pm' : 'am');
+    hours = (hours % 12);
+    hours = hours ? hours : 12;
     var datetime = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear()
-                    + ' at ' + ((today.getHours() < 10)?"0":"") + today.getHours() + ':'
-                    + ((this.getMinutes() < 10)?"0":"") + today.getMinutes();
-
+                    + ' at '  + hours + ':'
+                    + ((today.getMinutes() < 10)?"0":"") + today.getMinutes() + " " + ampm;
     try{
         firebaseRef.child("Responses").push({
         user_id: r_user_id,
@@ -233,8 +236,15 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
     // Reference the company's firebase
     const firebaseRef = db.database().ref(forumName + "/Posts");
 
+    //datetime month-date-year "at" time
     var today = new Date();
-    var date = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear() + ' at ' + today.getHours() + ':' + today.getMinutes();
+    var hours = today.getHours()
+    var ampm = (today.getHours() >= 12 ? 'pm' : 'am');
+    hours = (hours % 12);
+    hours = hours ? hours : 12;
+    var datetime = (today.getMonth() + 1) + '-' + today.getDate() + '-' + today.getFullYear()
+                 + ' at '  + hours + ':'
+                 + ((today.getMinutes() < 10)?"0":"") + today.getMinutes() + " " + ampm;
 
     // Push data inputted to firebase and also store reference of the push in "post_reference"
     try {
@@ -242,7 +252,7 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
             user_id: p_user_id,
             title: p_title,
             tag_ids: p_tag_ids,
-            date_time: date,
+            date_time: datetime,
             content: p_content,
             karma: 0,
             responses: ["-1"],
