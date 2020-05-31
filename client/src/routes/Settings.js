@@ -81,12 +81,6 @@ class Settings extends React.Component {
                                         <button className= "buttonz"> Submit </button>
                                     </div>
                                 </form>
-                                <div className = "settings-item"> 
-                                    <Checkbox toggle label={{ children: 'Email Notification' }}/>
-                                </div>
-                                <div className = "settings-item"> 
-                                    <Checkbox toggle label={{ children: 'Browser Notification' }}/>
-                                </div>
                                 
                                 <div className="instructions">Click below to modify specializations.</div>
 
@@ -136,12 +130,6 @@ class Settings extends React.Component {
                                     <button className= "buttonz"> Submit </button>
                                 </div>
                             </form>
-                            <div className = "settings-item"> 
-                                <Checkbox toggle label={{ children: 'Email Notification' }}/>
-                            </div>
-                            <div className = "settings-item"> 
-                                <Checkbox toggle label={{ children: 'Browser Notification' }}/>
-                            </div>
                             
                             <div className="instructions">Click below to modify specializations.</div>
 
