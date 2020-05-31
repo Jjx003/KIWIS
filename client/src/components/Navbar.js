@@ -106,7 +106,6 @@ class Navbar extends React.Component {
                         })
 
                             .then((response) => {
-                                console.log(response.data);
                                 var string_tags = JSON.stringify(response.data);
                                 var tags_array = JSON.parse(string_tags);
 
