@@ -93,15 +93,10 @@ class OriginalPoster extends React.Component {
                 <div className={"bottom-section"}>
                     <div className={"datetime"}>
                         <h3 className={"createdDate"}>{"Created on: " + this.state.datetime}</h3>
-                        {this.state.firstPoster ? <h1 className={"karma"}>
-                            <button className={"button"} onClick={() => { this.props.scrollEndorsed() }}>View Endorsed</button>
-                            {/* <button className={"button"}>Edit Post</button> */}
-                            {"+ " + this.state.karma}</h1> :
-                            <h1 className={"karma"}>
-                                <button className={"button"} onClick={() => { this.props.scrollEndorsed() }}>View Endorsed</button>
-                                <button className={"button"}>Upvote Post</button>
-                                {"+ " + this.state.karma}</h1>
-                        }
+                        <h1 className={"karma"}>
+                            {this.props.hasEndorsed ? <button className={"button"} onClick={() => { this.props.scrollEndorsed() }}>View Endorsed</button> : <div />}
+                            {this.state.firstPoster ? null : <button className={"button"}>Upvote Post</button>}
+                            {"+ " + this.state.karma}</h1>
                     </div>
                     <div className={"tagList"}>
                         <DisplayingTagsPost tags={this.state.tags} />

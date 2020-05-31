@@ -205,7 +205,7 @@ class ViewPost extends React.Component {
                         <div className="posts-container">
                             <OriginalPoster firstPoster={createdPost} postID={postID} userID={userID} title={title}
                                 tags={tags} datetime={datetime} karma={karma}
-                                content={content} name={OP} scrollEndorsed={this.scrollEndorsed.bind(this)} />
+                                content={content} name={OP} scrollEndorsed={this.scrollEndorsed.bind(this)} hasEndorsed={this.state.endorsedID} />
                             <a className={"content-link"} href={"#responseAdding"}><button className={"renderResponse"} href>Reply</button></a>
                             {responseObjs}
                             <div id={"responseAdding"}>
