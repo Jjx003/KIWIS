@@ -22,7 +22,8 @@ class HomePosts extends React.Component {
             users: {},
             textSearch: false,
             updated: false,
-            company: "empty"
+            company: "empty",
+            forumEmpty: false
         };
 
         this.updateTagSearch = this.updateTagSearch.bind(this);
@@ -47,14 +48,14 @@ class HomePosts extends React.Component {
             method: 'get',
             url: 'http://localhost:9000/users/allUsers',
         })
-        .then((response) => {
-            if (response.status === 200) {
-                this.setState({ users: response.data });
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+            .then((response) => {
+                if (response.status === 200) {
+                    this.setState({ users: response.data });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
 
         axios({
             method: 'get',
@@ -67,13 +68,20 @@ class HomePosts extends React.Component {
         })
         .catch((error) => {
             console.log(error);
-        });
+        }).then(() => {
+            if(this.state.posts === undefined || this.state.posts.length==0){
+                this.setState({forumEmpty: true});
+            }
+            else {
+                this.setState({forumEmpty: false});
+            }
+        })
     }
 
     //searching through posts state
     searchTags(value, keyList) {
         return this.state.posts.forEach(post => {
-            if(post.tag_ids !== undefined){
+            if (post.tag_ids !== undefined) {
                 post.tag_ids.forEach(tag => {
                     if (value.includes(tag)) {
                         keyList.push(post.key);
@@ -127,7 +135,8 @@ class HomePosts extends React.Component {
                 <InstantSearch indexName={this.state.company} searchClient={searchClient}>
                     <Navbar updateForumDisp={this.updateTagSearch} setTextSearch={this.setTextSearchState}
                         resetTextSearch={this.resetTextSearchState} />
-                    <PostContainer posts={this.state.posts} users={this.state.users} textSearch={this.state.textSearch} />
+                    <PostContainer posts={this.state.posts} users={this.state.users} 
+                        forumEmpty={this.state.forumEmpty} textSearch={this.state.textSearch} />
                 </InstantSearch>
             </div>
         )
@@ -143,32 +152,42 @@ function PostContainer(props) {
             </Results>);
     }
     else {
-        return <TagSearchPosts posts={props.posts} users={props.users} />;
+        return <TagSearchPosts posts={props.posts} users={props.users} forumEmpty={props.forumEmpty}/>;
     }
 }
 
 //component for tag searching
 function TagSearchPosts(props) {
     const getName = (userid) => {
-        let name = "no_user";
+        let name = "Deleted User";
         if (props.users !== undefined && props.users[userid] !== undefined) {
             name = props.users[userid].firstName + " " + props.users[userid].lastName;
 
         }
         return name;
     }
-    return (
-        <div className="posts-container">
-            {props.posts.map((item, i) => {
-                if (item.visible)
-                    return <PostCards key={i} post_id={item.key} user_id={item.user_id} title={item.title}
-                        tag_ids={item.tag_ids} date_time={item.date_time} karma={item.karma}
-                        content={item.content} responses={item.responses} name={getName(item.user_id)} />
-
-                else return <div></div>;
-            })}
+    if(props.forumEmpty){
+        return <div className="posts-container">
+            <div className="no-results-msg">
+            <p>Welcome to the company's KIWI forum! Please start by creating a post.</p>
+            <RedirectButton props={props}/>
+            </div>
         </div>
-    );
+    }
+    else { 
+        return (
+            <div className="posts-container">
+                {props.posts.map((item, i) => {
+                    if (item.visible)
+                        return <PostCards key={i} post_id={item.key} user_id={item.user_id} title={item.title}
+                            tag_ids={item.tag_ids} date_time={item.date_time} karma={item.karma}
+                            content={item.content} responses={item.responses} name={getName(item.user_id)} />
+
+                    else return <div key={i}></div>;
+                })}
+            </div>
+        );
+    }
 }
 
 //component for text searching
@@ -195,7 +214,7 @@ const RedirectButton = withRouter((props) => {
     const redirect = () => {
         props.history.push('/createPost');
     }
-    return <button onClick={redirect}>Create Post</button>
+    return <button className="create-post-button" onClick={redirect}>Create Post</button>
 })
 
 //component is displayed then there are no results from algolia
@@ -204,7 +223,7 @@ const Results = connectStateResults(
         searchResults && searchResults.nbHits !== 0 ? (
             children) : (
                 <div className="posts-container">
-                    <div className="no-results-msg">No results have been found for {searchState.query}
+                    <div className="no-results-msg"><p>No results have been found for "{searchState.query}"</p> <br />
                         <RedirectButton props={props} />
                     </div>
                 </div>)

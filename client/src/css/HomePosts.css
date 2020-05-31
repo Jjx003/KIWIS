@@ -1,5 +1,5 @@
 .posts-container {
-    width: 90%;
+    width: 92%;
     margin: auto;
     margin-top: 1%;
     height: 90vh;
@@ -50,4 +50,10 @@ ul {
   font-family: BlinkMacSystemFont;
   font-size: 30px;
   margin: 10% 30% 0;
+}
+
+.create-post-button {
+  background-color: #80C180;
+  margin-left: 25%;
+  border-radius: 10px;
 }
