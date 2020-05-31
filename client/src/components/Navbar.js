@@ -106,24 +106,21 @@ class Navbar extends React.Component {
                         })
 
                             .then((response) => {
-                                if (response.data.success) {
-                                    var string_tags = JSON.stringify(response.data.tags);
-                                    var tags_array = JSON.parse(string_tags);
+                                console.log(response.data);
+                                var string_tags = JSON.stringify(response.data);
+                                var tags_array = JSON.parse(string_tags);
 
-                                    for (var key in tags_array) {
-                                        if (tags_array.hasOwnProperty(key)) {
-                                            this.setState({ default_tags: [...this.state.default_tags, tags_array[key]] });
-                                        }
+                                for (var key in tags_array) {
+                                    if (tags_array.hasOwnProperty(key)) {
+                                        this.setState({ default_tags: [...this.state.default_tags, tags_array[key]] });
                                     }
-                                    window.localStorage.setItem('current_tags', string_tags);
-                                    window.localStorage.setItem('original_tags', string_tags);
-
-                                    this.props.updateForumDisp(this.state.default_tags);
-                                    this.setState({ got_specializations: true });
-                                    // Store the tags in local storage
-                                } else {
-                                    alert("Couldn't get the tags of the user");
                                 }
+                                window.localStorage.setItem('current_tags', string_tags);
+                                window.localStorage.setItem('original_tags', string_tags);
+
+                                this.props.updateForumDisp(this.state.default_tags);
+                                this.setState({ got_specializations: true });
+                                // Store the tags in local storage
                             })
                             .catch((error) => {
 
