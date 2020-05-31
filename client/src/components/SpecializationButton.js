@@ -9,46 +9,24 @@ class SpecializationButton extends React.Component{
         // takes in what tag we print and a list of user info and the class 
         this.state = {
             thisTag: this.props.tag,
-            user_info: {},
-            theClass: 'tagButton'
+            user_info: this.props.user_tags,
+            tagButton: 'tagButton'
         };
 
-        // updates to see if the user has the tag
-        this.getUserInfo();
-          
+        this.checkSpecialization();
     }
 
-    // gets the current information on what tags user has
-    getUserInfo = () => {
-        // gets the user tags list
-        axios.defaults.withCredentials = true;
-        axios({
-            method: 'get',
-            url: 'http://localhost:9000/users/userTags',
-            withCredentials: true,
-        })
-        .then((response) => { 
-            // rechecks if the user has the tag 
-            if (response != undefined) { 
-                // updates user
-                this.setState({user_info: response.data});   
-                if(response.data.hasOwnProperty(this.state.thisTag)) {
-                    this.setState({theClass: 'tagButton2'});
-                }
-            } else {
-                console.log("error with tags.");
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    }
+
 
     // adds a specialization
     addSpecialization = (thisTag) => {
         // this tag is what we are removing
         var currTag = thisTag;
-
+        if (this.state.user_info == '' ) {
+            var newJSON = {};
+        } else {
+            var newJSON = this.state.user_info;
+        }
         axios.defaults.withCredentials = true;
         axios({
 			method: 'post',
@@ -62,9 +40,9 @@ class SpecializationButton extends React.Component{
           .then((response) => {
 			if (response.data.success) {
                 // Wait until update processes before redirecting
-                console.log("Tag was successfully added!");
-                // Redirect to home page
-				this.props.history.replace('/');
+                console.log("successfully added");
+                newJSON[thisTag] = thisTag;
+                this.setState({user_info: newJSON});
 			} else {
 				console.log("Tag was not added");
             }
@@ -79,7 +57,11 @@ class SpecializationButton extends React.Component{
     removeSpecialization = (thisTag) => {
         // this tag is what we are removing
         var currTag = thisTag;
-
+        if (this.state.user_info == '' ) {
+            var newJSON = {};
+        } else {
+            var newJSON = this.state.user_info;
+        }
         axios.defaults.withCredentials = true;
         axios({
 			method: 'post',
@@ -93,9 +75,9 @@ class SpecializationButton extends React.Component{
           .then((response) => {
 			if (response.data.success) {
                 // Wait until update processes before redirecting
-                console.log("Tag was successfully added!");
-                // Redirect to home page
-				this.props.history.replace('/');
+                console.log("Tag was successfully removed!");
+                delete newJSON[thisTag];
+                this.setState({user_info: newJSON});
 			} else {
 				console.log("Tag was not added");
             }
@@ -104,27 +86,45 @@ class SpecializationButton extends React.Component{
 			console.log(error);
           });
     }
+    
+
+    // This will check if its in the right state checked or unchecked
+    checkSpecialization() {
+        const {user_info} = this.state;
+        const {tagButton} = this.state;
+        const {thisTag} = this.state;
+
+        // if the user has the property then it displays it highlighted
+        if(user_info.hasOwnProperty(thisTag) && tagButton == 'tagButton') {
+            this.setState({tagButton: 'tagButton2'})
+        } // else if the user doesnt have that property and its the wrong highlighted version
+        else if (!user_info.hasOwnProperty(thisTag) && tagButton == 'tagButton2') {
+            this.setState({tagButton: 'tagButton'})
+        }
+    }
+
 
 
     render(){
         const {user_info} = this.state;
+        const {tagButton} = this.state;
+        const {thisTag} = this.state;
+
+        this.checkSpecialization();
 
         // method to change what is currently on page
         const handleToggle = () => {
-            this.getUserInfo();
-            if(user_info.hasOwnProperty(this.state.thisTag)) {
-                this.removeSpecialization(this.state.thisTag);
-                this.setState({theClass: 'tagButton'});
+            if(user_info.hasOwnProperty(thisTag)) {
+                this.removeSpecialization(thisTag);
             }
             else {
-                this.addSpecialization(this.state.thisTag);
-                this.setState({theClass: 'tagButton2'});
+                this.addSpecialization(thisTag);
             }
         }
         
         // just prints one button with the styling
         return (
-            <button onClick={handleToggle} className={this.state.theClass}>{this.state.thisTag}</button>
+            <button onClick={handleToggle} className={tagButton}>{thisTag}</button>
         );
     
     }

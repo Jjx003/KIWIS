@@ -1,6 +1,7 @@
 import React from 'react';
 import "../css/usertags.css";
 import { Link } from 'react-router-dom';
+import { Icon } from "semantic-ui-react";
 import TitleBar from "../components/TitleBar"
 import axios from 'axios';
 import SpecializationButton from '../components/SpecializationButton';
@@ -13,7 +14,8 @@ class UserTags extends React.Component {
 
         this.state = {
             info: {},
-            user_info: {}
+            user_info: {},
+            isLoading: true
         };
 
 
@@ -35,6 +37,27 @@ class UserTags extends React.Component {
 		  .catch((error) => {
 			console.log(error);
           });
+
+
+        axios.defaults.withCredentials = true;
+        axios({
+            method: 'get',
+            url: 'http://localhost:9000/users/userTags',
+            withCredentials: true,
+        })
+        .then((response) => { 
+            // rechecks if the user has the tag 
+            if (response != undefined) { 
+                // updates user
+                this.setState({user_info: response.data});   
+                this.setState({isLoading: false});
+            } else {
+                console.log("error with tags.");
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
           
     }
 
@@ -66,14 +89,11 @@ class UserTags extends React.Component {
           });
     }
 
-
     
     
     render() {
         const {info} = this.state;
         const {user_info} = this.state;
-        //const tags = Object.keys(info).map(x => { return { key: x, text: x, value: x } });
-
 
         return(
             <div>
@@ -84,9 +104,13 @@ class UserTags extends React.Component {
                         Select Your Specializations
                     </h1>
                     <div className="tagListBox">
-                        { Object.keys(info).map((key, i) => ( 
-                            <SpecializationButton tag={key}/>
-                        ))}
+                        {this.state.isLoading ? 
+                            <div> 
+                                <Icon loading name='spinner' /> loading 
+                            </div> 
+                            : 
+                            Object.keys(info).map((key, i) => ( <SpecializationButton user_tags={user_info} tag={key}/>))
+                        }
                     </div>
                     <div className="doneButtons">
                         <button onClick={this.resetTags} className="resetButton">Clear Specializations</button>

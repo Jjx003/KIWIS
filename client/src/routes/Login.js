@@ -12,7 +12,7 @@ const Login = ({history}) => {
 
     const handleLogin = (event) => {
 		event.preventDefault();
-		const {email, password} = event.target.elements;
+		const { email, password } = event.target.elements;
 
 
 		// sign in user
@@ -30,7 +30,7 @@ const Login = ({history}) => {
 					history.push('/');
 				});
 			})
-			.catch((error) => console.log(error));
+				.catch((error) => console.log(error));
 
 		}).catch((error) => {
             console.log(error);

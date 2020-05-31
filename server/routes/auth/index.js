@@ -1,8 +1,8 @@
 var express = require("express");
+var db = require('../../db/index');
 var authRouter = express.Router();
 var auth = require('../../auth/index'); //  TODO: WTF
 var dbIndex = require('../../db/index')
-
 
 // checks if the user is authenticated
 const authenticated = (req,res,next) => {
@@ -47,12 +47,8 @@ const isAdmin = (req, res, next) => {
 
 authRouter.post('/AdminSignUp', function (req, res) {
 	dbIndex.createNewUser("N/A", req.body.company, req.body.first_name, req.body.last_name, 
-					req.body.email, req.body.password, true).then((result) => {
-		if(result == true) {
-			res.jsonp({success: true});
-		} else {
-			res.jsonp({success: false});
-		}
+		req.body.email, req.body.password, true).then((result) => {
+			res.jsonp({success: result});
     }).catch((error) => {
         res.jsonp({success: false});
     });
@@ -60,9 +56,8 @@ authRouter.post('/AdminSignUp', function (req, res) {
 
 authRouter.post('/EmployeeSignUp', function (req, res) {
 	// checkRegistration returns the company's name
-	dbIndex.checkRegistration(req.body.registration_ID).then((id) => {
-
-		let value = id;
+	dbIndex.checkRegistration(req.body.registration_ID).then((snapshot) => {
+		let value = snapshot.val();
 		if (value && value.expected_company && value.expected_email) {
 			let company = value.expected_company;
 			let expectedEmail = value.expected_email;
@@ -70,11 +65,7 @@ authRouter.post('/EmployeeSignUp', function (req, res) {
 			if (email == expectedEmail) {
 				dbIndex.createNewUser(req.body.registration_ID, company, req.body.first_name, req.body.last_name,
 					req.body.email, req.body.password, false).then((result) => {
-						if (result == true) {
-							res.jsonp({ success: true });
-						} else {
-							res.jsonp({ success: false });
-						}
+						res.jsonp({ success: result });
 					}).catch((error) => {
 						res.jsonp({ success: false });
 					})
@@ -97,5 +88,21 @@ authRouter.get('/checkIfSignedIn', authenticated, function(req, res, next) {
 	res.jsonp({success: true});
 });
 
-module.exports = {authRouter, authenticated, isAdmin};
+// reset password function
+authRouter.post('/resetPassword', 
 
+	authenticated,
+
+	function (req, res) {
+        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+			auth.updateUserPassword(decodedToken, req.body.newPassword).then(function() {
+				// Update successful.
+				res.jsonp({success: true});
+			}).catch((error) => {
+				console.log("error when resetting password");
+				console.log(error);
+				res.jsonp({success: false});
+			});
+		});
+});
+module.exports = {authRouter, authenticated, isAdmin};

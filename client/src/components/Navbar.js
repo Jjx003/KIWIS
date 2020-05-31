@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dropdown, Icon } from 'semantic-ui-react';
+import {Dropdown, Icon} from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
 import '../css/index.css'
 import {
@@ -178,9 +178,7 @@ class Navbar extends React.Component {
 
     //called when the tag dropdown changes
     handleChange = (e, { value }) => {
-        this.setState({ tags: value }, () => {
-            console.log(this.state.tags);
-        });
+        this.setState({ tags: value });
         this.props.updateForumDisp(value);
 
         const cookies = new Cookies();
@@ -194,6 +192,7 @@ class Navbar extends React.Component {
             if (this.state.value.length === 0) {
                 this.setState({ searching: false });
                 this.props.resetTextSearch();
+
             } else if (!this.state.searching) {
                 this.setState({ searching: true });
                 this.props.setTextSearch();
@@ -232,12 +231,12 @@ class Navbar extends React.Component {
                     <button className={"invisibleButton"} onClick={this.resetSpecializations.bind(this)}>reset specializations</button>
                 </div>
                 <div className={"settings"}>
-                    <button className={"invisibleButton"} onClick={() => { this.props.history.push("/settings") }}>
-                        <Icon name="settings" size={"big"} color='grey' inverted />
+                    <button className={"invisibleButton"} onClick={() => {this.props.history.push("/settings")}}>
+                    <Icon link name="settings" size={"big"} color='grey' inverted />
                     </button>
                 </div>
                 <div className={"logoutButton"}>
-                    <button className={"invisibleButton"} onClick={this.handleSignOut}><Icon name="sign out" size={"big"} color='grey' inverted /></button>
+                    <button className={"invisibleButton"} onClick={this.handleSignOut}><Icon link name="sign out" size={"big"} color='grey' inverted /></button>
                 </div>
             </div>
         );

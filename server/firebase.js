@@ -1,7 +1,6 @@
 var firebase_init = require('firebase');
 var firebase_admin = require('firebase-admin');
 var algoliasearch = require('algoliasearch');
-
 require('dotenv').config();
 
 const db = firebase_init.initializeApp({
@@ -23,28 +22,41 @@ const admin = firebase_admin.initializeApp({
 
 
 // List of comapnies where key is company name (in database) and index in algolia
-const companies = {"UXD14": "UXD14", "bruh": "bruh"}
+const companies = {}
 
 const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_API_KEY);
 // Set an update function for all the companies
 function startAlgolia(){
-  for (var key in companies) {
-    const company = companies[key];
-    const index = client.initIndex(company);
-    const companyRef = db.database().ref(company+'/Posts');
-    //child_added gets called every time the home page is loaded
-    companyRef.on('child_added', (contact) => addOrUpdateIndexRecord(index, contact));
-    companyRef.on('child_changed', (contact) => addOrUpdateIndexRecord(index, contact));
-    companyRef.on('child_removed', (contact) => deleteIndexRecord(index, contact));
-  }
+  db.database().ref().once('value').then((value) => {
+    Object.keys(value.val()).forEach((company) => {
+      if(company !== "Registrations" && company !== "UserCompaniesID"){
+        companies[company] = company;
+      }
+    })
+    console.log(companies);
+    for (var key in companies) {
+      const company = companies[key];
+      const index = client.initIndex(company);
+      index.setSettings({
+        searchableAttributes: [
+          'title', 'content'
+        ]
+      })
+      const companyRef = db.database().ref(company+'/Posts');
+      //child_added gets called every time the home page is loaded
+      companyRef.on('child_added', (contact) => addOrUpdateIndexRecord(index, contact));
+      companyRef.on('child_changed', (contact) => addOrUpdateIndexRecord(index, contact));
+      companyRef.on('child_removed', (contact) => deleteIndexRecord(index, contact));
+    }
+  })
 }
 
   const addOrUpdateIndexRecord = (index, contact) => {
-  //console.log(index)s
   // Get Firebase object
   const record = contact.val();
   // Specify Algolia's objectID using the Firebase object key
   record.objectID = contact.key;
+  
   // Add or update object
   index
     .saveObject(record)
@@ -60,6 +72,7 @@ function startAlgolia(){
   const deleteIndexRecord = (index, { key }) => {
   // Get Algolia's objectID from the Firebase object key
   const objectID = key;
+
   // Remove the object from Algolia
   index
     .deleteObject(objectID)

@@ -32,9 +32,9 @@ class TitleBar extends React.Component {
             <div className="title_block">
                 <div className={"kiwiLogo"}>
                     <Link to={"/"}>
-                    <button className={"invisibleButton"}>
-                    <img src={logo} height={'40px'} alt={"KIWI"}/>
-                    </button>
+                        <button className={"invisibleButton"}>
+                            <img src={logo} height={'40px'} alt={"KIWI"} />
+                        </button>
                     </Link>
                 </div>
 
@@ -42,18 +42,18 @@ class TitleBar extends React.Component {
                     <p>|</p>
                 </div>
 
-                <div className={"title"}>
+                <div className={"title-text"}>
                     <p>{this.state.title}</p>
                 </div>
 
                 <div className={"settings"}>
                     <Link to={'/settings'}>
-                    <Icon link name="settings" size={"big"} color='grey' inverted />
+                        <Icon link name="settings" size={"big"} color='grey' inverted />
                     </Link>
                 </div>
                 <div className={"logoutButton"}>
                     <Link to="/login">
-                        <button className={"invisibleButton"} onClick={this.handleSignOut}><Icon name="sign out" size={"big"} color='grey' inverted /></button>
+                        <button className={"invisibleButton"} onClick={this.handleSignOut}><Icon link name="sign out" size={"big"} color='grey' inverted /></button>
                     </Link>
                 </div>
             </div>
