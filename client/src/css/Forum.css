@@ -1,12 +1,15 @@
 .original-post{
     display: grid;
     grid-template-columns: 4fr 1fr;
-    grid-template-rows: 2fr 4fr 1fr;
+    /*grid-template-rows: 0.2fr 0.5fr 0.2fr;*/
+    grid-template-rows: auto;
     grid-gap: 10px;
     width: 88vw;
     margin: auto;
     margin-top: 1%;
-    height: 40vh;
+    /*min-height: 30vh;*/
+    /*min-height: 40vh;*/
+    /*height: 40vh;*/
     overflow: hidden;
     background-color: white;
     border-radius: 10px;
@@ -42,6 +45,7 @@
 .tagList{
     /*background-color: purple;*/
     grid-row: 3/4;
+    padding-top: 4vh;
 }
 
 .text-content{
@@ -67,7 +71,7 @@
     cursor: pointer;
 }
 
-/*Render for creating a new response*/
+/*Skips to bottom for creating a new response*/
 .renderResponse{
     display: flex;
     align-items: center;
@@ -86,6 +90,8 @@
     margin: 4px 2px;
     cursor: pointer;
     position: absolute;
+    margin-left: 1vw;
+    margin-top: 55vh;
 }
 
 .bottom-section{
@@ -106,7 +112,7 @@
     width: 78vw;
     margin: auto;
     margin-top: 1%;
-    height: 15vh;
+    /*height: 15vh;*/
     overflow: hidden;
     background-color: white;
     border-radius: 10px;
@@ -117,6 +123,7 @@
     padding: 5px;
 }
 
+/*Designs container for making a new post*/
 .writingReply{
     /*background-color: blue;*/
 
