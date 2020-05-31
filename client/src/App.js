@@ -41,8 +41,8 @@ function App() {
 			<Route path="/signup/:id" exact render={(props) => <SignUp {...props} />} />
 			<PrivateRoute exact path="/" component={Home} />
 			<PrivateRoute exact path="/createPost" component={CreatePost} />
-			<Route path="/userTags" exact render={(props) => <UserTags {...props} />} />
-			<Route path="/adminsignup" exact render={(props) => <AdminSignUp {...props} />} />
+			<PrivateRoute path="/userTags" component={UserTags} />
+			<PrivateRoute path="/adminsignup" component={<AdminSignUp/>} />
 			<PrivateRoute exact path="/settings" component={Settings} />
 			<PrivateRoute exact path="/adminPage" component={AdminPage} />
 		</div>
