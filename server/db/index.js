@@ -315,19 +315,32 @@ function notifyUsers(companyName, posts_tags) {
 
     firebaseRef.once('value', function (snapshot) {
 
-        var users_array = Object.keys(snapshot.child("Users").val());
+        try {
+            var users_array = Object.keys(snapshot.child("Users").val());
+    
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
 
         // For each user in the company
         for (i = 0; i < users_array.length; i++) {
+
             var user_id = users_array[i];
             var user_email = (snapshot.child("Users/" + user_id + "/email").val());
 
-            var curr_user_tags = (snapshot.child("Users/" + user_id + "/tags").val());
+            try {
+                var curr_user_tags = Object.keys(snapshot.child("Users/" + user_id + "/tags").val());
+        
+            } catch (error) {
+                console.log(error);
+                return false;
+            }
 
             // For each tag in this user's list
             for (j = 0; j < curr_user_tags.length; j++) {
                 var curr_tag = curr_user_tags[j];
-
+                
                 // If this tag is in the post
                 if (posts_tags.indexOf(curr_tag, 0) != -1) {
 
