@@ -75,7 +75,10 @@ class HomePosts extends React.Component {
             else {
                 this.setState({forumEmpty: false});
             }
+        }).catch((error) => {
+            console.log(error);
         })
+
     }
 
     //searching through posts state
