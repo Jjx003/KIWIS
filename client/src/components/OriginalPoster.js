@@ -24,10 +24,10 @@ class OriginalPoster extends React.Component {
         axios({
             method: 'post',
             url: 'http://localhost:9000/posts/isFollowing',
-            data: { 
+            data: {
                 post_id: this.state.postID
             }
-          }).then((response) => {
+        }).then((response) => {
             this.setState({
                 isFollowing: response.data.isFollowing
             });
@@ -41,10 +41,10 @@ class OriginalPoster extends React.Component {
             axios({
                 method: 'post',
                 url: 'http://localhost:9000/posts/follow',
-                data: { 
+                data: {
                     post_id: this.state.postID
                 }
-              }).then((response) => {
+            }).then((response) => {
                 this.setState({
                     isFollowing: true
                 });
@@ -55,10 +55,10 @@ class OriginalPoster extends React.Component {
             axios({
                 method: 'post',
                 url: 'http://localhost:9000/posts/unfollow',
-                data: { 
+                data: {
                     post_id: this.state.postID
                 }
-              }).then((response) => {
+            }).then((response) => {
                 this.setState({
                     isFollowing: false
                 });
@@ -72,19 +72,19 @@ class OriginalPoster extends React.Component {
                 </div>
                 <div className={"postInfo"}>
                     <div>
-                        <h2 className={"postID"}>{this.state.postID}</h2>
+                        <h2 className={"postID"}>{"ID: " + this.state.postID}</h2>
                     </div>
                     <div className={"postBy"}>
                         <h2>{"Posted by: " + this.state.name}</h2>
                     </div>
-                    {this.state.firstPoster ? <div></div> :
-                        !this.state.isFollowing ? 
-                        (<span>
-                            <button className={"button"} onClick={handleFollow}>Follow Post</button>
-                        </span>) :
-                        (<span>
-                            <button className={"button"} onClick={handleUnfollow}>Unfollow Post</button>
-                        </span>)
+                    {this.state.firstPoster ? null :
+                        !this.state.isFollowing ?
+                            (<span>
+                                <button className={"button"} onClick={handleFollow}>Follow Post</button>
+                            </span>) :
+                            (<span>
+                                <button className={"button"} onClick={handleUnfollow}>Unfollow Post</button>
+                            </span>)
                     }
                 </div>
                 <div className={"content"}>
@@ -92,13 +92,10 @@ class OriginalPoster extends React.Component {
                 </div>
                 <div className={"bottom-section"}>
                     <div className={"datetime"}>
+                        <h1 className={"karma"}>
+                            {this.props.hasEndorsed ? <button className={"button"} onClick={() => { this.props.scrollEndorsed() }}>View Endorsed</button> : null}
+                        </h1>
                         <h3 className={"createdDate"}>{"Created on: " + this.state.datetime}</h3>
-                        {this.state.firstPoster ? <h1 className={"karma"}><button className={"button"}>Edit Post</button>{"+ " + this.state.karma}</h1> :
-                            <h1 className={"karma"}>
-                                <button className={"button"}>View Endorsed</button>
-                                <button className={"button"}>Upvote Post</button>
-                                {"+ " + this.state.karma}</h1>
-                        }
                     </div>
                     <div className={"tagList"}>
                         <DisplayingTagsPost tags={this.state.tags} />

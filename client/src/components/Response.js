@@ -109,10 +109,10 @@ class Response extends React.Component {
                     .then((response) => {
                         if (response.data.success) {
                             this.props.postEndorse(this.state.responseID)
-                            // Wait until update processes before redirecting
                             this.setState({
                                 endorsed: true
                             })
+                            // Wait until update processes before redirecting
                         } else {
                             alert("Endorsement was not processed. Try again.");
                         }
@@ -126,7 +126,7 @@ class Response extends React.Component {
 
     render() {
         return (
-            <div className={"response-post"}>
+            <div className={"response-post"} ref={this.props.myRef}>
                 <div className={"leftSide"}>
                     <div className={"rPoster"}>
                         <h2 className={"responder"}>{this.state.name + ": "}</h2>
