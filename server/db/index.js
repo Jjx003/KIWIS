@@ -166,47 +166,88 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
     return new Promise(function (resolve, reject) {
 
         try {
+
             // Check if user is admin and if the company already exists
+            var alreadyCreated = false;
             if (isAdmin == true) {
                 db.database().ref(forumName).once("value", snapshot => {
                     if (snapshot.exists()) {
                         console.log("This company already exists");
+                        alreadyCreated = true;
+                        return;
+                    }
+                }).then((data) => {
+                    if(alreadyCreated) {
                         resolve(false);
                         return;
                     }
+                    const forumDBRef = db.database().ref(forumName);
+                    auth.signUp(email, password, isAdmin).then((data) => {
+                        var userID = data.uid;
+                        var user = {};
+                        // Creates a new user object with the userID as a key
+                        user[userID] = {
+                            firstName: firstName,
+                            lastName: lastName,
+                            email: email,
+                            admin: isAdmin,
+                            tags: { 'announcements': 'announcements', 'help-needed': 'help-needed' },
+                            following_IDs: []
+                        };
+    
+                        forumDBRef.child('Users').update(user);
+                        var mapUserToCompany = {};
+                        mapUserToCompany[userID] = forumName;
+                        db.database().ref("UserCompaniesID").update(mapUserToCompany);
+    
+                        if (isAdmin == false) {
+                            db.database().ref("Registrations").child(registration_ID).remove();
+                        }
+    
+                        // Add the default 2 tags if it doesn't exist
+                        forumDBRef.child('Tags').update({ "announcements": "announcements", "help-needed": "help-needed" });
+    
+                        resolve(true);
+                    
+                    }).catch((error) => {
+                        console.log(error);
+                        reject(new Error(error));
+                    });
                 })
+            } else {
+                const forumDBRef = db.database().ref(forumName);
+                auth.signUp(email, password, isAdmin).then((data) => {
+                    var userID = data.uid;
+                    var user = {};
+                    // Creates a new user object with the userID as a key
+                    user[userID] = {
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        admin: isAdmin,
+                        tags: { 'announcements': 'announcements', 'help-needed': 'help-needed' },
+                        following_IDs: []
+                    };
+
+                    forumDBRef.child('Users').update(user);
+                    var mapUserToCompany = {};
+                    mapUserToCompany[userID] = forumName;
+                    db.database().ref("UserCompaniesID").update(mapUserToCompany);
+
+                    if (isAdmin == false) {
+                        db.database().ref("Registrations").child(registration_ID).remove();
+                    }
+
+                    // Add the default 2 tags if it doesn't exist
+                    forumDBRef.child('Tags').update({ "announcements": "announcements", "help-needed": "help-needed" });
+
+                    resolve(true);
+                
+                }).catch((error) => {
+                    console.log(error);
+                    reject(new Error(error));
+                });
             }
-            const forumDBRef = db.database().ref(forumName);
-            auth.signUp(email, password, isAdmin).then((data) => {
-                var userID = data.uid;
-                var user = {};
-                // Creates a new user object with the userID as a key
-                user[userID] = {
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    admin: isAdmin,
-                    tags: { 'announcements': 'announcements', 'help-needed': 'help-needed' },
-                    following_IDs: []
-                };
-
-                forumDBRef.child('Users').update(user);
-                var mapUserToCompany = {};
-                mapUserToCompany[userID] = forumName;
-                db.database().ref("UserCompaniesID").update(mapUserToCompany);
-
-                if (isAdmin == false) {
-                    db.database().ref("Registrations").child(registration_ID).remove();
-                }
-
-                // Add the default 2 tags if it doesn't exist
-                forumDBRef.child('Tags').update({ "announcements": "announcements", "help-needed": "help-needed" });
-
-                resolve(true);
-            }).catch((error) => {
-                console.log(error);
-                reject(new Error(error));
-            });
 
         } catch (error) {
             console.log(error);
@@ -214,6 +255,8 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
         }
     })
 }
+
+
 
 // "GET" method for a user's id
 function getCurrentUserID(token) {
