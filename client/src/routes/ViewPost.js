@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import '../css/Home.css';
 import '../css/App.css';
 import OriginalPoster from "../components/OriginalPoster";
@@ -15,6 +15,7 @@ class ViewPost extends React.Component {
 
         this.latestResponse = 0;
         this.lockResponse = false;
+        this.endorsedRef = React.createRef()
 
         this.state = {
             endorsedID: null,
@@ -36,6 +37,22 @@ class ViewPost extends React.Component {
         }
     }
 
+    responseHTML = (obj, index, postEndorsed, responseIDs) => {
+        return (<Response key={index}
+            myRef={obj.endorsed ? this.endorsedRef : null}
+            firstPoster={this.state.createdPost}
+            datetime={obj.datetime}
+            content={obj.content}
+            karma={obj.karma}
+            endorsed={obj.endorsed}
+            name={this.getName(obj.user_id)}
+            isPostEndorsed={postEndorsed}
+            postEndorse={this.postEndorse.bind(this)}
+            postUnendorse={this.postUnendorse.bind(this)}
+            responseID={responseIDs[index]}
+            userUpvoted={obj.userUpvoted} />)
+    }
+
     getName = (userid) => {
         let name = "Deleted User";
         if (this.state.users !== undefined && this.state.users[userid] !== undefined) {
@@ -52,17 +69,45 @@ class ViewPost extends React.Component {
         return arr1
     }
 
+    refreshForNewResponse = () => { this.refreshResponse(this.state.endorsedID) }
+
+    refreshResponse = (postEndorsed) => {
+        this.endorsedRef = React.createRef()
+        axios({
+            method: 'get',
+            url: 'http://localhost:9000/posts/' + this.props.id.toString(),
+        }).then((results) => {
+            // do this to convince javascript that responses is an array
+            var responses = [], responseIDs = [], responseText = []
+            responses = this.upvotedMerge(results.data.responses, results.data.responseBools)
+            if (responses) { // now convinced that it is an array...
+                responseText = Object.values(responses)
+                responseIDs = Object.keys(responses)
+
+                // update variables! offset is how many we already have, latest response is all the responses we've now read
+                this.latestResponse = responses.length
+
+                // update the state to have the new response objects
+                this.setState({
+                    responseText: responseText,
+                    responseIDs: responseIDs,
+                    responseObjs: responseText.map((obj, i) => this.responseHTML(obj, i, postEndorsed, responseIDs))
+                })
+            }
+        }).catch((error) => { console.log(error); this.setState({ failed: true }) })
+    }
+
     postEndorse = (id) => {
+        this.refreshResponse(id)
         this.setState({
-            endorsedID: id,
-            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={id} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} userUpvoted={obj.userUpvoted}/>),
+            endorsedID: id
         })
     }
 
     postUnendorse = () => {
+        this.refreshResponse(null)
         this.setState({
-            endorsedID: null,
-            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={null} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} userUpvoted={obj.userUpvoted}/>),
+            endorsedID: null
         })
     }
 
@@ -120,7 +165,7 @@ class ViewPost extends React.Component {
                         this.latestResponse = this.state.responseText.length
 
                         this.setState({
-                            responseObjs: this.state.responseText.map((obj, i) => <Response key={i} isPostEndorsed={this.state.endorsedID} postEndorse={this.postEndorse.bind(this)} postUnendorse={this.postUnendorse.bind(this)} responseID={this.state.responseIDs[i]} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} userUpvoted={obj.userUpvoted} />),
+                            responseObjs: this.state.responseText.map((obj, i) => this.responseHTML(obj, i, this.state.endorsedID, this.state.responseIDs)),
                             OP: this.getName(this.state.userID),
                             loaded: true
                         })
@@ -136,43 +181,17 @@ class ViewPost extends React.Component {
 
     }
 
-    refreshResponse = () => {
-        /* NOTE: PROBABLY MUCH BETTER WAY TO DO THIS! */
-        while (this.lockResponse) { }
-
-        this.lockResponse = true
-
-        axios({
-            method: 'get',
-            url: 'http://localhost:9000/posts/' + this.props.id.toString(),
-        }).then((results) => {
-            // do this to convince javascript that responses is an array
-            var responses = []
-            responses = results.data.responses
-            if (responses) { // now convinced that it is an array...
-                responses = Object.values(responses)
-                // cut it to the responses we haven't seen yet
-                var newResponses = responses.slice(this.latestResponse)
-
-                // update variables! offset is how many we already have, latest response is all the responses we've now read
-                var offset = this.latestResponse
-                this.latestResponse = responses.length
-
-                // update the state to have the new response objects
-                this.setState({
-                    responseObjs: this.state.responseObjs.concat(newResponses.map((obj, i) => <Response key={offset + i} firstPoster={this.state.createdPost} datetime={obj.datetime} content={obj.content} karma={obj.karma} endorsed={obj.endorsed} name={this.getName(obj.user_id)} />))
-                })
-
-                // we're done, unlock the method
-                this.lockResponse = false
-            } else {
-                console.log("no new responses")
-                this.lockResponse = false
-            }
-        }).catch((error) => {
-            console.log(error);
-            this.setState({ failed: true })
-        })
+    scrollEndorsed = () => {
+        if (this.endorsedRef.current) {
+            this.endorsedRef.current.scrollIntoView({
+                behavior: 'smooth'
+            })
+            console.log("scrolling to")
+            console.log(this.endorsedRef)
+            console.log(this.endorsedRef.current.offsetTop)
+        } else {
+            console.log("nothing to scroll to")
+        }
     }
 
     render() {
@@ -186,15 +205,15 @@ class ViewPost extends React.Component {
                         <div className="posts-container">
                             <OriginalPoster firstPoster={createdPost} postID={postID} userID={userID} title={title}
                                 tags={tags} datetime={datetime} karma={karma}
-                                content={content} name={OP} />
-                            <a className={"content-link"} href={"#responseAdding"}><button className={"renderResponse"} href>Reply</button></a>
+                                content={content} name={OP} scrollEndorsed={this.scrollEndorsed.bind(this)} hasEndorsed={this.state.endorsedID} />
+                            <a className={"content-link"} href="#responseAdding"><button className={"renderResponse"}>Reply</button></a>
                             {responseObjs}
                             <div id={"responseAdding"}>
-                                <AddResponse postID={postID} responseUpdate={this.refreshResponse.bind(this)} />
+                                <AddResponse postID={postID} responseUpdate={this.refreshForNewResponse.bind(this)} />
                             </div>
                         </div>
                     </div>
-                </div>
+                </div >
             );
         } else if (!loaded && !failed) {
             return (<div> <TitleBar title="Post" /> <div className="posts-container"> Loading... </div> </div>)
