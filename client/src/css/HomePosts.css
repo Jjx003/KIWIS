@@ -51,3 +51,9 @@ ul {
   font-size: 30px;
   margin: 10% 30% 0;
 }
+
+.create-post-button {
+  background-color: #80C180;
+  margin-left: 25%;
+  border-radius: 10px;
+}
