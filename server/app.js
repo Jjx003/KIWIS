@@ -2,6 +2,7 @@ const express = require("express");
 const path = require('path');
 const app = express();
 const cors = require('cors');
+const port = process.env.PORT || 9000;
 
 //var dbIndex = require('../../db/index')
 
@@ -50,16 +51,15 @@ app.use((req, res, next) => {
   next();
 });
 
-/* will need this when we move to production 
-app.use(express.static(path.join(__dirname, 'build')));
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-*/
 
-app.get('/', () => console.log("hello world"));
+// will need this when we move to production 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  });
+}
 
-const port = 9000;
-app.listen(9000);
+app.listen(port, () => console.log(`Listinening on ${port}`));
 
 module.exports = app;
