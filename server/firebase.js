@@ -16,6 +16,7 @@ const db = firebase_init.initializeApp({
 });
 // used for generating tokens
 //var serviceAccount = require("./serviceKey.json");
+console.log(process.env.project_id)
 const admin = firebase_admin.initializeApp({
   //credential: firebase_admin.credential.cert(serviceAccount),
   //credential:firebase_admin.credential.applicationDefault(),
@@ -23,7 +24,7 @@ const admin = firebase_admin.initializeApp({
     type:"service_account",
     project_id: process.env.project_id,
     private_key_id: process.env.private_key_id,
-    private_key: process.env.private_key,
+    private_key: process.env.private_key.replace(/\\n/g, '\n'),
     client_email: process.env.client_email,
     client_id: process.env.client_id,
     auth_uri: process.env.auth_uri,
