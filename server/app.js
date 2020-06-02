@@ -53,12 +53,12 @@ app.use((req, res, next) => {
 
 
 // will need this when we move to production 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client/build')));
+//if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
   app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
   });
-}
+//} 
 
 app.listen(port, () => console.log(`Listinening on ${port}`));
 
