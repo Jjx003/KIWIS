@@ -186,7 +186,7 @@ class ViewPost extends React.Component {
                             <OriginalPoster firstPoster={createdPost} postID={postID} userID={userID} title={title}
                                 tags={tags} datetime={datetime} karma={karma}
                                 content={content} name={OP} />
-                                <a className={"content-link"} href={"#responseAdding"}><button className={"renderResponse"} href>Reply</button></a>
+                                <a className={"content-link"} href={"#responseAdding"}><button className={"renderResponse"}>Reply</button></a>
                             {responseObjs}
                             <div id={"responseAdding"}>
                             <AddResponse postID={postID} responseUpdate={this.refreshResponse.bind(this)} />
