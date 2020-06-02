@@ -2,17 +2,12 @@
   "name": "kiwis",
   "version": "1.0.0",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
-  "main": "index.js",
   "dependencies": {
-    "algoliasearch": "^4.2.0",
-    "dotenv": "^8.2.0",
-    "react": "^16.13.1",
-    "react-autosuggest": "^10.0.2",
-    "react-instantsearch-dom": "^6.4.0"
   },
   "devDependencies": {},
   "scripts": {
     "start": "node server/App.js",
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,5 +20,4 @@
     "url": "https://github.com/Jjx003/KIWIS/issues"
   },
   "homepage": "https://github.com/Jjx003/KIWIS#readme",
-  "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
 }
