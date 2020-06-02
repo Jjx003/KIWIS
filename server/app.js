@@ -4,6 +4,8 @@ const app = express();
 const cors = require('cors');
 const port = process.env.PORT || 9000;
 
+console.log("Starting app");
+
 //var dbIndex = require('../../db/index')
 
 var inviteRouter = require('./routes/invite/index');
