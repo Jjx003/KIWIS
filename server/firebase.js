@@ -15,7 +15,7 @@ const db = firebase_init.initializeApp({
     measurementId: process.env.MEASUREMENT_ID
 });
 // used for generating tokens
-var serviceAccount = require("./serviceKey.json");
+//var serviceAccount = require("./serviceKey.json");
 const admin = firebase_admin.initializeApp({
   //credential: firebase_admin.credential.cert(serviceAccount),
   //credential:firebase_admin.credential.applicationDefault(),
