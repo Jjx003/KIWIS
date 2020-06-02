@@ -18,7 +18,7 @@ class DisplayTag extends React.Component{
             {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:9000/tags/remove',
+                    url: 'https://kiwi-test-app.herokuapp.com/tags/remove',
                     data: {
                         tagName: this.state.tag_id
                     }

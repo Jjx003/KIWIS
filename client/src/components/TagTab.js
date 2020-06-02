@@ -17,7 +17,7 @@ class TagTab extends React.Component{
     componentWillMount(){
         axios({
             method: 'get',
-            url: 'http://localhost:9000/tags/getTags'
+            url: 'https://kiwi-test-app.herokuapp.com/tags/getTags'
           }).then((response) => {
             this.setState({tagList: Object.keys(response.data.tags),
             loading_tag: false});
@@ -34,7 +34,7 @@ class TagTab extends React.Component{
             {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:9000/tags/add',
+                    url: 'https://kiwi-test-app.herokuapp.com/tags/add',
                     data: {
                     tagName: tagname.value
                     }

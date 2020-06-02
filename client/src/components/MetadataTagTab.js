@@ -15,7 +15,7 @@ class MetadataTagTab extends React.Component{
     componentWillMount(){
         axios({
             method: 'get',
-            url: 'http://localhost:9000/metadata/getTagMetadata'
+            url: 'https://kiwi-test-app.herokuapp.com/metadata/getTagMetadata'
           }).then((response) => {
             console.log(response)
             if(response.data.success == null) {

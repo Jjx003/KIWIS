@@ -17,7 +17,7 @@ const AdminSignUp = ({ history }) => {
 
         axios({
             method: 'post',
-            url: 'http://localhost:9000/auth/AdminSignUp',
+            url: 'https://kiwi-test-app.herokuapp.com/auth/AdminSignUp',
             data: {
                 company: company.value,
                 first_name: first_name.value,

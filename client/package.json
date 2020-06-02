@@ -1,6 +1,6 @@
 {
   "name": "kiwi-app",
-  "homepage": "http://localhost:9000",
+  "homepage": "https://kiwi-test-app.herokuapp.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

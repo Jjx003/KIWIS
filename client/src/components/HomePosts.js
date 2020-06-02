@@ -33,7 +33,7 @@ class HomePosts extends React.Component {
     componentDidMount() {
         axios({
             method: 'get',
-            url: 'http://localhost:9000/users/company',
+            url: 'https://kiwi-test-app.herokuapp.com/users/company',
         })
             .then((response) => {
                 if (response.status === 200) {
@@ -46,7 +46,7 @@ class HomePosts extends React.Component {
 
         axios({
             method: 'get',
-            url: 'http://localhost:9000/users/allUsers',
+            url: 'https://kiwi-test-app.herokuapp.com/users/allUsers',
         })
             .then((response) => {
                 if (response.status === 200) {
@@ -59,7 +59,7 @@ class HomePosts extends React.Component {
 
         axios({
             method: 'get',
-            url: 'http://localhost:9000/posts/',
+            url: 'https://kiwi-test-app.herokuapp.com/posts/',
         })
         .then((response) => { 
             if (response.data.success) { 

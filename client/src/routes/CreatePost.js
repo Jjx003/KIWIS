@@ -12,7 +12,7 @@ class CreatePost extends React.Component {
     componentWillMount() {
         axios({
             method: 'get',
-            url: 'http://localhost:9000/tags/',
+            url: 'https://kiwi-test-app.herokuapp.com/tags/',
         })
             .then((response) => {
                 if (response.data.success) {
@@ -36,7 +36,7 @@ class CreatePost extends React.Component {
         axios.defaults.withCredentials = true;
         axios({
             method: 'post',
-            url: 'http://localhost:9000/posts/CreatePost',
+            url: 'https://kiwi-test-app.herokuapp.com/posts/CreatePost',
             data: {
                 title: title.value,
                 tag_ids: this.state.tags_selected,

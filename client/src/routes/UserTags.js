@@ -23,7 +23,7 @@ class UserTags extends React.Component {
         axios.defaults.withCredentials = true;
 		axios({
 			method: 'get',
-			url: 'http://localhost:9000/tags/getTags',
+			url: 'https://kiwi-test-app.herokuapp.com/tags/getTags',
             withCredentials: true,
 		  })
 		  .then((response) => { 
@@ -42,7 +42,7 @@ class UserTags extends React.Component {
         axios.defaults.withCredentials = true;
         axios({
             method: 'get',
-            url: 'http://localhost:9000/users/userTags',
+            url: 'https://kiwi-test-app.herokuapp.com/users/userTags',
             withCredentials: true,
         })
         .then((response) => { 
@@ -69,7 +69,7 @@ class UserTags extends React.Component {
         axios.defaults.withCredentials = true;
         axios({
 			method: 'post',
-			url: 'http://localhost:9000/users/removeAllUserTags',
+			url: 'https://kiwi-test-app.herokuapp.com/users/removeAllUserTags',
             withCredentials: true
           })
 

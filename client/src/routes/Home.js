@@ -5,7 +5,7 @@ import HomePosts from '../components/HomePosts'
 // Sorry we don't have a home for this function yet.
 /*
 async function sendEmail(targetEmail, targetContent) {
-	let API_URL = "http://localhost:9000";
+	let API_URL = "https://kiwi-test-app.herokuapp.com";
 	let EMAIL_ROUTE = "/inviteUser";
 	console.log(targetEmail)
 	console.log(targetContent)

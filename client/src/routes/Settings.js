@@ -19,7 +19,7 @@ class Settings extends React.Component {
 
         axios({
             method: 'get',
-            url: 'http://localhost:9000/users/getUserEmail'
+            url: 'https://kiwi-test-app.herokuapp.com/users/getUserEmail'
           }).then((response) => {
             this.setState({user_email: response.data.userEmail});
             console.log(response)
@@ -27,7 +27,7 @@ class Settings extends React.Component {
 
         axios({
             method: 'get',
-            url: 'http://localhost:9000/users/isUserAdmin'
+            url: 'https://kiwi-test-app.herokuapp.com/users/isUserAdmin'
           }).then((response) => {
               console.log(response);
             this.setState({admin: response.data.admin});
@@ -48,7 +48,7 @@ class Settings extends React.Component {
             {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:9000/auth/resetPassword',
+                    url: 'https://kiwi-test-app.herokuapp.com/auth/resetPassword',
                     data: { 
                         newPassword:  password.value
                     }

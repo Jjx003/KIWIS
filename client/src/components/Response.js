@@ -24,7 +24,7 @@ class Response extends React.Component {
         if (this.state.userUpvoted === true) { // logic for removing upvote
             axios({
                 method: 'post',
-                url: 'http://localhost:9000/response/UndoUpvote',
+                url: 'https://kiwi-test-app.herokuapp.com/response/UndoUpvote',
                 data: {
                     response_id: this.state.responseID
                 },
@@ -47,7 +47,7 @@ class Response extends React.Component {
         } else { // userUpvoted === false, add upvote
             axios({
                 method: 'post',
-                url: 'http://localhost:9000/response/UpvoteResponse',
+                url: 'https://kiwi-test-app.herokuapp.com/response/UpvoteResponse',
                 data: {
                     response_id: this.state.responseID
                 },
@@ -74,7 +74,7 @@ class Response extends React.Component {
         if (this.state.endorsed === true) { // logic for removing endorsement
             axios({
                 method: 'post',
-                url: 'http://localhost:9000/response/undoEndorse',
+                url: 'https://kiwi-test-app.herokuapp.com/response/undoEndorse',
                 data: {
                     response_id: this.state.responseID
                 },
@@ -100,7 +100,7 @@ class Response extends React.Component {
             } else { // post not endorsed, we're good
                 axios({
                     method: 'post',
-                    url: 'http://localhost:9000/response/EndorseResponse',
+                    url: 'https://kiwi-test-app.herokuapp.com/response/EndorseResponse',
                     data: {
                         response_id: this.state.responseID
                     },

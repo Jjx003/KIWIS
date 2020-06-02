@@ -75,7 +75,7 @@ class ViewPost extends React.Component {
         this.endorsedRef = React.createRef()
         axios({
             method: 'get',
-            url: 'http://localhost:9000/posts/' + this.props.id.toString(),
+            url: 'https://kiwi-test-app.herokuapp.com/posts/' + this.props.id.toString(),
         }).then((results) => {
             // do this to convince javascript that responses is an array
             var responses = [], responseIDs = [], responseText = []
@@ -115,7 +115,7 @@ class ViewPost extends React.Component {
         // TODO: THESE CAN BE ASYNC AS LONG AS BOTH ARE RETRIEVED BEFORE RENDER
         axios({
             method: 'get',
-            url: 'http://localhost:9000/posts/' + this.props.id.toString(),
+            url: 'https://kiwi-test-app.herokuapp.com/posts/' + this.props.id.toString(),
         }).then((results) => {
             console.log(results.data);
             var responses = []
@@ -144,7 +144,7 @@ class ViewPost extends React.Component {
             .then(() => {
                 axios({
                     method: 'get',
-                    url: 'http://localhost:9000/users/allUsers',
+                    url: 'https://kiwi-test-app.herokuapp.com/users/allUsers',
                 })
                     .then((response) => {
                         if (response.status === 200) {

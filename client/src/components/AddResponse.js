@@ -14,7 +14,7 @@ class AddResponse extends React.Component {
         axios.defaults.withCredentials = true;
         axios({
             method: 'POST',
-            url: 'http://localhost:9000/response/AddResponse',
+            url: 'https://kiwi-test-app.herokuapp.com/response/AddResponse',
             data: {
                 post_id: this.props.postID,
                 content: responseText.value,

@@ -88,7 +88,7 @@ class Navbar extends React.Component {
     componentDidMount() {
         axios({
             method: 'get',
-            url: 'http://localhost:9000/tags/getTags',
+            url: 'https://kiwi-test-app.herokuapp.com/tags/getTags',
         })
             .then((response) => {
                 if (response.data.success) {
@@ -101,7 +101,7 @@ class Navbar extends React.Component {
                         axios.defaults.withCredentials = true;
                         axios({
                             method: 'GET',
-                            url: 'http://localhost:9000/users/userTags',
+                            url: 'https://kiwi-test-app.herokuapp.com/users/userTags',
                             withCredentials: true
                         })
 
@@ -157,7 +157,7 @@ class Navbar extends React.Component {
         this.setState({ got_specializations: false, default_tags: [] });
         axios({
             method: 'GET',
-            url: 'http://localhost:9000/users/userTags',
+            url: 'https://kiwi-test-app.herokuapp.com/users/userTags',
             withCredentials: true
         })
 

@@ -17,7 +17,7 @@ class UserTab extends React.Component{
     componentWillMount(){
         axios({
             method: 'get',
-            url: 'http://localhost:9000/users/all'
+            url: 'https://kiwi-test-app.herokuapp.com/users/all'
           }).then((response) => {
               this.setState({users: response.data})
             this.setState({userList: Object.keys(response.data),
@@ -34,7 +34,7 @@ class UserTab extends React.Component{
             {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:9000/inviteUser/',
+                    url: 'https://kiwi-test-app.herokuapp.com/inviteUser/',
                     data: {
                         email: email.value
                     }

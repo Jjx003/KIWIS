@@ -23,7 +23,7 @@ class OriginalPoster extends React.Component {
 
         axios({
             method: 'post',
-            url: 'http://localhost:9000/posts/isFollowing',
+            url: 'https://kiwi-test-app.herokuapp.com/posts/isFollowing',
             data: {
                 post_id: this.state.postID
             }
@@ -40,7 +40,7 @@ class OriginalPoster extends React.Component {
         const handleFollow = () => {
             axios({
                 method: 'post',
-                url: 'http://localhost:9000/posts/follow',
+                url: 'https://kiwi-test-app.herokuapp.com/posts/follow',
                 data: {
                     post_id: this.state.postID
                 }
@@ -54,7 +54,7 @@ class OriginalPoster extends React.Component {
         const handleUnfollow = () => {
             axios({
                 method: 'post',
-                url: 'http://localhost:9000/posts/unfollow',
+                url: 'https://kiwi-test-app.herokuapp.com/posts/unfollow',
                 data: {
                     post_id: this.state.postID
                 }

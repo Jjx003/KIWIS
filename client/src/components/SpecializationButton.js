@@ -30,7 +30,7 @@ class SpecializationButton extends React.Component{
         axios.defaults.withCredentials = true;
         axios({
 			method: 'post',
-            url: 'http://localhost:9000/users/addSpecialization',
+            url: 'https://kiwi-test-app.herokuapp.com/users/addSpecialization',
             data: {
                 tag: currTag
             },
@@ -66,7 +66,7 @@ class SpecializationButton extends React.Component{
         axios.defaults.withCredentials = true;
         axios({
 			method: 'post',
-            url: 'http://localhost:9000/users/removeSpecialization',
+            url: 'https://kiwi-test-app.herokuapp.com/users/removeSpecialization',
             data: {
                 tag: currTag
             },

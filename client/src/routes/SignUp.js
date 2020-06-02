@@ -18,7 +18,7 @@ class SignUp extends React.Component {
 
 		axios({
 			method: 'post',
-			url: 'http://localhost:9000/auth/EmployeeSignUp',
+			url: 'https://kiwi-test-app.herokuapp.com/auth/EmployeeSignUp',
 			data: {
 				first_name: first_name.value,
 				last_name: last_name.value,
@@ -62,7 +62,7 @@ class SignUp extends React.Component {
 		// check to see if data is valid 
 		axios({
 			method: 'post',
-			url: 'http://localhost:9000/inviteUser/validateID',
+			url: 'https://kiwi-test-app.herokuapp.com/inviteUser/validateID',
 			data: {
 				uuid: this.props.match.params.id
 			}

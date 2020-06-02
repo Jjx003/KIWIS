@@ -20,7 +20,7 @@ class DisplayUser extends React.Component{
 
         axios({
             method: 'get',
-            url: 'http://localhost:9000/users/getUserEmail',
+            url: 'https://kiwi-test-app.herokuapp.com/users/getUserEmail',
           }).then((response) => {
             this.setState({checkemail: response.data.userEmail});
             console.log(response.data);
@@ -38,7 +38,7 @@ class DisplayUser extends React.Component{
             }
             axios({
                 method: 'post',
-                url: 'http://localhost:9000/users/toggleAdmin',
+                url: 'https://kiwi-test-app.herokuapp.com/users/toggleAdmin',
                 data: {
                   userID: this.state.user_id
                 }
@@ -56,7 +56,7 @@ class DisplayUser extends React.Component{
             {
                 axios({
                     method: 'post',
-                    url: 'http://localhost:9000/users/remove',
+                    url: 'https://kiwi-test-app.herokuapp.com/users/remove',
                     data: {
                     userID: this.state.user_id
                     }
