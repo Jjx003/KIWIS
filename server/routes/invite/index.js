@@ -31,7 +31,7 @@ router.get('/accept_invite/:uuid', (req, res, next) => {
     let uuid = req.params.uuid;
   // checking if uuid is present in registration table
   db.checkRegistration(req.params.uuid).then((snapshot) => {
-      console.log(snapshot)
+      //console.log(snapshot)
       if (snapshot.val() != null) { res.redirect("http://localhost:3000/signup/" + req.params.uuid); }
   }).catch((error) => {
       console.log(error);
