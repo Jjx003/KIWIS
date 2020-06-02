@@ -30,7 +30,7 @@ app.get('*', function(req, res, next) {
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cors({credentials: true, origin: 'https://kiwi-test-app.herokuapp.com/'}));
 app.use(cookieParser());
 
 
@@ -49,7 +49,7 @@ app.use('/metadata', authenticated, metadataRouter);
 app.use('/following', followingRouter);
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.header('Access-Control-Allow-Origin', 'https://kiwi-test-app.herokuapp.com/');
   res.header(
     'Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization,  X-PINGOTHER'
   );
