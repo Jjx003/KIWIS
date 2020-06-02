@@ -4,8 +4,7 @@ var router = express.Router();
 var db = require("../../db/index")
 var auth = require('../../auth/index');
 var {authenticated, isAdmin} = require('../auth/index');
-require('dotenv').config();
-
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 // GET route for getting the amount of posts/responses per user
 router.get('/getUserMetadata', 

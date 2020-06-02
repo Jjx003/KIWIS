@@ -1,7 +1,8 @@
 var firebase_init = require('firebase');
 var firebase_admin = require('firebase-admin');
 var algoliasearch = require('algoliasearch');
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
+
 
 const db = firebase_init.initializeApp({
     apiKey: process.env.FIREBASE_API_KEY,

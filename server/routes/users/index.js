@@ -4,7 +4,7 @@ var db = require("../../db/index")
 var {authenticated, isAdmin} = require('../auth/index');
 var auth = require('../../auth/index');
 const { check, validationResult } = require('express-validator');
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 router.get('/company', 
     function (req, res, next) {

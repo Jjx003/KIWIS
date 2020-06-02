@@ -325,7 +325,7 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
 }
 
 var mailgun = require("mailgun-js");
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 const mg = mailgun({
     apiKey: process.env.MAILGUN_API_KEY,

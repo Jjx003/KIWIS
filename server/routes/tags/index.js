@@ -4,8 +4,8 @@ var db = require("../../db/index")
 var auth = require('../../auth/index');
 var {authenticated, isAdmin} = require('../auth/index')
 const { check, validationResult } = require('express-validator');
-require('dotenv').config();
 var {getCompanyTags} = require('../../db/index')
+if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 router.get('/',
     function (req, res, next) {
