@@ -191,7 +191,7 @@ function TagSearchPosts(props) {
     else if(props.tagSearchEmpty){
         return <div className="posts-container">
             <div className="no-results-msg">
-            <p>No results found for the selected tags. Create a post!</p>
+            <p>No results found for the selected tags.</p>
                 <RedirectButton props={props}/>
             </div>
         </div>
