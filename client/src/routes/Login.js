@@ -23,10 +23,12 @@ const Login = ({history}) => {
 				// store token into cookie 
 				const cookies = new Cookies();
                 cookies.set('auth', idToken, {path: '/'});
+                console.log("okay??")
                 
 				
 				// redirect to home page
 				update().then(() => {
+                    console.log("go!")
 					history.push('/');
 				});
 			})
