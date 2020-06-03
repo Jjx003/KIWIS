@@ -1,7 +1,8 @@
 .navbar_block{
     width: 100%;
     background-color: #175C17;
-    height: 70px;
+    height: fit-content;
+    padding: 4px;
     display: grid;
     grid-template-columns: 180px 8fr 8fr 1fr 1fr 1fr;
 }
