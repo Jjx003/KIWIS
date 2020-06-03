@@ -8,28 +8,32 @@
     border-style: solid;
     border-width: 2.5px;
     border-color: black;
-    padding-right: 1%;
     cursor: pointer;
+    display: grid;
+    padding: 5px;
+    grid-template-columns: 4fr 1fr;
 }
 
 .PostTitle {
-    margin-left: 1%;
-    max-width: 80%;
-    margin-top: 5%;
+    /*background-color: red;*/
+    max-width: 90%;
+    margin-left: 5px;
+    font-size: 10px;
     color: black;
 }
 
 .Poster{
-    margin-top: -3.5%;
-    float: right;
-    max-width: 15%;
+    /*background-color: cornflowerblue;*/
 }
 
 .PostDate{
-    float: right;
-    margin-top: -0.5%;
+    /*background-color: orange;*/
+    display: flex;
+    align-self: flex-end;
 }
 
+
+
 .PostTags{
-    margin-left: 2%;
+    /*background-color: rebeccapurple;*/
 }
