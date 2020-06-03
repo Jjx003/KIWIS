@@ -3,7 +3,7 @@
     background-color: #175C17;
     height: 70px;
     display: grid;
-    grid-template-columns: 180px 0.1fr 8fr 1fr 1fr;
+    grid-template-columns: 195px 0.1fr 8fr 1fr 1fr;
 }
 
 .kiwiLogo{
