@@ -23,7 +23,8 @@ class HomePosts extends React.Component {
             textSearch: false,
             updated: false,
             company: "empty",
-            forumEmpty: false
+            forumEmpty: false,
+            tagSearchEmpty: false
         };
 
         this.updateTagSearch = this.updateTagSearch.bind(this);
@@ -98,6 +99,14 @@ class HomePosts extends React.Component {
     updateTagSearch(value) {
         let keyList = []
         this.searchTags(value, keyList);
+        
+        if(value.length != 0 && keyList.length==0){
+            this.setState({tagSearchEmpty: true});
+        }
+        else {
+            this.setState({tagSearchEmpty: false});
+        }
+        
         if (this.state.posts) {
             this.setState(state => {
                 state.posts.forEach(
@@ -113,9 +122,9 @@ class HomePosts extends React.Component {
                             post.visible = false;
                     }
                 )
-            }
-            )
-            this.setState({ updated: !this.state.updated });
+            }, () => {
+                this.setState({ updated: !this.state.updated });
+            })
         }
 
     }
@@ -139,7 +148,8 @@ class HomePosts extends React.Component {
                     <Navbar updateForumDisp={this.updateTagSearch} setTextSearch={this.setTextSearchState}
                         resetTextSearch={this.resetTextSearchState} />
                     <PostContainer posts={this.state.posts} users={this.state.users} 
-                        forumEmpty={this.state.forumEmpty} textSearch={this.state.textSearch} />
+                        forumEmpty={this.state.forumEmpty} textSearch={this.state.textSearch} 
+                        company={this.state.company} tagSearchEmpty={this.state.tagSearchEmpty}/>
                 </InstantSearch>
             </div>
         )
@@ -155,7 +165,8 @@ function PostContainer(props) {
             </Results>);
     }
     else {
-        return <TagSearchPosts posts={props.posts} users={props.users} forumEmpty={props.forumEmpty}/>;
+        return <TagSearchPosts posts={props.posts} users={props.users} forumEmpty={props.forumEmpty} 
+                company={props.company} tagSearchEmpty={props.tagSearchEmpty}/>;
     }
 }
 
@@ -172,8 +183,16 @@ function TagSearchPosts(props) {
     if(props.forumEmpty){
         return <div className="posts-container">
             <div className="no-results-msg">
-            <p>Welcome to the company's KIWI forum! Please start by creating a post.</p>
+            <p>Welcome to {props.company}'s KIWI forum! Please start by creating a post.</p>
             <RedirectButton props={props}/>
+            </div>
+        </div>
+    }
+    else if(props.tagSearchEmpty){
+        return <div className="posts-container">
+            <div className="no-results-msg">
+            <p>No results found for the selected tags. Create a post!</p>
+                <RedirectButton props={props}/>
             </div>
         </div>
     }
