@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
-import logo from '../images/logo_white.png';
+import logo from '../images/logo_white_arrow.png';
 import firebase from '../auth/firebase';
 import Cookies from 'universal-cookie';
 import '../css/TitleBar.css';
