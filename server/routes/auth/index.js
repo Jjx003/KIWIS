@@ -2,7 +2,7 @@ var express = require("express");
 var db = require('../../db/index');
 var authRouter = express.Router();
 var auth = require('../../auth/index'); //  TODO: WTF
-var dbIndex = require('../../db/index')
+var dbIndex = require('../../db/auth/index')
 
 // checks if the user is authenticated
 const authenticated = (req,res,next) => {

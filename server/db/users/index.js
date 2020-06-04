@@ -1,20 +1,45 @@
-var { db } = require('../firebase');
-var { admin } = require('../firebase');
+var { db } = require('../../firebase');
+var { admin } = require('../../firebase');
 var auth = require('../auth/index');
+var parent = require('../index');
 
-// Retrieve data from a specific company based off of the post_id
-function pullResponse(company, post_id) {
-    const responseRef = db.database().ref(company + '/Responses/');
-    return responseRef.orderByChild("post_id").equalTo(post_id).once("value");
-}
-
-// "GET" method for users
 function getUsers(forumName) {
-    return db.database().ref(forumName).child('Users').once('value');
+    return parent.getUsers(forumName);
 }
 
+function getUser(forumName, userID) {
+    return db.database().ref(forumName).child('Users/' + userID).once('value');
+}
 
-// "POST" method for a new user 
+// Removes a user from the database
+function removeUser(forumName, userID) {
+    db.database().ref(forumName).child('Users').child(userID).remove();
+    admin.auth().deleteUser(userID);
+}
+
+function removeAllUserTags(forumName, user_id) {
+    const userTags = db.database().ref(forumName).child('Users/').child(user_id).child('tags');
+    userTags.once('value').then((data) => {
+        data.forEach(function (child) {
+            userTags.child(child.key).remove();
+        });
+    });
+}
+
+function getUserTags(forumName, userID) {
+    return db.database().ref(forumName).child('Users').child(userID).child('tags').once('value');
+}
+
+function removeSpecialization(forumName, userID, tagName) {
+    db.database().ref(forumName).child('Users/').child(userID).child('tags').child(tagName).remove();
+}
+
+function addSpecialization(forumName, userID, tagName) {
+    var tagtoadd = {};
+    tagtoadd[tagName] = tagName;
+    db.database().ref(forumName).child('Users/').child(userID).child('tags').update(tagtoadd);
+}
+
 function createNewUser(registration_ID, forumName, firstName, lastName, email, password, isAdmin) {
     //firebase.db.database().update(forumName);
     //firebase.db.database().ref(forumName).update("Users");
@@ -112,61 +137,36 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
     })
 }
 
-// "GET" method for a user's id
 function getCurrentUserID(token) {
-    return new Promise(function (resolve, reject) {
-        admin.auth().verifyIdToken(token).then((decodedToken) => {
-            resolve(decodedToken.uid);
-        }).catch((error) => {
-            reject(new Error(error));
-        });
-    });
+    return parent.getCurrentUserID(token);
 }
 
 function getCompanyName(user_id) {
-    return new Promise(function (resolve, reject) {
-        db.database().ref('/UserCompaniesID/' + user_id).once('value').then((snapshot) => {
-            resolve(snapshot.val());
-        }).catch((error) => {
-            reject(new Error(error));
-        });
+    return parent.getCompanyName(user_id);
+}
+
+function toggleAdmin(forumName, userID) {
+    db.database().ref(forumName).child('Users/' + userID).child("admin").once('value').then((data) => {
+        if (data.val()) {
+            db.database().ref(forumName).child('Users/' + userID).update({ admin: false });
+            admin.auth().updateUser(userID, { emailVerified: false });
+        }
+        else {
+            db.database().ref(forumName).child('Users/' + userID).update({ admin: true });
+            admin.auth().updateUser(userID, { emailVerified: true });
+        }
     });
 }
 
-function checkRegistration(id) {
-    return new Promise(function (resolve, reject) {
-        db.database().ref('/Registrations/' + id).once('value').then((result) => {
-            resolve(result);
-        }).catch((error) => {
-            reject(new Error(error));
-        });
-    });
+function getUserEmail(forumName, userID) {
+    return db.database().ref(forumName).child('Users').child(userID).child('email').once('value');
 }
 
-
-// Add a user to the post's following; user should no longer follow the post
-function addFollowingUser(forumName, postID, userID) {
-    var userIDObjectToBeAdded = {};
-    userIDObjectToBeAdded[userID] = userID;
-    var postIDObjectToBeAdded = {};
-    postIDObjectToBeAdded[postID] = postID;
-    db.database().ref(forumName).child("Posts/" + postID + "/follower_ids").update(userIDObjectToBeAdded);
-    db.database().ref(forumName).child("Users/" + userID + "/following_IDs").update(postIDObjectToBeAdded);
+function isUserAdmin(forumName, userID) {
+    console.log(userID);
+    return db.database().ref(forumName).child('Users').child(userID).child('admin').once('value');
 }
 
-// Remove a user to the post's following; user should no longer follow the post
-function removeFollowingUser(forumName, postID, userID) {
-    var userIDObjectToBeAdded = {};
-    userIDObjectToBeAdded[userID] = userID;
-    var postIDObjectToBeAdded = {};
-    postIDObjectToBeAdded[postID] = postID;
-    db.database().ref(forumName).child("Posts/" + postID + "/follower_ids/" + userID).remove();
-    db.database().ref(forumName).child("Users/" + userID + "/following_IDs/" + postID).remove();
-}
-
-module.exports = {
-    getCompanyName, createNewUser, getUsers,
-    getCurrentUserID,pullResponse, checkRegistration,
-    addFollowingUser, removeFollowingUser
-};
-
+module.exports = {getUsers, getUser, removeUser, removeAllUserTags, getUserTags, removeSpecialization,
+                  addSpecialization, createNewUser, getCurrentUserID, getCompanyName, toggleAdmin,
+                  getUserEmail, isUserAdmin}

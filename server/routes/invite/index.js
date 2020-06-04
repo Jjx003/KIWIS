@@ -2,33 +2,10 @@ var express = require("express");
 //var bcrypt = require("bcrypt");
 var crypto = require('crypto');
 var router = express.Router();
-var path = require('path');
-var mailgun = require("mailgun-js");
-var db = require("../../db/index");
-var auth = require('../../auth/index');
+var db = require("../../db/invite/index");
 var {authenticated, isAdmin} = require('../auth/index')
-require('dotenv').config();
 
-const mg = mailgun({
-    apiKey:	process.env.MAILGUN_API_KEY, 
-	domain: 'mg.kiwis.tech', 
-});
-
-function sendEmail(email, subject, content) {
-	const data = {
-		"from": "Excited User <ninja@mg.kiwis.tech>",
-		"to": email,
-		"subject": subject ? subject : 'Hello',
-		"text": content,
-    }
-	mg.messages().send(data, function(error, body){
-        console.log(body);
-        console.log(error);
-	})
-}
-
-router.get('/accept_invite/:uuid', (req, res, next) => {
-    let uuid = req.params.uuid;
+router.get('/accept_invite/:uuid', (req, res) => {
   // checking if uuid is present in registration table
   db.checkRegistration(req.params.uuid).then((snapshot) => {
       //console.log(snapshot)
@@ -45,7 +22,7 @@ router.get('/accept_invite/:uuid', (req, res, next) => {
 router.post('/', 
 authenticated, isAdmin, 
 
-function (req, res, next) {
+function (req, res) {
     try {
         // TODO: Sanitize email?
         let email = req.body.email;
@@ -55,7 +32,7 @@ function (req, res, next) {
             let inviteLink = `http://localhost:9000/inviteUser/accept_invite/${hash}`;
             db.createRegistration(hash, company, email).then(() => {
                 let content = "Welcome to KIWI!\n" + "You have invited to the " + company + " KIWI forum!" + "\n" + "Please click the link below to get started." + "\n" + inviteLink  + "\n";
-                sendEmail(email, "test", content);
+                db.sendEmail(email, "test", content);
                 res.jsonp({success: true}); 
             })
         })

@@ -2,7 +2,7 @@ var express = require("express");
 var router = express.Router();
 var {db} = require('../../firebase')
 var {authenticated} = require('../auth/index');
-var dbIndex = require('../../db/index')
+var dbIndex = require('../../db/posts/index')
 
 router.get('/:id', 
     function (req, res) {

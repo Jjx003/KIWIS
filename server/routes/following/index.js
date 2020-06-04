@@ -1,7 +1,7 @@
 var express = require("express");
 var auth = require('../../auth/index')
 var router = express.Router();
-var {db} = require('../../firebase')
+var db = require('../../db/following/index')
 var {addFollowingUser, removeFollowingUser} = require('../../db/index')
 var {authenticated, isAdmin} = require('../auth/index');
 const { check, validationResult } = require('express-validator');

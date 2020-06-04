@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var db = require("../../db/index")
+var db = require("../../db/tags/index")
 var auth = require('../../auth/index');
 var {authenticated, isAdmin} = require('../auth/index')
 const { check, validationResult } = require('express-validator');
@@ -11,7 +11,7 @@ router.get('/',
     function (req, res, next) {
         const company = req.user.company;        //needs to get company so not hard coded
         let tags = [];
-        getCompanyTags(company, tags).then(
+        db.getCompanyTags(company, tags).then(
             () => res.jsonp({success : true, tags: tags})
         );
     }
