@@ -1,7 +1,7 @@
 var { db } = require('../../firebase');
 var { admin } = require('../../firebase');
 var auth = require('../auth/index');
-var parent = require('../index');
+var parent = require('../common_models');
 
 function getUsers(forumName) {
     return parent.getUsers(forumName);

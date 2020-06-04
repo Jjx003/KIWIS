@@ -1,6 +1,4 @@
-var { db } = require('../../firebase');
-var { admin } = require('../../firebase');
-var parent = require('../index');
+var parent = require('../common_models');
 
 function getCurrentUserID(token) {
     return parent.getCurrentUserID(token);

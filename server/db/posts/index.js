@@ -1,13 +1,11 @@
 require('dotenv').config();
-var parent = require('../index');
 var { db } = require('../../firebase');
-var { admin } = require('../../firebase');
 var mailgun = require("mailgun-js");
 const mg = mailgun({
     apiKey: process.env.MAILGUN_API_KEY,
     domain: 'mg.kiwis.tech',
 });
-var parent = require('../index');
+var parent = require('../common_models');
 
 function sendEmail(email, subject, content) {
     console.log(email)

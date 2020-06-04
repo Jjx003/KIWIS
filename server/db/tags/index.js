@@ -1,6 +1,6 @@
 var { db } = require('../../firebase');
 var { admin } = require('../../firebase');
-var parent = require('../index');
+var parent = require('../common_models');
 function getCompanyTags(company, tags) {
     return db.database().ref(company).child('Tags').once('value', tagSnapshot => {
         tagSnapshot.forEach(tag => {

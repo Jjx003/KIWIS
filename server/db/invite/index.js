@@ -5,7 +5,7 @@ const mg = mailgun({
     apiKey:	process.env.MAILGUN_API_KEY, 
 	domain: 'mg.kiwis.tech', 
 });
-var parent = require('../index');
+var parent = require('../common_models');
 
 function checkRegistration(id) {
     return parent.checkRegistration(id);

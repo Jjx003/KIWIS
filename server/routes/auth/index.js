@@ -1,5 +1,4 @@
 var express = require("express");
-var db = require('../../db/index');
 var authRouter = express.Router();
 var auth = require('../../auth/index'); //  TODO: WTF
 var dbIndex = require('../../db/auth/index')
@@ -94,7 +93,7 @@ authRouter.post('/resetPassword',
 	authenticated,
 
 	function (req, res) {
-        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+        dbIndex.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
 			auth.updateUserPassword(decodedToken, req.body.newPassword).then(function() {
 				// Update successful.
 				res.jsonp({success: true});
