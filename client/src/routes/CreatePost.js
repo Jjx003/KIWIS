@@ -9,7 +9,7 @@ class CreatePost extends React.Component {
 
     state = { tags_selected: [], tags: [] };
 
-    componentWillMount() {
+    componentDidMount() {
         axios({
             method: 'get',
             url: 'http://localhost:9000/tags/',
@@ -34,13 +34,13 @@ class CreatePost extends React.Component {
         // should tag_ids be in line below
         const { title, postContent } = event.target.elements;
         axios.defaults.withCredentials = true;
-        if (title.value.length == 0) {
+        if (title.value.length === 0) {
             alert("Your title is empty! Please fill in a title and try again.")
             return
-        } else if (postContent.value.length == 0) {
+        } else if (postContent.value.length === 0) {
             alert("Your post is empty! Please fill in the post and try again.")
             return
-        } else if (this.state.tags_selected.length == 0) {
+        } else if (this.state.tags_selected.length === 0) {
             alert("You have no tags selected! Please select at least one tag.")
             return
         }

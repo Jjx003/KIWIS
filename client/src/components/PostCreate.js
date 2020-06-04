@@ -25,8 +25,8 @@ class PostCreate extends React.Component {
     render() {
         return (
             <div className={"post-create"}>
-                <input className="titleBox" name="title" placeholder="Post Title" maxlength={MAX_TITLE_LENGTH} />
-                <textarea className="postContent" name="postContent" placeholder="Post Content" maxlength={MAX_POST_LENGTH} />
+                <input className="titleBox" name="title" placeholder="Post Title" maxLength={MAX_TITLE_LENGTH} />
+                <textarea className="postContent" name="postContent" placeholder="Post Content" maxLength={MAX_POST_LENGTH} />
                 <div className={"publish-section"}>
                     <Dropdown fluid multiple selection clearable search scrolling text="tags" options={this.props.dropdownOpt} onChange={this.props.dropdownChange} value={this.props.dropdownVal} />
                     <button type="Publish Post"> Publish Post </button>
