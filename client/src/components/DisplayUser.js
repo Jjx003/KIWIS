@@ -29,7 +29,7 @@ class DisplayUser extends React.Component {
 
     render() {
         const handleAdmin = () => {
-            if (this.state.checkemail == this.state.email) {
+            if (this.state.checkemail === this.state.email) {
                 alert('Can\'t Un-admin Yourself');
                 return;
             }
@@ -45,7 +45,7 @@ class DisplayUser extends React.Component {
         }
 
         const handleRemove = () => {
-            if (this.state.checkemail == this.state.email) {
+            if (this.state.checkemail === this.state.email) {
                 alert('Can\'t Delete Yourself');
                 return;
             }

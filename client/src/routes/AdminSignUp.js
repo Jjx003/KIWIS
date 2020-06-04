@@ -10,7 +10,7 @@ const AdminSignUp = ({ history }) => {
         event.preventDefault();
         const { company, first_name, last_name, email, password, passwordcopy } = event.target.elements;
 
-        if (password.value != passwordcopy.value) {
+        if (password.value !== passwordcopy.value) {
             alert('Please make sure the passwords match.');
             return;
         }

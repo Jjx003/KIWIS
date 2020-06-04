@@ -38,7 +38,7 @@ class Settings extends React.Component {
         // should tag_ids be in line below
         const { password, confirmPassword } = event.target.elements;
 
-        if (password.value != confirmPassword.value) {
+        if (password.value !== confirmPassword.value) {
             alert('Please Make Sure the Passwords Match');
             return;
         }
