@@ -26,12 +26,7 @@ class DisplayUser extends React.Component {
     }
 
 
-<<<<<<< HEAD
-    render(){
-        
-=======
     render() {
->>>>>>> e890b587d07895c32ccd47f1e1887ce18e33e2b8
         const handleAdmin = () => {
             if (this.state.checkemail === this.state.email) {
                 alert('Can\'t Un-admin Yourself');

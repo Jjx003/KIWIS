@@ -102,27 +102,28 @@ class UserTags extends React.Component {
                     <div className="mainContainer">
                         <h1>
                             Select Your Specializations
-                    </h1>
-                    <div className="tagListBox">
-                        {this.state.isLoading ? 
-                            <div> 
-                                <Icon loading name='spinner' /> loading 
-                            </div> 
-                            : 
-                            Object.keys(info).map((key, i) => ( <SpecializationButton key={key} user_tags={user_info} tag={key}/>))
-                        }
+                        </h1>
+                        <div className="tagListBox">
+                            {this.state.isLoading ?
+                                <div>
+                                    <Icon loading name='spinner' /> loading
+                            </div>
+                                :
+                                Object.keys(info).map((key, i) => (<SpecializationButton key={key} user_tags={user_info} tag={key} />))
+                            }
+                        </div>
+                        <div className="doneButtons">
+                            <button onClick={this.resetTags} className="resetButton">Clear Specializations</button>
+                            <Link to="/settings">
+                                <button className="completeButton">Back To Settings</button>
+                            </Link>
+                        </div>
                     </div>
-                    <div className="doneButtons">
-                        <button onClick={this.resetTags} className="resetButton">Clear Specializations</button>
-                        <Link to="/settings">
-                            <button className="completeButton">Back To Settings</button>
-                        </Link>
+                    <div className="endText">
+                        <p1>
+                            © All Rights Reserved. KIWI by Symps.
+                    </p1>
                     </div>
-                </div>
-                <div className="endText">
-                    <p>
-                        © All Rights Reserved. KIWI by Symps.
-                    </p>
                 </div>
             </div>
         )
