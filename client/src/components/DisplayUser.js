@@ -49,7 +49,7 @@ class DisplayUser extends React.Component {
                 alert('Can\'t Delete Yourself');
                 return;
             }
-            if (window.confirm("Removing" + " " + this.state.first_name + " " + this.state.last_name)) {
+            if (window.confirm("Removing " + this.state.first_name + " " + this.state.last_name)) {
                 axios({
                     method: 'post',
                     url: 'http://localhost:9000/users/remove',
