@@ -98,9 +98,9 @@ class Settings extends React.Component {
                             </Segment>
                         </div>
                         <div className="endText">
-                            <p1>
+                            <p>
                                 © All Rights Reserved. KIWI by Symps.
-                            </p1>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -138,9 +138,9 @@ class Settings extends React.Component {
                             </Segment>
                         </div>
                         <div className="endText">
-                            <p1>
+                            <p>
                                 © All Rights Reserved. KIWI by Symps.
-                            </p1>
+                            </p>
                         </div>
                     </div>
                 </div>)
