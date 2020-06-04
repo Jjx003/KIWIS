@@ -22,10 +22,9 @@ class SpecializationButton extends React.Component {
     addSpecialization = (thisTag) => {
         // this tag is what we are removing
         var currTag = thisTag;
-        if (this.state.user_info === '') {
-            var newJSON = {};
-        } else {
-            var newJSON = this.state.user_info;
+        var newJSON = {};
+        if (this.state.user_info !== '') {
+            newJSON = this.state.user_info;
         }
         axios.defaults.withCredentials = true;
         axios({
@@ -58,10 +57,9 @@ class SpecializationButton extends React.Component {
     removeSpecialization = (thisTag) => {
         // this tag is what we are removing
         var currTag = thisTag;
-        if (this.state.user_info === '') {
-            var newJSON = {};
-        } else {
-            var newJSON = this.state.user_info;
+        var newJSON = {};
+        if (this.state.user_info !== '') {
+            newJSON = this.state.user_info;
         }
         axios.defaults.withCredentials = true;
         axios({
