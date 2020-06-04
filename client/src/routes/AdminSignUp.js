@@ -48,7 +48,7 @@ const AdminSignUp = ({ history }) => {
             <div className="signupRow">
                 <div className="left">
                     <div className="picture">
-                        <img className="picture" src={pic} />
+                        <img alt="KIWI" className="picture" src={pic} />
                     </div>
                     <div className="leftText">
                         <p1>Our company will ensure the success and coordination of all co-workers.

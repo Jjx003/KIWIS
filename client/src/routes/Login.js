@@ -48,7 +48,7 @@ const Login = ({ history }) => {
             <div className="inside">
 
                 <div className="columnx">
-                    <img className="pic" src={pic} />
+                    <img className="pic" alt="KIWI" src={pic} />
                     <h1 className='font'>Login</h1>
                     <form onSubmit={handleLogin}>
                         <div className="textField">
