@@ -10,7 +10,6 @@ class SpecializationButton extends React.Component{
         this.state = {
             thisTag: this.props.tag,
             user_info: this.props.user_tags,
-            exists: false
         };
 
     }
