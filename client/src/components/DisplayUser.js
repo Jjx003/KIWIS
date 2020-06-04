@@ -23,7 +23,6 @@ class DisplayUser extends React.Component{
             url: 'http://localhost:9000/users/getUserEmail',
           }).then((response) => {
             this.setState({checkemail: response.data.userEmail});
-            console.log(response.data);
         });
     }
 

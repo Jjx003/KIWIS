@@ -26,9 +26,9 @@ class AdminPage extends React.Component{
                 <TitleBar title="Manage Forum" />
                 <Tab panes={panes} />
                 <div className="endText">                   
-                    <p1>
+                    <p>
                         © All Rights Reserved. KIWI by Symps.
-                    </p1>
+                    </p>
                 </div>
             </div>);
     }

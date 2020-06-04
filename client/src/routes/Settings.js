@@ -22,14 +22,12 @@ class Settings extends React.Component {
             url: 'http://localhost:9000/users/getUserEmail'
           }).then((response) => {
             this.setState({user_email: response.data.userEmail});
-            console.log(response)
         });
 
         axios({
             method: 'get',
             url: 'http://localhost:9000/users/isUserAdmin'
           }).then((response) => {
-              console.log(response);
             this.setState({admin: response.data.admin});
         });
     }
@@ -100,9 +98,9 @@ class Settings extends React.Component {
                             </Segment>
                         </div>
                         <div className="endText">
-                            <p1>
+                            <p>
                                 © All Rights Reserved. KIWI by Symps.
-                            </p1>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -141,9 +139,9 @@ class Settings extends React.Component {
                         </Segment>
                         </div>
                         <div className="endText">
-                            <p1>
+                            <p>
                                 © All Rights Reserved. KIWI by Symps.
-                            </p1>
+                            </p>
                         </div>
                     </div>
                 </div>)

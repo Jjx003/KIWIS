@@ -43,7 +43,6 @@ class SpecializationButton extends React.Component{
 
                 newJSON[thisTag] = thisTag;
                 this.setState({user_info: newJSON});
-                this.setState({exists: true});
 			} else {
 				console.log("Tag was not added");
             }
@@ -80,7 +79,6 @@ class SpecializationButton extends React.Component{
                 delete newJSON[thisTag];
 
                 this.setState({user_info: newJSON});
-                this.setState({exists: false});
 			} else {
 				console.log("Tag was not added");
             }
@@ -97,6 +95,7 @@ class SpecializationButton extends React.Component{
         const {user_info} = this.state;
         const {thisTag} = this.state;
 
+        // Just checks if the current button is an active or non active one.
         var tagButton = 'tagButton';
         if(user_info.hasOwnProperty(thisTag)) {
             tagButton = 'tagButton2';

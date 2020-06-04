@@ -109,7 +109,7 @@ class UserTags extends React.Component {
                                 <Icon loading name='spinner' /> loading 
                             </div> 
                             : 
-                            Object.keys(info).map((key, i) => ( <SpecializationButton user_tags={user_info} tag={key}/>))
+                            Object.keys(info).map((key, i) => ( <SpecializationButton key={key} user_tags={user_info} tag={key}/>))
                         }
                     </div>
                     <div className="doneButtons">
@@ -120,9 +120,9 @@ class UserTags extends React.Component {
                     </div>
                 </div>
                 <div className="endText">
-                    <p1>
+                    <p>
                         © All Rights Reserved. KIWI by Symps.
-                    </p1>
+                    </p>
                 </div>
             </div>
             </div>
