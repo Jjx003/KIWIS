@@ -14,7 +14,7 @@ class UserTab extends React.Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         axios({
             method: 'get',
             url: 'http://localhost:9000/users/all'
