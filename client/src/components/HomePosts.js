@@ -61,21 +61,21 @@ class HomePosts extends React.Component {
             method: 'get',
             url: 'http://localhost:9000/posts/',
         })
-        .then((response) => { 
-            if (response.data.success) { 
-                this.setState({posts: response.data.posts});
-            }
-        })
-        .catch((error) => {
-            console.log(error);
-        }).then(() => {
-            if(this.state.posts === undefined || this.state.posts.length==0){
-                this.setState({forumEmpty: true});
-            }
-            else {
-                this.setState({forumEmpty: false});
-            }
-        })
+            .then((response) => {
+                if (response.data.success) {
+                    this.setState({ posts: response.data.posts });
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            }).then(() => {
+                if (this.state.posts === undefined || this.state.posts.length === 0) {
+                    this.setState({ forumEmpty: true });
+                }
+                else {
+                    this.setState({ forumEmpty: false });
+                }
+            })
     }
 
     //searching through posts state
@@ -135,7 +135,7 @@ class HomePosts extends React.Component {
                 <InstantSearch indexName={this.state.company} searchClient={searchClient}>
                     <Navbar updateForumDisp={this.updateTagSearch} setTextSearch={this.setTextSearchState}
                         resetTextSearch={this.resetTextSearchState} />
-                    <PostContainer posts={this.state.posts} users={this.state.users} 
+                    <PostContainer posts={this.state.posts} users={this.state.users}
                         forumEmpty={this.state.forumEmpty} textSearch={this.state.textSearch} />
                 </InstantSearch>
             </div>
@@ -152,7 +152,7 @@ function PostContainer(props) {
             </Results>);
     }
     else {
-        return <TagSearchPosts posts={props.posts} users={props.users} forumEmpty={props.forumEmpty}/>;
+        return <TagSearchPosts posts={props.posts} users={props.users} forumEmpty={props.forumEmpty} />;
     }
 }
 
@@ -166,15 +166,15 @@ function TagSearchPosts(props) {
         }
         return name;
     }
-    if(props.forumEmpty){
+    if (props.forumEmpty) {
         return <div className="posts-container">
             <div className="no-results-msg">
-            <p>Welcome to the company's KIWI forum! Please start by creating a post.</p>
-            <RedirectButton props={props}/>
+                <p>Welcome to the company's KIWI forum! Please start by creating a post.</p>
+                <RedirectButton props={props} />
             </div>
         </div>
     }
-    else { 
+    else {
         return (
             <div className="posts-container">
                 {props.posts.map((item, i) => {
