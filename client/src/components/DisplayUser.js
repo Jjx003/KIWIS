@@ -29,7 +29,6 @@ class DisplayUser extends React.Component{
 
 
     render(){
-        var pending = (this.state.user_id == null) ? true : false;
         
         const handleAdmin = () => {
             if(this.state.checkemail == this.state.email) {

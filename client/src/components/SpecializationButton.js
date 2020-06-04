@@ -10,10 +10,9 @@ class SpecializationButton extends React.Component{
         this.state = {
             thisTag: this.props.tag,
             user_info: this.props.user_tags,
-            tagButton: 'tagButton'
+            exists: false
         };
 
-        this.checkSpecialization();
     }
 
 
@@ -44,6 +43,7 @@ class SpecializationButton extends React.Component{
 
                 newJSON[thisTag] = thisTag;
                 this.setState({user_info: newJSON});
+                this.setState({exists: true});
 			} else {
 				console.log("Tag was not added");
             }
@@ -80,6 +80,7 @@ class SpecializationButton extends React.Component{
                 delete newJSON[thisTag];
 
                 this.setState({user_info: newJSON});
+                this.setState({exists: false});
 			} else {
 				console.log("Tag was not added");
             }
@@ -88,31 +89,18 @@ class SpecializationButton extends React.Component{
 			console.log(error);
           });
     }
-    
 
-    // This will check if its in the right state checked or unchecked
-    checkSpecialization() {
-        const {user_info} = this.state;
-        const {tagButton} = this.state;
-        const {thisTag} = this.state;
-
-        // if the user has the property then it displays it highlighted
-        if(user_info.hasOwnProperty(thisTag) && tagButton == 'tagButton') {
-            this.setState({tagButton: 'tagButton2'})
-        } // else if the user doesnt have that property and its the wrong highlighted version
-        else if (!user_info.hasOwnProperty(thisTag) && tagButton == 'tagButton2') {
-            this.setState({tagButton: 'tagButton'})
-        }
-    }
 
 
 
     render(){
         const {user_info} = this.state;
-        const {tagButton} = this.state;
         const {thisTag} = this.state;
 
-        this.checkSpecialization();
+        var tagButton = 'tagButton';
+        if(user_info.hasOwnProperty(thisTag)) {
+            tagButton = 'tagButton2';
+        }
 
         // method to change what is currently on page
         const handleToggle = () => {
