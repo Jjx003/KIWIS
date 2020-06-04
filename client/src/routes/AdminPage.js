@@ -8,24 +8,21 @@ import TagTab from "../components/TagTab";
 import { Tab } from 'semantic-ui-react'
 
 
-class AdminPage extends React.Component{
-    constructor(props){
-        super(props);
-    }
+class AdminPage extends React.Component {
 
-    render(){
+    render() {
         var panes = [
-            { menuItem: 'Users', render: () => <UserTab />},
-            { menuItem: 'Tags', render: () => <TagTab />},
-            { menuItem: 'Metadata - Tags', render: () => <MetadataTagTab  />},
-            { menuItem: 'Metadata - Users', render: () => <MetadataUserTab />}
+            { menuItem: 'Users', render: () => <UserTab /> },
+            { menuItem: 'Tags', render: () => <TagTab /> },
+            { menuItem: 'Metadata - Tags', render: () => <MetadataTagTab /> },
+            { menuItem: 'Metadata - Users', render: () => <MetadataUserTab /> }
         ];
 
-        return(
+        return (
             <div>
                 <TitleBar title="Manage Forum" />
                 <Tab panes={panes} />
-                <div className="endText">                   
+                <div className="endText">
                     <p1>
                         © All Rights Reserved. KIWI by Symps.
                     </p1>
