@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dropdown, Icon} from 'semantic-ui-react';
+import { Dropdown, Icon } from 'semantic-ui-react';
 import logo from '../images/logo_white.png';
 import '../css/index.css'
 import {
@@ -10,51 +10,6 @@ import firebase from '../auth/firebase';
 import Cookies from 'universal-cookie';
 import { withRouter } from 'react-router-dom';
 import '../css/Navbar.css'
-
-
-const tags = [
-    {
-        key: 'Machine Learning',
-        text: 'Machine Learning',
-        value: 'Machine Learning'
-    },
-    {
-        key: 'Python',
-        text: 'Python',
-        value: 'Python'
-    },
-    {
-        key: 'help-needed',
-        text: 'help-needed',
-        value: 'help-needed'
-    },
-    {
-        key: 'announcement',
-        text: 'announcement',
-        value: 'announcement'
-    },
-    {
-        key: 'events',
-        text: 'events',
-        value: 'events'
-    },
-    {
-        key: 'lost and found',
-        text: 'lost and found',
-        value: 'lost and found'
-    },
-    {
-        key: 'C++',
-        text: 'C++',
-        value: 'C++'
-    },
-    {
-        key: 'React',
-        text: 'React',
-        value: 'React'
-    }
-]
-
 
 class Navbar extends React.Component {
 
@@ -117,9 +72,9 @@ class Navbar extends React.Component {
                                 window.localStorage.setItem('current_tags', string_tags);
                                 window.localStorage.setItem('original_tags', string_tags);
                                 console.log(window.localStorage.getItem(
-                                   'original_tags'
+                                    'original_tags'
                                 ));
-                                
+
 
                                 this.props.updateForumDisp(this.state.default_tags);
                                 this.setState({ got_specializations: true });
@@ -172,7 +127,7 @@ class Navbar extends React.Component {
                 }
                 window.localStorage.setItem('current_tags', string_tags);
                 window.localStorage.setItem('original_tags', string_tags);
-                
+
 
                 this.props.updateForumDisp(this.state.default_tags);
                 this.setState({ got_specializations: true });
@@ -240,8 +195,8 @@ class Navbar extends React.Component {
                     <button className={"invisibleButton"} onClick={this.resetSpecializations.bind(this)}>reset specializations</button>
                 </div>
                 <div className={"settings"}>
-                    <button className={"invisibleButton"} onClick={() => {this.props.history.push("/settings")}}>
-                    <Icon link name="settings" size={"big"} color='grey' inverted />
+                    <button className={"invisibleButton"} onClick={() => { this.props.history.push("/settings") }}>
+                        <Icon link name="settings" size={"big"} color='grey' inverted />
                     </button>
                 </div>
                 <div className={"logoutButton"}>
