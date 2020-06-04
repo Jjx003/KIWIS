@@ -6,6 +6,7 @@ import MetadataTagTab from "../components/MetadataTagTab";
 import MetadataUserTab from "../components/MetadataUserTab";
 import TagTab from "../components/TagTab";
 import { Tab } from 'semantic-ui-react'
+import axios from 'axios';
 
 
 class AdminPage extends React.Component {
