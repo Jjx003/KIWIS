@@ -9,7 +9,7 @@ class CreatePost extends React.Component {
 
     state = { tags_selected: [], tags: [] };
 
-    componentWillMount() {
+    componentDidMount() {
         axios({
             method: 'get',
             url: 'http://localhost:9000/tags/',
