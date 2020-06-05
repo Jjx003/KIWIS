@@ -31,6 +31,7 @@ class SignUp extends React.Component {
 					// create token for user
 					db.auth().currentUser.getIdToken(true).then((idToken) => {
 						// store token into cookie 
+						alert("Welcome to Kiwi!");
 						const cookies = new Cookies();
 						cookies.set('auth', idToken, { path: '/' });
 						console.log("Entered create token");
