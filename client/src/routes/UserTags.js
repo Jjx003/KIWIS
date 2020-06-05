@@ -102,14 +102,14 @@ class UserTags extends React.Component {
                     <div className="mainContainer">
                         <h1>
                             Select Your Specializations
-                    </h1>
+                        </h1>
                         <div className="tagListBox">
                             {this.state.isLoading ?
                                 <div>
                                     <Icon loading name='spinner' /> loading
                             </div>
                                 :
-                                Object.keys(info).map((key, i) => (<SpecializationButton user_tags={user_info} tag={key} />))
+                                Object.keys(info).map((key, i) => (<SpecializationButton key={key} user_tags={user_info} tag={key} />))
                             }
                         </div>
                         <div className="doneButtons">

@@ -19,17 +19,15 @@ class Settings extends React.Component {
         axios({
             method: 'get',
             url: 'http://localhost:9000/users/getUserEmail'
-        }).then((response) => {
-            this.setState({ user_email: response.data.userEmail });
-            console.log(response)
+          }).then((response) => {
+            this.setState({user_email: response.data.userEmail});
         });
 
         axios({
             method: 'get',
             url: 'http://localhost:9000/users/isUserAdmin'
-        }).then((response) => {
-            console.log(response);
-            this.setState({ admin: response.data.admin });
+          }).then((response) => {
+            this.setState({admin: response.data.admin});
         });
     }
 

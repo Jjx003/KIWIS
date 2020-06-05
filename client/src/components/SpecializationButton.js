@@ -10,10 +10,8 @@ class SpecializationButton extends React.Component {
         this.state = {
             thisTag: this.props.tag,
             user_info: this.props.user_tags,
-            tagButton: 'tagButton'
         };
 
-        this.checkSpecialization();
     }
 
 
@@ -88,29 +86,17 @@ class SpecializationButton extends React.Component {
     }
 
 
-    // This will check if its in the right state checked or unchecked
-    checkSpecialization() {
-        const { user_info } = this.state;
-        const { tagButton } = this.state;
-        const { thisTag } = this.state;
 
-        // if the user has the property then it displays it highlighted
-        if (user_info.hasOwnProperty(thisTag) && tagButton === 'tagButton') {
-            this.setState({ tagButton: 'tagButton2' })
-        } // else if the user doesnt have that property and its the wrong highlighted version
-        else if (!user_info.hasOwnProperty(thisTag) && tagButton === 'tagButton2') {
-            this.setState({ tagButton: 'tagButton' })
+
+    render(){
+        const {user_info} = this.state;
+        const {thisTag} = this.state;
+
+        // Just checks if the current button is an active or non active one.
+        var tagButton = 'tagButton';
+        if(user_info.hasOwnProperty(thisTag)) {
+            tagButton = 'tagButton2';
         }
-    }
-
-
-
-    render() {
-        const { user_info } = this.state;
-        const { tagButton } = this.state;
-        const { thisTag } = this.state;
-
-        this.checkSpecialization();
 
         // method to change what is currently on page
         const handleToggle = () => {
