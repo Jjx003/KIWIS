@@ -32,7 +32,7 @@ router.get('/accept_invite/:uuid', (req, res, next) => {
   // checking if uuid is present in registration table
   db.checkRegistration(req.params.uuid).then((snapshot) => {
       //console.log(snapshot)
-      if (snapshot.val() != null) { res.redirect("https://kiwis.tech/signup/" + req.params.uuid); }
+      if (snapshot.val() != null) { res.redirect("https://kiwi-test-app.herokuapp.com/signup/" + req.params.uuid); }
   }).catch((error) => {
       console.log(error);
       res.jsonp({success:false});
@@ -52,7 +52,7 @@ function (req, res, next) {
         let company = req.user.company;
         crypto.randomBytes(16, (err, hash) => {
             hash = hash.toString('hex')
-            let inviteLink = `https://kiwis.tech/inviteUser/accept_invite/${hash}`;
+            let inviteLink = `https://kiwi-test-app.herokuapp.com/inviteUser/accept_invite/${hash}`;
             db.createRegistration(hash, company, email).then(() => {
                 let content = "Welcome to KIWI!\n" + "You have invited to the " + company + " KIWI forum!" + "\n" + "Please click the link below to get started." + "\n" + inviteLink  + "\n";
                 sendEmail(email, "test", content);
