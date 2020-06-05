@@ -51,8 +51,9 @@ class Navbar extends React.Component {
                         var x = tagKey;
                         this.setState({ forum_tags: [...this.state.forum_tags, { key: x, text: x, value: x }] });
                     }
-
-                    if (localStorage.getItem('current_tags') === undefined) {
+                    
+                    var tags_current = localStorage.getItem('current_tags');
+                    if (tags_current === null || tags_current === undefined) {
                         axios.defaults.withCredentials = true;
                         axios({
                             method: 'GET',
