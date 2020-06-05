@@ -912,6 +912,16 @@ function getUpvoteArray(responses, userID) {
     })
 }
 
+function getPostInfo(company, postID){
+    return new Promise ((resolve, reject) => {
+        db.database().ref(company + '/Posts/' + postID).once('value').then((snapshot) => { 
+            resolve(snapshot.val());
+        }).catch((error) => {
+            reject(new Error(error));
+        })
+    });
+}
+
 module.exports = {
     undoEndorse, updateKarma, undoUpvote, deletePostData, deleteResponseData,
     notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers,
@@ -923,6 +933,6 @@ module.exports = {
     isUserAdmin, pullResponse, pushResponse, checkRegistration,
     getMetadata, createRegistration, upVotePost, addPostData, removeUser, endorseResponse,
     addFollowingUser, removeFollowingUser, getUpvoteArray, isFollowingUser,
-    undoEndorse, updateKarma, undoUpvote, deletePostData, deleteResponseData
+    undoEndorse, updateKarma, undoUpvote, deletePostData, deleteResponseData, getPostInfo
 };
 

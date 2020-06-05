@@ -3,19 +3,12 @@ var router = express.Router();
 var auth = require('../../auth/index');
 var db = require('../../db/index');
 var firebase = require('../../firebase');
+var {authenticated} = require('../auth/index');
 
 // We are printing the console logs but the tag_ids is undefined
 router.post('/AddResponse',
 
-// Got this from jeff auth
-function (req, res, next) {
-    auth.checkToken(req.cookies.auth).then(() =>{
-        next()
-    }).catch( function(error) {
-        console.log("error occured when checking token, request denied");
-        res.jsonp({success: false});
-    })  
-},
+authenticated,
 
 function (req, res) {
     db.getCurrentUserID(req.cookies.auth).then((user_id) => {
@@ -36,14 +29,7 @@ function (req, res) {
 
 router.post('/pullResponse',
 
-function (req, res, next) {
-    auth.checkToken(req.cookies.auth).then(() =>{
-        next()
-    }).catch( function(error) {
-        console.log("error occured when checking token, request denied");
-        res.jsonp({success: false});
-    })  
-},
+authenticated,
 
 function (req, res) {
     db.getCurrentUserID(req.cookies.auth).then((user_id) => {
@@ -63,14 +49,7 @@ function (req, res) {
 
 router.post('/DeleteResponseData', 
 
-function (req, res, next) {
-    auth.checkToken(req.cookies.auth).then(() =>{
-        next()
-    }).catch( function(error) {
-        console.log("error occured when checking token, request denied");
-        res.jsonp({success: false});
-    })  
-},
+authenticated,
 
 function (req, res) {
     db.getCurrentUserID(req.cookies.auth).then((user_id) => {
@@ -93,14 +72,7 @@ function (req, res) {
 
 router.post('/UpvoteResponse',
 
-function (req, res, next) {
-    auth.checkToken(req.cookies.auth).then(() =>{
-        next()
-    }).catch( function(error) {
-        console.log("error occured when checking token, request denied");
-        res.jsonp({success: false});
-    })  
-},
+authenticated,
 
 function (req, res) {
     db.getCurrentUserID(req.cookies.auth).then((user_id) => {
@@ -122,14 +94,7 @@ function (req, res) {
 
 router.post('/UndoUpvote',
 
-function (req, res, next) {
-    auth.checkToken(req.cookies.auth).then(() =>{
-        next()
-    }).catch( function(error) {
-        console.log("error occured when checking token, request denied");
-        res.jsonp({success: false});
-    })  
-},
+authenticated,
 
 function (req, res) {
     db.getCurrentUserID(req.cookies.auth).then((user_id) => {
@@ -151,14 +116,7 @@ function (req, res) {
 
 router.post('/EndorseResponse',
 
-function (req, res, next) {
-    auth.checkToken(req.cookies.auth).then(() =>{
-        next()
-    }).catch( function(error) {
-        console.log("error occured when checking token, request denied");
-        res.jsonp({success: false});
-    })  
-},
+authenticated,
 
 function (req, res) {
     db.getCurrentUserID(req.cookies.auth).then((user_id) => {
@@ -180,14 +138,7 @@ function (req, res) {
 
 router.post('/undoEndorse',
 
-function (req, res, next) {
-    auth.checkToken(req.cookies.auth).then(() =>{
-        next()
-    }).catch( function(error) {
-        console.log("error occured when checking token, request denied");
-        res.jsonp({success: false});
-    })  
-},
+authenticated,
 
 function (req, res) {
     db.getCurrentUserID(req.cookies.auth).then((user_id) => {
