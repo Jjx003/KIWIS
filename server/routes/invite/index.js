@@ -21,10 +21,7 @@ function sendEmail(email, subject, content) {
 		"subject": subject ? subject : 'Hello',
 		"text": content,
     }
-	mg.messages().send(data, function(error, body){
-        console.log(body);
-        console.log(error);
-	})
+	mg.messages().send(data);
 }
 
 router.get('/accept_invite/:uuid', (req, res, next) => {

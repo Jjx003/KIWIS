@@ -118,7 +118,6 @@ router.post('/DeletePostData', (req, res) => {
     var company_name = req.user.company;
     // Not sure if this should be params or body
     var post_id = req.body.post_id;
-    console.log(company_name, post_id);
     var deletedData = dbIndex.deletePostData(company_name, post_id);
     res.jsonp({success : deletedData});
     

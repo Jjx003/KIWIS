@@ -33,7 +33,7 @@ function startAlgolia(){
         companies[company] = company;
       }
     })
-    console.log(companies);
+    
     for (var key in companies) {
       const company = companies[key];
       const index = client.initIndex(company);

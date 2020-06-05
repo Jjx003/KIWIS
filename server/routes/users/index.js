@@ -1,13 +1,13 @@
 var express = require("express");
 var router = express.Router();
 var db = require("../../db/index")
-var {authenticated, isAdmin} = require('../auth/index');
+var {authenticated} = require('../auth/index');
 var auth = require('../../auth/index');
 const { check, validationResult } = require('express-validator');
 require('dotenv').config();
 
 router.get('/company', 
-    function (req, res, next) {
+    function (req, res) {
         try {
             res.send(req.user.company);
         } catch (error) {
@@ -18,7 +18,7 @@ router.get('/company',
 );
 
 router.get('/allUsers', 
-    function (req, res, next) {
+    function (req, res) {
         try {
             db.getUsers(req.user.company).then((data)=>{
                 res.send(data.val());
@@ -31,7 +31,7 @@ router.get('/allUsers',
 );
 
 router.post('/singleUser', 
-    function (req, res, next) {
+    function (req, res) {
         try {
             db.getUser(req.user.company, req.body.userid).then((data)=>{
                 res.send(data.val());
@@ -81,7 +81,6 @@ router.get('/userTags',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
@@ -101,7 +100,6 @@ router.post('/removeSpecialization',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
@@ -123,7 +121,6 @@ router.post('/addSpecialization',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
@@ -148,7 +145,7 @@ router.post('/add',
         
         next(); 
     }, 
-    function (req, res, next) {
+    function (req, res) {
         try {
             db.createNewUser(req.body.forumName, req.body.firstName, req.body.lastName, req.body.email, req.body.password);
             res.jsonp({success: true});
@@ -208,7 +205,7 @@ router.get('/',
         }
         next();
     },
-    function (req, res, next) {
+    function (req, resq) {
         // When moving to production, need a authentication cookie passed in as well
         // Or else people can exploit this route.
         try {
@@ -241,7 +238,6 @@ router.get('/all',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
@@ -273,7 +269,6 @@ router.post('/toggleAdmin',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );

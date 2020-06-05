@@ -37,7 +37,6 @@ router.get('/getTags',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
@@ -65,7 +64,6 @@ router.post('/remove',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );

@@ -20,7 +20,7 @@ const authenticated = (req,res,next) => {
       })  
     } catch(error) {
 	 		console.log(error);
-			console.log("Inside authenticated.");
+			console.log("Request Denied: User is not authenticated.");
         	res.jsonp({success: false});
 	}
 };
@@ -99,7 +99,7 @@ authRouter.post('/resetPassword',
 				// Update successful.
 				res.jsonp({success: true});
 			}).catch((error) => {
-				console.log("error when resetting password");
+				// error when resetting password
 				console.log(error);
 				res.jsonp({success: false});
 			});
