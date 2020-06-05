@@ -1,5 +1,4 @@
 var express = require("express");
-var db = require('../../db/index');
 var authRouter = express.Router();
 var auth = require('../../auth/index'); //  TODO: WTF
 var dbIndex = require('../../db/index')
@@ -50,6 +49,7 @@ authRouter.post('/AdminSignUp', function (req, res) {
 		req.body.email, req.body.password, true).then((result) => {
 			res.jsonp({success: result});
     }).catch((error) => {
+		console.log(error);
         res.jsonp({success: false});
     });
 });

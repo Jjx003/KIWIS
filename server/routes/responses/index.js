@@ -1,8 +1,6 @@
 var express = require("express");
 var router = express.Router();
-var auth = require('../../auth/index');
 var db = require('../../db/index');
-var firebase = require('../../firebase');
 var {authenticated} = require('../auth/index');
 
 // We are printing the console logs but the tag_ids is undefined

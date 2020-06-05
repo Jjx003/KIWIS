@@ -1,9 +1,8 @@
 var express = require("express");
 var router = express.Router();
 var db = require("../../db/index")
-var auth = require('../../auth/index');
-var {authenticated, isAdmin} = require('../auth/index')
-const { check, validationResult } = require('express-validator');
+var { isAdmin } = require('../auth/index')
+const { check } = require('express-validator');
 require('dotenv').config();
 var {getCompanyTags} = require('../../db/index')
 
