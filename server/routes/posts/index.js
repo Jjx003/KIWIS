@@ -9,7 +9,7 @@ router.get('/:id',
         let user_id = req.user.id;
         let company = req.user.company;
 
-        db.getPostInfo(company, req.params.id).then((posts) => {
+        dbIndex.getPostInfo(company, req.params.id).then((posts) => {
 
             dbIndex.pullResponse(company, req.params.id).then((responseData) => {
                 
