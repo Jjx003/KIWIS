@@ -2,8 +2,8 @@ import React from "react";
 import "../css/DisplayTags.css"
 import axios from 'axios';
 
-class DisplayTag extends React.Component{
-    constructor(props){
+class DisplayTag extends React.Component {
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -12,10 +12,9 @@ class DisplayTag extends React.Component{
         };
     }
 
-    render(){
+    render() {
         const handleRemove = () => {
-            if(window.confirm("Removing" + " " + this.state.tag_id))
-            {
+            if (window.confirm("Removing " + this.state.tag_id)) {
                 axios({
                     method: 'post',
                     url: 'https://kiwi-test-app.herokuapp.com/tags/remove',
@@ -23,19 +22,18 @@ class DisplayTag extends React.Component{
                         tagName: this.state.tag_id
                     }
                 }).then((response) => {
-                    this.setState({removed: true});
+                    this.setState({ removed: true });
                 });
             }
         }
 
-        if(this.state.removed)
-        {
+        if (this.state.removed) {
             return (
                 <div className="tagButtonDT">
                     <div className="removed"> removed </div>
                 </div>);
         }
-        return(
+        return (
             <div>
                 <button onClick={handleRemove} className="tagButtonDT"> {this.state.tag_id} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; x</button>
             </div>

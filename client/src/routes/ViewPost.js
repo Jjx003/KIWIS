@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import '../css/Home.css';
 import '../css/App.css';
 import OriginalPoster from "../components/OriginalPoster";
