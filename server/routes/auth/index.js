@@ -103,6 +103,9 @@ authRouter.post('/resetPassword',
 				console.log(error);
 				res.jsonp({success: false});
 			});
+		}).catch((error) => {
+			console.log(error);
+			res.jsonp({success: false});
 		});
 });
 
