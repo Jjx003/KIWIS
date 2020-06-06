@@ -2,7 +2,6 @@
     background-color: #C9E0C9;
     width: 100%;
     height: fit-content;
+    min-height: 100vh;
     margin: auto;
-
-}   
-
+}
