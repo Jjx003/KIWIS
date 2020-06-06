@@ -12,6 +12,10 @@ class AddResponse extends React.Component {
         event.preventDefault();
         const { responseText } = event.target.elements;
         axios.defaults.withCredentials = true;
+        if (responseText.value.length === 0) {
+            alert("Your response is empty! Please fill in the response and try again.")
+            return
+        }
         axios({
             method: 'POST',
             url: 'http://localhost:9000/response/AddResponse',
