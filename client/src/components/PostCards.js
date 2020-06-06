@@ -12,12 +12,9 @@ const dStyle = {
 };
 
 class PostCards extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     handleClick() {
-        const {history} = this.props;
+        const { history } = this.props;
         history.push({      //change to replace and add back button
             pathname: '/viewPost/' + this.props.post_id.toString(),
         });

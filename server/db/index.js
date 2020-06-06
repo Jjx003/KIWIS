@@ -298,7 +298,6 @@ function addPostData(forumName, p_user_id, p_title, p_tag_ids, p_content) {
             date_time: datetime,
             content: p_content,
             karma: 0,
-            responses: ["-1"],
             follower_ids: []
 
         });
@@ -372,6 +371,7 @@ function notifyUsers(companyName, posts_tags) {
             var user_id = users_array[i];
             var user_email = (snapshot.child("Users/" + user_id + "/email").val());
 
+            // Assume every user has at least one tag
             try {
                 var curr_user_tags = Object.keys(snapshot.child("Users/" + user_id + "/tags").val());
         
