@@ -24,7 +24,6 @@ router.post('/addFollowing',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );
@@ -47,7 +46,6 @@ router.post('/removeFollowing',
             })  
         }).catch((error) => {
             console.log(error);
-            console.log()
         });
     }
 );

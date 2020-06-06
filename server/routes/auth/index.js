@@ -1,5 +1,4 @@
 var express = require("express");
-var db = require('../../db/index');
 var authRouter = express.Router();
 var auth = require('../../auth/index'); //  TODO: WTF
 var dbIndex = require('../../db/index')
@@ -20,7 +19,7 @@ const authenticated = (req,res,next) => {
       })  
     } catch(error) {
 	 		console.log(error);
-			console.log("Inside authenticated.");
+			console.log("Request Denied: User is not authenticated.");
         	res.jsonp({success: false});
 	}
 };
@@ -50,6 +49,7 @@ authRouter.post('/AdminSignUp', function (req, res) {
 		req.body.email, req.body.password, true).then((result) => {
 			res.jsonp({success: result});
     }).catch((error) => {
+		console.log(error);
         res.jsonp({success: false});
     });
 });
@@ -94,12 +94,12 @@ authRouter.post('/resetPassword',
 	authenticated,
 
 	function (req, res) {
-        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+        dbIndex.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
 			auth.updateUserPassword(decodedToken, req.body.newPassword).then(function() {
 				// Update successful.
 				res.jsonp({success: true});
 			}).catch((error) => {
-				console.log("error when resetting password");
+				// error when resetting password
 				console.log(error);
 				res.jsonp({success: false});
 			});
