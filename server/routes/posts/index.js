@@ -1,6 +1,5 @@
 var express = require("express");
 var router = express.Router();
-var {db} = require('../../firebase')
 var {authenticated} = require('../auth/index');
 var dbIndex = require('../../db/index')
 
@@ -8,32 +7,30 @@ router.get('/:id',
     function (req, res) {
         let user_id = req.user.id;
         let company = req.user.company;
-        var posts;
-        db.database().ref(company + '/Posts/' + req.params.id).once('value').then((snapshot) => { 
-            posts = snapshot.val();
-        }).catch((error) => {
-            console.log(error);
-            res.jsonp({ success: false });
-        })
 
-        dbIndex.pullResponse(company, req.params.id).then((responseData) => {
-            
+        dbIndex.getPostInfo(company, req.params.id).then((posts) => {
 
-            dbIndex.userMadePost(company, user_id, req.params.id).then((result) => {
-
-                dbIndex.getUpvoteArray(responseData, user_id).then((array) => {
-                    res.jsonp({ posts: posts, responses: responseData, createdPost: result, responseBools: array })
+            dbIndex.pullResponse(company, req.params.id).then((responseData) => {
                 
+                dbIndex.userMadePost(company, user_id, req.params.id).then((result) => {
+                    
+                    dbIndex.getUpvoteArray(responseData, user_id).then((array) => {
+                        res.jsonp({ posts: posts, responses: responseData, createdPost: result, responseBools: array })
+                    
+                    })
+
+                }).catch((error) => {
+                    console.log(error);
+                    res.jsonp({ success: false });
                 })
 
-            }).catch((error) => {
+            }).catch((error) =>{
                 console.log(error);
                 res.jsonp({ success: false });
             })
-
-        }).catch((error) =>{
+        }).catch((error) => {
             console.log(error);
-            res.jsonp({ success: false });
+            res.jsonp({success: false});
         })
 
 
