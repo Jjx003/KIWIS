@@ -94,7 +94,7 @@ authRouter.post('/resetPassword',
 	authenticated,
 
 	function (req, res) {
-        db.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
+        dbIndex.getCurrentUserID(req.cookies.auth).then((decodedToken) => {
 			auth.updateUserPassword(decodedToken, req.body.newPassword).then(function() {
 				// Update successful.
 				res.jsonp({success: true});
@@ -105,4 +105,5 @@ authRouter.post('/resetPassword',
 			});
 		});
 });
+
 module.exports = {authRouter, authenticated, isAdmin};
