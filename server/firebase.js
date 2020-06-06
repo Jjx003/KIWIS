@@ -48,7 +48,7 @@ function startAlgolia(){
         companies[company] = company;
       }
     })
-    console.log(companies);
+    
     for (var key in companies) {
       const company = companies[key];
       const index = client.initIndex(company);
@@ -75,9 +75,6 @@ function startAlgolia(){
   // Add or update object
   index
     .saveObject(record)
-    .then(() => {
-      console.log('Firebase object indexed in Algolia', record.objectID);
-    })
     .catch(error => {
       console.error('Error when indexing contact into Algolia', error);
       //process.exit(1);

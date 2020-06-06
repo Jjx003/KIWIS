@@ -84,7 +84,6 @@ function removeTagFromAllUsers(forumName, tagName) {
 
         // Goes to every user
         data.forEach(function (child) {
-            console.log(child.key)
             removeSpecialization(forumName, child.key, tagName);
         });
     });
@@ -172,7 +171,7 @@ function createNewUser(registration_ID, forumName, firstName, lastName, email, p
             if (isAdmin == true) {
                 db.database().ref(forumName).once("value", snapshot => {
                     if (snapshot.exists()) {
-                        console.log("This company already exists");
+                        // company already exists
                         alreadyCreated = true;
                         return;
                     }
@@ -332,7 +331,6 @@ const mg = mailgun({
 });
 
 function sendEmail(email, subject, content) {
-    console.log(email)
     const data = {
         "from": "KIWI Forum <no-reply@mg.kiwis.tech>",
         "to": email,
@@ -349,7 +347,7 @@ function notifyUsers(companyName, posts_tags) {
 
     // If the post has no tags, then just return
     if (posts_tags == null || posts_tags.length == 0) {
-        console.log("Post did not have tags");
+        // post did not have tags
         return;
     }
 
@@ -389,7 +387,6 @@ function notifyUsers(companyName, posts_tags) {
 
                     var subject = "Relevant Post was created in " + companyName + "'s KIWI Forum";
                     var content = "A post tagged with at least one of your specialities in " + companyName + "'s KIWI Forum was created.";
-                    console.log("SENT EMAIL TO " + user_email);
                     sendEmail(user_email, subject, content);
                     break
                 }
@@ -408,7 +405,7 @@ function notifyUsersResponses(companyName, post_id) {
         var post_following = Object.keys(snapshot.child("Posts/" + post_id + "/follower_ids").val());
         // If the post has no users following, then just return
         if(post_following.length == 0) {
-            console.log("Post did not have any users following");
+            // post did not have any users following
             return;
         }
 
@@ -428,7 +425,6 @@ function notifyUsersResponses(companyName, post_id) {
                     var subject = "Relevant Response to Post: " + post_id_title +  " was created in "+ companyName +"'s KIWI Forum ";
                     var content = "A response to the post: " + post_id_title + " you were following was created in "
                                     + companyName + "'sKIWI Forum ";
-                    console.log("SENT EMAIL TO "+ user_email);
                     sendEmail(user_email, subject, content);
                     break
                 }
@@ -591,7 +587,6 @@ function undoUpvote(companyName, user_id, response_id) {
     return new Promise(function(resolve, reject){
 
         const firebaseRef = db.database().ref(companyName + '/Responses/' + response_id);
-        console.log(firebaseRef);
         var updates = {};
         firebaseRef.once('value', function(snapshot){
 
@@ -790,7 +785,6 @@ function getMetadata(forumName) {
                         if (tagName in metaData['tagCount']) {
                             metaData['tagCount'][tagName] += 1;
                         } else {
-                            console.log('Tag ' + '\"' + tagName + '\"' + " not counted, currently adding to metadata");
                             metaData['tagCount'][tagName] = 1;
                         }
                     });
@@ -801,7 +795,6 @@ function getMetadata(forumName) {
                 if (userID in metaData['userIDCount']) {
                     metaData['userIDCount'][userID] += 1;
                 } else {
-                    console.log('UserID ' + '\"' + userID + '\"' + " not counted, currently adding to metadata");
                     metaData['userIDCount'][userID] = 1;
                 }
                 getUsers(forumName).then(data => {
@@ -919,6 +912,16 @@ function getUpvoteArray(responses, userID) {
     })
 }
 
+function getPostInfo(company, postID){
+    return new Promise ((resolve, reject) => {
+        db.database().ref(company + '/Posts/' + postID).once('value').then((snapshot) => { 
+            resolve(snapshot.val());
+        }).catch((error) => {
+            reject(new Error(error));
+        })
+    });
+}
+
 module.exports = {
     undoEndorse, updateKarma, undoUpvote, deletePostData, deleteResponseData,
     notifyUsers, getCompanyName, userMadePost, createNewUser, getUser, getUsers,
@@ -930,6 +933,6 @@ module.exports = {
     isUserAdmin, pullResponse, pushResponse, checkRegistration,
     getMetadata, createRegistration, upVotePost, addPostData, removeUser, endorseResponse,
     addFollowingUser, removeFollowingUser, getUpvoteArray, isFollowingUser,
-    undoEndorse, updateKarma, undoUpvote, deletePostData, deleteResponseData
+    undoEndorse, updateKarma, undoUpvote, deletePostData, deleteResponseData, getPostInfo
 };
 
