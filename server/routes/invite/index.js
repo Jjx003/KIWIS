@@ -52,7 +52,7 @@ function (req, res, next) {
             let inviteLink = `https://kiwi-test-app.herokuapp.com/inviteUser/accept_invite/${hash}`;
             db.createRegistration(hash, company, email).then(() => {
                 let content = "Welcome to KIWI!\n" + "You have invited to the " + company + " KIWI forum!" + "\n" + "Please click the link below to get started." + "\n" + inviteLink  + "\n";
-                sendEmail(email, "test", content);
+                sendEmail(email, "KIWI Forums", content);
                 res.jsonp({success: true}); 
             })
         })
