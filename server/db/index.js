@@ -332,7 +332,7 @@ const mg = mailgun({
 
 function sendEmail(email, subject, content) {
     const data = {
-        "from": "KIWI Forum <no-reply@mg.kiwis.tech>",
+        "from": "KIWI Forum <no-reply@mg2.kiwis.tech>",
         "to": email,
         "subject": subject ? subject : 'Hello',
         "text": content,
