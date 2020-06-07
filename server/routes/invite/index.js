@@ -11,12 +11,12 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 const mg = mailgun({
     apiKey:	process.env.MAILGUN_API_KEY, 
-	domain: 'mg.kiwis.tech', 
+	domain: 'mg2.kiwis.tech', 
 });
 
 function sendEmail(email, subject, content) {
 	const data = {
-		"from": "Excited User <ninja@mg.kiwis.tech>",
+		"from": "Excited User <ninja@mg2.kiwis.tech>",
 		"to": email,
 		"subject": subject ? subject : 'Hello',
 		"text": content,

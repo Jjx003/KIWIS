@@ -327,7 +327,7 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config()
 
 const mg = mailgun({
     apiKey: process.env.MAILGUN_API_KEY,
-    domain: 'mg.kiwis.tech',
+    domain: 'mg2.kiwis.tech',
 });
 
 function sendEmail(email, subject, content) {
