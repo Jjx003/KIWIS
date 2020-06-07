@@ -189,36 +189,6 @@ router.post('/remove',
     }
 );
 
-// GET method to get a single user from the database
-router.get('/', 
-    [
-        check('forumName').isLength({min: 1}).trim().escape(),
-        check('userID').isLength({min: 1})
-    ],
-
-
-    // Checks for errors when checking http parameters and checks if logged in
-    function (req, res, next) {
-        const errors = validationResult(req);
-        if(!errors.isEmpty()) {
-            return res.status(422).json({errors: errors.array() });
-        }
-        next();
-    },
-    function (req, resq) {
-        // When moving to production, need a authentication cookie passed in as well
-        // Or else people can exploit this route.
-        try {
-            db.getUser(req.body.forumName, req.body.userID).then((data)=>{
-                res.send(data.val());
-            });
-        } catch (error) {
-            console.log(error);
-            res.jsonp({success: false});
-        }  
-    }
-);
-
 // GET method to get all users from the database
 router.get('/all', 
 

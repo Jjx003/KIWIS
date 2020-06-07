@@ -1,6 +1,6 @@
 import React from 'react';
 import "../css/PostCards.css";
-import { withRouter } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import DisplayingTags from "./DisplayingTags";
 
 const tStyle = {
@@ -30,7 +30,7 @@ class PostCards extends React.Component {
                     <h3 style={dStyle}> {"Created by: " + this.props.name} </h3>
                 </div>
                 <div className="PostTags">
-                    <DisplayingTags tags={this.props.tag_ids} />
+                    <DisplayingTags tags={this.props.tag_ids}/>
                 </div>
                 <div className={"PostDate"}>
                     <h3 style={dStyle}> {"Date Created: " + this.props.date_time} </h3>
